@@ -2373,15 +2373,14 @@ function pickFrom(base, t, canMore) {
     const b = wpick(ps, x => Math.exp(1.5 * (adj(x) - 3) + bonus(x)));
     return { films: [a, b], total: rt(a) + rt(b) + 15, relaxed };
   };
-  const go = () => { const fresh = fits.filter(f => !M.shown.has(f.id)); return t.mode === 'single' ? one(fresh) : two(fresh); };
+  const H = t.hist || (t.hist = {}), recent = f => H[f.id] && Date.now() - H[f.id] < 864e5 * 10;
+  const freshL = () => fits.filter(f => !M.shown.has(f.id) && !recent(f));
+  const go = () => { const fresh = freshL(); return t.mode === 'single' ? one(fresh) : two(fresh); };
   let r = go();
   if (!r && canMore) return { more: true };
-  if (!r && fits.length && M.shown.size) {
-    M.shown = new Set(M.last.map(f => f.id)); M.n = 0; M.cycled = true; r = go();
-    if (!r) { M.shown = new Set(); r = go(); }
-  }
-  if (!r && t.mode === 'double' && fits.length) { r = one(fits.filter(f => !M.shown.has(f.id))) || one(fits); if (r) r.single = true; }
-  if (!r) return null;
+  if (!r && t.mode === 'double') { r = one(freshL()); if (r) r.single = true; }
+  if (!r) return fits.length ? { exhausted: true, fit: fits.length } : null;
+  const nowT = Date.now(); r.films.forEach(f => { H[f.id] = nowT; }); Object.keys(H).forEach(k => { if (nowT - H[k] > 864e5 * 30) delete H[k]; }); save();
   r.films.forEach(f => M.shown.add(f.id)); M.last = r.films; M.n++;
   r.n = M.n; r.fit = fits.length; r.cycled = M.cycled; M.cycled = false; r.why = tnWhy(r.films, t, inc, r.total);
   return r;
@@ -2393,6 +2392,9 @@ function tnPick() {
 }
 /* discover: films that are not on the shelf yet. The pool grows page by page so "Another one" never runs dry */
 const tnNew = { key: '', loading: false, err: null, noKey: false, pool: [], page: 1, visited: 0, total: 12, done: false, ids: new Set() };
+function tnExhaustHTML(p) {
+  return '<div class="empty"><h3>That is every film that fits</h3><p>You have been shown all ' + p.fit + ' that match this evening in the last 10 days, and nothing is repeated. Loosen the genres, change the length, or start the list over.</p><button class="btn pri" type="button" data-act="treset">Start over</button></div>';
+}
 function tnNewHTML() {
   const t = S.ui.tn; tnSync();
   if (tnNew.err) return '<div class="empty"><h3>Could not search TMDB</h3><p>' + E(tnNew.err) + '</p><button class="btn pri" type="button" data-act="treroll">Try again</button>' + (tnNew.noKey ? ' <button class="btn" type="button" data-act="settings">Settings</button>' : '') + '</div>';
@@ -2400,6 +2402,7 @@ function tnNewHTML() {
   if (tnNew.key !== tnMem.key || tnNew.loading) return loading;
   const p = tnCurrent();
   if (p && p.more) { tnMore(); return loading; }
+  if (p && p.exhausted) return tnExhaustHTML(p);
   if (!p) return '<div class="empty"><h3>Nothing found</h3><p>No new film fits that mood and length. Try a longer evening, fewer moods or genres, or a different source.</p><button class="btn pri" type="button" data-act="treroll">Try again</button></div>';
   return billHTML(p, true);
 }
@@ -2447,7 +2450,7 @@ function tnCurrent() {
   const t = S.ui.tn; let p;
   if (t.src === 'new') { if (tnNew.key !== tnMem.key || tnNew.loading) return null; p = pickFrom(tnNew.pool, t, !tnNew.done); }
   else p = tnPick();
-  if (p && !p.more) tnMem.cur = p;
+  if (p && !p.more && !p.exhausted) tnMem.cur = p;
   return p;
 }
 function billCard(f, i, n, isNew) {
@@ -2461,7 +2464,7 @@ function billCard(f, i, n, isNew) {
 function billHTML(p, isNew) {
   const t = S.ui.tn, n = p.films.length;
   return '<section class="bill">' +
-    '<p class="note" style="margin-bottom:14px">' + (p.cycled ? 'That was everything that fits, so here it starts again, reshuffled. ' : '') + 'Pick ' + p.n + (!isNew && p.fit ? ' of ' + p.fit + ' that fit' : '') + '</p>' +
+    '<p class="note" style="margin-bottom:14px">' + 'Pick ' + p.n + (!isNew && p.fit ? ' of ' + p.fit + ' that fit' : '') + '</p>' +
     (p.relaxed ? '<p class="note" style="margin-bottom:14px">Nothing in the pool matches that mood, so this is the closest fit.</p>' : '') +
     (t.mode === 'double' && p.single ? '<p class="note" style="margin-bottom:14px">No two films fit in that time, so here is a single feature.</p>' : '') +
     '<div class="bc-row">' + p.films.map((f, i) => billCard(f, i, n, isNew)).join('') + '</div>' +
@@ -2497,7 +2500,8 @@ PAGES.tonight = {
     if (t.src === 'new') res = tnNewHTML();
     else {
       const p = tnCurrent();
-      if (p) res = billHTML(p, false);
+      if (p && p.exhausted) res = tnExhaustHTML(p);
+      else if (p) res = billHTML(p, false);
       else {
         const pool = S.films.filter(f => t.src === 'wish' ? f.wish : !f.seen).length;
         res = '<div class="empty"><h3>Nothing fits</h3><p>' + (pool ? 'Nothing ' + (t.src === 'wish' ? 'on your wishlist ' : '') + 'fits ' + (MINS.find(m => m[0] === t.mins) || [0, t.mins + ' minutes'])[1] + (t.mood.length ? ' in that mood' : '') + '. Try a longer evening, loosen the genres, or switch the pool to your whole shelf.' : 'Your wishlist is empty. Add a few films you want to see and Tonight will do the choosing.') + '</p><button class="btn pri" type="button" data-act="find">Find films</button></div>';
@@ -2534,6 +2538,7 @@ ACT.tmins = a => tnSet({ mins: +a.dataset.v, seed: 0 });
 ACT.tmood = a => { const m = S.ui.tn.mood, v = a.dataset.v, i = m.indexOf(v); if (i < 0) m.push(v); else m.splice(i, 1); tnSet({ mood: m, seed: 0 }); };
 ACT.tmode = a => tnSet({ mode: a.dataset.v, seed: 0 });
 ACT.tsrc = a => tnSet({ src: a.dataset.v, seed: 0 });
+ACT.treset = () => { S.ui.tn.hist = {}; tnMem.shown = new Set(); tnMem.last = []; tnMem.cur = null; tnMem.n = 0; tnSet({}); };
 ACT.treroll = () => { tnSync(); if (tnNew.err) { tnNew.err = null; tnNew.key = ''; } tnMem.cur = null; tnSet({}); };
 ACT.ppdis = a => { S.ui.ppDis = a.dataset.id; upd(); };
 ACT.tnow = () => { const d = new Date(), v = pad(d.getHours()) + ':' + pad(d.getMinutes()), el = $('#tnStart'); if (el) el.value = v; CTL.tstart(v); };
