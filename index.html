@@ -906,6 +906,18 @@ button,a,.spine,.face,.tile-po,.chip,.seg button{touch-action:manipulation}
   .pagehead>.seg button{flex:1}
   .pagehead>.btn.pri{order:4;flex:0 0 auto;min-height:36px;height:36px;padding:0 16px;font-size:14px;margin-left:auto}
 }
+/* ===== YEAR VIDEO ===== */
+.vd-ban{display:flex;align-items:center;gap:18px 24px;flex-wrap:wrap;justify-content:space-between;margin:0 0 22px;padding:18px 20px;border:1px solid var(--line2);border-radius:var(--r3);background:linear-gradient(135deg,var(--bg2),var(--bg))}
+.vd-ban-t{flex:1 1 320px;min-width:0}.vd-ban h3{font:700 28px/1 var(--f-d);margin:6px 0 6px}.vd-ban p{color:var(--ink2);font-size:14.5px;line-height:1.5;max-width:56ch}
+.vd-ban-k{display:inline-block;font:600 11px/1 var(--f-u);letter-spacing:.14em;text-transform:uppercase;color:#1a1a1a;background:#f2b24c;padding:4px 8px;border-radius:999px}
+.vd h2{font:800 38px/.9 var(--f-d);margin-bottom:14px}
+.vd-stage{position:relative;aspect-ratio:9/16;height:min(64dvh,620px);max-width:100%;margin:0 auto;border-radius:12px;overflow:hidden;background:#171717;border:1px solid var(--line)}
+.vd-stage canvas,.vd-stage video{display:block;width:100%;height:100%;object-fit:cover}
+.vd-ld{position:absolute;inset:auto 0 18px 0;text-align:center;font:600 13px/1 var(--f-u);letter-spacing:.08em;text-transform:uppercase;color:#f2f2f2;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+.vd-prog{height:3px;border-radius:3px;background:var(--line2);margin:12px auto 0;max-width:calc(min(64dvh,620px)*9/16);overflow:hidden}.vd-prog i{display:block;height:100%;width:0;background:#f2b24c}
+.vd-mus{margin-top:12px}
+.vd .note{margin-top:8px}
+@media (max-width:640px){.vd-stage{height:min(58dvh,520px)}.vd-prog{max-width:calc(min(58dvh,520px)*9/16)}.vd-ban h3{font-size:24px}.vd-ban .btn{width:100%}}
 /* ===== SPACING AND TONIGHT RESULT ===== */
 @media (max-width:640px){
   .pagehead{margin-bottom:22px;row-gap:12px}
@@ -2302,67 +2314,125 @@ function tasteGenreIds() {
   return [...m].filter(([g, e]) => e.s / e.n >= 3.4).sort((a, b) => (b[1].s / b[1].n) - (a[1].s / a[1].n)).slice(0, 3).map(([g]) => GENRE_ID[g]).filter(Boolean);
 }
 function tnRules(t) { if (!Array.isArray(t.gin)) t.gin = []; if (!Array.isArray(t.gex)) t.gex = ['Animation']; return { inc: new Set(t.gin), exc: new Set(t.gex) }; }
-function pickFrom(base, t) {
-  const { inc, exc } = tnRules(t);
+/* Tonight engine: weighted random picks, a shown-history so nothing repeats, and plain reasons */
+const tnMem = { key: '', shown: new Set(), last: [], cur: null, n: 0, cycled: false };
+function tnCrit() { const t = S.ui.tn; tnRules(t); return [t.src, t.mins, t.mode, t.mood.slice().sort().join('|'), t.gin.slice().sort().join('|'), t.gex.slice().sort().join('|')].join('~'); }
+function tnSync() { const k = tnCrit(); if (tnMem.key !== k) { tnMem.key = k; tnMem.shown = new Set(); tnMem.last = []; tnMem.cur = null; tnMem.n = 0; tnMem.cycled = false; } }
+function wpick(items, wf) {
+  const ws = items.map(x => Math.max(.001, wf(x))), tot = ws.reduce((a, b) => a + b, 0); let r = Math.random() * tot;
+  for (let i = 0; i < items.length; i++) { r -= ws[i]; if (r <= 0) return items[i]; }
+  return items[items.length - 1];
+}
+function tnScore(f, inc, mg) {
+  let s = f.seen && f.rating ? Math.min(f.rating, 4.3) - .35 : (guessOf(f) || 3.3);
+  if (inc.size) s += .2 * f.genres.filter(g => inc.has(g)).length;
+  if (mg.size && f.genres.some(g => mg.has(g))) s += .4;
+  if (f.wish && f.added) s += Math.min(.4, (Date.now() - f.added) / 864e5 / 365 * .4);
+  return s;
+}
+function tnWhy(films, t, inc, total) {
+  const rs = [];
+  if (films.length === 2) {
+    const [a, b] = films, sd = a.directors.find(d => b.directors.some(e => (e.id && e.id === d.id) || e.name === d.name)), sg = a.genres.filter(g => b.genres.includes(g));
+    if (sd) rs.push('Both directed by ' + sd.name); else if (sg.length) rs.push('They pair well, both lean ' + sg[0].toLowerCase());
+    else if (Math.abs((a.year || 0) - (b.year || 0)) > 15) rs.push('Different eras, so the night has some range');
+  } else {
+    const f = films[0];
+    if (f.seen) rs.push('You rated it ' + f.rating + ' stars, so it earns a rewatch');
+    else if (f.wish && f.added) rs.push('On your wishlist since ' + new Date(f.added).toLocaleDateString([], { month: 'long', year: 'numeric' }));
+  }
+  const gs = [...inc].filter(g => films.some(f => f.genres.includes(g)));
+  if (gs.length) rs.push('Matches ' + gs.join(' and ').toLowerCase());
+  else {
+    const ms = t.mood.filter(m => { const mg = (MOODS.find(x => x[0] === m) || [0, []])[1]; return films.some(f => f.genres.some(g => mg.includes(g))); });
+    if (ms.length) rs.push('Suits a ' + ms.join(' and ').toLowerCase() + ' evening');
+  }
+  const spare = t.mins - total; if (spare >= 0 && spare <= 60) rs.push(spare < 10 ? 'Fits the evening almost exactly' : 'Fits with ' + fmtRt(spare) + ' to spare');
+  return rs.slice(0, 3);
+}
+function pickFrom(base, t, canMore) {
+  const { inc, exc } = tnRules(t), M = tnMem;
   base = base.filter(f => !f.genres.some(g => exc.has(g)) && (!inc.size || f.genres.some(g => inc.has(g))));
   const mg = new Set(t.mood.flatMap(m => (MOODS.find(x => x[0] === m) || [0, []])[1]));
   const hard = mg.size && !inc.size;
   let pool = hard ? base.filter(f => f.genres.some(g => mg.has(g))) : base, relaxed = false;
   if (hard && !pool.length) { pool = base; relaxed = true; }
-  const jit = f => ((hash(f.id + ':' + t.seed) % 1000) / 1000 - .5) * .7;
-  pool = pool.map(f => ({ f, rt: f.runtime || 110, s: (f.seen && f.rating ? f.rating + .15 : guessOf(f) || 3) + jit(f) + (inc.size ? .18 * f.genres.filter(g => inc.has(g)).length : 0) + (!hard && mg.size && f.genres.some(g => mg.has(g)) ? .35 : 0) })).sort((a, b) => b.s - a.s);
-  const one = () => { const p = pool.find(x => x.rt <= t.mins); return p ? { films: [p.f], total: p.rt, relaxed } : null; };
-  if (t.mode === 'single') return one();
-  const top = pool.slice(0, 16); let best = null;
-  for (let i = 0; i < top.length; i++) for (let j = i + 1; j < top.length; j++) {
-    const a = top[i], b = top[j]; if (a.rt + b.rt + 15 > t.mins) continue;
-    let s = a.s + b.s; if (a.f.directors.some(d => d.id && b.f.directors.some(e => e.id === d.id))) s += .35;
-    const sh = a.f.genres.filter(g => b.f.genres.includes(g)).length; if (sh > 0 && sh < Math.min(a.f.genres.length, b.f.genres.length)) s += .2;
-    if (Math.abs((a.f.year || 0) - (b.f.year || 0)) > 15) s += .1;
-    if (!best || s > best.s) best = { s, a, b };
+  const rt = f => f.runtime || 110;
+  if (!pool.length) return canMore ? { more: true } : null;
+  const minRt = Math.min(...pool.map(rt));
+  const fits = pool.filter(f => t.mode === 'single' ? rt(f) <= t.mins : rt(f) + minRt + 15 <= t.mins);
+  const key = f => f.directors.map(d => d.id || d.name);
+  const lastDir = new Set(M.last.flatMap(key)), lastGen = new Set(M.last.map(x => x.genres[0]));
+  const adj = f => tnScore(f, inc, mg) - (key(f).some(k => lastDir.has(k)) ? .5 : 0) - (lastGen.has(f.genres[0]) ? .3 : 0) - (t.mode === 'single' && t.mins <= 180 && rt(f) < t.mins * .5 ? .35 : 0);
+  const w = f => Math.exp(1.5 * (adj(f) - 3));
+  const one = fresh => { if (!fresh.length) return null; const f = wpick(fresh, w); return { films: [f], total: rt(f), relaxed }; };
+  const two = fresh => {
+    const firsts = fresh.filter(a => fresh.some(b => b !== a && rt(a) + rt(b) + 15 <= t.mins)); if (!firsts.length) return null;
+    const a = wpick(firsts, w), ps = fresh.filter(b => b !== a && rt(a) + rt(b) + 15 <= t.mins);
+    const bonus = b => (key(a).some(k => key(b).includes(k)) ? .5 : 0) + ((s => s > 0 && s < Math.min(a.genres.length, b.genres.length))(a.genres.filter(g => b.genres.includes(g)).length) ? .3 : 0) + (Math.abs((a.year || 0) - (b.year || 0)) > 15 ? .15 : 0) + ((rt(a) + rt(b) + 15) / t.mins >= .85 ? .4 : 0);
+    const b = wpick(ps, x => Math.exp(1.5 * (adj(x) - 3) + bonus(x)));
+    return { films: [a, b], total: rt(a) + rt(b) + 15, relaxed };
+  };
+  const go = () => { const fresh = fits.filter(f => !M.shown.has(f.id)); return t.mode === 'single' ? one(fresh) : two(fresh); };
+  let r = go();
+  if (!r && canMore) return { more: true };
+  if (!r && fits.length && M.shown.size) {
+    M.shown = new Set(M.last.map(f => f.id)); M.n = 0; M.cycled = true; r = go();
+    if (!r) { M.shown = new Set(); r = go(); }
   }
-  if (!best) { const r = one(); if (r) r.single = true; return r; }
-  return { films: [best.a.f, best.b.f], total: best.a.rt + best.b.rt + 15, relaxed };
+  if (!r && t.mode === 'double' && fits.length) { r = one(fits.filter(f => !M.shown.has(f.id))) || one(fits); if (r) r.single = true; }
+  if (!r) return null;
+  r.films.forEach(f => M.shown.add(f.id)); M.last = r.films; M.n++;
+  r.n = M.n; r.fit = fits.length; r.cycled = M.cycled; M.cycled = false; r.why = tnWhy(r.films, t, inc, r.total);
+  return r;
 }
 function tnPick() {
   const t = S.ui.tn, em = entryMap();
   const base = S.films.filter(f => t.src === 'wish' ? f.wish : (!f.seen || (f.rating >= 4 && rewatchOk(f, em))));
   return pickFrom(base, t);
 }
-/* discover: films that are not on the shelf yet */
-const tnNew = { key: '', loading: false, err: null, noKey: false, pool: [] };
-function tnNewKey() { const t = S.ui.tn; tnRules(t); return [t.mins, t.mode, t.seed % 6, t.mood.slice().sort().join('|'), t.gin.slice().sort().join('|'), t.gex.slice().sort().join('|')].join('~'); }
+/* discover: films that are not on the shelf yet. The pool grows page by page so "Another one" never runs dry */
+const tnNew = { key: '', loading: false, err: null, noKey: false, pool: [], page: 1, visited: 0, total: 12, done: false, ids: new Set() };
 function tnNewHTML() {
-  const t = S.ui.tn;
+  const t = S.ui.tn; tnSync();
   if (tnNew.err) return '<div class="empty"><h3>Could not search TMDB</h3><p>' + E(tnNew.err) + '</p><button class="btn pri" type="button" data-act="treroll">Try again</button>' + (tnNew.noKey ? ' <button class="btn" type="button" data-act="settings">Settings</button>' : '') + '</div>';
-  if (tnNew.key !== tnNewKey() || tnNew.loading) return '<div class="empty"><h3>Looking for something new</h3><p>Searching TMDB for films that fit this evening and the things you rate highly.</p></div>';
-  if (!tnNew.pool.length) return '<div class="empty"><h3>Nothing found</h3><p>No film fits that mood and length. Try a longer evening, fewer moods, or a different source.</p><button class="btn pri" type="button" data-act="treroll">Try another</button></div>';
-  const p = pickFrom(tnNew.pool, t);
-  if (!p) return '<div class="empty"><h3>Nothing fits</h3><p>Nothing in the suggestions fits that length. Try a longer evening.</p><button class="btn pri" type="button" data-act="treroll">Try another</button></div>';
+  const loading = '<div class="empty"><h3>Looking for something new</h3><p>Searching TMDB for films that fit this evening and the things you rate highly.</p></div>';
+  if (tnNew.key !== tnMem.key || tnNew.loading) return loading;
+  const p = tnCurrent();
+  if (p && p.more) { tnMore(); return loading; }
+  if (!p) return '<div class="empty"><h3>Nothing found</h3><p>No new film fits that mood and length. Try a longer evening, fewer moods or genres, or a different source.</p><button class="btn pri" type="button" data-act="treroll">Try again</button></div>';
   return billHTML(p, true);
 }
 async function tnEnsureNew() {
-  const key = tnNewKey();
-  if (tnNew.key === key && (tnNew.loading || tnNew.pool.length || tnNew.err)) return;
-  tnNew.key = key; tnNew.loading = true; tnNew.err = null; tnNew.noKey = false; tnNew.pool = [];
-  refresh({ noPanel: true });
-  const t = S.ui.tn;
+  tnSync(); const key = tnMem.key;
+  if (tnNew.key === key) return;
+  Object.assign(tnNew, { key, loading: false, err: null, noKey: false, pool: [], done: false, visited: 0, total: 12, page: 1 + Math.floor(Math.random() * 4), ids: new Set() });
+  await tnMore();
+}
+async function tnMore() {
+  if (tnNew.loading || tnNew.done) return;
+  const key = tnNew.key, t = S.ui.tn; tnNew.loading = true;
   try {
     const gids = [...new Set(t.mood.flatMap(m => ((MOODS.find(x => x[0] === m) || [0, []])[1]).map(g => GENRE_ID[g]).filter(Boolean)))];
     const { inc, exc } = tnRules(t), incIds = [...inc].map(g => GENRE_ID[g]).filter(Boolean);
     const useG = incIds.length ? incIds : gids.length ? gids : tasteGenreIds().filter(id => !exc.has(Object.keys(GENRE_ID).find(k => GENRE_ID[k] === id)));
-    const params = {
-      sort_by: 'popularity.desc', 'vote_count.gte': 120, 'vote_average.gte': 6, 'with_runtime.gte': 55,
-      'with_runtime.lte': t.mode === 'single' ? t.mins : Math.max(95, t.mins - 90), include_adult: 'false', page: (t.seed % 6) + 1
-    };
+    const params = { sort_by: 'popularity.desc', 'vote_count.gte': 120, 'vote_average.gte': 6, 'with_runtime.gte': 55, 'with_runtime.lte': t.mode === 'single' ? t.mins : Math.max(95, t.mins - 70), include_adult: 'false' };
     if (useG.length) params.with_genres = useG.join('|');
     const exIds = [...exc].map(g => GENRE_ID[g]).filter(Boolean); if (exIds.length) params.without_genres = exIds.join(',');
-    const res = await tmdb('/discover/movie', params);
-    const list = (res.results || []).filter(r => !byId(r.id) && !(r.genre_ids || []).some(id => exIds.includes(id))).slice(0, 10);
-    const det = await Promise.all(list.map(r => tmdb('/movie/' + r.id, { append_to_response: 'credits' }).then(d => ({ r, d })).catch(() => ({ r, d: null }))));
-    if (tnNew.key !== key) return;
-    tnNew.pool = det.map(({ r, d }) => { const f = newFilm(fromTM(r)); if (d) applyTMDB(f, d); return f; }).filter(f => f.runtime > 0);
-  } catch (e) { if (tnNew.key !== key) return; tnNew.err = errMsg(e); tnNew.noKey = e.code === 'NO_KEY'; tnNew.pool = []; }
+    let added = 0;
+    for (let k = 0; k < 3 && !added && !tnNew.done; k++) {
+      const page = tnNew.page, res = await tmdb('/discover/movie', Object.assign({ page }, params));
+      if (tnNew.key !== key) return;
+      tnNew.total = Math.max(1, Math.min(res.total_pages || 1, 12)); tnNew.visited++; tnNew.page = page >= tnNew.total ? 1 : page + 1;
+      if (tnNew.visited >= tnNew.total) tnNew.done = true;
+      const list = (res.results || []).filter(r => !byId(r.id) && !tnNew.ids.has(r.id) && !(r.genre_ids || []).some(id => exIds.includes(id))).slice(0, 14);
+      list.forEach(r => tnNew.ids.add(r.id));
+      const det = await Promise.all(list.map(r => tmdb('/movie/' + r.id, { append_to_response: 'credits' }).then(d => ({ r, d })).catch(() => ({ r, d: null }))));
+      if (tnNew.key !== key) return;
+      const fs = det.map(({ r, d }) => { const f = newFilm(fromTM(r)); if (d) applyTMDB(f, d); return f; }).filter(f => f.runtime > 0);
+      tnNew.pool.push(...fs); added += fs.length;
+    }
+  } catch (e) { if (tnNew.key !== key) return; tnNew.err = errMsg(e); tnNew.noKey = e.code === 'NO_KEY'; tnNew.pool = []; tnNew.done = true; }
   tnNew.loading = false;
   if (route === 'tonight') refresh({ noPanel: true });
 }
@@ -2373,10 +2443,12 @@ function adoptFilm(pf, wish) {
   return f;
 }
 function tnCurrent() {
-  const t = S.ui.tn;
-  if (t.src !== 'new') return tnPick();
-  if (tnNew.key !== tnNewKey() || !tnNew.pool.length) return null;
-  return pickFrom(tnNew.pool, t);
+  tnSync(); if (tnMem.cur) return tnMem.cur;
+  const t = S.ui.tn; let p;
+  if (t.src === 'new') { if (tnNew.key !== tnMem.key || tnNew.loading) return null; p = pickFrom(tnNew.pool, t, !tnNew.done); }
+  else p = tnPick();
+  if (p && !p.more) tnMem.cur = p;
+  return p;
 }
 function billCard(f, i, n, isNew) {
   const pr = !f.seen ? predict(f) : null, em = entriesOf(f.id);
@@ -2389,9 +2461,11 @@ function billCard(f, i, n, isNew) {
 function billHTML(p, isNew) {
   const t = S.ui.tn, n = p.films.length;
   return '<section class="bill">' +
+    '<p class="note" style="margin-bottom:14px">' + (p.cycled ? 'That was everything that fits, so here it starts again, reshuffled. ' : '') + 'Pick ' + p.n + (!isNew && p.fit ? ' of ' + p.fit + ' that fit' : '') + '</p>' +
     (p.relaxed ? '<p class="note" style="margin-bottom:14px">Nothing in the pool matches that mood, so this is the closest fit.</p>' : '') +
     (t.mode === 'double' && p.single ? '<p class="note" style="margin-bottom:14px">No two films fit in that time, so here is a single feature.</p>' : '') +
     '<div class="bc-row">' + p.films.map((f, i) => billCard(f, i, n, isNew)).join('') + '</div>' +
+    (p.why && p.why.length ? '<p class="note bc-whyall" style="margin:12px 0 4px">Why this one: ' + E(p.why.join('. ')) + '.</p>' : '') +
     '<div class="tl">' + timelineHTML(p, t) + '</div>' +
     '<div class="acts-row"><button type="button" class="btn pri" data-act="tdone">We watched ' + (n > 1 ? 'them' : 'it') + '</button><button type="button" class="btn" data-act="treroll">Another one</button><button type="button" class="btn" data-act="tsave">Save this programme</button>' +
     (isNew ? '<button type="button" class="btn" data-act="twish">Add to wishlist</button>' : '') + '</div></section>';
@@ -2422,7 +2496,7 @@ PAGES.tonight = {
     let res;
     if (t.src === 'new') res = tnNewHTML();
     else {
-      const p = tnPick();
+      const p = tnCurrent();
       if (p) res = billHTML(p, false);
       else {
         const pool = S.films.filter(f => t.src === 'wish' ? f.wish : !f.seen).length;
@@ -2460,22 +2534,22 @@ ACT.tmins = a => tnSet({ mins: +a.dataset.v, seed: 0 });
 ACT.tmood = a => { const m = S.ui.tn.mood, v = a.dataset.v, i = m.indexOf(v); if (i < 0) m.push(v); else m.splice(i, 1); tnSet({ mood: m, seed: 0 }); };
 ACT.tmode = a => tnSet({ mode: a.dataset.v, seed: 0 });
 ACT.tsrc = a => tnSet({ src: a.dataset.v, seed: 0 });
-ACT.treroll = () => tnSet({ seed: S.ui.tn.seed + 1 });
+ACT.treroll = () => { tnSync(); if (tnNew.err) { tnNew.err = null; tnNew.key = ''; } tnMem.cur = null; tnSet({}); };
 ACT.ppdis = a => { S.ui.ppDis = a.dataset.id; upd(); };
 ACT.tnow = () => { const d = new Date(), v = pad(d.getHours()) + ':' + pad(d.getMinutes()), el = $('#tnStart'); if (el) el.value = v; CTL.tstart(v); };
-CTL.tstart = v => { if (/^\d{2}:\d{2}$/.test(v)) { S.ui.tn.start = v; save(); const p = tnCurrent(), el = $('.tl'); if (p && el) el.innerHTML = timelineHTML(p, S.ui.tn); } };
+CTL.tstart = v => { if (/^\d{2}:\d{2}$/.test(v)) { S.ui.tn.start = v; save(); const p = tnCurrent(), el = $('.tl'); if (p && p.films && el) el.innerHTML = timelineHTML(p, S.ui.tn); } };
 ACT.tdone = () => {
-  const p = tnCurrent(); if (!p) return; const n = p.films.length;
+  const p = tnCurrent(); if (!p || !p.films) return; const n = p.films.length;
   p.films.forEach((pf, i) => { const f = adoptFilm(pf, false); logWatch(f.id, { note: n > 1 ? 'Double bill with ' + p.films[1 - i].title + '.' : '', rewatch: f.seen }); });
-  S.ui.tn.seed++; save(); refresh(); toast(n > 1 ? 'Both logged in your diary' : 'Logged in your diary', { label: 'Open diary', fn: () => go('diary') });
+  tnMem.cur = null; save(); refresh(); toast(n > 1 ? 'Both logged in your diary' : 'Logged in your diary', { label: 'Open diary', fn: () => go('diary') });
 };
 ACT.twish = () => {
-  const p = tnCurrent(); if (!p) return; let n = 0;
+  const p = tnCurrent(); if (!p || !p.films) return; let n = 0;
   p.films.forEach(pf => { const ex = byId(pf.id); if (!ex || (!ex.wish && !ex.seen)) { adoptFilm(pf, true); n++; } });
   commit(); toast(n ? plural(n, 'film') + ' added to your wishlist' : 'Already on your wishlist');
 };
 ACT.tsave = () => {
-  const p = tnCurrent(); if (!p) return;
+  const p = tnCurrent(); if (!p || !p.films) return;
   const ids = p.films.map(pf => adoptFilm(pf, false).id);
   S.progs.push({ id: uid(), ts: Date.now(), date: today(), start: S.ui.tn.start, films: ids, note: '' });
   save(); refresh(); toast('Programme saved');
@@ -3817,6 +3891,393 @@ function swipeClose(el, closeFn, grab) {
 swipeClose($('#dlgBox'), () => closeDlg());
 swipeClose($('#panel'), () => { closePanel(); syncHist(); }, '.p-bar');
 swipeClose($('.omni-box'), () => closeOmni(), '.omni-in');
+
+/* ===== Dailies: year video ===== */
+const VD = { W: 1080, H: 1920, FPS: 30, M: 76, AMBER: '#f2b24c' };
+const vdE3 = t => 1 - Math.pow(1 - clamp(t, 0, 1), 3);
+const vdEX = t => { t = clamp(t, 0, 1); return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t); };
+const vdIO = t => { t = clamp(t, 0, 1); return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+const vdW = (t, a, b) => clamp((t - a) / (b - a), 0, 1);
+const vdDate = (s, yr) => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d).toLocaleDateString(undefined, yr ? { day: 'numeric', month: 'long', year: 'numeric' } : { day: 'numeric', month: 'long' }); };
+const VDI = new Map();
+const vdHost = () => { const h = location.hostname; return !h || h === 'localhost' || /^[\d.]+$/.test(h) ? 'mydailies.me' : h.replace(/^www\./, ''); };
+
+/* ---- model: everything the film says comes from here ---- */
+function vdModel() {
+  const sp = dlSpan(), fs = sp.films, ents = [...sp.ents].sort((a, b) => a.date.localeCompare(b.date) || (a.ts || 0) - (b.ts || 0));
+  const m = { all: sp.all, yr: sp.yr, label: sp.label, films: fs, ents };
+  m.watches = ents.length || fs.length;
+  m.mins = ents.length ? ents.reduce((a, e) => a + (byId(e.fid).runtime || 0), 0) : fs.reduce((a, f) => a + (f.runtime || 0), 0);
+  m.hours = Math.round(m.mins / 60); m.re = ents.filter(e => e.rewatch).length;
+  const rated = fs.filter(f => f.rating > 0); m.rated = rated; m.avg = rated.length ? avg(rated.map(f => f.rating)) : 0;
+  m.tops = [...rated].sort((a, b) => b.rating - a.rating || (b.vote || 0) - (a.vote || 0)).slice(0, 5);
+  m.first = ents.length >= 2 ? { f: byId(ents[0].fid), when: vdDate(ents[0].date, sp.all) } : null;
+  /* rhythm */
+  if (!sp.all && ents.length >= 4) {
+    const mc = Array.from({ length: 12 }, () => []); ents.forEach(e => mc[+e.date.slice(5, 7) - 1].push(byId(e.fid)));
+    const mx = Math.max(...mc.map(a => a.length)), pk = mc.findIndex(a => a.length === mx);
+    if (mx >= 2) m.rhythm = { bars: mc.map((a, i) => ({ l: new Date(2000, i, 1).toLocaleDateString(undefined, { month: 'narrow' }), fs: a })), pk, big: new Date(2000, pk, 1).toLocaleDateString(undefined, { month: 'long' }), n: mx, cap: 'Busiest month' };
+  } else if (sp.all) {
+    const dm = new Map(); fs.forEach(f => { const d = decadeOf(f); if (d) { if (!dm.has(d)) dm.set(d, []); dm.get(d).push(f); } });
+    const bars = [...dm].sort((a, b) => a[0] - b[0]).map(([d, a]) => ({ l: "'" + String(d).slice(2), fs: a }));
+    if (bars.length >= 2) { const mx = Math.max(...bars.map(b => b.fs.length)), pk = bars.findIndex(b => b.fs.length === mx); m.rhythm = { bars, pk, big: bars[pk].l.replace("'", '') + 's', n: mx, cap: 'Favourite decade' }; }
+  }
+  /* wall */
+  let wl = ents.length ? [...new Map(ents.map(e => [String(e.fid), byId(e.fid)])).values()] : [...fs];
+  if (wl.length > 90) { const keep = new Set([...wl].sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 90).map(f => String(f.id))); wl = wl.filter(f => keep.has(String(f.id))); }
+  m.wall = wl.length >= 3 ? wl : null;
+  /* taste */
+  const gm = new Map(); fs.forEach(f => (f.genres || []).forEach(g => gm.set(g, (gm.get(g) || 0) + 1)));
+  const ga = [...gm].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  m.genres = ga.length >= 2 && ga[0][1] >= 2 ? ga.slice(0, 4) : null;
+  /* director */
+  const dm2 = new Map(); fs.forEach(f => (f.directors || []).forEach(d => { if (!dm2.has(d.name)) dm2.set(d.name, []); dm2.get(d.name).push(f); }));
+  const dd = [...dm2].sort((a, b) => b[1].length - a[1].length)[0];
+  m.dir = dd && dd[1].length >= 2 ? { name: dd[0], fs: [...dd[1]].sort((a, b) => (b.rating || 0) - (a.rating || 0)) } : null;
+  /* colour */
+  const cl = (ents.length ? ents.map(e => byId(e.fid)) : fs);
+  m.stripes = cl.length >= 4 ? cl : null;
+  return m;
+}
+
+/* ---- scenes ---- */
+function vdScenes(m) {
+  const { W, H, M } = VD, AW = W - 2 * M, CX = W / 2, A = VD.AMBER, INK = DLC.ink, INK2 = DLC.ink2, INK3 = DLC.ink3;
+  const S_ = [];
+  S_.push({ id: 'title', dur: 3, chrome: false, draw(c, t) {
+    vdCaps(c, m.all ? 'My film life' : 'My year in film', CX, 540, 26, INK3, vdW(t, .2, .8), 'center');
+    vdText(c, m.all ? 'ALL TIME' : String(m.yr), CX, 1010, DLFN.d8, 520, INK, vdW(t, .15, 1.15), 'center', AW, 1);
+    const lw = 180 * vdEX(vdW(t, 1, 1.7)); c.fillStyle = A; c.fillRect(CX - lw / 2, 1066, lw, 4);
+    vdText(c, 'A look back at everything I watched.', CX, 1160, DLFN.pi, 44, INK2, vdW(t, 1.4, 2.1), 'center', AW);
+  } });
+  if (m.first) S_.push({ id: 'first', dur: 2.8, chrome: true, urls: [[m.first.f, 500]], draw(c, t, sc) {
+    const pw = 520, ph = 780, x = (W - pw) / 2, y = 420, p = vdE3(vdW(t, .1, .9)), k = 1 + .045 * (t / sc.dur), f = m.first.f;
+    vdCaps(c, m.all ? 'The first one on record' : 'It started with', CX, 330, 26, INK3, vdW(t, .1, .6), 'center');
+    c.save(); c.translate(CX, y + ph / 2); c.scale(k, k); c.translate(-CX, -(y + ph / 2)); vdPoster(c, f, x, y + (1 - p) * 50, pw, ph, { a: p }); c.restore();
+    vdText(c, f.title.toUpperCase(), CX, 1370, DLFN.d8, 90, INK, vdW(t, .7, 1.4), 'center', AW);
+    vdCaps(c, m.first.when + (f.year ? '  ·  ' + f.year : ''), CX, 1436, 24, INK3, vdW(t, 1, 1.6), 'center');
+  } });
+  /* numbers */
+  const rows = [{ l: 'Watches', v: m.watches, cap: m.films.length !== m.watches ? plural(m.films.length, 'different film') : 'every one a different film' },
+    { l: 'Hours in the dark', v: m.hours, cap: m.hours >= 24 ? 'about ' + (m.hours / 24).toFixed(1) + ' full days' : m.mins + ' minutes' }];
+  if (m.rated.length >= 3) rows.push({ l: 'Average rating', v: m.avg, dec: 1, stars: true, cap: plural(m.rated.length, 'film') + ' rated' });
+  else if (m.re > 0) rows.push({ l: 'Rewatches', v: m.re, cap: 'old favourites, again' });
+  S_.push({ id: 'numbers', dur: .3 + rows.length * .7 + 2.2, chrome: true, draw(c, t) {
+    rows.forEach((r, i) => {
+      const top = 400 + i * 400, s0 = .3 + i * .7, p = vdW(t, s0, s0 + 1.3);
+      c.fillStyle = 'rgba(255,255,255,.14)'; c.fillRect(M, top, AW * vdEX(vdW(t, s0 - .1, s0 + .6)), 2);
+      vdCaps(c, r.l, M, top + 52, 24, INK3, vdW(t, s0 + .1, s0 + .6));
+      const val = r.dec ? (r.v * vdEX(p)).toFixed(2) : Math.round(r.v * vdEX(p)).toLocaleString();
+      vdText(c, val, M - 6, top + 310, DLFN.d8, 290, INK, vdW(t, s0, s0 + .5), 'left', AW);
+      vdText(c, r.cap, M, top + 368, DLFN.pi, 38, INK2, vdW(t, s0 + .7, s0 + 1.3), 'left', AW);
+      if (r.stars) { c.save(); c.globalAlpha *= vdW(t, s0 + .3, s0 + .9); dlStars(c, W - M, top + 236, 54, r.v * vdEX(p), A, 'right'); c.restore(); }
+    });
+  } });
+  /* rhythm */
+  if (m.rhythm) S_.push({ id: 'rhythm', dur: 4.2, chrome: true, draw(c, t) {
+    const R = m.rhythm, n = R.bars.length, gap = n > 8 ? 10 : 18, bw = (AW - (n - 1) * gap) / n, y0 = 1520, ch = 640, mx = Math.max(1, ...R.bars.map(b => b.fs.length)), bh = Math.max(6, Math.min(64, ch / mx - 4));
+    vdCaps(c, R.cap, M, 330, 26, INK3, vdW(t, .1, .6));
+    vdText(c, R.big.toUpperCase(), M - 6, 540, DLFN.d8, 200, A, vdW(t, .15, .9), 'left', AW);
+    vdText(c, plural(R.n, m.all ? 'film' : 'watch'), M, 616, DLFN.pi, 40, INK2, vdW(t, .6, 1.2), 'left', AW);
+    const dim = vdE3(vdW(t, 2.7, 3.3));
+    R.bars.forEach((b, i) => {
+      const x = M + i * (bw + gap), p = vdE3(vdW(t, .5 + i * (n > 8 ? .09 : .16), 1.5 + i * (n > 8 ? .09 : .16))), isPk = i === R.pk;
+      c.save(); c.globalAlpha *= isPk ? 1 : 1 - .55 * dim;
+      b.fs.forEach((f, j) => { const fr = clamp(p * b.fs.length - j, 0, 1); if (fr <= 0) return; const top = y0 - (j + 1) * (bh + 4) + 4; dlRR(c, x, top + bh * (1 - fr), bw, bh * fr, 3); c.fillStyle = palOf(f).a; c.fill(); });
+      c.restore();
+      vdCaps(c, b.l, x + bw / 2, y0 + 46, 18, isPk && dim > 0 ? A : INK3, p, 'center', .06);
+    });
+    c.fillStyle = 'rgba(255,255,255,.16)'; c.fillRect(M, y0 + 10, AW * vdEX(vdW(t, .3, 1.1)), 2);
+    const pk = R.bars[R.pk], px = M + R.pk * (bw + gap); c.fillStyle = A; c.fillRect(px, y0 + 10, bw * dim, 4);
+  } });
+  /* wall */
+  if (m.wall) {
+    const wl = m.wall, n = wl.length, gap = 6, top = 360, bot = 1560, ah = bot - top, g = dlGrid(n, AW, ah, gap, 0), pw = g.pw, ph = pw * 1.5, gh = g.rows * ph + (g.rows - 1) * gap, oy = top + Math.max(0, (ah - gh) / 2);
+    const pos = wl.map((f, i) => { const r = Math.floor(i / g.cols), cc = i % g.cols, inRow = r === g.rows - 1 ? n - g.cols * (g.rows - 1) : g.cols, rw = inRow * pw + (inRow - 1) * gap; return { f, x: M + (AW - rw) / 2 + cc * (pw + gap), y: oy + r * (ph + gap) }; });
+    S_.push({ id: 'wall', dur: 4, chrome: true, urls: wl.map(f => [f, pw]), draw(c, t, sc) {
+      vdCaps(c, m.all ? 'The whole shelf' : 'Everything I watched', M, 300, 26, INK3, vdW(t, .1, .6));
+      c.save(); const k = 1 + .03 * vdW(t, .4, sc.dur); c.translate(CX, (top + bot) / 2); c.scale(k, k); c.translate(-CX, -(top + bot) / 2);
+      pos.forEach((q, i) => { const d0 = .25 + i * (2 / n), p = vdE3(vdW(t, d0, d0 + .5)); if (p <= 0) return; const s = .88 + .12 * p, cx = q.x + pw / 2, cy = q.y + ph / 2;
+        c.save(); c.translate(cx, cy); c.scale(s, s); c.translate(-cx, -cy); vdPoster(c, q.f, q.x, q.y, pw, ph, { a: p, shadow: false, r: Math.max(2, pw * .03) }); c.restore(); });
+      c.restore();
+      vdText(c, plural(m.films.length, 'film') + ', ' + m.label, M, 1650, DLFN.d8, 64, INK, vdW(t, 2.2, 2.9), 'left', AW);
+    } });
+  }
+  /* top five */
+  if (m.tops.length >= 3) {
+    const tp = m.tops, nT = tp.length, per = .95, st0 = .35, order = [...tp].reverse();
+    S_.push({ id: 'top', dur: st0 + (nT - 1) * per + 2.6, chrome: true, riser: st0 + (nT - 1) * per, urls: tp.map(f => [f, 500]), draw(c, t, sc) {
+      const last = nT - 1;
+      order.forEach((f, k) => {
+        const u = t - (st0 + k * per), pin = vdE3(vdW(u, 0, .5)), pout = k < last ? vdE3(vdW(u, per - .3, per)) : 0, a = pin * (1 - pout), rank = nT - k;
+        if (a <= 0.003) return;
+        const dx = (1 - pin) * 90 - pout * 90, tint = dlAccent(f), rg = c.createRadialGradient(CX, 520, 0, CX, 520, 1100);
+        rg.addColorStop(0, tint + (k === last ? '70' : '48')); rg.addColorStop(1, tint + '00');
+        c.save(); c.globalAlpha *= a; c.fillStyle = rg; c.fillRect(0, 0, W, H);
+        c.font = DLFN.d8(560); c.lineWidth = 3; c.strokeStyle = 'rgba(255,255,255,.26)'; c.textAlign = 'left'; c.textBaseline = 'alphabetic'; c.strokeText(String(rank), M - 16 + dx * .4, 1130);
+        const pw = 500, ph = 750, x = (W - pw) / 2 + dx + 40, y = 400, kk = k === last ? 1 + .04 * vdW(u, .3, 2.4) : 1;
+        c.save(); c.translate(x + pw / 2, y + ph / 2); c.scale(kk, kk); c.translate(-(x + pw / 2), -(y + ph / 2)); vdPoster(c, f, x, y, pw, ph); c.restore();
+        dlT(c, f.title.toUpperCase(), CX + dx * .5, 1310, DLFN.d8, 80, INK, 'center', AW);
+        const dr = (f.directors && f.directors[0] ? f.directors[0].name : ''), meta = [dr, f.year].filter(Boolean).join('  ·  ');
+        if (meta) dlL(c, meta, CX + dx * .5, 1368, 23, INK3, 'center');
+        dlStars(c, CX + dx * .5, 1450, 54, f.rating * vdEX(vdW(u, .3, 1)), A, 'center');
+        c.restore();
+      });
+      const lastU = t - (st0 + last * per);
+      vdCaps(c, lastU > .2 ? 'My favourite' : 'My highest rated', M, 300, 26, lastU > .2 ? A : INK3, 1);
+    } });
+  }
+  /* taste */
+  if (m.genres) {
+    const gs = m.genres, mx = gs[0][1];
+    S_.push({ id: 'taste', dur: 3.6, chrome: true, draw(c, t) {
+      vdCaps(c, 'I lean towards', M, 330, 26, INK3, vdW(t, .1, .6));
+      vdText(c, gs[0][0].toUpperCase(), M - 6, 600, DLFN.d8, 230, A, vdW(t, .15, .95), 'left', AW);
+      vdText(c, gs[0][1] + ' of ' + plural(m.films.length, 'film') + ', ' + Math.round(gs[0][1] / m.films.length * 100) + '%', M, 680, DLFN.pi, 40, INK2, vdW(t, .6, 1.2), 'left', AW);
+      gs.forEach(([g, n], i) => {
+        const y = 920 + i * 150, s0 = .8 + i * .35, p = vdW(t, s0, s0 + .9);
+        vdText(c, g, M, y + 36, DLFN.u5, 40, i ? INK2 : INK, vdW(t, s0, s0 + .5), 'left', AW * .7);
+        c.save(); c.globalAlpha *= vdW(t, s0 + .2, s0 + .6); dlL(c, String(n), W - M, y + 34, 26, INK3, 'right'); c.restore();
+        c.fillStyle = 'rgba(255,255,255,.12)'; c.fillRect(M, y + 62, AW, 10);
+        c.fillStyle = i ? 'rgba(198,198,198,.85)' : A; c.fillRect(M, y + 62, AW * (n / mx) * vdEX(p), 10);
+      });
+    } });
+  }
+  /* director */
+  if (m.dir) {
+    const D = m.dir, np = Math.min(4, D.fs.length), pw = 216, ph = 324, tw = np * pw + (np - 1) * 22, x0 = (W - tw) / 2;
+    S_.push({ id: 'dir', dur: 3, chrome: true, urls: D.fs.slice(0, np).map(f => [f, pw]), draw(c, t) {
+      vdCaps(c, 'The director I kept coming back to', M, 420, 24, INK3, vdW(t, .1, .6), 'left', .14);
+      vdText(c, D.name.toUpperCase(), M - 4, 660, DLFN.d8, 210, INK, vdW(t, .15, .95), 'left', AW);
+      vdText(c, plural(D.fs.length, 'film') + ' watched', M, 740, DLFN.pi, 40, INK2, vdW(t, .6, 1.2), 'left', AW);
+      D.fs.slice(0, np).forEach((f, i) => { const p = vdE3(vdW(t, .5 + i * .18, 1.2 + i * .18)), x = x0 + i * (pw + 22), y = 920 + (1 - p) * 60;
+        vdPoster(c, f, x, y, pw, ph, { a: p }); const q = vdW(t, .9 + i * .18, 1.4 + i * .18); if (q > 0) { c.save(); c.globalAlpha *= q; dlT(c, f.title, x, 920 + ph + 40, DLFN.u5, 24, INK2, 'left', pw); c.restore(); } });
+      if (D.fs.length > np) vdCaps(c, '+' + (D.fs.length - np) + ' more', CX, 1410, 22, INK3, vdW(t, 1.6, 2.2), 'center');
+    } });
+  }
+  /* colour */
+  if (m.stripes) {
+    const st = m.stripes, ws = st.map(f => f.runtime || 100), tot = ws.reduce((a, b) => a + b, 0), top = 520, hh = 880; let acc = 0;
+    const xs = st.map((f, i) => { const x = M + AW * acc / tot, w = AW * ws[i] / tot; acc += ws[i]; return [x, w, palOf(f).a]; });
+    S_.push({ id: 'colour', dur: 3.6, chrome: true, draw(c, t) {
+      vdCaps(c, m.all ? 'The colour of it all' : 'The colour of my year', M, 330, 26, INK3, vdW(t, .1, .6));
+      const wp = vdIO(vdW(t, .4, 2.1));
+      c.save(); c.beginPath(); c.rect(M, top, AW * wp, hh); c.clip(); xs.forEach(([x, w, col]) => { c.fillStyle = col; c.fillRect(x, top, w + .6, hh); }); c.restore();
+      if (wp > 0 && wp < 1) { c.fillStyle = 'rgba(255,255,255,.7)'; c.fillRect(M + AW * wp - 1.5, top - 14, 3, hh + 28); }
+      vdText(c, 'One stripe per watch, as wide as the film is long.', M, 1480, DLFN.pi, 38, INK2, vdW(t, 2.2, 2.9), 'left', AW);
+    } });
+  }
+  /* end */
+  S_.push({ id: 'end', dur: 3.2, chrome: false, draw(c, t) {
+    const p = vdE3(vdW(t, .1, .9)); c.save(); c.globalAlpha *= p; dlLogo(c, CX - 70, 720 + (1 - p) * 20, 3.9); c.restore();
+    vdText(c, 'Dailies', CX, 1050, DLFN.d8, 200, INK, vdW(t, .35, 1.1), 'center', AW);
+    vdCaps(c, m.all ? 'My film life' : 'My ' + m.yr + ' in film', CX, 1130, 26, INK3, vdW(t, .9, 1.5), 'center');
+    const lw = 120 * vdEX(vdW(t, 1.1, 1.7)); c.fillStyle = A; c.fillRect(CX - lw / 2, 1180, lw, 4);
+    vdText(c, vdHost(), CX, 1270, DLFN.u6, 42, A, vdW(t, 1.4, 2), 'center', AW);
+  } });
+  let s0 = 0; S_.forEach(s => { s.start = s0; s0 += s.dur; });
+  return { scenes: S_, total: s0 };
+}
+
+/* ---- drawing helpers specific to the video ---- */
+function vdCaps(c, s, x, y, z, col, p, al = 'left', sp = .18) {
+  if (p <= 0) return; c.save(); c.globalAlpha *= clamp(p * 1.6, 0, 1); dlL(c, s, x, y + (1 - vdE3(p)) * 14, z, col, al, sp); c.restore();
+}
+function vdText(c, s, x, y, font, z, col, p, al = 'left', max = 0, rise = .85) {
+  if (p <= 0) return; s = String(s); if (max) z = dlFitText(c, s, font, z, max, 10);
+  c.font = font(z); const w = c.measureText(s).width, x0 = al === 'center' ? x - w / 2 : al === 'right' ? x - w : x;
+  c.save(); c.beginPath(); c.rect(x0 - 14, y - z * 1.02, w + 28, z * 1.3); c.clip();
+  c.globalAlpha *= clamp(p * 2.4, 0, 1); c.translate(0, (1 - vdE3(p)) * z * rise); dlT(c, s, x, y, font, z, col, al); c.restore();
+}
+function vdPoster(c, f, x, y, w, h, o = {}) {
+  const im = VDI.get(dlPosterURL(f, w)) || null, p = palOf(f), r = o.r == null ? Math.max(3, w * .02) : o.r;
+  c.save(); if (o.a != null) c.globalAlpha *= o.a;
+  if (o.shadow !== false && w > 140) { c.save(); c.shadowColor = 'rgba(0,0,0,.55)'; c.shadowBlur = w * .12; c.shadowOffsetY = w * .05; dlRR(c, x, y, w, h, r); c.fillStyle = p.a; c.fill(); c.restore(); }
+  c.save(); dlRR(c, x, y, w, h, r); c.clip();
+  if (im) dlCover(c, im, x, y, w, h);
+  else {
+    const g = c.createLinearGradient(x, y, x + w, y + h); g.addColorStop(0, p.a); g.addColorStop(1, p.b || p.a); c.fillStyle = g; c.fillRect(x, y, w, h);
+    const z = Math.max(12, w * .17); c.font = DLFN.d8(z); const ls = dlWrap(c, f.title.toUpperCase(), w * .84).slice(0, 5);
+    ls.forEach((l, i) => dlT(c, l, x + w * .08, y + h - w * .08 - (ls.length - 1 - i) * z * .92, DLFN.d8, z, p.k));
+  }
+  c.restore();
+  c.save(); dlRR(c, x + .5, y + .5, w - 1, h - 1, r); c.strokeStyle = 'rgba(255,255,255,.13)'; c.lineWidth = 1; c.stroke(); c.restore();
+  c.restore();
+}
+function vdMakeBgs(K) {
+  const out = [];
+  for (let v = 0; v < 3; v++) {
+    const cv = document.createElement('canvas'); cv.width = Math.round(VD.W * K); cv.height = Math.round(VD.H * K); const c = cv.getContext('2d'); c.scale(K, K);
+    const g = c.createLinearGradient(0, 0, 0, VD.H); g.addColorStop(0, '#2d2d2d'); g.addColorStop(1, '#171717'); c.fillStyle = g; c.fillRect(0, 0, VD.W, VD.H);
+    const vg = c.createRadialGradient(VD.W / 2, VD.H / 2, VD.W * .35, VD.W / 2, VD.H / 2, VD.H * .72); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.45)'); c.fillStyle = vg; c.fillRect(0, 0, VD.W, VD.H);
+    c.save(); c.globalAlpha = .075; c.globalCompositeOperation = 'overlay'; c.translate(v * 61, v * 83); c.fillStyle = c.createPattern(dlGrain(), 'repeat'); c.fillRect(-120, -120, VD.W + 240, VD.H + 240); c.restore();
+    out.push(cv);
+  }
+  return out;
+}
+
+/* ---- one frame ---- */
+function vdFrame(c, V, T, fn) {
+  const K = V.K; c.setTransform(1, 0, 0, 1, 0, 0); c.drawImage(V.bgs[fn % 3], 0, 0); c.setTransform(K, 0, 0, K, 0, 0);
+  T = clamp(T, 0, V.total - .001);
+  const i = Math.max(0, V.scenes.findIndex(s => T < s.start + s.dur)), sc = V.scenes[i], t = T - sc.start;
+  const a = Math.min(i === 0 ? 1 : vdW(t, 0, .35), 1 - vdW(t, sc.dur - (i === V.scenes.length - 1 ? .7 : .35), sc.dur));
+  c.save(); c.globalAlpha = a; sc.draw(c, t, sc); c.restore();
+  if (sc.chrome) {
+    c.save(); c.globalAlpha = a; dlLogo(c, VD.M, 80, .7); dlL(c, 'Dailies', VD.M + 36 * .7 + 12, 98, 21, DLC.ink3);
+    dlL(c, V.m.all ? 'All time' : String(V.m.yr), VD.W - VD.M, 98, 21, DLC.ink3, 'right'); c.restore();
+  }
+  const pr = T / V.total; c.fillStyle = 'rgba(255,255,255,.12)'; c.fillRect(VD.M, 1842, VD.W - 2 * VD.M, 2); c.fillStyle = VD.AMBER; c.fillRect(VD.M, 1842, (VD.W - 2 * VD.M) * pr, 2);
+}
+
+/* ---- music: a slow chord bed, soft plucks, a tick at each cut, a rise into the favourite ---- */
+function vdMusic(ctx, outs, V, t0) {
+  const total = V.total, hz = n => 440 * Math.pow(2, (n - 69) / 12), sr = ctx.sampleRate;
+  const master = ctx.createGain(); master.gain.setValueAtTime(0, t0); master.gain.linearRampToValueAtTime(.85, t0 + 1.6); master.gain.setValueAtTime(.85, t0 + total - 2.4); master.gain.linearRampToValueAtTime(0, t0 + total + .3);
+  const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -20; comp.ratio.value = 3; master.connect(comp); outs.forEach(o => comp.connect(o));
+  const CH = [{ b: 45, v: [57, 60, 64] }, { b: 41, v: [57, 60, 65] }, { b: 48, v: [55, 60, 64] }, { b: 43, v: [55, 59, 62] }], CL = 4.8;
+  for (let i = 0; i * CL < total; i++) {
+    const ch = CH[i % 4], s = t0 + i * CL, e = s + CL + 1.1;
+    [...ch.v.map(n => [n, .045, 1500]), [ch.b, .11, 600]].forEach(([n, vol, cut], vi) => {
+      const g = ctx.createGain(), lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = cut; lp.Q.value = .4;
+      g.gain.setValueAtTime(0, s); g.gain.linearRampToValueAtTime(vol, s + (vi === 3 ? .5 : 1.3)); g.gain.setValueAtTime(vol, s + CL - .2); g.gain.linearRampToValueAtTime(0, e);
+      lp.connect(g); g.connect(master);
+      (vi === 3 ? [['sine', 0]] : [['triangle', -5], ['sine', 5]]).forEach(([ty, dt]) => { const o = ctx.createOscillator(); o.type = ty; o.frequency.value = hz(n); o.detune.value = dt; o.connect(lp); o.start(s); o.stop(e + .1); });
+    });
+  }
+  /* plucks with a soft echo */
+  const bus = ctx.createGain(), dl = ctx.createDelay(1), fb = ctx.createGain(), wet = ctx.createGain(), lpf = ctx.createBiquadFilter();
+  dl.delayTime.value = .375; fb.gain.value = .33; wet.gain.value = .5; lpf.type = 'lowpass'; lpf.frequency.value = 2600; bus.connect(master); bus.connect(dl); dl.connect(lpf); lpf.connect(fb); fb.connect(dl); lpf.connect(wet); wet.connect(master);
+  const pat = [0, 2, 1, 2, 0, 1, 2, 1];
+  for (let k = 0, tt = 1.8; tt < total - 2; k++, tt += .6) {
+    const ch = CH[Math.floor(tt / CL) % 4], n = ch.v[pat[k % 8]] + (k % 5 === 4 ? 24 : 12), s = t0 + tt, o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = 'triangle'; o.frequency.value = hz(n); g.gain.setValueAtTime(0, s); g.gain.linearRampToValueAtTime(.03, s + .012); g.gain.exponentialRampToValueAtTime(.0008, s + .9); o.connect(g); g.connect(bus); o.start(s); o.stop(s + 1);
+  }
+  const nb = ctx.createBuffer(1, Math.floor(sr * 2), sr), nd = nb.getChannelData(0); for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+  const noise = (s, len, type, freq, q, gainFn) => { const b = ctx.createBufferSource(); b.buffer = nb; const f = ctx.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q; const g = ctx.createGain(); gainFn(g.gain, s); b.connect(f); f.connect(g); g.connect(master); b.start(s, 0, len); return f; };
+  const thump = (s, vol) => { const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(115, s); o.frequency.exponentialRampToValueAtTime(48, s + .22); g.gain.setValueAtTime(vol, s); g.gain.exponentialRampToValueAtTime(.001, s + .3); o.connect(g); g.connect(master); o.start(s); o.stop(s + .35); };
+  V.scenes.forEach((sc, i) => {
+    const s = t0 + sc.start; if (i) { thump(s, .12); noise(s, .09, 'bandpass', 3200, 1, (gn, st) => { gn.setValueAtTime(.05, st); gn.exponentialRampToValueAtTime(.001, st + .08); }); }
+    if (sc.riser != null) {
+      const rs = t0 + sc.start + sc.riser, rl = 1.5, f = noise(rs - rl, rl + .1, 'lowpass', 250, 1.2, (gn, st) => { gn.setValueAtTime(.001, st); gn.exponentialRampToValueAtTime(.075, st + rl); gn.linearRampToValueAtTime(0, st + rl + .1); });
+      f.frequency.setValueAtTime(250, rs - rl); f.frequency.exponentialRampToValueAtTime(5200, rs); thump(rs, .22);
+    }
+  });
+}
+
+/* ---- preload ---- */
+async function vdLoad(V, prog) {
+  const urls = new Set(); V.scenes.forEach(s => (s.urls || []).forEach(([f, w]) => { const u = dlPosterURL(f, w); if (u) urls.add(u); }));
+  const all = [...urls]; let n = 0; prog(0, all.length);
+  await Promise.all(all.map(u => dlImg(u).then(im => { VDI.set(u, im); prog(++n, all.length); })));
+}
+
+/* ---- dialog + recorder ---- */
+const VDS = { V: null, st: 'idle', raf: 0, actx: null, rec: null, token: 0, url: '', ext: 'webm', mime: '' };
+function vdPick() {
+  if (typeof MediaRecorder === 'undefined') return '';
+  return ['video/mp4;codecs=avc1.42E01E,mp4a.40.2', 'video/mp4;codecs=avc1', 'video/mp4', 'video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm'].find(t => { try { return MediaRecorder.isTypeSupported(t); } catch (e) { return false; } }) || '';
+}
+function vdBuild() {
+  const m = vdModel(), sc = vdScenes(m), K = window.matchMedia('(max-width:640px)').matches ? 2 / 3 : 1;
+  return Object.assign({ m, K, bgs: vdMakeBgs(K) }, sc);
+}
+function vdPaint(T) { const cv = $('#vdC'); if (!cv || !VDS.V) return; vdFrame(cv.getContext('2d'), VDS.V, T, Math.floor(T * VD.FPS)); }
+function vdUI() {
+  const st = VDS.st, a = $('#vdActs'), n = $('#vdNote'); if (!a) return;
+  const fmt = s => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+  const dur = VDS.V ? fmt(VDS.V.total) : '';
+  if (st === 'idle') {
+    a.innerHTML = '<button type="button" class="btn" data-act="vdwatch">Watch it</button><button type="button" class="btn pri" data-act="vdmake">Make the video</button>';
+    n.textContent = 'About ' + Math.round(VDS.V.total) + ' seconds, vertical 9:16. Making it records in real time, so keep this tab open and in front until it finishes.';
+  } else if (st === 'loading') { a.innerHTML = '<button type="button" class="btn" data-act="vdstop">Cancel</button>'; }
+  else if (st === 'play') { a.innerHTML = '<button type="button" class="btn" data-act="vdstop">Stop</button>'; n.textContent = 'Playing, ' + dur + ' long.'; }
+  else if (st === 'rec') { a.innerHTML = '<button type="button" class="btn" data-act="vdstop">Cancel</button>'; n.textContent = 'Recording in real time. Please keep this tab open and in front.'; }
+  else if (st === 'done') {
+    const canShare = typeof navigator.canShare === 'function' && VDS.file && navigator.canShare({ files: [VDS.file] });
+    a.innerHTML = '<a class="btn pri" id="vdSave" download="' + E(VDS.name) + '" href="' + VDS.url + '">Save video</a>' + (canShare ? '<button type="button" class="btn" data-act="vdshare">Share</button>' : '') + '<button type="button" class="btn" data-act="vdagain">Make it again</button>';
+    n.textContent = VDS.ext === 'mp4' ? 'Saved as .mp4, ready for Stories, Reels and WhatsApp.' : 'This browser saves videos as .webm. Most phones and apps play it; if one will not, run it through any free converter to get an .mp4.';
+  }
+}
+ACT.vdopen = () => {
+  const m = vdModel(); if (m.watches < 3) { toast('Log at least 3 films for this ' + (m.all ? 'library' : 'year') + ' first'); return; }
+  vdCleanup(); VDS.V = vdBuild(); VDS.st = 'idle';
+  openDlg('<div class="vd"><h2>My ' + (VDS.V.m.all ? 'film life' : VDS.V.m.yr) + ' in film</h2><div class="vd-stage" id="vdStage"><canvas id="vdC" width="' + VDS.V.bgs[0].width + '" height="' + VDS.V.bgs[0].height + '"></canvas><div class="vd-ld" id="vdLd" hidden></div></div>' +
+    '<div class="vd-prog"><i id="vdP"></i></div><label class="chk vd-mus"><input type="checkbox" id="vdMusic" checked> Music</label><p class="note" id="vdNote"></p><div class="acts" id="vdActs"></div></div>', { label: 'Year video', onClose: vdCleanup });
+  dlFonts().then(() => { if (VDS.V && VDS.st === 'idle') vdPaint(2.2); }); vdUI();
+};
+function vdCleanup() {
+  VDS.token++; cancelAnimationFrame(VDS.raf);
+  if (VDS.rec && VDS.rec.state !== 'inactive') { VDS.rec.onstop = null; try { VDS.rec.stop(); } catch (e) { } }
+  VDS.rec = null; if (VDS.actx) { try { VDS.actx.close(); } catch (e) { } VDS.actx = null; }
+  if (VDS.url) { URL.revokeObjectURL(VDS.url); VDS.url = ''; } VDS.file = null; VDS.V = VDS.V && $('#dlg') && !$('#dlg').hidden ? VDS.V : null; VDS.st = 'idle';
+}
+async function vdRun(rec) {
+  const V = VDS.V; if (!V) return; const tok = ++VDS.token; VDS.st = 'loading'; vdUI();
+  const ld = $('#vdLd'), note = $('#vdNote'); ld.hidden = false; ld.textContent = 'Loading posters';
+  await dlFonts(); await vdLoad(V, (n, tot) => { if (tok === VDS.token) ld.textContent = 'Loading posters ' + n + ' / ' + tot; });
+  if (tok !== VDS.token) return; ld.hidden = true;
+  const cv = $('#vdC'), c = cv.getContext('2d'), music = $('#vdMusic').checked; let actx = null, mdest = null, t0a = 0;
+  if (music && (window.AudioContext || window.webkitAudioContext)) {
+    try { actx = new (window.AudioContext || window.webkitAudioContext)(); await actx.resume(); mdest = actx.createMediaStreamDestination(); t0a = actx.currentTime + .3; vdMusic(actx, [actx.destination, mdest], V, t0a); VDS.actx = actx; } catch (e) { actx = null; mdest = null; }
+  }
+  let mr = null, chunks = [];
+  if (rec) {
+    const mime = vdPick();
+    if (!cv.captureStream || !mime) { toast('This browser cannot record video. Try Chrome, Edge or Safari. You can still watch it.'); VDS.st = 'idle'; vdUI(); if (actx) { actx.close(); VDS.actx = null; } return; }
+    const stream = cv.captureStream(VD.FPS); if (mdest) mdest.stream.getAudioTracks().forEach(t => stream.addTrack(t));
+    try { mr = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: V.K < 1 ? 5e6 : 8e6, audioBitsPerSecond: 128e3 }); } catch (e) { mr = new MediaRecorder(stream); }
+    mr.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+    VDS.mime = mime; VDS.ext = /mp4/.test(mime) ? 'mp4' : 'webm'; VDS.rec = mr;
+  }
+  VDS.st = rec ? 'rec' : 'play'; vdUI(); vdPaint(0);
+  if (mr) mr.start(500);
+  const tp0 = performance.now() + 300, now = () => actx ? actx.currentTime - t0a : (performance.now() - tp0) / 1000;
+  const bar = $('#vdP'); let fn = 0;
+  const finish = () => {
+    vdPaint(V.total - .02);
+    if (!mr) { VDS.st = 'idle'; vdUI(); bar.style.width = '0'; if (actx) setTimeout(() => { try { actx.close(); } catch (e) { } if (VDS.actx === actx) VDS.actx = null; }, 600); setTimeout(() => { if (tok === VDS.token) vdPaint(2.2); }, 500); return; }
+    mr.onstop = () => {
+      if (tok !== VDS.token) return; const blob = new Blob(chunks, { type: VDS.mime.split(';')[0] }); VDS.url = URL.createObjectURL(blob);
+      VDS.name = 'dailies-' + (V.m.all ? 'all-time' : V.m.yr) + '.' + VDS.ext; try { VDS.file = new File([blob], VDS.name, { type: blob.type }); } catch (e) { VDS.file = null; }
+      const st = $('#vdStage'); if (st) st.innerHTML = '<video src="' + VDS.url + '" controls playsinline loop></video>'; VDS.st = 'done'; vdUI(); bar.style.width = '100%';
+      if (actx) { try { actx.close(); } catch (e) { } VDS.actx = null; }
+    };
+    setTimeout(() => { try { mr.stop(); } catch (e) { } }, 350);
+  };
+  const tick = () => {
+    if (tok !== VDS.token) return; const T = now(), tt = Math.max(0, T);
+    vdFrame(c, V, tt, fn++); bar.style.width = (clamp(tt / V.total, 0, 1) * 100) + '%';
+    if (T >= V.total) finish(); else VDS.raf = requestAnimationFrame(tick);
+  };
+  VDS.raf = requestAnimationFrame(tick);
+}
+ACT.vdwatch = () => vdRun(false);
+ACT.vdmake = () => vdRun(true);
+ACT.vdstop = () => vdStop();
+function vdStop() {
+  VDS.token++; cancelAnimationFrame(VDS.rec ? VDS.raf : VDS.raf);
+  if (VDS.rec && VDS.rec.state !== 'inactive') { VDS.rec.onstop = null; try { VDS.rec.stop(); } catch (e) { } } VDS.rec = null;
+  if (VDS.actx) { try { VDS.actx.close(); } catch (e) { } VDS.actx = null; }
+  const ld = $('#vdLd'); if (ld) ld.hidden = true; const p = $('#vdP'); if (p) p.style.width = '0';
+  VDS.st = 'idle'; vdUI(); vdPaint(2.2);
+}
+ACT.vdagain = () => {
+  if (VDS.url) { URL.revokeObjectURL(VDS.url); VDS.url = ''; } VDS.file = null; VDS.st = 'idle';
+  const st = $('#vdStage'); if (st) st.innerHTML = '<canvas id="vdC" width="' + VDS.V.bgs[0].width + '" height="' + VDS.V.bgs[0].height + '"></canvas><div class="vd-ld" id="vdLd" hidden></div>';
+  const p = $('#vdP'); if (p) p.style.width = '0'; vdUI(); vdPaint(2.2);
+};
+ACT.vdshare = async () => { if (!VDS.file) return; try { await navigator.share({ files: [VDS.file], title: 'My year in film' }); } catch (e) { } };
+{
+  const base2 = PAGES.downloads.render;
+  PAGES.downloads.render = function () {
+    base2();
+    if (!S.films.length) return;
+    const h = $('#view .pagehead'), sp = dlSpan(); if (!h) return;
+    h.insertAdjacentHTML('afterend', '<section class="vd-ban"><div class="vd-ban-t"><span class="vd-ban-k">New</span><h3>My ' + (sp.all ? 'film life' : sp.label) + ' in film, as a video</h3><p>Your real watches, ratings and posters, cut into a short vertical film with music. Ready for Stories, Reels and WhatsApp.</p></div><button type="button" class="btn pri" data-act="vdopen">Make my video</button></section>');
+  };
+}
+
 const FEEDBACK_URL = 'https://formspree.io/f/mgaabzbp';
 const FB_MAILS = ['tb46y1ioh@mozmail.com', '1m339z3wl@mozmail.com'];
 let fbKind = 'Bug', fbOpened = 0;
