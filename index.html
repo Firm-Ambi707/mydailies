@@ -199,6 +199,7 @@ body.dock-on .dock{display:block}
 .pk-p{width:34px;height:50px;border-radius:5px;background:var(--bg3,#222);overflow:hidden;flex:none}.pk-p img{width:100%;height:100%;object-fit:cover;display:block}
 .pk-m{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}.pk-m b{font:600 15px/1.25 var(--f-u);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pk-m i{font-style:normal;font-size:12.5px;color:var(--ink3)}
 .pk-k{width:20px;color:#e9b44c;font-weight:700;text-align:center}
+.pks{display:flex;flex-direction:column;gap:6px;margin:0 0 10px}.pks-r{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:12px;background:rgba(255,255,255,.05)}.pks-n{width:22px;text-align:center;font:800 20px/1 var(--f-d);color:#e9b44c}.pks-r button{flex:none;width:36px;height:36px;border:0;border-radius:9px;background:rgba(255,255,255,.07);color:var(--ink);font-size:15px;cursor:pointer}.pks-r button:disabled{opacity:.3;cursor:default}.pk-quick{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}.vd-opt{margin-top:12px;text-align:left}.vd-opt summary{cursor:pointer;font:600 14px/1 var(--f-u);color:var(--ink2);padding:6px 0}.vd-opt .field{margin-top:12px}.vd-opt .seg{display:flex;width:100%}.vd-opt .seg button{flex:1}
 .pk-e,.pk-n{font-size:13px;color:var(--ink3);padding:10px 4px;text-align:center}
 .txt.rv{min-height:220px;max-height:60vh;resize:vertical}
 .rv-c{display:flex;justify-content:space-between;font-size:12px;color:var(--ink3);margin-top:6px}
@@ -3014,6 +3015,12 @@ const dls = () => {
   if (d.span !== 'all') d.span = 'year';
   if (d.topspan !== 'all') d.topspan = 'year';
   if (d.film == null) d.film = '';
+  if (!['rated', 'fav', 'picks'].includes(d.topsrc)) d.topsrc = 'rated';
+  if (d.topn !== 'auto') { d.topn = +d.topn; if (![3, 5, 9].includes(d.topn)) d.topn = 'auto'; }
+  if (!d.picks || typeof d.picks !== 'object') d.picks = { ids: [], title: '' };
+  if (!Array.isArray(d.picks.ids)) d.picks.ids = []; if (typeof d.picks.title !== 'string') d.picks.title = '';
+  if (!d.vid || typeof d.vid !== 'object') d.vid = { n: 5, off: [] };
+  if (![3, 5, 7].includes(d.vid.n)) d.vid.n = 5; if (!Array.isArray(d.vid.off)) d.vid.off = [];
   return d;
 };
 const dlSleep = ms => new Promise(r => setTimeout(r, ms));
@@ -3282,12 +3289,10 @@ async function dlStats(c, W, H, D) {
 
 /* ---- 4. Top films ---- */
 async function dlTop(c, W, H, D) {
-  const m = Math.round(W * .07), sp = dlSpan(dls().topspan === 'all' ? true : 'year'), ratio = H / W, n = ratio > 1.6 ? 9 : ratio > 1.2 ? 6 : 4;
-  const rk = f => (f.rating || 0) * 10 + (f.fav ? 3 : 0) + (f.vote || 0) / 100;
-  const fs = [...sp.films].sort((a, b) => rk(b) - rk(a)).slice(0, n);
+  const m = Math.round(W * .07), sp = dlSpan(dls().topspan === 'all' ? true : 'year'), ratio = H / W, R = dlRanked(sp, dlTopN(ratio > 1.6 ? 9 : ratio > 1.2 ? 6 : 4)), fs = R.fs;
   dlBg(c, W, H, fs[0] ? palOf(fs[0]).a : null);
-  const top = dlHead(c, W, 'Dailies · ' + sp.label, 'Top ' + (fs.length || ''), 'My highest rated, in order'), bot = dlFoot(c, W, H, sp.label);
-  if (!fs.length) { dlEmpty(c, W, top, bot, 'Nothing here yet'); return; }
+  const top = dlHead(c, W, 'Dailies · ' + sp.label, R.title, R.sub), bot = dlFoot(c, W, H, sp.label);
+  if (!fs.length) { dlEmpty(c, W, top, bot, R.src === 'picks' ? 'Choose some films' : 'Nothing here yet'); return; }
   const aw = W - 2 * m, gap = Math.round(W * .022), cap = Math.round(W * .062), g = dlGrid(fs.length, aw, bot - top, gap, cap), pw = g.pw, ph = pw * 1.5;
   await dlPre(fs, pw);
   const gh = g.rows * (ph + cap) + (g.rows - 1) * gap, oy = top + Math.max(0, (bot - top - gh) / 2);
@@ -3301,7 +3306,61 @@ async function dlTop(c, W, H, D) {
     if (f.rating > 0) dlStars(c, x + 8, y + ph + cap * .82, Math.min(18, pw * .09), f.rating, dlAccent(f));
   }
 }
+/* ---- Top 9: the clean three-by-three ---- */
+async function dlTop9(c, W, H, D) {
+  const m = Math.round(W * .07), sp = dlSpan(dls().topspan === 'all' ? true : 'year'), R = dlRanked(sp, 9), fs = R.fs;
+  dlBg(c, W, H, fs[0] ? palOf(fs[0]).a : null);
+  const ttl = R.src === 'rated' ? 'Top ' + Math.max(1, fs.length) : R.title, top = dlHead(c, W, 'Dailies · ' + sp.label, ttl, 'In order, left to right'), bot = dlFoot(c, W, H, sp.label);
+  if (!fs.length) { dlEmpty(c, W, top, bot, R.src === 'picks' ? 'Choose some films' : 'Nothing here yet'); return; }
+  const n = fs.length, cols = n === 4 ? 2 : Math.min(3, n), rows = Math.ceil(n / cols), gap = Math.round(W * .022), aw = W - 2 * m;
+  const pw = Math.min((aw - (cols - 1) * gap) / cols, ((bot - top - (rows - 1) * gap) / rows) / 1.5), ph = pw * 1.5, gh = rows * ph + (rows - 1) * gap, oy = top + Math.max(0, (bot - top - gh) / 2);
+  await dlPre(fs, pw);
+  for (let i = 0; i < n; i++) {
+    const r = Math.floor(i / cols), cc = i % cols, inRow = r === rows - 1 ? n - cols * (rows - 1) : cols, rw = inRow * pw + (inRow - 1) * gap, x = m + (aw - rw) / 2 + cc * (pw + gap), y = oy + r * (ph + gap), rr = Math.max(4, pw * .03);
+    await dlDrawPoster(c, fs[i], x, y, pw, ph, rr);
+    const bz = Math.max(34, pw * .15); c.save(); c.beginPath(); c.arc(x + bz * .8, y + bz * .8, bz * .52, 0, 6.2832); c.fillStyle = 'rgba(14,14,14,.66)'; c.fill(); c.restore();
+    dlT(c, i + 1, x + bz * .8, y + bz * .8 + bz * .2, DLFN.d8, bz * .66, '#fff', 'center');
+  }
+}
+/* ---- Best of: one film above the rest ---- */
+async function dlBest(c, W, H, D) {
+  const m = Math.round(W * .07), sp = dlSpan(dls().topspan === 'all' ? true : 'year'), R = dlRanked(sp, 5), fs = R.fs, f = fs[0], ratio = H / W, stacked = ratio > 1.2, aw = W - 2 * m;
+  dlBg(c, W, H, f ? palOf(f).a : null);
+  const top = dlHead(c, W, 'Dailies · ' + sp.label, R.custom ? R.title : sp.all ? 'My favourite film' : 'My film of ' + sp.yr, ''), bot = dlFoot(c, W, H, sp.label);
+  if (!f) { dlEmpty(c, W, top, bot, R.src === 'picks' ? 'Choose some films' : 'Nothing here yet'); return; }
+  await dlPre(fs, 600);
+  const acc = dlAccent(f), rest = stacked ? fs.slice(1, 5) : [], gap = Math.round(W * .025), spw = rest.length ? Math.min(W * .19, (aw - 3 * gap) / 4) : 0, sph = spw * 1.5, stripH = rest.length ? sph + 80 : 0;
+  const hh = bot - top - stripH;
+  let pw, ph, px, py, tx, tw, al, y;
+  if (stacked) { pw = Math.min(W * .54, (hh - 360) / 1.5); ph = pw * 1.5; px = (W - pw) / 2; py = top + 10; tx = W / 2; tw = aw; al = 'center'; y = py + ph + Math.round(W * .06); }
+  else { pw = Math.min(W * .4, (bot - top) / 1.5); ph = pw * 1.5; px = m; py = top + Math.max(0, (bot - top - ph) / 2); tx = px + pw + Math.round(W * .05); tw = W - m - tx; al = 'left'; y = py + 6; }
+  await dlDrawPoster(c, f, px, py, pw, ph, Math.round(pw * .02));
+  const kick = f.genres.slice(0, 3).join(' · '); if (kick) { dlL(c, kick, tx, y + 18, 22, acc, al, .16); y += 54; }
+  const wf = dlWrapFit(c, f.title.toUpperCase(), DLFN.d8, stacked ? Math.round(W * .12) : Math.round(W * .1), tw, 2, 44);
+  wf.lines.forEach(l => { y += wf.z * .84; dlT(c, l, tx, y, DLFN.d8, wf.z, DLC.ink, al); y += wf.z * .08; }); y += 18;
+  const meta = [f.year, fmtRt(f.runtime), directorNames(f)].filter(Boolean).join('  ·  '); if (meta) { dlT(c, meta, tx, y + 22, DLFN.u5, 26, DLC.ink2, al, tw); y += 54; }
+  if (f.rating > 0) { const ss = stacked ? 44 : 36; dlStars(c, tx, y + ss / 2, ss, f.rating, acc, al); y += ss + 24; }
+  if (!stacked) { const txt = (f.spoiler ? (f.tagline || '') : (f.review || f.tagline || '')).replace(/\s+/g, ' ').trim(); if (txt && y < bot - 80) { const z = Math.round(W * .034), lh = z * 1.38; c.font = DLFN.pi(z); const ls = dlWrap(c, txt, tw), mx = Math.floor((bot - y - 20) / lh), out = ls.slice(0, Math.max(0, mx)); if (ls.length > mx && out.length) out[out.length - 1] = out[out.length - 1].replace(/[\s.,;:!?]*$/, '') + '…'; y += 12; out.forEach(l => { y += lh; dlT(c, l, tx, y - lh * .28, DLFN.pi, z, DLC.ink2, al); }); } }
+  if (rest.length) {
+    const sy = bot - sph - 10, tw2 = rest.length * spw + (rest.length - 1) * gap, sx = (W - tw2) / 2;
+    dlL(c, 'Also loved', W / 2, sy - 28, 20, DLC.ink3, 'center', .24);
+    for (let i = 0; i < rest.length; i++) await dlDrawPoster(c, rest[i], sx + i * (spw + gap), sy, spw, sph, Math.max(3, spw * .03), false);
+  }
+}
 
+/* ---- ranking: highest rated, favourites, or a hand-picked list ---- */
+const dlRK = f => (f.rating || 0) * 10 + (f.fav ? 3 : 0) + (f.vote || 0) / 100;
+const dlPicked = () => dls().picks.ids.map(id => byId(id)).filter(Boolean);
+function dlRanked(sp, n, ratedOnly) {
+  const d = dls(), src = d.topsrc; let fs;
+  if (src === 'picks') fs = dlPicked();
+  else if (src === 'fav') fs = sp.films.filter(f => f.fav).sort((a, b) => dlRK(b) - dlRK(a));
+  else fs = sp.films.filter(f => !ratedOnly || f.rating > 0).sort((a, b) => dlRK(b) - dlRK(a));
+  fs = fs.slice(0, n);
+  const ct = d.picks.title.trim();
+  return { fs, src, title: src === 'picks' ? (ct || 'My picks') : src === 'fav' ? 'Favourites' : 'Top ' + (fs.length || ''), sub: src === 'picks' ? 'Chosen by me, in order' : src === 'fav' ? 'The ones I love most' : 'My highest rated, in order', custom: src === 'picks' && !!ct };
+}
+const dlTopN = auto => { const n = dls().topn; return n === 'auto' ? auto : n; };
 /* ---- 5. Film card ---- */
 async function dlFilm(c, W, H, D) {
   const f = dlPickFilm(D.d.film), m = Math.round(W * .07);
@@ -3482,14 +3541,16 @@ const DL = {
   wall: { title: 'The wall', desc: 'Every poster, sorted by colour into one rainbow.', uses: ['scope'], draw: dlWall },
   shelf: { title: 'The shelf', desc: 'My film spines on the board, just like the app.', uses: ['scope'], draw: dlShelf },
   stats: { title: 'Year in film', desc: 'Hours, rating, months, top films, genres and directors.', uses: ['span'], draw: dlStats },
-  top: { title: 'Top films', desc: 'My highest rated, ranked, with stars.', uses: ['topspan'], draw: dlTop },
+  top: { title: 'Top films', desc: 'My top films, ranked, with stars.', uses: ['topspan', 'rank'], draw: dlTop },
+  top9: { title: 'Top 9', desc: 'The clean three-by-three of my best.', uses: ['topspan', 'rank'], draw: dlTop9 },
+  best: { title: 'Best of', desc: 'My number one, with the rest that I loved.', uses: ['topspan', 'rank'], draw: dlBest },
   film: { title: 'Film card', desc: 'One film with my rating and my own words.', uses: ['film'], draw: dlFilm },
   heat: { title: 'Calendar', desc: 'Every day of the year in the colour of what I watched.', uses: ['year'], draw: dlHeat },
   palette: { title: 'Colour of it all', desc: 'Every film I have seen as a stripe, as long as its runtime. All time.', uses: [], draw: dlPalette },
   dirs: { title: 'Directors', desc: 'The directors I return to, with portraits. All time.', uses: [], draw: dlDirs },
   taste: { title: 'How I rate', desc: 'My average and every rating. All time.', uses: [], draw: dlTaste }
 };
-const dlName = id => id === 'rec' ? 'dailies-recommendations-' + dls().fmt + '.png' : 'dailies-' + id + '-' + (['palette', 'dirs', 'taste'].includes(id) ? 'all-time' : id === 'top' ? (dls().topspan === 'all' ? 'all-time' : S.ui.year) : ['stats'].includes(id) ? (dls().span === 'all' ? 'all-time' : S.ui.year) : id === 'heat' ? S.ui.year : dls().fmt) + '-' + dls().fmt + '.png';
+const dlName = id => id === 'rec' ? 'dailies-recommendations-' + dls().fmt + '.png' : 'dailies-' + id + '-' + (['palette', 'dirs', 'taste'].includes(id) ? 'all-time' : ['top', 'top9', 'best'].includes(id) ? (dls().topspan === 'all' ? 'all-time' : S.ui.year) : ['stats'].includes(id) ? (dls().span === 'all' ? 'all-time' : S.ui.year) : id === 'heat' ? S.ui.year : dls().fmt) + '-' + dls().fmt + '.png';
 const dlCache = new Map();
 const dlIds = () => Object.keys(DL).filter(k => !DL[k].hidden);
 function dlKey(id) {
@@ -3497,6 +3558,7 @@ function dlKey(id) {
   if (u.includes('scope')) k.push(d.scope);
   if (u.includes('span')) k.push(d.span, S.ui.year);
   if (u.includes('topspan')) k.push(d.topspan, S.ui.year);
+  if (u.includes('rank')) k.push(d.topsrc, d.topn, JSON.stringify(d.picks));
   if (u.includes('year')) k.push(S.ui.year);
   if (u.includes('film')) k.push(d.film);
   return k.join('|');
@@ -3555,16 +3617,19 @@ PAGES.downloads = {
     const seg = (act, now, opts) => '<div class="seg" role="group">' + opts.map(([v, l]) => '<button type="button" data-act="' + act + '" data-v="' + v + '" class="' + (now === v ? 'on' : '') + '" aria-pressed="' + (now === v) + '">' + l + '</button>').join('') + '</div>';
     const F = DLF[d.fmt];
     const pf = d.film ? byId(d.film) : null;
-    const hint = u => u.includes('scope') ? 'Follows the shelf setting above.' : u.includes('span') ? 'Follows the stats setting above.' : u.includes('year') ? 'Follows the year above.' : '';
+    const hint = u => u.includes('rank') ? 'Follows the Top films settings above.' : u.includes('scope') ? 'Follows the shelf setting above.' : u.includes('span') ? 'Follows the stats setting above.' : u.includes('year') ? 'Follows the year above.' : '';
     const cards = Object.entries(DL).filter(([, x]) => !x.hidden).map(([id, x]) => '<article class="dl-card" data-d="' + id + '"><div class="dl-prev" style="aspect-ratio:' + F.w + '/' + F.h + '"><canvas data-dlc="' + id + '" aria-label="Preview of ' + E(x.title) + '" role="img"></canvas><span class="sk">Rendering…</span></div>' +
       '<div><h3>' + E(x.title) + '</h3><p>' + E(x.desc) + ' ' + hint(x.uses) + '</p></div>' +
-      (id === 'top' ? '<div class="dl-tsp">' + seg('dltop', d.topspan, [['year', 'This year (' + yr + ')'], ['all', 'All time']]) + '</div>' : '') +
+      (['top', 'top9', 'best'].includes(id) ? '<div class="dl-tsp">' + seg('dltop', d.topspan, [['year', 'This year (' + yr + ')'], ['all', 'All time']]) + '</div>' : '') +
       (id === 'film' ? '<button type="button" class="pkb" data-act="dlpick" aria-haspopup="dialog"><span class="pkb-t">' + (pf ? E(pf.title) + (pf.year ? ' <em>' + pf.year + '</em>' : '') : 'Latest watch') + '</span><span class="pkb-c" aria-hidden="true"></span></button>' : '') +
       '<div class="dl-acts"><button type="button" class="btn pri sm" data-act="dldl" data-id="' + id + '">Download PNG</button>' + (canShare ? '<button type="button" class="btn sm" data-act="dlshare" data-id="' + id + '">Share</button>' : '') + '</div></article>').join('');
     $('#view').innerHTML = '<div class="pagehead"><h1>Downloadables</h1><span class="sub">One-click images of your film life, made to share.</span><span class="sp"></span><button class="btn pri" type="button" data-act="dlall">Download all</button></div>' +
       (S.films.length ? '<div class="dl-ctl"><div class="field"><span class="lbl">Format</span>' + seg('dlfmt', d.fmt, Object.entries(DLF).map(([k, v]) => [k, v.l])) + '</div>' +
         '<div class="field"><span class="lbl">Wall and shelf show</span>' + seg('dlscope', d.scope, [['seen', 'Seen'], ['wish', 'Wishlist'], ['fav', 'Favourites'], ['all', 'Everything']]) + '</div>' +
         '<div class="field"><span class="lbl">Stats cover</span>' + seg('dlspan', d.span, [['year', 'One year'], ['all', 'All time']]) + '</div>' +
+        '<div class="field"><span class="lbl">Top films, Top 9 and Best of use</span>' + seg('dlsrc', d.topsrc, [['rated', 'Highest rated'], ['fav', 'Favourites'], ['picks', 'My picks']]) + '</div>' +
+        '<div class="field"><span class="lbl">How many</span>' + seg('dltopn', String(d.topn), [['auto', 'Auto'], ['3', '3'], ['5', '5'], ['9', '9']]) + '</div>' +
+        '<div class="field"><span class="lbl">My picks</span><button type="button" class="pkb" data-act="dlpicks" aria-haspopup="dialog"><span class="pkb-t">' + (dlPicked().length ? dlPicked().length + ' chosen' + (d.picks.title.trim() ? ', ' + E(d.picks.title.trim()) : '') : 'Choose your own films') + '</span><span class="pkb-c" aria-hidden="true"></span></button></div>' +
         '<div class="field"><span class="lbl">Year</span><div class="yr"><button type="button" class="btn sm ico" data-act="dyear" data-v="-1" aria-label="Previous year">‹</button><b>' + yr + '</b><button type="button" class="btn sm ico" data-act="dyear" data-v="1" aria-label="Next year" ' + (yr >= cur ? 'disabled' : '') + '>›</button></div></div></div>' +
         '<p class="note" style="margin-bottom:22px">PNG, ' + F.s + '. Previews are small, downloads are full size.</p><div class="dl-grid">' + cards + '</div>' :
         '<div class="empty"><h3>Nothing to make yet</h3><p>Add a few films to your shelf and this page turns them into images you can post.</p><button class="btn pri" type="button" data-act="find">Find films</button></div>');
@@ -3574,6 +3639,51 @@ PAGES.downloads = {
 ACT.dlfmt = a => { dls().fmt = a.dataset.v; upd(); };
 ACT.dlscope = a => { dls().scope = a.dataset.v; upd(); };
 ACT.dltop = a => { dls().topspan = a.dataset.v; upd(); };
+ACT.dlsrc = a => { dls().topsrc = a.dataset.v; upd(); };
+ACT.dltopn = a => { dls().topn = a.dataset.v === 'auto' ? 'auto' : +a.dataset.v; upd(); };
+ACT.dlpicks = () => dlPicksOpen('dl');
+function dlPicksOpen(from) {
+  const d = dls(), MAX = 12; let ids = d.picks.ids.filter(id => byId(id)).map(String);
+  const all = [...S.films].sort((a, b) => titleKey(a).localeCompare(titleKey(b)));
+  const box = openDlg('<h2>Choose your films</h2><p class="note" style="margin-bottom:12px">Up to ' + MAX + ', in the order you want them ranked. They are used by Top films, Top 9, Best of and the year video.</p>' +
+    '<div class="field"><label for="pkT">Title <span class="fine">(optional)</span></label><input class="inp" id="pkT" maxlength="40" autocomplete="off" placeholder="My best of ' + S.ui.year + '" value="' + E(d.picks.title) + '"></div>' +
+    '<div class="pks" id="pkSel"></div><div class="pk-quick" id="pkQk"><button type="button" class="chip" data-q="rated">Fill with my highest rated</button><button type="button" class="chip" data-q="fav">Fill with favourites</button><button type="button" class="chip" data-q="clear">Clear</button></div>' +
+    '<div class="pk-s"><input class="inp" type="search" id="pkQ" placeholder="Search ' + all.length.toLocaleString() + ' films or genres…" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Search films"></div><div class="pk-g" id="pkG" role="group" aria-label="Filter by genre"></div><div class="pk-l" id="pkL" role="listbox" aria-multiselectable="true"></div><div class="pk-n" id="pkN"></div>' +
+    '<div class="acts"><button type="button" class="btn" id="pkCancel">Cancel</button><button type="button" class="btn pri" id="pkDone">Done</button></div>', { wide: true, label: 'Choose films' });
+  const Sel = box.querySelector('#pkSel'), L = box.querySelector('#pkL'), N = box.querySelector('#pkN'), Q = box.querySelector('#pkQ'), G = box.querySelector('#pkG'), SHOW = 60;
+  let gen = '';
+  const gc = new Map(); all.forEach(f => (f.genres || []).forEach(g => gc.set(g, (gc.get(g) || 0) + 1)));
+  const gl = [...gc].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  const drawG = () => { G.hidden = !gl.length; G.innerHTML = '<button type="button" class="pk-c' + (gen ? '' : ' on') + '" data-g="">All</button>' + gl.map(([g, n]) => '<button type="button" class="pk-c' + (gen === g ? ' on' : '') + '" data-g="' + E(g) + '">' + E(g) + ' <small>' + n + '</small></button>').join(''); };
+  const drawSel = () => {
+    Sel.innerHTML = ids.length ? ids.map((id, i) => { const f = byId(id); return '<div class="pks-r"><span class="pks-n">' + (i + 1) + '</span><span class="pk-p">' + (f.poster ? '<img src="' + img('thumb', f.poster) + '" alt="">' : '') + '</span><span class="pk-m"><b>' + E(f.title) + '</b><i>' + [f.year, f.rating > 0 ? f.rating + '★' : ''].filter(Boolean).join(' · ') + '</i></span>' +
+      '<button type="button" data-mv="-1" data-i="' + i + '" aria-label="Move up"' + (i ? '' : ' disabled') + '>↑</button><button type="button" data-mv="1" data-i="' + i + '" aria-label="Move down"' + (i < ids.length - 1 ? '' : ' disabled') + '>↓</button><button type="button" data-rm="' + i + '" aria-label="Remove ' + E(f.title) + '">✕</button></div>'; }).join('') : '<p class="pk-e">Nothing chosen yet. Tap films below, or fill from your best.</p>';
+  };
+  const row = f => { const k = ids.indexOf(String(f.id)); return '<button type="button" class="pk-r' + (k >= 0 ? ' on' : '') + '" role="option" aria-selected="' + (k >= 0) + '" data-pk="' + E(String(f.id)) + '"><span class="pk-p">' + (f.poster ? '<img src="' + img('thumb', f.poster) + '" alt="" loading="lazy">' : '') + '</span><span class="pk-m"><b>' + E(f.title) + '</b><i>' + [f.year, f.rating > 0 ? f.rating + '★' : ''].filter(Boolean).join(' · ') + '</i></span><span class="pk-k" aria-hidden="true">' + (k >= 0 ? k + 1 : '') + '</span></button>'; };
+  const draw = keep => {
+    const q = norm(Q.value.trim()), hit = all.filter(f => (!gen || (f.genres || []).includes(gen)) && (!q || norm(f.title).includes(q) || String(f.year) === q || (f.genres || []).some(g => norm(g).includes(q))));
+    const st = L.scrollTop; L.innerHTML = hit.slice(0, SHOW).map(row).join('') || '<p class="pk-e">No film matches “' + E(Q.value) + '”.</p>';
+    N.textContent = hit.length > SHOW ? 'Showing ' + SHOW + ' of ' + hit.length.toLocaleString() + '. Keep typing to narrow it.' : ''; L.scrollTop = keep ? st : 0;
+  };
+  const all2 = () => { drawSel(); draw(true); };
+  G.addEventListener('click', e => { const b = e.target.closest('[data-g]'); if (!b) return; gen = b.dataset.g; drawG(); draw(); });
+  Q.addEventListener('input', () => draw());
+  L.addEventListener('click', e => { const b = e.target.closest('[data-pk]'); if (!b) return; const id = b.dataset.pk, k = ids.indexOf(id); if (k >= 0) ids.splice(k, 1); else if (ids.length >= MAX) { toast('Up to ' + MAX + ' films'); return; } else ids.push(id); all2(); });
+  Sel.addEventListener('click', e => {
+    const mv = e.target.closest('[data-mv]'), rm = e.target.closest('[data-rm]');
+    if (mv) { const i = +mv.dataset.i, j = i + +mv.dataset.mv; if (j >= 0 && j < ids.length) { [ids[i], ids[j]] = [ids[j], ids[i]]; all2(); } }
+    else if (rm) { ids.splice(+rm.dataset.rm, 1); all2(); }
+  });
+  box.querySelector('#pkQk').addEventListener('click', e => {
+    const b = e.target.closest('[data-q]'); if (!b) return; const q = b.dataset.q;
+    if (q === 'clear') ids = []; else ids = S.films.filter(f => q === 'fav' ? f.fav : f.seen && f.rating > 0).sort((a, b2) => dlRK(b2) - dlRK(a)).slice(0, MAX).map(f => String(f.id));
+    all2();
+  });
+  const back = () => { closeDlg(); if (from === 'video') setTimeout(() => ACT.vdopen(), 90); };
+  box.querySelector('#pkCancel').onclick = back;
+  box.querySelector('#pkDone').onclick = () => { d.picks.ids = ids.slice(); d.picks.title = box.querySelector('#pkT').value.trim().slice(0, 40); if (ids.length) d.topsrc = 'picks'; save(); closeDlg(); if (from === 'video') setTimeout(() => ACT.vdopen(), 90); else refresh(); };
+  drawG(); all2();
+}
 ACT.dlspan = a => { dls().span = a.dataset.v; upd(); };
 ACT.dldl = a => dlSave(a.dataset.id);
 ACT.dlshare = async a => {
@@ -3898,7 +4008,7 @@ swipeClose($('#panel'), () => { closePanel(); syncHist(); }, '.p-bar');
 swipeClose($('.omni-box'), () => closeOmni(), '.omni-in');
 
 /* ===== Dailies: year video ===== */
-const VD = { W: 1080, H: 1920, FPS: 30, M: 76, AMBER: '#f2b24c' };
+const VD = { W: 1080, H: 1920, FPS: 30, M: 96, AMBER: '#f2b24c', PREV: 3.6 };
 const vdE3 = t => 1 - Math.pow(1 - clamp(t, 0, 1), 3);
 const vdEX = t => { t = clamp(t, 0, 1); return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t); };
 const vdIO = t => { t = clamp(t, 0, 1); return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
@@ -3915,7 +4025,7 @@ function vdModel() {
   m.mins = ents.length ? ents.reduce((a, e) => a + (byId(e.fid).runtime || 0), 0) : fs.reduce((a, f) => a + (f.runtime || 0), 0);
   m.hours = Math.round(m.mins / 60); m.re = ents.filter(e => e.rewatch).length;
   const rated = fs.filter(f => f.rating > 0); m.rated = rated; m.avg = rated.length ? avg(rated.map(f => f.rating)) : 0;
-  m.tops = [...rated].sort((a, b) => b.rating - a.rating || (b.vote || 0) - (a.vote || 0)).slice(0, 5);
+  { const R = dlRanked(sp, dls().vid.n, true); m.tops = R.fs; m.topsLbl = R.src === 'picks' ? [R.title, 'My number one'] : R.src === 'fav' ? ['My favourites', 'My favourite'] : ['My highest rated', 'My favourite']; }
   m.first = ents.length >= 2 ? { f: byId(ents[0].fid), when: vdDate(ents[0].date, sp.all) } : null;
   /* rhythm */
   if (!sp.all && ents.length >= 4) {
@@ -3945,159 +4055,214 @@ function vdModel() {
   return m;
 }
 
-/* ---- scenes ---- */
+/* ---- scenes: slow, soft, one idea at a time ---- */
+const vdS = t => { t = clamp(t, 0, 1); return t * t * t * (t * (t * 6 - 15) + 10); };
+const vdOV = .7;
+function vdA(c, p, rise, fn) { if (p <= 0) return; const e = vdS(p); c.save(); c.globalAlpha *= e; c.translate(0, (1 - e) * rise); fn(); c.restore(); }
+const VDB = new Map();
+function vdBlurOf(f, w) {
+  const u = dlPosterURL(f, w), im = VDI.get(u); if (!im) return null;
+  let b = VDB.get(u);
+  if (!b) { const a = document.createElement('canvas'); a.width = 48; a.height = 72; const x = a.getContext('2d'); x.imageSmoothingQuality = 'high'; dlCover(x, im, 0, 0, 48, 72);
+    b = document.createElement('canvas'); b.width = 16; b.height = 24; const y = b.getContext('2d'); y.imageSmoothingQuality = 'high'; y.drawImage(a, 0, 0, 16, 24); VDB.set(u, b); }
+  return b;
+}
+/* a soft, out-of-focus wash of the poster's own colours behind the page */
+function vdBackdrop(c, f, w, a, T) {
+  if (a <= .003) return; const W = VD.W, H = VD.H, b = vdBlurOf(f, w), p = palOf(f);
+  c.save(); c.globalAlpha *= a;
+  const k = 1.1 + .05 * Math.sin(T * .17); c.translate(W / 2, H / 2); c.scale(k, k); c.translate(-W / 2, -H / 2);
+  if (b) { c.imageSmoothingEnabled = true; c.imageSmoothingQuality = 'high'; c.globalAlpha *= .5; c.drawImage(b, -60, -80, W + 120, H + 160); c.globalAlpha *= .6; c.drawImage(b, -20, -30, W + 40, H + 60); }
+  else { const g = c.createLinearGradient(0, 0, W * .6, H); g.addColorStop(0, p.a); g.addColorStop(1, p.b || p.a); c.globalAlpha *= .42; c.fillStyle = g; c.fillRect(-60, -80, W + 120, H + 160); }
+  c.restore();
+  c.save(); c.globalAlpha *= a; const v = c.createLinearGradient(0, 0, 0, H); v.addColorStop(0, 'rgba(14,14,14,.55)'); v.addColorStop(.45, 'rgba(14,14,14,.28)'); v.addColorStop(1, 'rgba(14,14,14,.7)'); c.fillStyle = v; c.fillRect(0, 0, W, H); c.restore();
+}
+function vdRing(c, cx, cy, r, T, al) {
+  c.save(); c.translate(cx, cy); c.globalAlpha *= al; c.strokeStyle = 'rgba(255,255,255,.07)'; c.lineWidth = 2; c.beginPath(); c.arc(0, 0, r, 0, 6.2832); c.stroke(); c.rotate(T * .04);
+  for (let i = 0; i < 72; i++) { const a = i / 72 * 6.2832, big = i % 6 === 0, L = big ? 28 : 12; c.strokeStyle = 'rgba(255,255,255,' + (big ? .15 : .07) + ')'; c.lineWidth = big ? 3 : 2; c.beginPath(); c.moveTo(Math.cos(a) * (r + 16), Math.sin(a) * (r + 16)); c.lineTo(Math.cos(a) * (r + 16 + L), Math.sin(a) * (r + 16 + L)); c.stroke(); }
+  c.restore();
+}
+const VDMOTE = Array.from({ length: 34 }, (_, i) => ({ x: (hash('m' + i) % 1000) / 1000, y: (hash('n' + i) % 1000) / 1000, s: (hash('o' + i) % 1000) / 1000 }));
+function vdMotes(c, T) {
+  const W = VD.W, H = VD.H;
+  VDMOTE.forEach((q, i) => {
+    const sp = 6 + q.s * 12, r = 3 + q.y * 7, x = q.x * W + Math.sin(T * .3 + i) * 26, y = ((q.y * (H + 240) - T * sp) % (H + 240) + (H + 240)) % (H + 240) - 120, al = (.05 + .08 * q.s) * (.6 + .4 * Math.sin(T * .8 + i * 1.7));
+    const g = c.createRadialGradient(x, y, 0, x, y, r * 3); g.addColorStop(0, 'rgba(255,236,200,' + al + ')'); g.addColorStop(1, 'rgba(255,236,200,0)'); c.fillStyle = g; c.fillRect(x - r * 3, y - r * 3, r * 6, r * 6);
+  });
+}
+function vdPerfs(c, T) {
+  c.fillStyle = 'rgba(255,255,255,.035)'; const off = (T * 12) % 78;
+  for (let y = -78 + off; y < VD.H; y += 78) { dlRR(c, 26, y, 16, 32, 5); c.fill(); dlRR(c, VD.W - 42, y, 16, 32, 5); c.fill(); }
+}
 function vdScenes(m) {
   const { W, H, M } = VD, AW = W - 2 * M, CX = W / 2, A = VD.AMBER, INK = DLC.ink, INK2 = DLC.ink2, INK3 = DLC.ink3;
-  const S_ = [];
-  S_.push({ id: 'title', dur: 3, chrome: false, draw(c, t) {
-    vdCaps(c, m.all ? 'My film life' : 'My year in film', CX, 540, 26, INK3, vdW(t, .2, .8), 'center');
-    vdText(c, m.all ? 'ALL TIME' : String(m.yr), CX, 1010, DLFN.d8, 520, INK, vdW(t, .15, 1.15), 'center', AW, 1);
-    const lw = 180 * vdEX(vdW(t, 1, 1.7)); c.fillStyle = A; c.fillRect(CX - lw / 2, 1066, lw, 4);
-    vdText(c, 'A look back at everything I watched.', CX, 1160, DLFN.pi, 44, INK2, vdW(t, 1.4, 2.1), 'center', AW);
+  let S_ = [], tint = f => f ? dlAccent(f) : A;
+  const fav = (m.tops[0] || (m.first && m.first.f) || m.films[0]);
+  S_.push({ id: 'title', dur: 5, chrome: false, tint: A, urls: fav ? [[fav, 500]] : [], back(c, t, a, T) { if (fav) vdBackdrop(c, fav, 500, a * vdS(vdW(t, .2, 2)), T); }, draw(c, t, sc, T) {
+    vdRing(c, CX, 1000, 400, T, vdS(vdW(t, .2, 2.4)));
+    vdCaps(c, m.all ? 'My film life' : 'My year in film', CX, 830, 26, INK3, vdW(t, .4, 1.7), 'center', .3);
+    vdText(c, m.all ? 'ALL TIME' : String(m.yr), CX, 1080, DLFN.d8, 340, INK, vdW(t, .8, 2.4), 'center', AW, 1);
+    const lw = 150 * vdS(vdW(t, 1.9, 3)); c.fillStyle = A; c.fillRect(CX - lw / 2, 1140, lw, 3);
+    vdA(c, vdW(t, 2.2, 3.4), 16, () => dlT(c, 'A look back at everything I watched.', CX, 1240, DLFN.pi, 44, INK2, 'center', AW));
   } });
-  if (m.first) S_.push({ id: 'first', dur: 2.8, chrome: true, urls: [[m.first.f, 500]], draw(c, t, sc) {
-    const pw = 520, ph = 780, x = (W - pw) / 2, y = 420, p = vdE3(vdW(t, .1, .9)), k = 1 + .045 * (t / sc.dur), f = m.first.f;
-    vdCaps(c, m.all ? 'The first one on record' : 'It started with', CX, 330, 26, INK3, vdW(t, .1, .6), 'center');
-    c.save(); c.translate(CX, y + ph / 2); c.scale(k, k); c.translate(-CX, -(y + ph / 2)); vdPoster(c, f, x, y + (1 - p) * 50, pw, ph, { a: p }); c.restore();
-    vdText(c, f.title.toUpperCase(), CX, 1370, DLFN.d8, 90, INK, vdW(t, .7, 1.4), 'center', AW);
-    vdCaps(c, m.first.when + (f.year ? '  ·  ' + f.year : ''), CX, 1436, 24, INK3, vdW(t, 1, 1.6), 'center');
+  if (m.first) S_.push({ id: 'first', dur: 5.4, chrome: true, tint: tint(m.first.f), urls: [[m.first.f, 780]], back(c, t, a, T) { vdBackdrop(c, m.first.f, 780, a * vdS(vdW(t, 0, 1.6)), T); }, draw(c, t, sc, T) {
+    const pw = 640, ph = 960, x = (W - pw) / 2, y = 290, f = m.first.f, p = vdW(t, .35, 2), k = 1 + .045 * vdW(t, 0, sc.dur), fl = Math.sin(T * .8) * 6;
+    vdCaps(c, m.all ? 'The first one on record' : 'It started with', CX, 230, 26, INK3, vdW(t, .2, 1.3), 'center', .3);
+    c.save(); c.translate(CX, y + ph / 2 + fl); c.scale(k, k); c.translate(-CX, -(y + ph / 2)); vdA(c, p, 36, () => vdPoster(c, f, x, y, pw, ph, { sh: vdW(t, 1.6, 3.4) })); c.restore();
+    vdText(c, f.title.toUpperCase(), CX, 1410, DLFN.d8, 78, INK, vdW(t, 1.3, 2.6), 'center', AW);
+    vdCaps(c, m.first.when + (f.year ? '   ·   ' + f.year : ''), CX, 1474, 22, INK3, vdW(t, 1.9, 2.9), 'center', .22);
   } });
-  /* numbers */
-  const rows = [{ l: 'Watches', v: m.watches, cap: m.films.length !== m.watches ? plural(m.films.length, 'different film') : 'every one a different film' },
-    { l: 'Hours in the dark', v: m.hours, cap: m.hours >= 24 ? 'about ' + (m.hours / 24).toFixed(1) + ' full days' : m.mins + ' minutes' }];
-  if (m.rated.length >= 3) rows.push({ l: 'Average rating', v: m.avg, dec: 1, stars: true, cap: plural(m.rated.length, 'film') + ' rated' });
-  else if (m.re > 0) rows.push({ l: 'Rewatches', v: m.re, cap: 'old favourites, again' });
-  S_.push({ id: 'numbers', dur: .3 + rows.length * .7 + 2.2, chrome: true, draw(c, t) {
+  /* numbers: one at a time, each given room */
+  const rows = [{ l: 'I watched', v: m.watches, u: 'films', viz: 'dots', cap: m.films.length !== m.watches ? plural(m.films.length, 'different film') : 'every one a different film' },
+    { l: 'I spent', v: m.hours, u: 'hours in the dark', viz: 'days', cap: m.hours >= 24 ? 'about ' + (m.hours / 24).toFixed(1) + ' full days' : m.mins + ' minutes' }];
+  if (m.rated.length >= 3) rows.push({ l: 'On average I gave', v: m.avg, dec: 1, stars: true, viz: 'stars', u: 'out of 5', cap: plural(m.rated.length, 'film') + ' rated' });
+  else if (m.re > 0) rows.push({ l: 'I went back to', v: m.re, u: 'old favourites', cap: 'watched again' });
+  const BD = 3.2, BO = .6;
+  S_.push({ id: 'numbers', dur: (rows.length - 1) * (BD - BO) + BD, chrome: true, tint: A, draw(c, t) {
     rows.forEach((r, i) => {
-      const top = 400 + i * 400, s0 = .3 + i * .7, p = vdW(t, s0, s0 + 1.3);
-      c.fillStyle = 'rgba(255,255,255,.14)'; c.fillRect(M, top, AW * vdEX(vdW(t, s0 - .1, s0 + .6)), 2);
-      vdCaps(c, r.l, M, top + 52, 24, INK3, vdW(t, s0 + .1, s0 + .6));
-      const val = r.dec ? (r.v * vdEX(p)).toFixed(2) : Math.round(r.v * vdEX(p)).toLocaleString();
-      vdText(c, val, M - 6, top + 310, DLFN.d8, 290, INK, vdW(t, s0, s0 + .5), 'left', AW);
-      vdText(c, r.cap, M, top + 368, DLFN.pi, 38, INK2, vdW(t, s0 + .7, s0 + 1.3), 'left', AW);
-      if (r.stars) { c.save(); c.globalAlpha *= vdW(t, s0 + .3, s0 + .9); dlStars(c, W - M, top + 236, 54, r.v * vdEX(p), A, 'right'); c.restore(); }
+      const u = t - i * (BD - BO); if (u < 0 || u > BD) return;
+      const a = (i ? vdS(vdW(u, 0, .9)) : 1) * (i < rows.length - 1 ? 1 - vdS(vdW(u, BD - BO, BD)) : 1); if (a <= .002) return;
+      c.save(); c.globalAlpha *= a;
+      vdCaps(c, r.l, CX, 790, 26, INK3, vdW(u, .1, 1), 'center', .3);
+      const p = vdS(vdW(u, .25, 2.1)), val = r.dec ? (r.v * p).toFixed(1) : Math.round(r.v * p).toLocaleString();
+      vdText(c, val, CX, 1110, DLFN.d8, 380, INK, vdW(u, .15, 1.2), 'center', AW, 1);
+      vdCaps(c, r.u, CX, 1176, 26, INK2, vdW(u, .8, 1.7), 'center', .26);
+      const lw = 90 * vdS(vdW(u, 1, 1.9)); c.fillStyle = A; c.fillRect(CX - lw / 2, 1226, lw, 3);
+      vdA(c, vdW(u, 1.3, 2.2), 14, () => dlT(c, r.cap, CX, 1310, DLFN.pi, 42, INK2, 'center', AW));
+      if (r.stars) { c.save(); c.globalAlpha *= vdS(vdW(u, .9, 1.7)); dlStars(c, CX, 1440, 64, r.v * p, A, 'center'); c.restore(); }
+      if (r.viz === 'dots') {
+        const n = Math.min(r.v, 60), cols = Math.min(n, 12), gp = 40, rows = Math.ceil(n / cols);
+        for (let q = 0; q < n; q++) { const rr = Math.floor(q / cols), cc = q % cols, inRow = rr === rows - 1 ? n - cols * (rows - 1) : cols, dp = vdS(vdW(u, 1.1 + q * .035, 1.9 + q * .035)); if (dp <= 0) continue;
+          const dx = CX + (cc - (inRow - 1) / 2) * gp, dy = 1430 + rr * gp + (1 - dp) * 12; c.beginPath(); c.arc(dx, dy, 8.5 * (.6 + .4 * dp), 0, 6.2832); c.fillStyle = q === n - 1 ? A : 'rgba(242,242,242,' + (.55 * dp) + ')'; c.fill(); }
+      }
+      if (r.viz === 'days') {
+        const nD = Math.min(7, Math.max(1, Math.ceil(r.v / 24))), rr = 40, gp = 26, x0 = CX - (nD * 2 * rr + (nD - 1) * gp) / 2 + rr;
+        for (let q = 0; q < nD; q++) { const cx = x0 + q * (2 * rr + gp), cy = 1450, fr = clamp(r.v / 24 - q, 0, 1) * vdS(vdW(u, 1 + q * .18, 2.4 + q * .18)); c.beginPath(); c.arc(cx, cy, rr, 0, 6.2832); c.strokeStyle = 'rgba(255,255,255,.2)'; c.lineWidth = 2; c.stroke();
+          if (fr > 0) { c.beginPath(); c.moveTo(cx, cy); c.arc(cx, cy, rr - 6, -Math.PI / 2, -Math.PI / 2 + fr * 6.2832); c.closePath(); c.fillStyle = 'rgba(242,178,76,.88)'; c.fill(); } }
+        vdA(c, vdW(u, 2, 2.8), 8, () => dlL(c, r.v >= 24 ? 'each circle is one day' : 'one circle is one day', CX, 1560, 18, INK3, 'center', .22));
+      }
+      c.restore();
     });
   } });
-  /* rhythm */
-  if (m.rhythm) S_.push({ id: 'rhythm', dur: 4.2, chrome: true, draw(c, t) {
-    const R = m.rhythm, n = R.bars.length, gap = n > 8 ? 10 : 18, bw = (AW - (n - 1) * gap) / n, y0 = 1520, ch = 640, mx = Math.max(1, ...R.bars.map(b => b.fs.length)), bh = Math.max(6, Math.min(64, ch / mx - 4));
-    vdCaps(c, R.cap, M, 330, 26, INK3, vdW(t, .1, .6));
-    vdText(c, R.big.toUpperCase(), M - 6, 540, DLFN.d8, 200, A, vdW(t, .15, .9), 'left', AW);
-    vdText(c, plural(R.n, m.all ? 'film' : 'watch'), M, 616, DLFN.pi, 40, INK2, vdW(t, .6, 1.2), 'left', AW);
-    const dim = vdE3(vdW(t, 2.7, 3.3));
+  if (m.rhythm) S_.push({ id: 'rhythm', dur: 5.8, chrome: true, tint: A, urls: m.rhythm.bars[m.rhythm.pk].fs.slice(0, 4).map(f => [f, 220]), draw(c, t) {
+    const R = m.rhythm, n = R.bars.length, gap = n > 8 ? 12 : 22, bw = (AW - (n - 1) * gap) / n, y0 = 1600, ch = 330, mx = Math.max(1, ...R.bars.map(b => b.fs.length)), bh = Math.max(6, Math.min(56, ch / mx - 4));
+    vdCaps(c, R.cap, M, 400, 26, INK3, vdW(t, .2, 1.3), 'left', .3);
+    vdText(c, R.big.toUpperCase(), M - 4, 600, DLFN.d8, 190, INK, vdW(t, .4, 1.8), 'left', AW);
+    vdA(c, vdW(t, 1.1, 2.1), 14, () => dlT(c, plural(R.n, m.all ? 'film' : 'watch') + ' that ' + (m.all ? 'decade' : 'month') + '.', M, 690, DLFN.pi, 42, INK2, 'left', AW));
+    const dim = vdS(vdW(t, 3.2, 4.2)), pf = R.bars[R.pk].fs.slice(0, 4), ppw = 220, pph = 330, pgap = 24, ptw = pf.length * ppw + (pf.length - 1) * pgap;
+    pf.forEach((f, i) => { const d0 = 1.4 + i * .3, x = (W - ptw) / 2 + i * (ppw + pgap); vdA(c, vdW(t, d0, d0 + 1.4), 30, () => vdPoster(c, f, x, 800, ppw, pph, { sh: vdW(t, d0 + 1, d0 + 2.6) })); });
     R.bars.forEach((b, i) => {
-      const x = M + i * (bw + gap), p = vdE3(vdW(t, .5 + i * (n > 8 ? .09 : .16), 1.5 + i * (n > 8 ? .09 : .16))), isPk = i === R.pk;
-      c.save(); c.globalAlpha *= isPk ? 1 : 1 - .55 * dim;
-      b.fs.forEach((f, j) => { const fr = clamp(p * b.fs.length - j, 0, 1); if (fr <= 0) return; const top = y0 - (j + 1) * (bh + 4) + 4; dlRR(c, x, top + bh * (1 - fr), bw, bh * fr, 3); c.fillStyle = palOf(f).a; c.fill(); });
+      const x = M + i * (bw + gap), d0 = .6 + i * (n > 8 ? .1 : .16), p = vdS(vdW(t, d0, d0 + 1.5)), isPk = i === R.pk;
+      c.save(); c.globalAlpha *= isPk ? 1 : 1 - .6 * dim;
+      b.fs.forEach((f, j) => { const fr = clamp(p * b.fs.length - j, 0, 1); if (fr <= 0) return; const top = y0 - (j + 1) * (bh + 4) + 4; dlRR(c, x, top + bh * (1 - fr), bw, bh * fr, Math.min(6, bw / 2)); c.fillStyle = palOf(f).a; c.fill(); });
       c.restore();
-      vdCaps(c, b.l, x + bw / 2, y0 + 46, 18, isPk && dim > 0 ? A : INK3, p, 'center', .06);
+      vdCaps(c, b.l, x + bw / 2, y0 + 50, 18, isPk && dim > 0 ? A : INK3, vdW(t, d0 + .3, d0 + 1.2), 'center', .06);
     });
-    c.fillStyle = 'rgba(255,255,255,.16)'; c.fillRect(M, y0 + 10, AW * vdEX(vdW(t, .3, 1.1)), 2);
-    const pk = R.bars[R.pk], px = M + R.pk * (bw + gap); c.fillStyle = A; c.fillRect(px, y0 + 10, bw * dim, 4);
+    c.fillStyle = 'rgba(255,255,255,.14)'; c.fillRect(M, y0 + 12, AW * vdS(vdW(t, .5, 1.7)), 2);
+    const px = M + R.pk * (bw + gap); c.fillStyle = A; c.fillRect(px, y0 + 12, bw * dim, 3);
   } });
-  /* wall */
   if (m.wall) {
-    const wl = m.wall, n = wl.length, gap = 6, top = 360, bot = 1560, ah = bot - top, g = dlGrid(n, AW, ah, gap, 0), pw = g.pw, ph = pw * 1.5, gh = g.rows * ph + (g.rows - 1) * gap, oy = top + Math.max(0, (ah - gh) / 2);
-    const pos = wl.map((f, i) => { const r = Math.floor(i / g.cols), cc = i % g.cols, inRow = r === g.rows - 1 ? n - g.cols * (g.rows - 1) : g.cols, rw = inRow * pw + (inRow - 1) * gap; return { f, x: M + (AW - rw) / 2 + cc * (pw + gap), y: oy + r * (ph + gap) }; });
-    S_.push({ id: 'wall', dur: 4, chrome: true, urls: wl.map(f => [f, pw]), draw(c, t, sc) {
-      vdCaps(c, m.all ? 'The whole shelf' : 'Everything I watched', M, 300, 26, INK3, vdW(t, .1, .6));
-      c.save(); const k = 1 + .03 * vdW(t, .4, sc.dur); c.translate(CX, (top + bot) / 2); c.scale(k, k); c.translate(-CX, -(top + bot) / 2);
-      pos.forEach((q, i) => { const d0 = .25 + i * (2 / n), p = vdE3(vdW(t, d0, d0 + .5)); if (p <= 0) return; const s = .88 + .12 * p, cx = q.x + pw / 2, cy = q.y + ph / 2;
-        c.save(); c.translate(cx, cy); c.scale(s, s); c.translate(-cx, -cy); vdPoster(c, q.f, q.x, q.y, pw, ph, { a: p, shadow: false, r: Math.max(2, pw * .03) }); c.restore(); });
+    const wl = m.wall, n = wl.length, gap = 8, top = 360, bot = 1560, ah = bot - top, g = dlGrid(n, AW, ah, gap, 0), pw = g.pw, ph = pw * 1.5, gh = g.rows * ph + (g.rows - 1) * gap, oy = top + Math.max(0, (ah - gh) / 2);
+    const pos = wl.map((f, i) => { const r = Math.floor(i / g.cols), cc = i % g.cols, inRow = r === g.rows - 1 ? n - g.cols * (g.rows - 1) : g.cols, rw = inRow * pw + (inRow - 1) * gap; return { f, r, cc, x: M + (AW - rw) / 2 + cc * (pw + gap), y: oy + r * (ph + gap) }; });
+    S_.push({ id: 'wall', dur: 5.6, chrome: true, tint: A, urls: wl.map(f => [f, pw]), draw(c, t, sc) {
+      vdCaps(c, m.all ? 'The whole shelf' : 'Everything I watched', M, 300, 26, INK3, vdW(t, .2, 1.3), 'left', .3);
+      c.save(); const k = 1 + .035 * vdW(t, 0, sc.dur); c.translate(CX, (top + bot) / 2); c.scale(k, k); c.translate(-CX, -(top + bot) / 2);
+      pos.forEach((q, i) => { const d0 = .5 + (q.r * g.cols + q.cc) * (2.4 / n), p = vdS(vdW(t, d0, d0 + 1)); if (p <= 0) return; const s = .94 + .06 * p, cx = q.x + pw / 2, cy = q.y + ph / 2;
+        const sh = vdS(vdW(t, 3.2, 4)) * (.5 + .5 * Math.sin((q.cc + q.r) * .7 - t * 1.7)), al = p * (1 - .22 * vdS(vdW(t, 3.2, 4)) + .22 * sh);
+        c.save(); c.translate(cx, cy + (1 - p) * 14); c.scale(s, s); c.translate(-cx, -cy); vdPoster(c, q.f, q.x, q.y, pw, ph, { a: al, shadow: false, r: Math.max(2, pw * .03) }); c.restore(); });
       c.restore();
-      vdText(c, plural(m.films.length, 'film') + ', ' + m.label, M, 1650, DLFN.d8, 64, INK, vdW(t, 2.2, 2.9), 'left', AW);
+      vdText(c, plural(m.films.length, 'film') + ', ' + m.label, M, 1680, DLFN.d8, 58, INK, vdW(t, 2.8, 4), 'left', AW);
     } });
   }
-  /* top five */
-  if (m.tops.length >= 3) {
-    const tp = m.tops, nT = tp.length, per = .95, st0 = .35, order = [...tp].reverse();
-    S_.push({ id: 'top', dur: st0 + (nT - 1) * per + 2.6, chrome: true, riser: st0 + (nT - 1) * per, urls: tp.map(f => [f, 500]), draw(c, t, sc) {
-      const last = nT - 1;
+  if (m.tops.length >= (dls().topsrc === 'picks' ? 1 : 3)) {
+    const tp = m.tops, nT = tp.length, per = 2.1, st0 = .4, order = [...tp].reverse(), last = nT - 1;
+    S_.push({ id: 'top', dur: st0 + last * per + 3.8, chrome: true, tint: A, riser: st0 + last * per, urls: tp.map(f => [f, 780]),
+      back(c, t, a, T) { order.forEach((f, k) => { const u = t - (st0 + k * per), al = vdS(vdW(u, .1, 1.1)) * (k < last ? 1 - vdS(vdW(u, per - .6, per + .05)) : 1); vdBackdrop(c, f, 780, al * a, T); }); },
+      draw(c, t, sc, T) {
       order.forEach((f, k) => {
-        const u = t - (st0 + k * per), pin = vdE3(vdW(u, 0, .5)), pout = k < last ? vdE3(vdW(u, per - .3, per)) : 0, a = pin * (1 - pout), rank = nT - k;
-        if (a <= 0.003) return;
-        const dx = (1 - pin) * 90 - pout * 90, tint = dlAccent(f), rg = c.createRadialGradient(CX, 520, 0, CX, 520, 1100);
-        rg.addColorStop(0, tint + (k === last ? '70' : '48')); rg.addColorStop(1, tint + '00');
-        c.save(); c.globalAlpha *= a; c.fillStyle = rg; c.fillRect(0, 0, W, H);
-        c.font = DLFN.d8(560); c.lineWidth = 3; c.strokeStyle = 'rgba(255,255,255,.26)'; c.textAlign = 'left'; c.textBaseline = 'alphabetic'; c.strokeText(String(rank), M - 16 + dx * .4, 1130);
-        const pw = 500, ph = 750, x = (W - pw) / 2 + dx + 40, y = 400, kk = k === last ? 1 + .04 * vdW(u, .3, 2.4) : 1;
-        c.save(); c.translate(x + pw / 2, y + ph / 2); c.scale(kk, kk); c.translate(-(x + pw / 2), -(y + ph / 2)); vdPoster(c, f, x, y, pw, ph); c.restore();
-        dlT(c, f.title.toUpperCase(), CX + dx * .5, 1310, DLFN.d8, 80, INK, 'center', AW);
-        const dr = (f.directors && f.directors[0] ? f.directors[0].name : ''), meta = [dr, f.year].filter(Boolean).join('  ·  ');
-        if (meta) dlL(c, meta, CX + dx * .5, 1368, 23, INK3, 'center');
-        dlStars(c, CX + dx * .5, 1450, 54, f.rating * vdEX(vdW(u, .3, 1)), A, 'center');
+        const u = t - (st0 + k * per), pin = vdS(vdW(u, .15, 1.05)), pout = k < last ? vdS(vdW(u, per - .6, per + .05)) : 0, a = pin * (1 - pout), rank = nT - k;
+        if (a <= .003) return;
+        const dx = (1 - pin) * 36 - pout * 36, tn = tint(f), [r, g, b] = rgbOf(tn), isL = k === last;
+        c.save(); c.globalAlpha *= a;
+        const rg = c.createRadialGradient(CX, 740, 0, CX, 740, 1000); rg.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (isL ? .3 : .2) + ')'); rg.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)'); c.fillStyle = rg; c.fillRect(0, 0, W, H);
+        c.font = DLFN.d8(820); c.fillStyle = 'rgba(255,255,255,.05)'; c.textAlign = 'center'; c.textBaseline = 'alphabetic'; c.fillText(String(rank), CX + dx * .5, 1250);
+        const pw = 620, ph = 930, x = (W - pw) / 2 + dx, y = 280 + Math.sin(T * .8 + k) * 6, kk = 1 + (isL ? .035 : .025) * vdW(u, .2, per + 1.6);
+        c.save(); c.translate(x + pw / 2, y + ph / 2); c.scale(kk, kk); c.translate(-(x + pw / 2), -(y + ph / 2)); vdPoster(c, f, x, y, pw, ph, { sh: vdW(u, .5, 2.2) }); c.restore();
+        dlT(c, f.title.toUpperCase(), CX + dx * .6, 1340, DLFN.d8, 74, INK, 'center', AW);
+        const dr = f.directors && f.directors[0] ? f.directors[0].name : '', meta = [dr, f.year].filter(Boolean).join('   ·   ');
+        if (meta) dlL(c, meta, CX + dx * .6, 1400, 22, INK3, 'center', .22);
+        dlStars(c, CX + dx * .6, 1482, 50, f.rating * vdS(vdW(u, .5, 1.5)), A, 'center');
         c.restore();
       });
-      const lastU = t - (st0 + last * per);
-      vdCaps(c, lastU > .2 ? 'My favourite' : 'My highest rated', M, 300, 26, lastU > .2 ? A : INK3, 1);
+      const lu = t - (st0 + last * per), fav = lu > .5, fa = fav ? vdS(vdW(lu, .5, 1.4)) : 1 - vdS(vdW(t, 0, .01));
+      vdCaps(c, m.topsLbl[0], M, 226, 26, INK3, (1 - fa) * vdS(vdW(t, .1, 1)), 'left', .3);
+      vdCaps(c, m.topsLbl[1], M, 226, 26, A, fa * (fav ? 1 : 0), 'left', .3);
     } });
   }
-  /* taste */
   if (m.genres) {
-    const gs = m.genres, mx = gs[0][1];
-    S_.push({ id: 'taste', dur: 3.6, chrome: true, draw(c, t) {
-      vdCaps(c, 'I lean towards', M, 330, 26, INK3, vdW(t, .1, .6));
-      vdText(c, gs[0][0].toUpperCase(), M - 6, 600, DLFN.d8, 230, A, vdW(t, .15, .95), 'left', AW);
-      vdText(c, gs[0][1] + ' of ' + plural(m.films.length, 'film') + ', ' + Math.round(gs[0][1] / m.films.length * 100) + '%', M, 680, DLFN.pi, 40, INK2, vdW(t, .6, 1.2), 'left', AW);
+    const gs = m.genres, mx = gs[0][1], gf = m.films.filter(f => (f.genres || []).includes(gs[0][0])).sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 4);
+    S_.push({ id: 'taste', dur: 5.8, chrome: true, tint: A, urls: gf.map(f => [f, 200]), draw(c, t) {
+      const gpw = 200, gph = 300, ggap = 22, gtw = gf.length * gpw + (gf.length - 1) * ggap;
+      gf.forEach((f, i) => { const d0 = 2.4 + i * .3; vdA(c, vdW(t, d0, d0 + 1.4), 30, () => vdPoster(c, f, (W - gtw) / 2 + i * (gpw + ggap), 1440, gpw, gph, { sh: vdW(t, d0 + 1, d0 + 2.6) })); });
+      vdCaps(c, 'I lean towards', M, 400, 26, INK3, vdW(t, .2, 1.3), 'left', .3);
+      vdText(c, gs[0][0].toUpperCase(), M - 4, 620, DLFN.d8, 210, A, vdW(t, .4, 1.8), 'left', AW);
+      vdA(c, vdW(t, 1.1, 2.1), 14, () => dlT(c, gs[0][1] + ' of ' + plural(m.films.length, 'film') + ', ' + Math.round(gs[0][1] / m.films.length * 100) + ' percent.', M, 710, DLFN.pi, 42, INK2, 'left', AW));
       gs.forEach(([g, n], i) => {
-        const y = 920 + i * 150, s0 = .8 + i * .35, p = vdW(t, s0, s0 + .9);
-        vdText(c, g, M, y + 36, DLFN.u5, 40, i ? INK2 : INK, vdW(t, s0, s0 + .5), 'left', AW * .7);
-        c.save(); c.globalAlpha *= vdW(t, s0 + .2, s0 + .6); dlL(c, String(n), W - M, y + 34, 26, INK3, 'right'); c.restore();
-        c.fillStyle = 'rgba(255,255,255,.12)'; c.fillRect(M, y + 62, AW, 10);
-        c.fillStyle = i ? 'rgba(198,198,198,.85)' : A; c.fillRect(M, y + 62, AW * (n / mx) * vdEX(p), 10);
+        const y = 900 + i * 128, s0 = 1.5 + i * .45, p = vdS(vdW(t, s0 + .2, s0 + 1.6));
+        vdText(c, g, M, y + 34, DLFN.u5, 38, i ? INK2 : INK, vdW(t, s0, s0 + .9), 'left', AW * .7);
+        c.save(); c.globalAlpha *= vdS(vdW(t, s0 + .3, s0 + 1)); dlL(c, String(n), W - M, y + 32, 24, INK3, 'right', .1); c.restore();
+        c.save(); c.globalAlpha *= vdS(vdW(t, s0, s0 + .9)); dlRR(c, M, y + 62, AW, 6, 3); c.fillStyle = 'rgba(255,255,255,.1)'; c.fill(); c.restore();
+        if (p > 0) { dlRR(c, M, y + 62, Math.max(6, AW * (n / mx) * p), 6, 3); c.fillStyle = i ? 'rgba(198,198,198,.8)' : A; c.fill(); }
       });
     } });
   }
-  /* director */
   if (m.dir) {
-    const D = m.dir, np = Math.min(4, D.fs.length), pw = 216, ph = 324, tw = np * pw + (np - 1) * 22, x0 = (W - tw) / 2;
-    S_.push({ id: 'dir', dur: 3, chrome: true, urls: D.fs.slice(0, np).map(f => [f, pw]), draw(c, t) {
-      vdCaps(c, 'The director I kept coming back to', M, 420, 24, INK3, vdW(t, .1, .6), 'left', .14);
-      vdText(c, D.name.toUpperCase(), M - 4, 660, DLFN.d8, 210, INK, vdW(t, .15, .95), 'left', AW);
-      vdText(c, plural(D.fs.length, 'film') + ' watched', M, 740, DLFN.pi, 40, INK2, vdW(t, .6, 1.2), 'left', AW);
-      D.fs.slice(0, np).forEach((f, i) => { const p = vdE3(vdW(t, .5 + i * .18, 1.2 + i * .18)), x = x0 + i * (pw + 22), y = 920 + (1 - p) * 60;
-        vdPoster(c, f, x, y, pw, ph, { a: p }); const q = vdW(t, .9 + i * .18, 1.4 + i * .18); if (q > 0) { c.save(); c.globalAlpha *= q; dlT(c, f.title, x, 920 + ph + 40, DLFN.u5, 24, INK2, 'left', pw); c.restore(); } });
-      if (D.fs.length > np) vdCaps(c, '+' + (D.fs.length - np) + ' more', CX, 1410, 22, INK3, vdW(t, 1.6, 2.2), 'center');
+    const D = m.dir, np = Math.min(3, D.fs.length), pw = 270, ph = 405, tw = np * pw + (np - 1) * 24, x0 = (W - tw) / 2;
+    S_.push({ id: 'dir', dur: 5.6, chrome: true, tint: tint(D.fs[0]), urls: [[D.fs[0], 500], ...D.fs.slice(0, np).map(f => [f, pw])], back(c, t, a, T) { vdBackdrop(c, D.fs[0], 500, a * vdS(vdW(t, 0, 1.6)), T); }, draw(c, t) {
+      vdCaps(c, 'The director I kept coming back to', M, 420, 22, INK3, vdW(t, .2, 1.3), 'left', .22);
+      vdText(c, D.name.toUpperCase(), M - 4, 650, DLFN.d8, 190, INK, vdW(t, .4, 1.8), 'left', AW);
+      vdA(c, vdW(t, 1.1, 2.1), 14, () => dlT(c, plural(D.fs.length, 'film') + ' watched.', M, 740, DLFN.pi, 42, INK2, 'left', AW));
+      D.fs.slice(0, np).forEach((f, i) => { const d0 = 1.2 + i * .35, x = x0 + i * (pw + 24);
+        vdA(c, vdW(t, d0, d0 + 1.3), 34, () => vdPoster(c, f, x, 900, pw, ph, { sh: vdW(t, d0 + 1, d0 + 2.6) }));
+        const q = vdW(t, d0 + .6, d0 + 1.6); if (q > 0) { c.save(); c.globalAlpha *= vdS(q); dlT(c, f.title, x, 900 + ph + 48, DLFN.u5, 24, INK2, 'left', pw); c.restore(); } });
+      if (D.fs.length > np) vdCaps(c, '+ ' + (D.fs.length - np) + ' more', CX, 1500, 22, INK3, vdW(t, 3, 4), 'center', .22);
     } });
   }
-  /* colour */
   if (m.stripes) {
-    const st = m.stripes, ws = st.map(f => f.runtime || 100), tot = ws.reduce((a, b) => a + b, 0), top = 520, hh = 880; let acc = 0;
+    const st = m.stripes, ws = st.map(f => f.runtime || 100), tot = ws.reduce((a, b) => a + b, 0), top = 520, hh = 860; let acc = 0;
     const xs = st.map((f, i) => { const x = M + AW * acc / tot, w = AW * ws[i] / tot; acc += ws[i]; return [x, w, palOf(f).a]; });
-    S_.push({ id: 'colour', dur: 3.6, chrome: true, draw(c, t) {
-      vdCaps(c, m.all ? 'The colour of it all' : 'The colour of my year', M, 330, 26, INK3, vdW(t, .1, .6));
-      const wp = vdIO(vdW(t, .4, 2.1));
-      c.save(); c.beginPath(); c.rect(M, top, AW * wp, hh); c.clip(); xs.forEach(([x, w, col]) => { c.fillStyle = col; c.fillRect(x, top, w + .6, hh); }); c.restore();
-      if (wp > 0 && wp < 1) { c.fillStyle = 'rgba(255,255,255,.7)'; c.fillRect(M + AW * wp - 1.5, top - 14, 3, hh + 28); }
-      vdText(c, 'One stripe per watch, as wide as the film is long.', M, 1480, DLFN.pi, 38, INK2, vdW(t, 2.2, 2.9), 'left', AW);
+    S_.push({ id: 'colour', dur: 5.4, chrome: true, tint: A, draw(c, t) {
+      vdCaps(c, m.all ? 'The colour of it all' : 'The colour of my year', M, 400, 26, INK3, vdW(t, .2, 1.3), 'left', .3);
+      const wp = vdS(vdW(t, .7, 3.4));
+      c.save(); dlRR(c, M, top, AW, hh, 10); c.clip(); c.beginPath(); c.rect(M, top, AW * wp, hh); c.clip(); xs.forEach(([x, w, col]) => { c.fillStyle = col; c.fillRect(x, top, w + .6, hh); }); c.restore();
+      vdA(c, vdW(t, 3, 4.2), 14, () => dlT(c, 'One stripe for every watch, as wide as the film is long.', M, 1470, DLFN.pi, 38, INK2, 'left', AW));
     } });
   }
-  /* end */
-  S_.push({ id: 'end', dur: 3.2, chrome: false, draw(c, t) {
-    const p = vdE3(vdW(t, .1, .9)); c.save(); c.globalAlpha *= p; dlLogo(c, CX - 70, 720 + (1 - p) * 20, 3.9); c.restore();
-    vdText(c, 'Dailies', CX, 1050, DLFN.d8, 200, INK, vdW(t, .35, 1.1), 'center', AW);
-    vdCaps(c, m.all ? 'My film life' : 'My ' + m.yr + ' in film', CX, 1130, 26, INK3, vdW(t, .9, 1.5), 'center');
-    const lw = 120 * vdEX(vdW(t, 1.1, 1.7)); c.fillStyle = A; c.fillRect(CX - lw / 2, 1180, lw, 4);
-    vdText(c, vdHost(), CX, 1270, DLFN.u6, 42, A, vdW(t, 1.4, 2), 'center', AW);
+  S_.push({ id: 'end', dur: 5.2, chrome: false, tint: A, back(c, t, a, T) { if (fav) vdBackdrop(c, fav, 500, a * .8 * vdS(vdW(t, 0, 1.6)), T); }, draw(c, t, sc, T) {
+    vdRing(c, CX, 860, 340, T + 20, vdS(vdW(t, .2, 2)));
+    const p = vdW(t, .3, 1.8); vdA(c, p, 20, () => dlLogo(c, CX - 66, 700, 3.7));
+    vdText(c, 'Dailies', CX, 1040, DLFN.d8, 190, INK, vdW(t, .8, 2.2), 'center', AW);
+    vdCaps(c, m.all ? 'My film life' : 'My ' + m.yr + ' in film', CX, 1114, 24, INK3, vdW(t, 1.5, 2.6), 'center', .3);
+    const lw = 110 * vdS(vdW(t, 1.9, 3)); c.fillStyle = A; c.fillRect(CX - lw / 2, 1170, lw, 3);
+    vdText(c, vdHost(), CX, 1262, DLFN.u6, 40, A, vdW(t, 2.4, 3.6), 'center', AW);
   } });
-  let s0 = 0; S_.forEach(s => { s.start = s0; s0 += s.dur; });
-  return { scenes: S_, total: s0 };
+  const ids = S_.map(s => s.id), off = dls().vid.off; S_ = S_.filter(s => s.id === 'title' || s.id === 'end' || !off.includes(s.id));
+  let s0 = 0; S_.forEach((s, i) => { s.start = i ? s0 - vdOV : 0; s0 = s.start + s.dur; });
+  return { scenes: S_, total: s0, ids };
 }
 
 /* ---- drawing helpers specific to the video ---- */
-function vdCaps(c, s, x, y, z, col, p, al = 'left', sp = .18) {
-  if (p <= 0) return; c.save(); c.globalAlpha *= clamp(p * 1.6, 0, 1); dlL(c, s, x, y + (1 - vdE3(p)) * 14, z, col, al, sp); c.restore();
+function vdCaps(c, s, x, y, z, col, p, al = 'left', sp = .22) {
+  if (p <= 0) return; const e = vdS(p); c.save(); c.globalAlpha *= e; dlL(c, s, x, y + (1 - e) * 10, z, col, al, sp); c.restore();
 }
-function vdText(c, s, x, y, font, z, col, p, al = 'left', max = 0, rise = .85) {
+function vdText(c, s, x, y, font, z, col, p, al = 'left', max = 0, rise = 1) {
   if (p <= 0) return; s = String(s); if (max) z = dlFitText(c, s, font, z, max, 10);
-  c.font = font(z); const w = c.measureText(s).width, x0 = al === 'center' ? x - w / 2 : al === 'right' ? x - w : x;
-  c.save(); c.beginPath(); c.rect(x0 - 14, y - z * 1.02, w + 28, z * 1.3); c.clip();
-  c.globalAlpha *= clamp(p * 2.4, 0, 1); c.translate(0, (1 - vdE3(p)) * z * rise); dlT(c, s, x, y, font, z, col, al); c.restore();
+  const e = vdS(p); c.save(); c.globalAlpha *= e; c.translate(0, (1 - e) * Math.min(34, z * .16)); dlT(c, s, x, y, font, z, col, al); c.restore();
 }
 function vdPoster(c, f, x, y, w, h, o = {}) {
   const im = VDI.get(dlPosterURL(f, w)) || null, p = palOf(f), r = o.r == null ? Math.max(3, w * .02) : o.r;
   c.save(); if (o.a != null) c.globalAlpha *= o.a;
-  if (o.shadow !== false && w > 140) { c.save(); c.shadowColor = 'rgba(0,0,0,.55)'; c.shadowBlur = w * .12; c.shadowOffsetY = w * .05; dlRR(c, x, y, w, h, r); c.fillStyle = p.a; c.fill(); c.restore(); }
+  if (o.shadow !== false && w > 140) { c.save(); c.shadowColor = 'rgba(0,0,0,.55)'; c.shadowBlur = w * .14; c.shadowOffsetY = w * .05; dlRR(c, x, y, w, h, r); c.fillStyle = p.a; c.fill(); c.restore(); }
   c.save(); dlRR(c, x, y, w, h, r); c.clip();
   if (im) dlCover(c, im, x, y, w, h);
   else {
@@ -4105,69 +4270,77 @@ function vdPoster(c, f, x, y, w, h, o = {}) {
     const z = Math.max(12, w * .17); c.font = DLFN.d8(z); const ls = dlWrap(c, f.title.toUpperCase(), w * .84).slice(0, 5);
     ls.forEach((l, i) => dlT(c, l, x + w * .08, y + h - w * .08 - (ls.length - 1 - i) * z * .92, DLFN.d8, z, p.k));
   }
+  if (o.sh > 0 && o.sh < 1) { const bw = w * .5, bx = x - bw * 1.4 + o.sh * (w + bw * 2.8); c.save(); c.transform(1, 0, -.3, 1, 0, 0); const g = c.createLinearGradient(bx, 0, bx + bw, 0); g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(.5, 'rgba(255,255,255,.17)'); g.addColorStop(1, 'rgba(255,255,255,0)'); c.fillStyle = g; c.fillRect(bx, y - 4, bw, h + 8); c.restore(); }
   c.restore();
-  c.save(); dlRR(c, x + .5, y + .5, w - 1, h - 1, r); c.strokeStyle = 'rgba(255,255,255,.13)'; c.lineWidth = 1; c.stroke(); c.restore();
+  c.save(); dlRR(c, x + .5, y + .5, w - 1, h - 1, r); c.strokeStyle = 'rgba(255,255,255,.12)'; c.lineWidth = 1; c.stroke(); c.restore();
   c.restore();
 }
 function vdMakeBgs(K) {
   const out = [];
   for (let v = 0; v < 3; v++) {
     const cv = document.createElement('canvas'); cv.width = Math.round(VD.W * K); cv.height = Math.round(VD.H * K); const c = cv.getContext('2d'); c.scale(K, K);
-    const g = c.createLinearGradient(0, 0, 0, VD.H); g.addColorStop(0, '#2d2d2d'); g.addColorStop(1, '#171717'); c.fillStyle = g; c.fillRect(0, 0, VD.W, VD.H);
-    const vg = c.createRadialGradient(VD.W / 2, VD.H / 2, VD.W * .35, VD.W / 2, VD.H / 2, VD.H * .72); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.45)'); c.fillStyle = vg; c.fillRect(0, 0, VD.W, VD.H);
-    c.save(); c.globalAlpha = .075; c.globalCompositeOperation = 'overlay'; c.translate(v * 61, v * 83); c.fillStyle = c.createPattern(dlGrain(), 'repeat'); c.fillRect(-120, -120, VD.W + 240, VD.H + 240); c.restore();
+    const g = c.createLinearGradient(0, 0, 0, VD.H); g.addColorStop(0, '#222222'); g.addColorStop(1, '#131313'); c.fillStyle = g; c.fillRect(0, 0, VD.W, VD.H);
+    const vg = c.createRadialGradient(VD.W / 2, VD.H / 2, VD.W * .3, VD.W / 2, VD.H / 2, VD.H * .7); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.5)'); c.fillStyle = vg; c.fillRect(0, 0, VD.W, VD.H);
+    c.save(); c.globalAlpha = .05; c.globalCompositeOperation = 'overlay'; c.translate(v * 61, v * 83); c.fillStyle = c.createPattern(dlGrain(), 'repeat'); c.fillRect(-120, -120, VD.W + 240, VD.H + 240); c.restore();
     out.push(cv);
   }
   return out;
 }
 
-/* ---- one frame ---- */
+/* ---- one frame: a soft colour glow behind, scenes that overlap and dissolve ---- */
 function vdFrame(c, V, T, fn) {
-  const K = V.K; c.setTransform(1, 0, 0, 1, 0, 0); c.drawImage(V.bgs[fn % 3], 0, 0); c.setTransform(K, 0, 0, K, 0, 0);
+  const K = V.K, W = VD.W, H = VD.H; c.setTransform(1, 0, 0, 1, 0, 0); c.drawImage(V.bgs[Math.floor(T * 8) % 3], 0, 0); c.setTransform(K, 0, 0, K, 0, 0);
   T = clamp(T, 0, V.total - .001);
-  const i = Math.max(0, V.scenes.findIndex(s => T < s.start + s.dur)), sc = V.scenes[i], t = T - sc.start;
-  const a = Math.min(i === 0 ? 1 : vdW(t, 0, .35), 1 - vdW(t, sc.dur - (i === V.scenes.length - 1 ? .7 : .35), sc.dur));
-  c.save(); c.globalAlpha = a; sc.draw(c, t, sc); c.restore();
-  if (sc.chrome) {
-    c.save(); c.globalAlpha = a; dlLogo(c, VD.M, 80, .7); dlL(c, 'Dailies', VD.M + 36 * .7 + 12, 98, 21, DLC.ink3);
-    dlL(c, V.m.all ? 'All time' : String(V.m.yr), VD.W - VD.M, 98, 21, DLC.ink3, 'right'); c.restore();
-  }
-  const pr = T / V.total; c.fillStyle = 'rgba(255,255,255,.12)'; c.fillRect(VD.M, 1842, VD.W - 2 * VD.M, 2); c.fillStyle = VD.AMBER; c.fillRect(VD.M, 1842, (VD.W - 2 * VD.M) * pr, 2);
+  const n = V.scenes.length, act = [];
+  V.scenes.forEach((sc, i) => { if (T >= sc.start && T < sc.start + sc.dur) { const t = T - sc.start, ol = i === n - 1 ? 1.4 : vdOV; act.push({ sc, t, a: 1 - vdS(vdW(t, sc.dur - ol, sc.dur)) }); } });
+  vdPerfs(c, T); vdMotes(c, T);
+  act.forEach(({ sc, t, a }) => { if (sc.back) sc.back(c, t, a, T); });
+  const gx = W / 2 + Math.sin(T * .2) * 130, gy = H * .4 + Math.cos(T * .15) * 100;
+  act.forEach(({ sc, t, a }) => {
+    const ia = sc.start === 0 ? 1 : vdS(vdW(t, 0, 1.2)), [r, g, b] = rgbOf(sc.tint || VD.AMBER), rg = c.createRadialGradient(gx, gy, 0, gx, gy, 1200);
+    rg.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (.17 * a * ia) + ')'); rg.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)'); c.fillStyle = rg; c.fillRect(0, 0, W, H);
+  });
+  act.forEach(({ sc, t, a }) => {
+    c.save(); c.globalAlpha = a; sc.draw(c, t, sc, T); c.restore();
+    if (sc.chrome) { c.save(); c.globalAlpha = a * vdS(vdW(t, .4, 1.4)); dlLogo(c, VD.M, 80, .62); dlL(c, 'Dailies', VD.M + 36 * .62 + 12, 97, 20, DLC.ink3, 'left', .2); dlL(c, V.m.all ? 'All time' : String(V.m.yr), VD.W - VD.M, 97, 20, DLC.ink3, 'right', .2);
+      const ch = V.scenes.filter(x => x.chrome), ci = ch.indexOf(sc) + 1; dlL(c, String(ci).padStart(2, '0') + '  /  ' + String(ch.length).padStart(2, '0'), VD.M, 1796, 18, DLC.ink3, 'left', .2);
+      c.strokeStyle = 'rgba(255,255,255,.16)'; c.lineWidth = 2; [[44, 44, 1, 1], [VD.W - 44, 44, -1, 1], [44, VD.H - 44, 1, -1], [VD.W - 44, VD.H - 44, -1, -1]].forEach(([qx, qy, sx, sy]) => { c.beginPath(); c.moveTo(qx + 34 * sx, qy); c.lineTo(qx, qy); c.lineTo(qx, qy + 34 * sy); c.stroke(); }); c.restore(); }
+  });
+  const pr = T / V.total; c.fillStyle = 'rgba(255,255,255,.08)'; c.fillRect(VD.M, 1838, VD.W - 2 * VD.M, 2); c.fillStyle = 'rgba(242,178,76,.7)'; c.fillRect(VD.M, 1838, (VD.W - 2 * VD.M) * pr, 2);
 }
 
-/* ---- music: a slow chord bed, soft plucks, a tick at each cut, a rise into the favourite ---- */
+/* ---- music: a slow warm pad, a few soft bell notes, plenty of room; no beats, no thumps ---- */
 function vdMusic(ctx, outs, V, t0) {
-  const total = V.total, hz = n => 440 * Math.pow(2, (n - 69) / 12), sr = ctx.sampleRate;
-  const master = ctx.createGain(); master.gain.setValueAtTime(0, t0); master.gain.linearRampToValueAtTime(.85, t0 + 1.6); master.gain.setValueAtTime(.85, t0 + total - 2.4); master.gain.linearRampToValueAtTime(0, t0 + total + .3);
-  const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -20; comp.ratio.value = 3; master.connect(comp); outs.forEach(o => comp.connect(o));
-  const CH = [{ b: 45, v: [57, 60, 64] }, { b: 41, v: [57, 60, 65] }, { b: 48, v: [55, 60, 64] }, { b: 43, v: [55, 59, 62] }], CL = 4.8;
-  for (let i = 0; i * CL < total; i++) {
-    const ch = CH[i % 4], s = t0 + i * CL, e = s + CL + 1.1;
-    [...ch.v.map(n => [n, .045, 1500]), [ch.b, .11, 600]].forEach(([n, vol, cut], vi) => {
-      const g = ctx.createGain(), lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = cut; lp.Q.value = .4;
-      g.gain.setValueAtTime(0, s); g.gain.linearRampToValueAtTime(vol, s + (vi === 3 ? .5 : 1.3)); g.gain.setValueAtTime(vol, s + CL - .2); g.gain.linearRampToValueAtTime(0, e);
-      lp.connect(g); g.connect(master);
-      (vi === 3 ? [['sine', 0]] : [['triangle', -5], ['sine', 5]]).forEach(([ty, dt]) => { const o = ctx.createOscillator(); o.type = ty; o.frequency.value = hz(n); o.detune.value = dt; o.connect(lp); o.start(s); o.stop(e + .1); });
+  const total = V.total, sr = ctx.sampleRate, hz = n => 440 * Math.pow(2, (n - 69) / 12);
+  const master = ctx.createGain(); master.gain.setValueAtTime(0, t0); master.gain.linearRampToValueAtTime(.8, t0 + 3); master.gain.setValueAtTime(.8, t0 + total - 3.6); master.gain.linearRampToValueAtTime(0, t0 + total);
+  const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -22; comp.ratio.value = 2.5; master.connect(comp); outs.forEach(o => comp.connect(o));
+  const rl = Math.floor(sr * 3.4), rb = ctx.createBuffer(2, rl, sr); for (let ch = 0; ch < 2; ch++) { const d = rb.getChannelData(ch); for (let i = 0; i < rl; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / rl, 2.8); }
+  const conv = ctx.createConvolver(); conv.buffer = rb; const rg = ctx.createGain(); rg.gain.value = .55; conv.connect(rg); rg.connect(master);
+  const send = ctx.createGain(); send.connect(master); send.connect(conv);
+  const padBus = ctx.createGain(); padBus.connect(send);
+  const CH = [{ b: 36, v: [55, 59, 64, 67] }, { b: 33, v: [57, 60, 64, 67] }, { b: 41, v: [57, 60, 64, 65] }, { b: 43, v: [55, 59, 62, 64] }], CL = 6.4;
+  for (let i = 0; i * CL < total + CL; i++) {
+    const ch = CH[i % 4], s = t0 + i * CL, e = s + CL + 2.4;
+    [...ch.v.map(n => [n, .03, 1100]), [ch.b, .075, 380]].forEach(([n, vol, cut], vi) => {
+      const g = ctx.createGain(), lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = cut; lp.Q.value = .3;
+      g.gain.setValueAtTime(0, s); g.gain.linearRampToValueAtTime(vol, s + 2.4); g.gain.setValueAtTime(vol, s + CL - .3); g.gain.linearRampToValueAtTime(0, e);
+      lp.connect(g); g.connect(padBus);
+      (vi === 4 ? [['sine', 0]] : [['sine', -4], ['triangle', 5]]).forEach(([ty, dt]) => { const o = ctx.createOscillator(); o.type = ty; o.frequency.value = hz(n); o.detune.value = dt; o.connect(lp); o.start(s); o.stop(e + .1); });
     });
   }
-  /* plucks with a soft echo */
-  const bus = ctx.createGain(), dl = ctx.createDelay(1), fb = ctx.createGain(), wet = ctx.createGain(), lpf = ctx.createBiquadFilter();
-  dl.delayTime.value = .375; fb.gain.value = .33; wet.gain.value = .5; lpf.type = 'lowpass'; lpf.frequency.value = 2600; bus.connect(master); bus.connect(dl); dl.connect(lpf); lpf.connect(fb); fb.connect(dl); lpf.connect(wet); wet.connect(master);
-  const pat = [0, 2, 1, 2, 0, 1, 2, 1];
-  for (let k = 0, tt = 1.8; tt < total - 2; k++, tt += .6) {
-    const ch = CH[Math.floor(tt / CL) % 4], n = ch.v[pat[k % 8]] + (k % 5 === 4 ? 24 : 12), s = t0 + tt, o = ctx.createOscillator(), g = ctx.createGain();
-    o.type = 'triangle'; o.frequency.value = hz(n); g.gain.setValueAtTime(0, s); g.gain.linearRampToValueAtTime(.03, s + .012); g.gain.exponentialRampToValueAtTime(.0008, s + .9); o.connect(g); g.connect(bus); o.start(s); o.stop(s + 1);
+  const bell = (s, n, vol, dec) => {
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, s); g.gain.linearRampToValueAtTime(vol, s + .012); g.gain.exponentialRampToValueAtTime(.0006, s + dec); g.connect(send);
+    [[1, 1], [2, .22], [3.01, .06]].forEach(([m, a]) => { const o = ctx.createOscillator(), og = ctx.createGain(); o.type = 'sine'; o.frequency.value = hz(n) * m; og.gain.value = a; o.connect(og); og.connect(g); o.start(s); o.stop(s + dec + .1); });
+  };
+  const gaps = [2.1, 2.1, 3.2, 2.1, 4.2, 2.1, 3.2, 2.1];
+  for (let k = 0, tt = 3; tt < total - 3.5; k++, tt += gaps[k % 8]) {
+    const ch = CH[Math.floor(tt / CL) % 4]; bell(t0 + tt, ch.v[(k * 3 + (k >> 2)) % 4] + (k % 3 === 2 ? 24 : 12), .04, 3.2);
   }
-  const nb = ctx.createBuffer(1, Math.floor(sr * 2), sr), nd = nb.getChannelData(0); for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
-  const noise = (s, len, type, freq, q, gainFn) => { const b = ctx.createBufferSource(); b.buffer = nb; const f = ctx.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q; const g = ctx.createGain(); gainFn(g.gain, s); b.connect(f); f.connect(g); g.connect(master); b.start(s, 0, len); return f; };
-  const thump = (s, vol) => { const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(115, s); o.frequency.exponentialRampToValueAtTime(48, s + .22); g.gain.setValueAtTime(vol, s); g.gain.exponentialRampToValueAtTime(.001, s + .3); o.connect(g); g.connect(master); o.start(s); o.stop(s + .35); };
-  V.scenes.forEach((sc, i) => {
-    const s = t0 + sc.start; if (i) { thump(s, .12); noise(s, .09, 'bandpass', 3200, 1, (gn, st) => { gn.setValueAtTime(.05, st); gn.exponentialRampToValueAtTime(.001, st + .08); }); }
-    if (sc.riser != null) {
-      const rs = t0 + sc.start + sc.riser, rl = 1.5, f = noise(rs - rl, rl + .1, 'lowpass', 250, 1.2, (gn, st) => { gn.setValueAtTime(.001, st); gn.exponentialRampToValueAtTime(.075, st + rl); gn.linearRampToValueAtTime(0, st + rl + .1); });
-      f.frequency.setValueAtTime(250, rs - rl); f.frequency.exponentialRampToValueAtTime(5200, rs); thump(rs, .22);
-    }
-  });
+  V.scenes.forEach((sc, i) => { if (i) bell(t0 + sc.start + .2, CH[Math.floor(sc.start / CL) % 4].v[0] + 24, .018, 3); });
+  V.scenes.forEach(sc => { if (sc.riser != null) {
+    const rs = t0 + sc.start + sc.riser; padBus.gain.setValueAtTime(1, rs - 1.2); padBus.gain.linearRampToValueAtTime(1.7, rs + .6); padBus.gain.setValueAtTime(1.7, rs + 2.2); padBus.gain.linearRampToValueAtTime(1, rs + 4.6);
+    bell(rs + .1, CH[Math.floor((sc.start + sc.riser) / CL) % 4].v[3] + 12, .05, 4.2);
+  } });
 }
 
 /* ---- preload ---- */
@@ -4189,7 +4362,7 @@ function vdBuild() {
 }
 function vdPaint(T) { const cv = $('#vdC'); if (!cv || !VDS.V) return; vdFrame(cv.getContext('2d'), VDS.V, T, Math.floor(T * VD.FPS)); }
 function vdUI() {
-  const st = VDS.st, a = $('#vdActs'), n = $('#vdNote'); if (!a) return;
+  const st = VDS.st, a = $('#vdActs'), n = $('#vdNote'); if (!a) return; vdOptDraw();
   const fmt = s => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
   const dur = VDS.V ? fmt(VDS.V.total) : '';
   if (st === 'idle') {
@@ -4208,8 +4381,8 @@ ACT.vdopen = () => {
   const m = vdModel(); if (m.watches < 3) { toast('Log at least 3 films for this ' + (m.all ? 'library' : 'year') + ' first'); return; }
   vdCleanup(); VDS.V = vdBuild(); VDS.st = 'idle';
   openDlg('<div class="vd"><h2>My ' + (VDS.V.m.all ? 'film life' : VDS.V.m.yr) + ' in film</h2><div class="vd-stage" id="vdStage"><canvas id="vdC" width="' + VDS.V.bgs[0].width + '" height="' + VDS.V.bgs[0].height + '"></canvas><div class="vd-ld" id="vdLd" hidden></div></div>' +
-    '<div class="vd-prog"><i id="vdP"></i></div><label class="chk vd-mus"><input type="checkbox" id="vdMusic" checked> Music</label><p class="note" id="vdNote"></p><div class="acts" id="vdActs"></div></div>', { label: 'Year video', onClose: vdCleanup });
-  dlFonts().then(() => { if (VDS.V && VDS.st === 'idle') vdPaint(2.2); }); vdUI();
+    '<div class="vd-prog"><i id="vdP"></i></div><label class="chk vd-mus"><input type="checkbox" id="vdMusic" checked> Music</label><details class="vd-opt"><summary>Make it yours</summary><div id="vdOpt"></div></details><p class="note" id="vdNote"></p><div class="acts" id="vdActs"></div></div>', { label: 'Year video', onClose: vdCleanup });
+  dlFonts().then(() => { if (VDS.V && VDS.st === 'idle') vdPaint(VD.PREV); }); vdUI(); vdWarm();
 };
 function vdCleanup() {
   VDS.token++; cancelAnimationFrame(VDS.raf);
@@ -4241,7 +4414,7 @@ async function vdRun(rec) {
   const bar = $('#vdP'); let fn = 0;
   const finish = () => {
     vdPaint(V.total - .02);
-    if (!mr) { VDS.st = 'idle'; vdUI(); bar.style.width = '0'; if (actx) setTimeout(() => { try { actx.close(); } catch (e) { } if (VDS.actx === actx) VDS.actx = null; }, 600); setTimeout(() => { if (tok === VDS.token) vdPaint(2.2); }, 500); return; }
+    if (!mr) { VDS.st = 'idle'; vdUI(); bar.style.width = '0'; if (actx) setTimeout(() => { try { actx.close(); } catch (e) { } if (VDS.actx === actx) VDS.actx = null; }, 600); setTimeout(() => { if (tok === VDS.token) vdPaint(VD.PREV); }, 500); return; }
     mr.onstop = () => {
       if (tok !== VDS.token) return; const blob = new Blob(chunks, { type: VDS.mime.split(';')[0] }); VDS.url = URL.createObjectURL(blob);
       VDS.name = 'dailies-' + (V.m.all ? 'all-time' : V.m.yr) + '.' + VDS.ext; try { VDS.file = new File([blob], VDS.name, { type: blob.type }); } catch (e) { VDS.file = null; }
@@ -4257,6 +4430,21 @@ async function vdRun(rec) {
   };
   VDS.raf = requestAnimationFrame(tick);
 }
+function vdWarm() { const V = VDS.V; if (V) vdLoad(V, () => { }).then(() => { if (VDS.V === V && VDS.st === 'idle') vdPaint(VD.PREV); }).catch(() => { }); }
+function vdRebuild() { if (VDS.st !== 'idle' || !VDS.V) return; const old = VDS.V, m = vdModel(); VDS.V = Object.assign({}, old, { m }, vdScenes(m)); vdPaint(VD.PREV); vdUI(); vdWarm(); }
+function vdOptDraw() {
+  const box = $('#vdOpt'); if (!box || !VDS.V) return; const d = dls(), v = d.vid, names = { first: 'First film', numbers: 'Numbers', rhythm: 'Busiest month', wall: 'The wall', top: 'Top films', taste: 'Genres', dir: 'Director', colour: 'Colour' };
+  const seg = (act, now, opts) => '<div class="seg" role="group">' + opts.map(([k, l]) => '<button type="button" data-act="' + act + '" data-v="' + k + '" class="' + (now === k ? 'on' : '') + '" aria-pressed="' + (now === k) + '">' + l + '</button>').join('') + '</div>';
+  box.toggleAttribute('inert', VDS.st !== 'idle'); box.style.opacity = VDS.st !== 'idle' ? .5 : '';
+  box.innerHTML = '<div class="field"><span class="lbl">Top films scene shows</span>' + seg('vdsrc', d.topsrc, [['rated', 'Highest rated'], ['fav', 'Favourites'], ['picks', 'My picks']]) + '</div>' +
+    '<div class="field"><span class="lbl">How many</span>' + seg('vdn', String(v.n), [['3', '3'], ['5', '5'], ['7', '7']]) + '</div>' +
+    '<div class="field"><button type="button" class="pkb" data-act="vdpicks"><span class="pkb-t">' + (dlPicked().length ? dlPicked().length + ' chosen' + (d.picks.title.trim() ? ', ' + E(d.picks.title.trim()) : '') : 'Choose your own films') + '</span><span class="pkb-c" aria-hidden="true"></span></button></div>' +
+    '<div class="field"><span class="lbl">Scenes</span><div class="chips">' + (VDS.V.ids || []).filter(i => names[i]).map(i => '<button type="button" class="chip' + (v.off.includes(i) ? '' : ' on') + '" data-act="vdsc" data-v="' + i + '" aria-pressed="' + !v.off.includes(i) + '">' + names[i] + '</button>').join('') + '</div></div>';
+}
+ACT.vdsrc = a => { dls().topsrc = a.dataset.v; save(); vdRebuild(); };
+ACT.vdn = a => { dls().vid.n = +a.dataset.v; save(); vdRebuild(); };
+ACT.vdsc = a => { const o = dls().vid.off, i = o.indexOf(a.dataset.v); if (i < 0) o.push(a.dataset.v); else o.splice(i, 1); save(); vdRebuild(); };
+ACT.vdpicks = () => { closeDlg(); setTimeout(() => dlPicksOpen('video'), 90); };
 ACT.vdwatch = () => vdRun(false);
 ACT.vdmake = () => vdRun(true);
 ACT.vdstop = () => vdStop();
@@ -4265,12 +4453,12 @@ function vdStop() {
   if (VDS.rec && VDS.rec.state !== 'inactive') { VDS.rec.onstop = null; try { VDS.rec.stop(); } catch (e) { } } VDS.rec = null;
   if (VDS.actx) { try { VDS.actx.close(); } catch (e) { } VDS.actx = null; }
   const ld = $('#vdLd'); if (ld) ld.hidden = true; const p = $('#vdP'); if (p) p.style.width = '0';
-  VDS.st = 'idle'; vdUI(); vdPaint(2.2);
+  VDS.st = 'idle'; vdUI(); vdPaint(VD.PREV);
 }
 ACT.vdagain = () => {
   if (VDS.url) { URL.revokeObjectURL(VDS.url); VDS.url = ''; } VDS.file = null; VDS.st = 'idle';
   const st = $('#vdStage'); if (st) st.innerHTML = '<canvas id="vdC" width="' + VDS.V.bgs[0].width + '" height="' + VDS.V.bgs[0].height + '"></canvas><div class="vd-ld" id="vdLd" hidden></div>';
-  const p = $('#vdP'); if (p) p.style.width = '0'; vdUI(); vdPaint(2.2);
+  const p = $('#vdP'); if (p) p.style.width = '0'; vdUI(); vdPaint(VD.PREV);
 };
 ACT.vdshare = async () => { if (!VDS.file) return; try { await navigator.share({ files: [VDS.file], title: 'My year in film' }); } catch (e) { } };
 {
