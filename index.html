@@ -1058,6 +1058,7 @@ button,a,.spine,.face,.tile-po,.chip,.seg button{touch-action:manipulation}
 .rg b{position:relative;font:800 17px/1 var(--f-d)}
 .rg.none{background:none;border:1.5px dashed var(--line2)}.rg.none::before{display:none}.rg.none b{color:var(--ink3);font-size:15px}
 @media (max-width:420px){.rh{gap:4px}.rx{padding:14px 10px 10px}.rx-p{min-width:0;padding:8px 10px}.rh-l{font-size:9.5px}.dr-n b{font-size:19px}}
+.lst .dl-prev{background:#161616;position:relative;overflow:hidden}.lst .dl-prev canvas{width:100%;height:auto;display:block}.lst-pg{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:10px;font:600 13px/1 var(--f-u);color:var(--ink2)}.lst-pg .ico{width:36px;padding:0}.lst-prog{position:absolute;inset:0;background:rgba(10,10,10,.86);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px;text-align:center;color:#fff}.lst-prog[hidden]{display:none}.lst-prog .vd-prog{width:80%;max-width:none}.lst .lst-dl:disabled{opacity:.5}.lst select.inp{height:40px}
 </style></head>
 <body>
 <a class="skip" href="#view">Skip to content</a>
@@ -1811,7 +1812,7 @@ PAGES.shelf = {
     v.innerHTML = '<div class="pagehead"><h1>Shelf</h1><span class="sub">' + plural(S.films.length, 'film') + ', ' + cnt.seen + ' seen <span id="shelfCount"></span></span><span class="sp"></span><button class="btn pri" type="button" data-act="find">Find films</button></div>' +
       (hasSample ? '<div class="banner"><span>These ten films are samples so the shelf isn’t empty.<span class="wide-only"> Rate them, log them or clear them whenever you like.</span></span><span class="sp"></span><button class="btn sm" type="button" data-act="rmsamples">Remove samples</button><button class="btn sm ghost" type="button" data-act="bannerx">Keep them</button></div>' : '') +
       '<div class="tools"><div class="chips dchips">' + chip('all', 'All') + chip('seen', 'Seen') + chip('wish', 'Wishlist') + chip('fav', 'Favourites') + lists + '<button type="button" class="chip" data-act="newlist">New shelf</button>' +
-      (u.list ? '<button type="button" class="chip" data-act="renlist">Rename</button><button type="button" class="chip" data-act="dellist">Delete shelf</button>' : '') + '</div>' + shelfMenuHTML(u, cnt) + '<span class="sp"></span>' +
+      (u.list ? '<button type="button" class="chip" data-act="explist">Export</button><button type="button" class="chip" data-act="renlist">Rename</button><button type="button" class="chip" data-act="dellist">Delete shelf</button>' : '') + '</div>' + shelfMenuHTML(u, cnt) + '<span class="sp"></span>' +
       '<div class="seg" role="group" aria-label="View">' + vb('spines', 'Spines') + vb('posters', 'Posters') + vb('list', 'List') + '</div></div>' +
       '<div class="fbar' + (u.moref ? ' mf' : '') + '">' +
         '<div class="fb-q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input class="inp" type="search" data-ctl="q" placeholder="Search this shelf" aria-label="Search this shelf" value="' + E(shelfQ) + '"></div>' +
@@ -1894,7 +1895,7 @@ function shelfMenuHTML(u, cnt) {
     h += '<div class="shpanel" role="menu">' + items.map(i => '<button type="button" role="menuitem" class="shrow' + (i.on ? ' on' : '') + '" data-act="' + i.act + '" ' + i.k + '><span>' + (i.plus ? '+ New shelf' : E(i.n)) + '</span><small>' + i.c + '</small></button>').join('') + '</div>';
   }
   h += '</div></div>';
-  if (u.list) h += '<div class="chips mchips sha"><button type="button" class="chip" data-act="renlist">Rename shelf</button><button type="button" class="chip" data-act="dellist">Delete shelf</button></div>';
+  if (u.list) h += '<div class="chips mchips sha"><button type="button" class="chip" data-act="explist">Export</button><button type="button" class="chip" data-act="renlist">Rename shelf</button><button type="button" class="chip" data-act="dellist">Delete shelf</button></div>';
   return h;
 }
 const chip2 = (k, l, n, u) => '<button type="button" class="chip' + (u.filter === k && !u.list ? ' on' : '') + '" data-act="mflt" data-v="' + k + '">' + l + ' <small>' + n + '</small></button>';
@@ -3026,6 +3027,7 @@ const dls = () => {
   if (d.vid.period !== 'all') d.vid.period = 'year'; if (!['rated', 'fav', 'picks'].includes(d.vid.src)) d.vid.src = 'rated';
   if (![3, 5, 7].includes(d.vid.n)) d.vid.n = 5; if (!Array.isArray(d.vid.off)) d.vid.off = [];
   if (!d.o || typeof d.o !== 'object') d.o = {};
+  if (!d.lst || typeof d.lst !== 'object') d.lst = {};
   return d;
 };
 /* every downloadable keeps its own settings */
@@ -3703,12 +3705,12 @@ ACT.dlcpicks = () => { const id = dlcId; closeDlg(); setTimeout(() => dlPicksOpe
 let dlcReopen = '';
 ACT.dlcpick = () => { dlcReopen = dlcId; closeDlg(); setTimeout(() => ACT.dlpick(), 90); };
 ACT.dlfmt = a => { dls().fmt = a.dataset.v; upd(); };
-function dlPicksOpen(back, onSave) {
-  const d = dls(), MAX = 12; let ids = d.picks.ids.filter(id => byId(id)).map(String);
+function dlPicksOpen(back, onSave, cfg) {
+  cfg = cfg || {}; const d = dls(), st = cfg.st || d.picks, MAX = cfg.max || 12; let ids = st.ids.filter(id => byId(id)).map(String);
   const all = [...S.films].sort((a, b) => titleKey(a).localeCompare(titleKey(b)));
-  const box = openDlg('<h2>Choose your films</h2><p class="note" style="margin-bottom:12px">Up to ' + MAX + ', in the order you want them ranked. Used by Top films, My number one and the year video when they are set to hand-picked.</p>' +
-    '<div class="field"><label for="pkT">Title <span class="fine">(optional)</span></label><input class="inp" id="pkT" maxlength="40" autocomplete="off" placeholder="My best of ' + S.ui.year + '" value="' + E(d.picks.title) + '"></div>' +
-    '<div class="pks" id="pkSel"></div><div class="pk-quick" id="pkQk"><button type="button" class="chip" data-q="rated">Fill with my highest rated</button><button type="button" class="chip" data-q="fav">Fill with favourites</button><button type="button" class="chip" data-q="clear">Clear</button></div>' +
+  const box = openDlg('<h2>Choose your films</h2><p class="note" style="margin-bottom:12px">' + (cfg.big ? 'As many as you like, in the order you want them. You can also reorder the list by Order in the list maker.' : 'Up to ' + MAX + ', in the order you want them ranked. Used by Top films, My number one and the year video when they are set to hand-picked.') + '</p>' +
+    (cfg.st ? '' : '<div class="field"><label for="pkT">Title <span class="fine">(optional)</span></label><input class="inp" id="pkT" maxlength="40" autocomplete="off" placeholder="My best of ' + S.ui.year + '" value="' + E(st.title) + '"></div>') +
+    '<div class="pks" id="pkSel"></div><div class="pk-quick" id="pkQk"><button type="button" class="chip" data-q="rated">Fill with my highest rated</button><button type="button" class="chip" data-q="fav">Fill with favourites</button>' + (cfg.big ? '<button type="button" class="chip" data-q="addhit">Add all shown by search</button>' : '') + '<button type="button" class="chip" data-q="clear">Clear</button></div>' +
     '<div class="pk-s"><input class="inp" type="search" id="pkQ" placeholder="Search ' + all.length.toLocaleString() + ' films or genres…" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Search films"></div><div class="pk-g" id="pkG" role="group" aria-label="Filter by genre"></div><div class="pk-l" id="pkL" role="listbox" aria-multiselectable="true"></div><div class="pk-n" id="pkN"></div>' +
     '<div class="acts"><button type="button" class="btn" id="pkCancel">Cancel</button><button type="button" class="btn pri" id="pkDone">Done</button></div>', { wide: true, label: 'Choose films' });
   const Sel = box.querySelector('#pkSel'), L = box.querySelector('#pkL'), N = box.querySelector('#pkN'), Q = box.querySelector('#pkQ'), G = box.querySelector('#pkG'), SHOW = 60;
@@ -3737,12 +3739,14 @@ function dlPicksOpen(back, onSave) {
   });
   box.querySelector('#pkQk').addEventListener('click', e => {
     const b = e.target.closest('[data-q]'); if (!b) return; const q = b.dataset.q;
-    if (q === 'clear') ids = []; else ids = S.films.filter(f => q === 'fav' ? f.fav : f.seen && f.rating > 0).sort((a, b2) => dlRK(b2) - dlRK(a)).slice(0, MAX).map(f => String(f.id));
+    if (q === 'clear') ids = [];
+    else if (q === 'addhit') { const qq = norm(Q.value.trim()); all.filter(f => (!gen || (f.genres || []).includes(gen)) && (!qq || norm(f.title).includes(qq) || String(f.year) === qq || (f.genres || []).some(g => norm(g).includes(qq)))).forEach(f => { if (ids.length < MAX && !ids.includes(String(f.id))) ids.push(String(f.id)); }); }
+    else ids = S.films.filter(f => q === 'fav' ? f.fav : f.seen && f.rating > 0).sort((a, b2) => dlRK(b2) - dlRK(a)).slice(0, MAX).map(f => String(f.id));
     all2();
   });
   const fin = () => { closeDlg(); if (back) setTimeout(back, 90); else if (route === 'downloads') refresh(); };
   box.querySelector('#pkCancel').onclick = fin;
-  box.querySelector('#pkDone').onclick = () => { d.picks.ids = ids.slice(); d.picks.title = box.querySelector('#pkT').value.trim().slice(0, 40); if (ids.length && onSave) onSave(); save(); fin(); };
+  box.querySelector('#pkDone').onclick = () => { st.ids = ids.slice(); if (!cfg.st) st.title = box.querySelector('#pkT').value.trim().slice(0, 40); if (ids.length && onSave) onSave(); save(); fin(); };
   drawG(); all2();
 }
 ACT.dldl = a => dlSave(a.dataset.id);
@@ -3913,6 +3917,278 @@ function recHTML() {
     '<div class="rc-r"><div class="dl-prev" style="aspect-ratio:' + F.w + '/' + F.h + '"><canvas data-recc aria-label="Preview of your recommendation" role="img"></canvas><span class="sk">Rendering…</span></div>' +
     '<div class="dl-acts"><button type="button" class="btn pri" data-act="dldl" data-id="rec"' + (pk.length ? '' : ' disabled') + '>Download PNG</button>' + (typeof navigator.canShare === 'function' ? '<button type="button" class="btn" data-act="dlshare" data-id="rec"' + (pk.length ? '' : ' disabled') + '>Share</button>' : '') + '</div><p class="note">Change the format with the Format picker further down (now ' + F.l + ', ' + F.s + ').</p></div></section>';
 }
+/* ===== Lists: any number of films, as a PDF or as pictures ===== */
+const LSIZE = { a4: { w: 1240, h: 1754, l: 'A4 page', K: 1.5 }, phone: { w: 1080, h: 1920, l: 'Phone screen', K: 1.25 } };
+const LTH = {
+  dark: { paper: false, b1: '#292929', b2: '#141414', ink: '#f3f3f3', ink2: '#cfcfcf', ink3: '#8f8f8f', acc: '#f2b24c', line: 'rgba(255,255,255,.17)', empty: 'rgba(255,255,255,.17)' },
+  paper: { paper: true, b1: '#f7f2e7', b2: '#ece4d3', ink: '#1d1b17', ink2: '#4b463c', ink3: '#8b8475', acc: '#b8731a', line: 'rgba(60,45,20,.28)', empty: 'rgba(60,45,20,.16)' }
+};
+function lstNorm(L) {
+  if (!['list', 'fav', 'seen', 'wish', 'picks'].includes(L.src)) L.src = 'list';
+  if (L.src === 'list' && !S.lists.some(l => l.id === L.listId)) { L.listId = S.lists[0] ? S.lists[0].id : ''; if (!L.listId) L.src = S.films.some(f => f.fav) ? 'fav' : 'seen'; }
+  if (!Array.isArray(L.ids)) L.ids = []; if (typeof L.title !== 'string') L.title = ''; if (typeof L.intro !== 'string') L.intro = '';
+  if (!['listed', 'rating', 'recent', 'title', 'year'].includes(L.sort)) L.sort = 'listed';
+  if (!['detail', 'grid', 'compact'].includes(L.layout)) L.layout = 'detail';
+  if (!['review', 'overview', 'none'].includes(L.desc)) L.desc = 'review';
+  if (!LTH[L.theme]) L.theme = 'dark'; if (!LSIZE[L.size]) L.size = 'a4'; L.nums = L.nums !== false;
+  return L;
+}
+function lstFilmsRaw(L) {
+  if (L.src === 'list') return S.films.filter(f => (f.lists || []).includes(L.listId));
+  if (L.src === 'picks') return L.ids.map(id => byId(id)).filter(Boolean);
+  return dlFilms(L.src);
+}
+function lstDefTitle(L) { if (L.src === 'list') { const l = S.lists.find(x => x.id === L.listId); return l ? l.name : 'My list'; } return { fav: 'Favourites', seen: 'Films I have seen', wish: 'My watchlist', picks: 'My list' }[L.src]; }
+function lstModel() {
+  const L = lstNorm(dls().lst), Z = LSIZE[L.size], T = LTH[L.theme];
+  let fs = lstFilmsRaw(L).slice();
+  const by = { rating: (a, b) => (b.rating || 0) - (a.rating || 0) || b.added - a.added, recent: (a, b) => b.added - a.added, title: (a, b) => titleKey(a).localeCompare(titleKey(b)), year: (a, b) => (a.year || 0) - (b.year || 0) }[L.sort];
+  if (L.sort === 'listed') { if (L.src !== 'picks') fs.sort((a, b) => a.added - b.added); } else fs.sort(by);
+  const W = Z.w, H = Z.h, m = Math.round(W * .075), aw = W - 2 * m, headH = Math.round(W * .09), footH = Math.round(W * .075), coverH = Math.round(H * .27), bottom = H - footH - Math.round(m * .3);
+  const G = { W, H, m, aw, headH, footH, coverH, bottom, topN: m + headH, top1: m + coverH };
+  let per, per1;
+  if (L.layout === 'detail') { G.rowH = Math.round(W * (L.size === 'a4' ? .185 : .23)); per = Math.floor((bottom - G.topN) / G.rowH); per1 = Math.floor((bottom - G.top1) / G.rowH); }
+  else if (L.layout === 'compact') { G.rowH = Math.round(W * (L.size === 'a4' ? .082 : .095)); per = Math.floor((bottom - G.topN) / G.rowH); per1 = Math.floor((bottom - G.top1) / G.rowH); }
+  else { G.cols = L.size === 'a4' ? 4 : 3; G.gap = Math.round(W * .025); G.pw = (aw - (G.cols - 1) * G.gap) / G.cols; G.cell = Math.round(G.pw * 1.5 + W * .055 + G.gap); per = Math.floor((bottom - G.topN) / G.cell) * G.cols; per1 = Math.floor((bottom - G.top1) / G.cell) * G.cols; }
+  per = Math.max(1, per); per1 = Math.max(1, per1);
+  const pages = [fs.slice(0, per1)]; for (let i = per1; i < fs.length; i += per) pages.push(fs.slice(i, i + per));
+  const rated = fs.filter(f => f.rating > 0), mins = fs.reduce((a, f) => a + (f.runtime || 0), 0);
+  return { L, Z, T, G, films: fs, pages, per, per1, title: L.title.trim() || lstDefTitle(L), stats: { n: fs.length, mins, avg: rated.length ? avg(rated.map(f => f.rating)) : 0, rated: rated.length } };
+}
+async function lstLoad(f, px) {
+  const u = dlPosterURL(f, px); if (!u) return null;
+  return (await dlLoadOnce(u, 12000)) || (await dlLoadOnce(u, 12000));
+}
+function lstStars(c, x, y, size, v, T, al = 'left') {
+  const gap = size * .2, tot = size * 5 + gap * 4, x0 = al === 'right' ? x - tot : al === 'center' ? x - tot / 2 : x;
+  for (let i = 0; i < 5; i++) {
+    const cx = x0 + i * (size + gap) + size / 2; dlStar(c, cx, y, size / 2); c.fillStyle = T.empty; c.fill();
+    const fr = clamp(v - i, 0, 1); if (fr > 0) { c.save(); c.beginPath(); c.rect(cx - size / 2, y - size / 2, size * fr, size); c.clip(); dlStar(c, cx, y, size / 2); c.fillStyle = T.acc; c.fill(); c.restore(); }
+  }
+  return tot;
+}
+function lstPoster(c, f, im, x, y, w, h, r, T) {
+  const p = palOf(f);
+  c.save(); c.shadowColor = T.paper ? 'rgba(70,45,10,.38)' : 'rgba(0,0,0,.55)'; c.shadowBlur = Math.max(6, w * .1); c.shadowOffsetY = Math.max(3, w * .05); dlRR(c, x, y, w, h, r); c.fillStyle = p.a; c.fill(); c.restore();
+  c.save(); dlRR(c, x, y, w, h, r); c.clip();
+  if (im) dlCover(c, im, x, y, w, h);
+  else { const g = c.createLinearGradient(x, y, x + w, y + h); g.addColorStop(0, p.a); g.addColorStop(1, p.b || p.a); c.fillStyle = g; c.fillRect(x, y, w, h); const z = Math.max(10, w * .16); c.font = DLFN.d8(z); const ls = dlWrap(c, f.title.toUpperCase(), w * .84).slice(0, 5); ls.forEach((l, i) => dlT(c, l, x + w * .08, y + h - w * .08 - (ls.length - 1 - i) * z * .92, DLFN.d8, z, p.k)); }
+  c.restore(); c.save(); dlRR(c, x + .5, y + .5, w - 1, h - 1, r); c.strokeStyle = T.paper ? 'rgba(0,0,0,.2)' : 'rgba(255,255,255,.14)'; c.lineWidth = 1; c.stroke(); c.restore();
+}
+function lstClamp(c, s, maxW, maxLines) {
+  let ls = dlWrap(c, s, maxW); if (ls.length <= maxLines) return ls;
+  ls = ls.slice(0, maxLines); let t = ls[maxLines - 1]; while (t.length > 1 && c.measureText(t + '…').width > maxW) t = t.replace(/\s*\S+$/, '') || t.slice(0, -1);
+  ls[maxLines - 1] = t.replace(/[\s.,;:!?-]+$/, '') + '…'; return ls;
+}
+function lstNote(f, L) {
+  if (L.desc === 'none') return '';
+  const clean = s => String(s || '').replace(/\s+/g, ' ').trim();
+  if (L.desc === 'review') return clean(!f.spoiler && f.review) || clean(f.tagline) || clean(f.overview);
+  return clean(f.overview) || clean(f.tagline);
+}
+function lstTicket(c, x1, x2, y, T, W) {
+  c.save(); c.strokeStyle = T.line; c.lineWidth = 2; c.setLineDash([3, 9]); c.beginPath(); c.moveTo(x1, y); c.lineTo(x2, y); c.stroke(); c.setLineDash([]);
+  c.beginPath(); c.arc(0, y, 13, -Math.PI / 2, Math.PI / 2); c.stroke(); c.beginPath(); c.arc(W, y, 13, Math.PI / 2, Math.PI * 1.5); c.stroke(); c.restore();
+}
+async function lstDrawPage(c, M, p) {
+  const { G, T, L } = M, W = G.W, H = G.H, m = G.m, aw = G.aw, items = M.pages[p] || [], first = p === 0, N = M.pages.length, base = p === 0 ? 0 : M.per1 + (p - 1) * M.per;
+  await dlFonts();
+  const px = L.layout === 'grid' ? 300 : 130, thumbs = first ? M.films.filter(f => f.poster).slice(0, 6) : [];
+  const [imgs, tims] = await Promise.all([Promise.all(items.map(f => lstLoad(f, px))), Promise.all(thumbs.map(f => lstLoad(f, 130)))]);
+  const g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, T.b1); g.addColorStop(1, T.b2); c.fillStyle = g; c.fillRect(0, 0, W, H);
+  if (M.films[0]) { const tn = palOf(M.films[0]).a, r = c.createRadialGradient(W * .15, 0, 0, W * .15, 0, H * .62); r.addColorStop(0, tn + (T.paper ? '2e' : '4d')); r.addColorStop(1, tn + '00'); c.fillStyle = r; c.fillRect(0, 0, W, H); }
+  c.save(); c.globalAlpha = T.paper ? .07 : .07; c.globalCompositeOperation = T.paper ? 'multiply' : 'overlay'; c.fillStyle = c.createPattern(dlGrain(), 'repeat'); c.fillRect(0, 0, W, H); c.restore();
+  if (T.paper) { const f = Math.round(m * .38); dlRR(c, f, f, W - 2 * f, H - 2 * f, 8); c.strokeStyle = T.line; c.lineWidth = 1.5; c.stroke(); }
+  let top;
+  if (first) {
+    dlL(c, 'A Dailies list', m, m + 16, Math.round(W * .0125), T.acc, 'left', .3);
+    dlL(c, new Date().toLocaleDateString([], { day: 'numeric', month: 'long', year: 'numeric' }), W - m, m + 16, Math.round(W * .0115), T.ink3, 'right', .24);
+    const wf = dlWrapFit(c, M.title.toUpperCase(), DLFN.d8, Math.round(W * .1), aw, 2, Math.round(W * .055)); let y = m + 44;
+    wf.lines.forEach(l => { y += wf.z * .86; dlT(c, l, m - 3, y, DLFN.d8, wf.z, T.ink); y += wf.z * .1; });
+    y += 14; c.fillStyle = T.acc; c.fillRect(m, y, Math.round(W * .08), 6); y += 36;
+    if (L.intro.trim()) { const z = Math.round(W * .0225); c.font = DLFN.pi(z); lstClamp(c, L.intro.trim(), aw * .8, 3).forEach(l => { y += z * 1.4; dlT(c, l, m, y, DLFN.pi, z, T.ink2); }); }
+    const sy = m + G.coverH - 40, st = M.stats, bw = Math.round(W * .17), sz = Math.round(W * .048), lz = Math.round(W * .0108);
+    const blocks = [[String(st.n), st.n === 1 ? 'Film' : 'Films'], [st.mins >= 120 ? Math.round(st.mins / 60) + 'h' : st.mins + 'm', 'Total runtime']]; if (st.rated) blocks.push([st.avg.toFixed(1) + '★', 'Average rating']);
+    blocks.forEach(([v, l], i) => { dlT(c, v, m + i * bw, sy - 22, DLFN.d8, sz, i === 2 ? T.acc : T.ink); dlL(c, l, m + i * bw + 1, sy + 2, lz, T.ink3, 'left', .2); });
+    const tw = Math.round(W * .072), th = Math.round(tw * 1.5), ov = Math.round(tw * .3), n = tims.length, fx = W - m - (n ? n * tw - (n - 1) * ov : 0);
+    tims.forEach((im, i) => lstPoster(c, thumbs[i], im, fx + i * (tw - ov), sy + 4 - th, tw, th, 4, T));
+    top = G.top1; c.fillStyle = T.acc; c.globalAlpha = .9; c.fillRect(m, top - 12, 0, 0); c.globalAlpha = 1;
+    lstTicket(c, 26, W - 26, top - 8, T, W);
+  } else {
+    dlL(c, M.title, m, m + 14, Math.round(W * .0115), T.ink3, 'left', .24);
+    dlL(c, 'Page ' + (p + 1) + ' of ' + N, W - m, m + 14, Math.round(W * .0115), T.ink3, 'right', .24);
+    c.fillStyle = T.line; c.fillRect(m, m + G.headH - 22, aw, 2); top = G.topN;
+  }
+  /* footer */
+  const fy = H - Math.round(m * .62); c.fillStyle = T.line; c.fillRect(m, fy - Math.round(W * .05), aw, 2);
+  dlLogo(c, m, fy - Math.round(W * .022), .78); dlT(c, 'Dailies', m + 34, fy - 2, DLFN.d8, Math.round(W * .03), T.ink);
+  dlL(c, 'Page ' + (p + 1) + ' of ' + N, W - m, fy - 4, Math.round(W * .0105), T.ink3, 'right', .24);
+  if (!M.films.length) { dlT(c, 'Nothing in this list yet', W / 2, (top + G.bottom) / 2, DLFN.d8, Math.round(W * .07), T.empty, 'center', aw); return; }
+  /* entries */
+  if (L.layout === 'detail') {
+    const rh = G.rowH, pad = Math.round(rh * .06), ph = rh - pad * 2, pw = Math.round(ph * 2 / 3), rw = Math.round(W * .075);
+    items.forEach((f, i) => {
+      const y0 = top + i * rh, rank = base + i + 1, im = imgs[i], px0 = m + (L.nums ? rw + 18 : 0), tx = px0 + pw + Math.round(W * .028), tw = W - m - tx;
+      if (L.nums) { const z = Math.round(W * (rank > 999 ? .036 : rank > 99 ? .046 : .056)); dlT(c, String(rank), m + rw, y0 + rh / 2 + z * .34, DLFN.d8, z, T.acc, 'right'); }
+      lstPoster(c, f, im, px0, y0 + pad, pw, ph, 5, T);
+      const tz = dlFitText(c, f.title.toUpperCase(), DLFN.d8, Math.round(W * .034), tw, 22); let y = y0 + pad + tz * .88;
+      dlT(c, f.title.toUpperCase(), tx, y, DLFN.d8, tz, T.ink, 'left'); y += Math.round(W * .0225);
+      const meta = [f.year || '', directorNames(f), fmtRt(f.runtime), (f.genres || [])[0] || ''].filter(Boolean).join('  ·  ');
+      dlL(c, meta, tx, y, Math.round(W * .0112), T.ink3, 'left', .14); y += Math.round(W * .03);
+      const ss = Math.round(W * .0185); let sx = tx;
+      if (f.rating > 0) { sx += lstStars(c, tx, y - ss * .3, ss, f.rating, T) + 12; dlT(c, f.rating.toFixed(1), sx, y - 1, DLFN.d8, Math.round(W * .026), T.acc); sx += Math.round(W * .05); }
+      else { dlL(c, f.wish && !f.seen ? 'On the watchlist' : 'Not rated', tx, y - 2, Math.round(W * .0108), T.ink3, 'left', .2); sx += Math.round(W * .13); }
+      if (f.fav) dlT(c, '♥', sx, y - 1, DLFN.u5, Math.round(W * .022), T.acc);
+      const note = lstNote(f, L);
+      if (note) { const z = Math.round(W * .0185), lh = Math.round(z * 1.42), room = Math.floor((y0 + rh - pad - (y + Math.round(W * .016))) / lh); if (room >= 1) { c.font = DLFN.pi(z); lstClamp(c, note, tw, Math.min(room, 5)).forEach((l, k) => dlT(c, l, tx, y + Math.round(W * .016) + lh * (k + .8), DLFN.pi, z, T.ink2)); } }
+      if (i < items.length - 1) lstTicket(c, 26, W - 26, y0 + rh, T, W);
+    });
+  } else if (L.layout === 'compact') {
+    const rh = G.rowH, pad = Math.round(rh * .09), ph = rh - pad * 2, pw = Math.round(ph * 2 / 3), rw = Math.round(W * .05);
+    items.forEach((f, i) => {
+      const y0 = top + i * rh, rank = base + i + 1, im = imgs[i], px0 = m + (L.nums ? rw + 10 : 0), tx = px0 + pw + Math.round(W * .02), rr = W - m;
+      if (L.nums) dlT(c, String(rank), m + rw, y0 + rh / 2 + Math.round(W * .008), DLFN.d8, Math.round(W * (rank > 99 ? .02 : .026)), T.acc, 'right');
+      lstPoster(c, f, im, px0, y0 + pad, pw, ph, 3, T);
+      const starsW = Math.round(W * .125), tw = rr - tx - starsW - 16;
+      dlT(c, f.title.toUpperCase(), tx, y0 + pad + Math.round(W * .02), DLFN.d8, Math.round(W * .0215), T.ink, 'left', tw);
+      dlL(c, [f.year || '', directorNames(f), fmtRt(f.runtime)].filter(Boolean).join('  ·  '), tx, y0 + pad + Math.round(W * .0355), Math.round(W * .0096), T.ink3, 'left', .12);
+      const note = lstNote(f, L); if (note) { const z = Math.round(W * .0145); c.font = DLFN.pi(z); dlT(c, lstClamp(c, note, tw, 1)[0], tx, y0 + pad + Math.round(W * .0525), DLFN.pi, z, T.ink2); }
+      if (f.rating > 0) { lstStars(c, rr, y0 + rh / 2 - 2, Math.round(W * .0155), f.rating, T, 'right'); } else dlL(c, '—', rr, y0 + rh / 2 + 4, Math.round(W * .012), T.ink3, 'right');
+      if (i < items.length - 1) { c.fillStyle = T.line; c.fillRect(m, y0 + rh - 1, aw, 1.5); }
+    });
+  } else {
+    const { cols, gap, pw } = G, ph = Math.round(pw * 1.5);
+    items.forEach((f, i) => {
+      const r = Math.floor(i / cols), cc = i % cols, x = m + cc * (pw + gap), y = top + r * G.cell, im = imgs[i], rank = base + i + 1;
+      lstPoster(c, f, im, x, y, pw, ph, 5, T);
+      if (L.nums) { const bz = Math.round(pw * .17); c.save(); c.beginPath(); c.arc(x + bz * .72, y + bz * .72, bz * .5, 0, 6.2832); c.fillStyle = 'rgba(14,14,14,.74)'; c.fill(); c.restore(); dlT(c, String(rank), x + bz * .72, y + bz * .72 + bz * .18, DLFN.d8, bz * (rank > 99 ? .5 : .62), '#fff', 'center'); }
+      dlT(c, f.title, x, y + ph + Math.round(W * .026), DLFN.u6, Math.round(W * .0165), T.ink, 'left', pw);
+      if (f.rating > 0) lstStars(c, x, y + ph + Math.round(W * .046), Math.round(W * .0125), f.rating, T); else dlL(c, f.year || '', x, y + ph + Math.round(W * .05), Math.round(W * .0095), T.ink3);
+    });
+  }
+}
+/* ---- file writers: a small PDF writer (one JPEG per page) and a ZIP writer ---- */
+const lstCRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+function lstCrc32(u) { let c = 0xFFFFFFFF; for (let i = 0; i < u.length; i++) c = lstCRC[(c ^ u[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function lstZip(files) {
+  const enc = new TextEncoder(), parts = [], cd = [], dt = new Date(); let off = 0;
+  const tm = (dt.getHours() << 11) | (dt.getMinutes() << 5) | (dt.getSeconds() >> 1), dd = ((dt.getFullYear() - 1980) << 9) | ((dt.getMonth() + 1) << 5) | dt.getDate();
+  files.forEach(f => {
+    const nb = enc.encode(f.name), crc = lstCrc32(f.bytes), sz = f.bytes.length, lh = new DataView(new ArrayBuffer(30));
+    lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true); lh.setUint16(10, tm, true); lh.setUint16(12, dd, true); lh.setUint32(14, crc, true); lh.setUint32(18, sz, true); lh.setUint32(22, sz, true); lh.setUint16(26, nb.length, true);
+    parts.push(new Uint8Array(lh.buffer), nb, f.bytes);
+    const ch = new DataView(new ArrayBuffer(46)); ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true); ch.setUint16(12, tm, true); ch.setUint16(14, dd, true); ch.setUint32(16, crc, true); ch.setUint32(20, sz, true); ch.setUint32(24, sz, true); ch.setUint16(28, nb.length, true); ch.setUint32(42, off, true);
+    cd.push(new Uint8Array(ch.buffer), nb); off += 30 + nb.length + sz;
+  });
+  const cs = cd.reduce((a, q) => a + q.length, 0), end = new DataView(new ArrayBuffer(22));
+  end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true); end.setUint32(12, cs, true); end.setUint32(16, off, true);
+  return new Blob([...parts, ...cd, new Uint8Array(end.buffer)], { type: 'application/zip' });
+}
+const lstPdfEsc = s => String(s).replace(/[^\x20-\x7e]/g, '?').replace(/([()\\])/g, '\\$1');
+function lstPdf(pages, title) {
+  const enc = new TextEncoder(), chunks = [], offs = []; let pos = 0;
+  const push = u => { chunks.push(u); pos += u.length; }, str = s => push(enc.encode(s)), obj = (id, fn) => { offs[id] = pos; str(id + ' 0 obj\n'); fn(); str('endobj\n'); };
+  str('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n'); const n = pages.length, info = 3 + n * 3;
+  obj(1, () => str('<< /Type /Catalog /Pages 2 0 R >>\n'));
+  obj(2, () => str('<< /Type /Pages /Count ' + n + ' /Kids [' + pages.map((_, i) => (3 + i * 3) + ' 0 R').join(' ') + '] >>\n'));
+  pages.forEach((p, i) => {
+    const pid = 3 + i * 3, cid = pid + 1, iid = pid + 2, cs = 'q ' + p.pw + ' 0 0 ' + p.ph + ' 0 0 cm /Im0 Do Q';
+    obj(pid, () => str('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + p.pw + ' ' + p.ph + '] /Resources << /XObject << /Im0 ' + iid + ' 0 R >> >> /Contents ' + cid + ' 0 R >>\n'));
+    obj(cid, () => str('<< /Length ' + cs.length + ' >>\nstream\n' + cs + '\nendstream\n'));
+    obj(iid, () => { str('<< /Type /XObject /Subtype /Image /Width ' + p.w + ' /Height ' + p.h + ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' + p.bytes.length + ' >>\nstream\n'); push(p.bytes); str('\nendstream\n'); });
+  });
+  obj(info, () => str('<< /Title (' + lstPdfEsc(title) + ') /Producer (Dailies) >>\n'));
+  const xr = pos; str('xref\n0 ' + (info + 1) + '\n0000000000 65535 f \n'); for (let i = 1; i <= info; i++) str(String(offs[i]).padStart(10, '0') + ' 00000 n \n');
+  str('trailer\n<< /Size ' + (info + 1) + ' /Root 1 0 R /Info ' + info + ' 0 R >>\nstartxref\n' + xr + '\n%%EOF');
+  return new Blob(chunks, { type: 'application/pdf' });
+}
+const lstSlug = s => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 50) || 'list';
+function lstSaveBlob(b, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 8000); }
+let lstJob = null;
+async function lstExport(kind) {
+  if (lstJob) return; const M = lstModel(); if (!M.films.length) { toast('Add some films to this list first'); return; }
+  const job = lstJob = { cancel: false }, K = M.Z.K, N = M.pages.length, out = [], pr = $('#lstProg'), bar = $('#lstBar'), tx = $('#lstPt');
+  if (pr) pr.hidden = false; lstBtns(true);
+  try {
+    await dlFonts(); await dlWaitPals();
+    for (let p = 0; p < N; p++) {
+      if (job.cancel) throw new Error('cancel');
+      if (tx) tx.textContent = 'Page ' + (p + 1) + ' of ' + N; if (bar) bar.style.width = Math.round(p / N * 100) + '%';
+      const cv = document.createElement('canvas'); cv.width = Math.round(M.G.W * K); cv.height = Math.round(M.G.H * K); const c = cv.getContext('2d'); c.scale(K, K);
+      await lstDrawPage(c, M, p);
+      const b = await new Promise(res => cv.toBlob(res, 'image/jpeg', .9)); if (!b) throw new Error('blob');
+      out.push({ w: cv.width, h: cv.height, pw: Math.round(M.G.W * .48 * 100) / 100, ph: Math.round(M.G.H * .48 * 100) / 100, bytes: new Uint8Array(await b.arrayBuffer()) });
+      cv.width = cv.height = 0; await dlSleep(0);
+    }
+    const nm = lstSlug(M.title);
+    if (kind === 'pdf') { lstSaveBlob(lstPdf(out, M.title), nm + '.pdf'); toast('Saved ' + nm + '.pdf'); }
+    else if (N === 1) { lstSaveBlob(new Blob([out[0].bytes], { type: 'image/jpeg' }), nm + '.jpg'); toast('Saved ' + nm + '.jpg'); }
+    else { lstSaveBlob(lstZip(out.map((o, i) => ({ name: nm + '-' + String(i + 1).padStart(3, '0') + '.jpg', bytes: o.bytes }))), nm + '-pictures.zip'); toast('Saved ' + N + ' pictures in ' + nm + '-pictures.zip'); }
+  } catch (e) { if (!job.cancel) { console.error(e); toast('Could not finish the list. Check your connection and try again.'); } else toast('Cancelled'); }
+  finally { lstJob = null; if ($('#lstProg')) $('#lstProg').hidden = true; lstBtns(false); }
+}
+const lstBtns = off => $$('#dlgBox .lst-dl').forEach(b => { b.disabled = off; });
+/* ---- the dialog ---- */
+let lstTok = 0, lstPg = 0, lstT = 0;
+function lstControls() {
+  const L = lstNorm(dls().lst);
+  const seg = (k, now, opts) => '<div class="seg" role="group">' + opts.map(([v, l]) => '<button type="button" data-act="lstopt" data-k="' + k + '" data-v="' + v + '" class="' + (String(now) === String(v) ? 'on' : '') + '" aria-pressed="' + (String(now) === String(v)) + '">' + l + '</button>').join('') + '</div>';
+  const srcs = [...(S.lists.length ? [['list', 'My shelves']] : []), ['fav', 'Favourites'], ['seen', 'Seen'], ['wish', 'Watchlist'], ['picks', 'Hand-picked']];
+  let extra = '';
+  if (L.src === 'list') extra = '<div style="margin-top:8px"><select class="inp" id="lstSel" aria-label="Choose a shelf">' + S.lists.map(l => '<option value="' + E(l.id) + '"' + (l.id === L.listId ? ' selected' : '') + '>' + E(l.name) + ' (' + S.films.filter(f => (f.lists || []).includes(l.id)).length + ')</option>').join('') + '</select></div>';
+  if (L.src === 'picks') extra = '<div style="margin-top:8px"><button type="button" class="pkb" data-act="lstpicks"><span class="pkb-t">' + (L.ids.filter(id => byId(id)).length ? L.ids.filter(id => byId(id)).length + ' chosen, tap to change' : 'Choose your films') + '</span><span class="pkb-c" aria-hidden="true"></span></button></div>';
+  return '<div class="field"><span class="lbl">Films from</span>' + seg('src', L.src, srcs) + extra + '</div>' +
+    '<div class="field"><span class="lbl">Layout</span>' + seg('layout', L.layout, [['detail', 'Detailed'], ['grid', 'Poster grid'], ['compact', 'Compact']]) + '</div>' +
+    (L.layout === 'grid' ? '' : '<div class="field"><span class="lbl">Short note under each film</span>' + seg('desc', L.desc, [['review', 'My review'], ['overview', 'Film summary'], ['none', 'None']]) + '</div>') +
+    '<div class="field"><span class="lbl">Order</span>' + seg('sort', L.sort, [['listed', 'As added'], ['rating', 'Best first'], ['recent', 'Newest first'], ['title', 'A to Z'], ['year', 'By year']]) + '</div>' +
+    '<div class="field"><span class="lbl">Numbers</span>' + seg('nums', L.nums ? 'on' : 'off', [['on', 'Number the films'], ['off', 'No numbers']]) + '</div>' +
+    '<div class="field"><span class="lbl">Look</span>' + seg('theme', L.theme, [['dark', 'Cinema, dark'], ['paper', 'Paper, light']]) + '</div>' +
+    '<div class="field"><span class="lbl">Page size</span>' + seg('size', L.size, [['a4', 'A4, for print'], ['phone', 'Phone screen']]) + '</div>';
+}
+function lstOpen(preset) {
+  const d = dls(); if (preset) Object.assign(d.lst, preset); const L = lstNorm(d.lst); lstPg = 0;
+  const box = openDlg('<div class="dlc lst"><div class="dlc-p"><div class="dl-prev dlc-pv" id="lstPv"><canvas id="lstC"></canvas><span class="sk" id="lstSk">Rendering…</span>' +
+    '<div class="lst-prog" id="lstProg" hidden><b id="lstPt">Preparing…</b><div class="vd-prog"><i id="lstBar"></i></div><button type="button" class="btn sm" data-act="lstcancel">Cancel</button></div></div>' +
+    '<div class="lst-pg"><button type="button" class="btn sm ico" data-act="lstpg" data-v="-1" aria-label="Previous page">‹</button><span id="lstPn"></span><button type="button" class="btn sm ico" data-act="lstpg" data-v="1" aria-label="Next page">›</button></div></div>' +
+    '<div class="dlc-c"><h2>Make a list</h2><p class="dlc-d">Any number of films, as a PDF or as pictures, with posters, ratings and a short note for each.</p>' +
+    '<div class="field"><label class="lbl" for="lstTi">Title</label><input class="inp" id="lstTi" maxlength="80" autocomplete="off" placeholder="' + E(lstDefTitle(L)) + '" value="' + E(L.title) + '"></div>' +
+    '<div class="field"><label class="lbl" for="lstIn">Intro <span class="fine">(optional)</span></label><textarea class="txt" id="lstIn" rows="2" maxlength="400" placeholder="A line or two about this list">' + E(L.intro) + '</textarea></div>' +
+    '<div id="lstF">' + lstControls() + '</div></div>' +
+    '<div class="dlc-a"><button type="button" class="btn pri lst-dl" data-act="lstpdf">Download PDF</button><button type="button" class="btn lst-dl" data-act="lstimg">Download pictures</button><button type="button" class="btn" data-act="closedlg">Done</button><p class="fine" id="lstInfo" style="width:100%"></p></div></div>',
+    { wide: true, label: 'Make a list', onClose: () => { lstTok++; if (lstJob) lstJob.cancel = true; const b = $('#dlgBox'); if (b) { b.oninput = null; b.onchange = null; } if (route === 'downloads') refresh(); } });
+  box.oninput = e => { const L2 = dls().lst; if (e.target.id === 'lstTi') L2.title = e.target.value; else if (e.target.id === 'lstIn') L2.intro = e.target.value; else return; save(); lstSoon(); };
+  box.onchange = e => { if (e.target.id === 'lstSel') { dls().lst.listId = e.target.value; lstPg = 0; save(); lstPreview(); } };
+  lstPreview();
+}
+function lstSoon() { clearTimeout(lstT); lstT = setTimeout(lstPreview, 280); }
+async function lstPreview() {
+  const tok = ++lstTok, M = lstModel(); lstPg = clamp(lstPg, 0, M.pages.length - 1);
+  const info = $('#lstInfo'), pn = $('#lstPn'), pv = $('#lstPv'); if (!pv) return;
+  if (info) info.textContent = plural(M.films.length, 'film') + ', ' + plural(M.pages.length, 'page') + (M.films.length ? '' : '. Nothing to export yet.');
+  if (pn) pn.textContent = 'Page ' + (lstPg + 1) + ' of ' + M.pages.length;
+  pv.style.aspectRatio = M.G.W + '/' + M.G.H; pv.style.width = 'min(100%, calc(48dvh * ' + (M.G.W / M.G.H) + '))';
+  const sk = $('#lstSk'); if (sk) { sk.hidden = false; sk.textContent = 'Rendering…'; }
+  await dlFonts(); ensurePals(); await dlWaitPals(); if (tok !== lstTok) return;
+  const s = .5, off = document.createElement('canvas'); off.width = Math.round(M.G.W * s); off.height = Math.round(M.G.H * s); const c = off.getContext('2d'); c.scale(s, s);
+  try { await lstDrawPage(c, M, lstPg); if (tok !== lstTok) return; const cv = $('#lstC'); if (!cv) return; cv.width = off.width; cv.height = off.height; cv.getContext('2d').drawImage(off, 0, 0); if (sk) sk.hidden = true; }
+  catch (e) { console.error(e); if (sk) sk.textContent = 'Could not render this preview'; }
+}
+ACT.lstopen = () => lstOpen();
+ACT.explist = () => lstOpen({ src: 'list', listId: S.ui.list });
+ACT.lstopt = a => { const L = dls().lst, k = a.dataset.k, v = a.dataset.v; if (k === 'nums') L.nums = v === 'on'; else L[k] = v; if (k === 'src' || k === 'layout' || k === 'size') lstPg = 0; save(); const f = $('#lstF'); if (f) f.innerHTML = lstControls(); const ti = $('#lstTi'); if (ti) ti.placeholder = lstDefTitle(L); lstPreview(); };
+ACT.lstpg = a => { lstPg += +a.dataset.v; lstPreview(); };
+ACT.lstpdf = () => lstExport('pdf');
+ACT.lstimg = () => lstExport('img');
+ACT.lstcancel = () => { if (lstJob) lstJob.cancel = true; };
+ACT.lstpicks = () => { closeDlg(); setTimeout(() => dlPicksOpen(() => lstOpen(), () => { dls().lst.src = 'picks'; }, { max: 500, st: dls().lst, big: true }), 90); };
+{
+  const baseL = PAGES.downloads.render;
+  PAGES.downloads.render = function () {
+    baseL(); if (!S.films.length) return; const h = $('#view .pagehead'); if (!h) return;
+    h.insertAdjacentHTML('afterend', '<section class="vd-ban"><div class="vd-ban-t"><span class="vd-ban-k">New</span><h3>Make a list, as a PDF or pictures</h3><p>Any number of films, with posters, ratings and a short note for each. Use one of your shelves, your favourites, or hand-pick.</p></div><button type="button" class="btn pri" data-act="lstopen">Make a list</button></section>');
+  };
+}
+
 {
   const base = PAGES.downloads.render, baseAfter = PAGES.downloads.after;
   PAGES.downloads.render = function () {
