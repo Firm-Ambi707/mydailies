@@ -199,6 +199,10 @@ body.dock-on .dock{display:block}
 .pk-p{width:34px;height:50px;border-radius:5px;background:var(--bg3,#222);overflow:hidden;flex:none}.pk-p img{width:100%;height:100%;object-fit:cover;display:block}
 .pk-m{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}.pk-m b{font:600 15px/1.25 var(--f-u);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pk-m i{font-style:normal;font-size:12.5px;color:var(--ink3)}
 .pk-k{width:20px;color:#e9b44c;font-weight:700;text-align:center}
+.dl-sum{font:600 12.5px/1.3 var(--f-u);color:var(--ink2);margin-bottom:4px}.dl-prev[data-act]{cursor:pointer}
+.dlc{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);grid-template-areas:"p c" "a c";gap:16px 28px;align-items:start}.dlc-p{grid-area:p}.dlc-c{grid-area:c}.dlc-a{grid-area:a;display:flex;gap:8px;flex-wrap:wrap}
+.dlc .dl-prev{width:100%}.dlc-c h2{margin-bottom:6px}.dlc-d{color:var(--ink3);font-size:14px;line-height:1.4;margin-bottom:16px}.dlc-c .seg{display:flex;flex-wrap:wrap}.dlc-c .seg button{flex:1 1 auto}
+@media (max-width:720px){.dlc{grid-template-columns:1fr;grid-template-areas:"p" "c" "a"}.dlc-p{display:flex;justify-content:center}}
 .pks{display:flex;flex-direction:column;gap:6px;margin:0 0 10px}.pks-r{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:12px;background:rgba(255,255,255,.05)}.pks-n{width:22px;text-align:center;font:800 20px/1 var(--f-d);color:#e9b44c}.pks-r button{flex:none;width:36px;height:36px;border:0;border-radius:9px;background:rgba(255,255,255,.07);color:var(--ink);font-size:15px;cursor:pointer}.pks-r button:disabled{opacity:.3;cursor:default}.pk-quick{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}.vd-opt{margin-top:12px;text-align:left}.vd-opt summary{cursor:pointer;font:600 14px/1 var(--f-u);color:var(--ink2);padding:6px 0}.vd-opt .field{margin-top:12px}.vd-opt .seg{display:flex;width:100%}.vd-opt .seg button{flex:1}
 .pk-e,.pk-n{font-size:13px;color:var(--ink3);padding:10px 4px;text-align:center}
 .txt.rv{min-height:220px;max-height:60vh;resize:vertical}
@@ -654,6 +658,7 @@ img.bad{visibility:hidden}
 .dl-prev .sk{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:13px;background:var(--bg3);text-align:center;padding:10px}
 .dl-card h3{font:800 32px/.95 var(--f-d);margin-bottom:4px}
 .dl-card p{color:var(--ink3);font-size:13px;line-height:1.4}
+.rc-wrap{margin:36px 0 10px}.rc-tg{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;padding:18px 20px;border:1px solid var(--line);border-radius:var(--r2);background:var(--bg2);color:var(--ink);text-align:left;cursor:pointer;font:inherit}.rc-tg b{display:block;font:800 26px/1 var(--f-d);margin-bottom:6px}.rc-tg i{font-style:normal;font-size:13.5px;color:var(--ink3)}.rc-c{flex:none;width:10px;height:10px;border-right:2px solid var(--ink2);border-bottom:2px solid var(--ink2);transform:rotate(45deg);transition:transform .2s}.rc-c.on{transform:rotate(-135deg)}.rc-wrap .rcx{margin:14px 0 0}
 .rcx{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:34px;margin:6px 0 40px;padding:26px;border:1px solid var(--line);border-radius:var(--r2);background:var(--bg2)}
 .rcx h2{font:800 38px/.95 var(--f-d);margin-bottom:6px}.rc-h2{font:800 30px/1 var(--f-d);margin:0 0 18px}
 .rc-l{min-width:0;display:flex;flex-direction:column;gap:12px}.rc-r{display:flex;flex-direction:column;gap:12px;position:sticky;top:18px;align-self:start}
@@ -3015,14 +3020,39 @@ const dls = () => {
   if (d.span !== 'all') d.span = 'year';
   if (d.topspan !== 'all') d.topspan = 'year';
   if (d.film == null) d.film = '';
-  if (!['rated', 'fav', 'picks'].includes(d.topsrc)) d.topsrc = 'rated';
-  if (d.topn !== 'auto') { d.topn = +d.topn; if (![3, 5, 9].includes(d.topn)) d.topn = 'auto'; }
   if (!d.picks || typeof d.picks !== 'object') d.picks = { ids: [], title: '' };
   if (!Array.isArray(d.picks.ids)) d.picks.ids = []; if (typeof d.picks.title !== 'string') d.picks.title = '';
-  if (!d.vid || typeof d.vid !== 'object') d.vid = { n: 5, off: [] };
+  if (!d.vid || typeof d.vid !== 'object') d.vid = {};
+  if (d.vid.period !== 'all') d.vid.period = 'year'; if (!['rated', 'fav', 'picks'].includes(d.vid.src)) d.vid.src = 'rated';
   if (![3, 5, 7].includes(d.vid.n)) d.vid.n = 5; if (!Array.isArray(d.vid.off)) d.vid.off = [];
+  if (!d.o || typeof d.o !== 'object') d.o = {};
   return d;
 };
+/* every downloadable keeps its own settings */
+const DLO = {
+  wall: { films: 'seen', order: 'colour' }, shelf: { films: 'seen' }, stats: { period: 'year' },
+  top: { period: 'year', src: 'rated', n: 'auto', style: 'stars' }, best: { period: 'year', src: 'rated' },
+  film: { film: '' }, heat: {}, palette: { period: 'all' }, dirs: { period: 'all' }, taste: { period: 'all' }
+};
+function dlO(id) {
+  const d = dls();
+  if (!d.o[id]) {
+    const b = Object.assign({}, DLO[id] || {});
+    if ((id === 'wall' || id === 'shelf') && ['seen', 'wish', 'fav', 'all'].includes(d.scope)) b.films = d.scope;
+    if (id === 'stats' && d.span === 'all') b.period = 'all';
+    if ((id === 'top' || id === 'best') && d.topspan === 'all') b.period = 'all';
+    if (id === 'film' && d.film) b.film = d.film;
+    d.o[id] = b;
+  }
+  const o = d.o[id];
+  if ('films' in o && !['seen', 'wish', 'fav', 'all'].includes(o.films)) o.films = 'seen';
+  if ('order' in o && !['colour', 'rating', 'recent'].includes(o.order)) o.order = 'colour';
+  if ('period' in o && o.period !== 'all') o.period = 'year';
+  if ('src' in o && !['rated', 'fav', 'picks'].includes(o.src)) o.src = 'rated';
+  if ('n' in o && o.n !== 'auto') { o.n = +o.n; if (![3, 5, 9].includes(o.n)) o.n = 'auto'; }
+  if ('style' in o && o.style !== 'grid') o.style = 'stars';
+  return o;
+}
 const dlSleep = ms => new Promise(r => setTimeout(r, ms));
 let dlFontP = null;
 function dlFonts() {
@@ -3171,7 +3201,8 @@ function dlSpan(force) {
   const films = all ? S.films.filter(f => f.seen) : [...new Map(ents.map(e => [String(e.fid), byId(e.fid)])).values()];
   return { all, yr, ents, films, label: all ? 'All time' : String(yr) };
 }
-const dlData = () => ({ d: dls(), sp: dlSpan(), yr: S.ui.year });
+const dlSpanP = p => dlSpan(p === 'all' ? true : 'year');
+const dlData = id => { const o = dlO(id); return { d: dls(), o, sp: dlSpanP(o.period), yr: S.ui.year }; };
 function dlPickFilm(id) {
   const f = id && byId(id); if (f) return f;
   const e = [...S.entries].sort((a, b) => b.date.localeCompare(a.date) || b.ts - a.ts).find(x => byId(x.fid));
@@ -3180,10 +3211,10 @@ function dlPickFilm(id) {
 
 /* ---- 1. The wall ---- */
 async function dlWall(c, W, H, D) {
-  const m = Math.round(W * .07), sc = D.d.scope;
-  const fs = dlFilms(sc).sort((a, b) => (b.rating || 0) - (a.rating || 0) || b.added - a.added).slice(0, 160).sort((a, b) => dlHue(a) - dlHue(b));
+  const m = Math.round(W * .07), sc = D.o.films;
+  const ord = D.o.order, fs = dlFilms(sc).sort((a, b) => (b.rating || 0) - (a.rating || 0) || b.added - a.added).slice(0, 160).sort(ord === 'rating' ? (a, b) => (b.rating || 0) - (a.rating || 0) || b.added - a.added : ord === 'recent' ? (a, b) => (b.added || 0) - (a.added || 0) : (a, b) => dlHue(a) - dlHue(b));
   dlBg(c, W, H, fs.length ? palOf(fs[Math.floor(fs.length / 2)]).a : null);
-  const top = dlHead(c, W, 'Dailies · ' + dlScopeLabel(sc), 'The wall', plural(fs.length, 'film') + ', sorted by colour'), bot = dlFoot(c, W, H, plural(fs.length, 'poster'));
+  const top = dlHead(c, W, 'Dailies · ' + dlScopeLabel(sc), 'The wall', plural(fs.length, 'film') + ', ' + ({ colour: 'sorted by colour', rating: 'best first', recent: 'newest first' }[ord])), bot = dlFoot(c, W, H, plural(fs.length, 'poster'));
   if (!fs.length) { dlEmpty(c, W, top, bot, 'Nothing here yet'); return; }
   const gap = Math.max(4, Math.round(W * .006)), aw = W - 2 * m, ah = bot - top, g = dlGrid(fs.length, aw, ah, gap, 0), pw = g.pw, ph = pw * 1.5;
   await dlPre(fs, pw);
@@ -3208,7 +3239,7 @@ function dlSpine(c, f, x, y, w, h, k) {
   if (f.year) { c.save(); c.globalAlpha = .72; c.translate(x + w / 2, y + h - 12 * k); c.rotate(Math.PI / 2); dlT(c, f.year, 0, 0, DLFN.u5, 11 * k, col, 'right', 0, 'middle'); c.restore(); }
 }
 async function dlShelf(c, W, H, D) {
-  const m = Math.round(W * .07), sc = D.d.scope, fs = dlFilms(sc).sort((a, b) => dlHue(a) - dlHue(b)).slice(0, 240);
+  const m = Math.round(W * .07), sc = D.o.films, fs = dlFilms(sc).sort((a, b) => dlHue(a) - dlHue(b)).slice(0, 240);
   dlBg(c, W, H, fs.length ? palOf(fs[0]).a : null);
   const top = dlHead(c, W, 'Dailies · ' + dlScopeLabel(sc), 'The shelf', plural(fs.length, 'film') + '. Taller is longer, wider is rated higher.'), bot = dlFoot(c, W, H, plural(fs.length, 'spine'));
   if (!fs.length) { dlEmpty(c, W, top, bot, 'Nothing here yet'); return; }
@@ -3288,8 +3319,9 @@ async function dlStats(c, W, H, D) {
 }
 
 /* ---- 4. Top films ---- */
-async function dlTop(c, W, H, D) {
-  const m = Math.round(W * .07), sp = dlSpan(dls().topspan === 'all' ? true : 'year'), ratio = H / W, R = dlRanked(sp, dlTopN(ratio > 1.6 ? 9 : ratio > 1.2 ? 6 : 4)), fs = R.fs;
+async function dlTop(c, W, H, D) { return D.o.style === 'grid' ? dlTop9(c, W, H, D) : dlTopStars(c, W, H, D); }
+async function dlTopStars(c, W, H, D) {
+  const m = Math.round(W * .07), sp = D.sp, ratio = H / W, R = dlRanked(sp, dlTopN(ratio > 1.6 ? 9 : ratio > 1.2 ? 6 : 4, D.o), false, D.o.src), fs = R.fs;
   dlBg(c, W, H, fs[0] ? palOf(fs[0]).a : null);
   const top = dlHead(c, W, 'Dailies · ' + sp.label, R.title, R.sub), bot = dlFoot(c, W, H, sp.label);
   if (!fs.length) { dlEmpty(c, W, top, bot, R.src === 'picks' ? 'Choose some films' : 'Nothing here yet'); return; }
@@ -3308,7 +3340,7 @@ async function dlTop(c, W, H, D) {
 }
 /* ---- Top 9: the clean three-by-three ---- */
 async function dlTop9(c, W, H, D) {
-  const m = Math.round(W * .07), sp = dlSpan(dls().topspan === 'all' ? true : 'year'), R = dlRanked(sp, 9), fs = R.fs;
+  const m = Math.round(W * .07), sp = D.sp, R = dlRanked(sp, D.o.n === 'auto' ? 9 : Math.min(9, D.o.n), false, D.o.src), fs = R.fs;
   dlBg(c, W, H, fs[0] ? palOf(fs[0]).a : null);
   const ttl = R.src === 'rated' ? 'Top ' + Math.max(1, fs.length) : R.title, top = dlHead(c, W, 'Dailies · ' + sp.label, ttl, 'In order, left to right'), bot = dlFoot(c, W, H, sp.label);
   if (!fs.length) { dlEmpty(c, W, top, bot, R.src === 'picks' ? 'Choose some films' : 'Nothing here yet'); return; }
@@ -3324,7 +3356,7 @@ async function dlTop9(c, W, H, D) {
 }
 /* ---- Best of: one film above the rest ---- */
 async function dlBest(c, W, H, D) {
-  const m = Math.round(W * .07), sp = dlSpan(dls().topspan === 'all' ? true : 'year'), R = dlRanked(sp, 5), fs = R.fs, f = fs[0], ratio = H / W, stacked = ratio > 1.2, aw = W - 2 * m;
+  const m = Math.round(W * .07), sp = D.sp, R = dlRanked(sp, 5, false, D.o.src), fs = R.fs, f = fs[0], ratio = H / W, stacked = ratio > 1.2, aw = W - 2 * m;
   dlBg(c, W, H, f ? palOf(f).a : null);
   const top = dlHead(c, W, 'Dailies · ' + sp.label, R.custom ? R.title : sp.all ? 'My favourite film' : 'My film of ' + sp.yr, ''), bot = dlFoot(c, W, H, sp.label);
   if (!f) { dlEmpty(c, W, top, bot, R.src === 'picks' ? 'Choose some films' : 'Nothing here yet'); return; }
@@ -3351,8 +3383,8 @@ async function dlBest(c, W, H, D) {
 /* ---- ranking: highest rated, favourites, or a hand-picked list ---- */
 const dlRK = f => (f.rating || 0) * 10 + (f.fav ? 3 : 0) + (f.vote || 0) / 100;
 const dlPicked = () => dls().picks.ids.map(id => byId(id)).filter(Boolean);
-function dlRanked(sp, n, ratedOnly) {
-  const d = dls(), src = d.topsrc; let fs;
+function dlRanked(sp, n, ratedOnly, src) {
+  const d = dls(); src = src || 'rated'; let fs;
   if (src === 'picks') fs = dlPicked();
   else if (src === 'fav') fs = sp.films.filter(f => f.fav).sort((a, b) => dlRK(b) - dlRK(a));
   else fs = sp.films.filter(f => !ratedOnly || f.rating > 0).sort((a, b) => dlRK(b) - dlRK(a));
@@ -3360,10 +3392,11 @@ function dlRanked(sp, n, ratedOnly) {
   const ct = d.picks.title.trim();
   return { fs, src, title: src === 'picks' ? (ct || 'My picks') : src === 'fav' ? 'Favourites' : 'Top ' + (fs.length || ''), sub: src === 'picks' ? 'Chosen by me, in order' : src === 'fav' ? 'The ones I love most' : 'My highest rated, in order', custom: src === 'picks' && !!ct };
 }
-const dlTopN = auto => { const n = dls().topn; return n === 'auto' ? auto : n; };
+const dlTopN = (auto, o) => o.n === 'auto' ? auto : o.n;
+
 /* ---- 5. Film card ---- */
 async function dlFilm(c, W, H, D) {
-  const f = dlPickFilm(D.d.film), m = Math.round(W * .07);
+  const f = dlPickFilm(D.o.film), m = Math.round(W * .07);
   if (!f) { dlBg(c, W, H, null); const t = dlHead(c, W, 'Dailies', 'Film card', ''), b = dlFoot(c, W, H, ''); dlEmpty(c, W, t, b, 'Add a film first'); return; }
   const pal = palOf(f), acc = dlAccent(f), stacked = H / W > 1.2, last = entriesOf(f.id)[0];
   dlBg(c, W, H, pal.a);
@@ -3430,7 +3463,7 @@ const pad2 = n => String(n).padStart(2, '0');
 /* ---- 7. Colour of the year ---- */
 const DL_HUES = ['Red', 'Orange', 'Yellow', 'Lime', 'Green', 'Mint', 'Cyan', 'Azure', 'Blue', 'Violet', 'Magenta', 'Rose'];
 async function dlPalette(c, W, H, D) {
-  const m = Math.round(W * .07), sp = dlSpan(true), firstOf = new Map();
+  const m = Math.round(W * .07), sp = D.sp, firstOf = new Map();
   sp.ents.slice().sort((a, b) => a.date.localeCompare(b.date)).forEach(e => { if (!firstOf.has(String(e.fid))) firstOf.set(String(e.fid), e.date); });
   const fs = [...sp.films].sort((a, b) => (firstOf.get(String(a.id)) || '9').localeCompare(firstOf.get(String(b.id)) || '9') || a.added - b.added);
   dlBg(c, W, H, fs.length ? palOf(fs[0]).a : null);
@@ -3453,7 +3486,7 @@ async function dlPalette(c, W, H, D) {
 
 /* ---- 8. Directors ---- */
 async function dlDirs(c, W, H, D) {
-  const m = Math.round(W * .07), sp = dlSpan(true), dm = new Map();
+  const m = Math.round(W * .07), sp = D.sp, dm = new Map();
   sp.films.forEach(f => f.directors.forEach(d => { if (!d.id) return; if (!dm.has(d.id)) dm.set(d.id, { d, fs: [] }); dm.get(d.id).fs.push(f); }));
   const avgR = a => { const r = a.filter(f => f.rating > 0); return r.length ? avg(r.map(f => f.rating)) : 0; };
   let list = [...dm.values()].sort((a, b) => b.fs.length - a.fs.length || avgR(b.fs) - avgR(a.fs));
@@ -3480,7 +3513,7 @@ async function dlDirs(c, W, H, D) {
 
 /* ---- 9. How you rate ---- */
 async function dlTaste(c, W, H, D) {
-  const m = Math.round(W * .07), sp = dlSpan(true), fs = sp.films.filter(f => f.rating > 0), aw = W - 2 * m;
+  const m = Math.round(W * .07), sp = D.sp, fs = sp.films.filter(f => f.rating > 0), aw = W - 2 * m;
   dlBg(c, W, H, fs[0] ? palOf(fs[0]).a : null);
   let y = dlHead(c, W, 'Dailies · ' + sp.label, 'How I rate', fs.length ? plural(fs.length, 'rated film') : 'No ratings yet');
   const bot = dlFoot(c, W, H, sp.label);
@@ -3538,31 +3571,22 @@ async function dlTaste(c, W, H, D) {
 
 /* ---- registry + page ---- */
 const DL = {
-  wall: { title: 'The wall', desc: 'Every poster, sorted by colour into one rainbow.', uses: ['scope'], draw: dlWall },
-  shelf: { title: 'The shelf', desc: 'My film spines on the board, just like the app.', uses: ['scope'], draw: dlShelf },
-  stats: { title: 'Year in film', desc: 'Hours, rating, months, top films, genres and directors.', uses: ['span'], draw: dlStats },
-  top: { title: 'Top films', desc: 'My top films, ranked, with stars.', uses: ['topspan', 'rank'], draw: dlTop },
-  top9: { title: 'Top 9', desc: 'The clean three-by-three of my best.', uses: ['topspan', 'rank'], draw: dlTop9 },
-  best: { title: 'Best of', desc: 'My number one, with the rest that I loved.', uses: ['topspan', 'rank'], draw: dlBest },
-  film: { title: 'Film card', desc: 'One film with my rating and my own words.', uses: ['film'], draw: dlFilm },
-  heat: { title: 'Calendar', desc: 'Every day of the year in the colour of what I watched.', uses: ['year'], draw: dlHeat },
-  palette: { title: 'Colour of it all', desc: 'Every film I have seen as a stripe, as long as its runtime. All time.', uses: [], draw: dlPalette },
-  dirs: { title: 'Directors', desc: 'The directors I return to, with portraits. All time.', uses: [], draw: dlDirs },
-  taste: { title: 'How I rate', desc: 'My average and every rating. All time.', uses: [], draw: dlTaste }
+  wall: { title: 'The wall', desc: 'Every poster in one wall, sorted by colour.', draw: dlWall },
+  shelf: { title: 'The shelf', desc: 'My film spines on the board, just like the app.', draw: dlShelf },
+  stats: { title: 'Year in film', desc: 'Hours, rating, months, top films, genres and directors.', draw: dlStats },
+  top: { title: 'Top films', desc: 'My best films, ranked with stars or as a clean grid.', draw: dlTop },
+  best: { title: 'My number one', desc: 'One film above the rest, with the ones I loved next.', draw: dlBest },
+  film: { title: 'Film card', desc: 'One film with my rating and my own words.', draw: dlFilm },
+  heat: { title: 'Calendar', desc: 'Every day of the year in the colour of what I watched.', draw: dlHeat },
+  palette: { title: 'Colour of it all', desc: 'Every film I have seen as a stripe, as long as its runtime. All time.', draw: dlPalette },
+  dirs: { title: 'Directors', desc: 'The directors I return to, with portraits. All time.', draw: dlDirs },
+  taste: { title: 'How I rate', desc: 'My average and every rating. All time.', draw: dlTaste }
 };
-const dlName = id => id === 'rec' ? 'dailies-recommendations-' + dls().fmt + '.png' : 'dailies-' + id + '-' + (['palette', 'dirs', 'taste'].includes(id) ? 'all-time' : ['top', 'top9', 'best'].includes(id) ? (dls().topspan === 'all' ? 'all-time' : S.ui.year) : ['stats'].includes(id) ? (dls().span === 'all' ? 'all-time' : S.ui.year) : id === 'heat' ? S.ui.year : dls().fmt) + '-' + dls().fmt + '.png';
+const dlPerL = o => o.period === 'all' ? 'All time' : String(S.ui.year);
+const dlName = id => { const o = dlO(id), per = o.period === 'all' ? 'all-time' : S.ui.year; return id === 'rec' ? 'dailies-recommendations-' + dls().fmt + '.png' : 'dailies-' + id + (['stats', 'top', 'best', 'palette', 'dirs', 'taste'].includes(id) ? '-' + per : id === 'heat' ? '-' + S.ui.year : '') + (id === 'top' && o.style === 'grid' ? '-grid' : '') + '-' + dls().fmt + '.png'; };
 const dlCache = new Map();
 const dlIds = () => Object.keys(DL).filter(k => !DL[k].hidden);
-function dlKey(id) {
-  const d = dls(), u = DL[id].uses, k = [id, d.fmt, ver, palOk, S.films.length];
-  if (u.includes('scope')) k.push(d.scope);
-  if (u.includes('span')) k.push(d.span, S.ui.year);
-  if (u.includes('topspan')) k.push(d.topspan, S.ui.year);
-  if (u.includes('rank')) k.push(d.topsrc, d.topn, JSON.stringify(d.picks));
-  if (u.includes('year')) k.push(S.ui.year);
-  if (u.includes('film')) k.push(d.film);
-  return k.join('|');
-}
+function dlKey(id) { const d = dls(); return [id, d.fmt, ver, palOk, S.films.length, S.ui.year, JSON.stringify(dlO(id)), id === 'top' || id === 'best' ? JSON.stringify(d.picks) : ''].join('|'); }
 async function dlWaitPals(tok) {
   for (let i = 0; i < 30 && (palBusy > 0 || (palQ.length && !(palFails >= 4 && !palOk))); i++) { await dlSleep(150); if (tok != null && tok !== dlTok) return; }
 }
@@ -3579,7 +3603,7 @@ async function dlPreviews() {
     if (hit) { c.drawImage(hit, 0, 0); if (sk) sk.remove(); continue; }
     c.scale(s, s);
     try {
-      await DL[id].draw(c, F.w, F.h, dlData());
+      await DL[id].draw(c, F.w, F.h, dlData(id));
       if (tok !== dlTok) return;
       const cp = document.createElement('canvas'); cp.width = cv.width; cp.height = cv.height; cp.getContext('2d').drawImage(cv, 0, 0);
       dlCache.set(key, cp); if (dlCache.size > 60) dlCache.delete(dlCache.keys().next().value);
@@ -3594,7 +3618,7 @@ async function dlBlob(id) {
   for (const K of [2, 1]) {
     try {
       const cv = document.createElement('canvas'); cv.width = F.w * K; cv.height = F.h * K; const c = cv.getContext('2d');
-      c.scale(K, K); await DL[id].draw(c, F.w, F.h, dlData());
+      c.scale(K, K); await DL[id].draw(c, F.w, F.h, dlData(id));
       const b = await new Promise(res => cv.toBlob(res, 'image/png'));
       if (b) return b;
     } catch (e) { console.error(e); }
@@ -3611,41 +3635,78 @@ async function dlSave(id) {
   } catch (e) { console.error(e); toast('Could not render that image. Check your connection and try again.'); }
   finally { clearInterval(iv); dlHot = false; }
 }
+const DLP = { k: 'period', l: 'Covers', c: [['year', () => 'Year ' + S.ui.year], ['all', 'All time']] };
+const DLSRC = { k: 'src', l: 'Films', c: [['rated', 'Highest rated'], ['fav', 'Favourites'], ['picks', 'Hand-picked']], picks: true };
+const DLFIL = { k: 'films', l: 'Films', c: [['seen', 'Seen'], ['wish', 'Wishlist'], ['fav', 'Favourites'], ['all', 'Everything']] };
+const DLCF = {
+  wall: [DLFIL, { k: 'order', l: 'Order', c: [['colour', 'By colour'], ['rating', 'Best first'], ['recent', 'Newest first']] }],
+  shelf: [DLFIL], stats: [DLP],
+  top: [DLP, DLSRC, { k: 'style', l: 'Style', c: [['stars', 'Ranked, with stars'], ['grid', 'Clean grid']] }, { k: 'n', l: 'How many', c: [['auto', 'Auto'], [3, '3'], [5, '5'], [9, '9']] }],
+  best: [DLP, DLSRC], film: [{ film: true }], palette: [DLP], dirs: [DLP], taste: [DLP]
+};
+function dlSum(id) {
+  const o = dlO(id), src = { rated: 'Highest rated', fav: 'Favourites', picks: 'Hand-picked' };
+  if (id === 'wall') return dlScopeLabel(o.films) + ', ' + { colour: 'by colour', rating: 'best first', recent: 'newest first' }[o.order];
+  if (id === 'shelf') return dlScopeLabel(o.films);
+  if (id === 'top') return [dlPerL(o), src[o.src], o.style === 'grid' ? 'clean grid' : 'with stars', o.n === 'auto' ? '' : o.n + ' films'].filter(Boolean).join(', ');
+  if (id === 'best') return dlPerL(o) + ', ' + src[o.src].toLowerCase();
+  if (id === 'film') { const f = o.film && byId(o.film); return f ? f.title : 'Latest watch'; }
+  if (id === 'heat') return String(S.ui.year);
+  return dlPerL(o);
+}
+const dlPicksBtn = () => '<button type="button" class="pkb" data-act="dlcpicks" aria-haspopup="dialog"><span class="pkb-t">' + (dlPicked().length ? dlPicked().length + ' chosen' + (dls().picks.title.trim() ? ', ' + E(dls().picks.title.trim()) : '') : 'Choose your films') + '</span><span class="pkb-c" aria-hidden="true"></span></button>';
 PAGES.downloads = {
   render() {
-    const d = dls(), yr = S.ui.year, cur = new Date().getFullYear(), canShare = typeof navigator.canShare === 'function';
+    const d = dls(), yr = S.ui.year, cur = new Date().getFullYear(), canShare = typeof navigator.canShare === 'function', F = DLF[d.fmt];
     const seg = (act, now, opts) => '<div class="seg" role="group">' + opts.map(([v, l]) => '<button type="button" data-act="' + act + '" data-v="' + v + '" class="' + (now === v ? 'on' : '') + '" aria-pressed="' + (now === v) + '">' + l + '</button>').join('') + '</div>';
-    const F = DLF[d.fmt];
-    const pf = d.film ? byId(d.film) : null;
-    const hint = u => u.includes('rank') ? 'Follows the Top films settings above.' : u.includes('scope') ? 'Follows the shelf setting above.' : u.includes('span') ? 'Follows the stats setting above.' : u.includes('year') ? 'Follows the year above.' : '';
-    const cards = Object.entries(DL).filter(([, x]) => !x.hidden).map(([id, x]) => '<article class="dl-card" data-d="' + id + '"><div class="dl-prev" style="aspect-ratio:' + F.w + '/' + F.h + '"><canvas data-dlc="' + id + '" aria-label="Preview of ' + E(x.title) + '" role="img"></canvas><span class="sk">Rendering…</span></div>' +
-      '<div><h3>' + E(x.title) + '</h3><p>' + E(x.desc) + ' ' + hint(x.uses) + '</p></div>' +
-      (['top', 'top9', 'best'].includes(id) ? '<div class="dl-tsp">' + seg('dltop', d.topspan, [['year', 'This year (' + yr + ')'], ['all', 'All time']]) + '</div>' : '') +
-      (id === 'film' ? '<button type="button" class="pkb" data-act="dlpick" aria-haspopup="dialog"><span class="pkb-t">' + (pf ? E(pf.title) + (pf.year ? ' <em>' + pf.year + '</em>' : '') : 'Latest watch') + '</span><span class="pkb-c" aria-hidden="true"></span></button>' : '') +
-      '<div class="dl-acts"><button type="button" class="btn pri sm" data-act="dldl" data-id="' + id + '">Download PNG</button>' + (canShare ? '<button type="button" class="btn sm" data-act="dlshare" data-id="' + id + '">Share</button>' : '') + '</div></article>').join('');
+    const cards = dlIds().map(id => { const x = DL[id], has = !!DLCF[id];
+      return '<article class="dl-card" data-d="' + id + '"><div class="dl-prev"' + (has ? ' data-act="dlcustom" data-id="' + id + '" role="button" tabindex="0" aria-label="Customise ' + E(x.title) + '"' : '') + ' style="aspect-ratio:' + F.w + '/' + F.h + '"><canvas data-dlc="' + id + '" aria-label="Preview of ' + E(x.title) + '" role="img"></canvas><span class="sk">Rendering…</span></div>' +
+        '<div><h3>' + E(x.title) + '</h3><p class="dl-sum">' + E(dlSum(id)) + '</p><p>' + E(x.desc) + '</p></div>' +
+        '<div class="dl-acts"><button type="button" class="btn pri sm" data-act="dldl" data-id="' + id + '">Download</button>' + (has ? '<button type="button" class="btn sm" data-act="dlcustom" data-id="' + id + '">Customise</button>' : '') + (canShare ? '<button type="button" class="btn sm" data-act="dlshare" data-id="' + id + '">Share</button>' : '') + '</div></article>'; }).join('');
     $('#view').innerHTML = '<div class="pagehead"><h1>Downloadables</h1><span class="sub">One-click images of your film life, made to share.</span><span class="sp"></span><button class="btn pri" type="button" data-act="dlall">Download all</button></div>' +
-      (S.films.length ? '<div class="dl-ctl"><div class="field"><span class="lbl">Format</span>' + seg('dlfmt', d.fmt, Object.entries(DLF).map(([k, v]) => [k, v.l])) + '</div>' +
-        '<div class="field"><span class="lbl">Wall and shelf show</span>' + seg('dlscope', d.scope, [['seen', 'Seen'], ['wish', 'Wishlist'], ['fav', 'Favourites'], ['all', 'Everything']]) + '</div>' +
-        '<div class="field"><span class="lbl">Stats cover</span>' + seg('dlspan', d.span, [['year', 'One year'], ['all', 'All time']]) + '</div>' +
-        '<div class="field"><span class="lbl">Top films, Top 9 and Best of use</span>' + seg('dlsrc', d.topsrc, [['rated', 'Highest rated'], ['fav', 'Favourites'], ['picks', 'My picks']]) + '</div>' +
-        '<div class="field"><span class="lbl">How many</span>' + seg('dltopn', String(d.topn), [['auto', 'Auto'], ['3', '3'], ['5', '5'], ['9', '9']]) + '</div>' +
-        '<div class="field"><span class="lbl">My picks</span><button type="button" class="pkb" data-act="dlpicks" aria-haspopup="dialog"><span class="pkb-t">' + (dlPicked().length ? dlPicked().length + ' chosen' + (d.picks.title.trim() ? ', ' + E(d.picks.title.trim()) : '') : 'Choose your own films') + '</span><span class="pkb-c" aria-hidden="true"></span></button></div>' +
+      (S.films.length ? '<div class="dl-ctl"><div class="field"><span class="lbl">Size</span>' + seg('dlfmt', d.fmt, Object.entries(DLF).map(([k, v]) => [k, v.l])) + '</div>' +
         '<div class="field"><span class="lbl">Year</span><div class="yr"><button type="button" class="btn sm ico" data-act="dyear" data-v="-1" aria-label="Previous year">‹</button><b>' + yr + '</b><button type="button" class="btn sm ico" data-act="dyear" data-v="1" aria-label="Next year" ' + (yr >= cur ? 'disabled' : '') + '>›</button></div></div></div>' +
-        '<p class="note" style="margin-bottom:22px">PNG, ' + F.s + '. Previews are small, downloads are full size.</p><div class="dl-grid">' + cards + '</div>' :
+        '<p class="note" style="margin-bottom:22px">PNG, ' + F.s + '. Size and year apply to every image. Tap a preview, or Customise, to choose what that image shows.</p><div class="dl-grid">' + cards + '</div>' :
         '<div class="empty"><h3>Nothing to make yet</h3><p>Add a few films to your shelf and this page turns them into images you can post.</p><button class="btn pri" type="button" data-act="find">Find films</button></div>');
   },
   after() { if (S.films.length) dlPreviews(); }
 };
+/* ---- customise one downloadable: live preview, only the options that belong to it ---- */
+let dlcId = '', dlcTok = 0;
+function dlcControls(id) {
+  const o = dlO(id), d = dls();
+  const seg = (k, now, opts, act) => '<div class="seg" role="group">' + opts.map(([v, l]) => { const on = String(now) === String(v); return '<button type="button" data-act="' + act + '" data-k="' + k + '" data-v="' + v + '" class="' + (on ? 'on' : '') + '" aria-pressed="' + on + '">' + (typeof l === 'function' ? l() : l) + '</button>'; }).join('') + '</div>';
+  return '<div class="field"><span class="lbl">Size</span>' + seg('fmt', d.fmt, Object.entries(DLF).map(([k, v]) => [k, v.l]), 'dlcfmt') + '</div>' +
+    (DLCF[id] || []).map(f => f.film ? '<div class="field"><span class="lbl">Film</span><button type="button" class="pkb" data-act="dlcpick" aria-haspopup="dialog"><span class="pkb-t">' + (o.film && byId(o.film) ? E(byId(o.film).title) + (byId(o.film).year ? ' <em>' + byId(o.film).year + '</em>' : '') : 'Latest watch') + '</span><span class="pkb-c" aria-hidden="true"></span></button></div>' :
+      '<div class="field"><span class="lbl">' + f.l + '</span>' + seg(f.k, o[f.k], f.c, 'dlofld') + (f.picks && o.src === 'picks' ? '<div style="margin-top:8px">' + dlPicksBtn() + '</div>' : '') + '</div>').join('');
+}
+function dlCustom(id) {
+  if (!DL[id] || !DLCF[id]) return; dlcId = id; const x = DL[id], F = DLF[dls().fmt], canShare = typeof navigator.canShare === 'function';
+  openDlg('<div class="dlc"><div class="dlc-p"><div class="dl-prev dlc-pv" id="dlcPv"><canvas id="dlcC"></canvas><span class="sk" id="dlcSk">Rendering…</span></div></div><div class="dlc-c"><h2>' + E(x.title) + '</h2><p class="dlc-d">' + E(x.desc) + '</p><div id="dlcF">' + dlcControls(id) + '</div></div>' +
+    '<div class="dlc-a"><button type="button" class="btn pri" data-act="dldl" data-id="' + id + '">Download PNG</button>' + (canShare ? '<button type="button" class="btn" data-act="dlshare" data-id="' + id + '">Share</button>' : '') + '<button type="button" class="btn" data-act="closedlg">Done</button></div></div>', { wide: true, label: 'Customise ' + x.title, onClose: () => { dlcId = ''; dlcTok++; if (route === 'downloads') refresh(); } });
+  dlcSize(); dlcPreview();
+}
+function dlcSize() { const pv = $('#dlcPv'), F = DLF[dls().fmt]; if (pv) { pv.style.aspectRatio = F.w + '/' + F.h; pv.style.width = 'min(100%, calc(48dvh * ' + (F.w / F.h) + '))'; } }
+async function dlcPreview() {
+  const id = dlcId, tok = ++dlcTok; if (!id) return; await dlFonts(); ensurePals(); await dlWaitPals(); if (tok !== dlcTok) return;
+  const cv = $('#dlcC'), sk = $('#dlcSk'); if (!cv) return; const F = DLF[dls().fmt], s = .5, key = dlKey(id) + '|big', hit = dlCache.get(key);
+  const put = src => { cv.width = src.width; cv.height = src.height; cv.getContext('2d').drawImage(src, 0, 0); if (sk) sk.hidden = true; };
+  if (hit) { put(hit); return; } if (sk) sk.hidden = false;
+  const off = document.createElement('canvas'); off.width = Math.round(F.w * s); off.height = Math.round(F.h * s); const c = off.getContext('2d'); c.scale(s, s);
+  try { await DL[id].draw(c, F.w, F.h, dlData(id)); if (tok !== dlcTok) return; dlCache.set(key, off); if (dlCache.size > 60) dlCache.delete(dlCache.keys().next().value); put(off); }
+  catch (e) { console.error(e); if (sk) sk.textContent = 'Could not render this preview'; }
+}
+ACT.dlcustom = a => dlCustom(a.dataset.id);
+ACT.dlofld = a => { const o = dlO(dlcId), k = a.dataset.k, v = a.dataset.v; o[k] = k === 'n' && v !== 'auto' ? +v : v; save(); $('#dlcF').innerHTML = dlcControls(dlcId); dlcPreview(); };
+ACT.dlcfmt = a => { dls().fmt = a.dataset.v; save(); $('#dlcF').innerHTML = dlcControls(dlcId); dlcSize(); dlcPreview(); };
+ACT.dlcpicks = () => { const id = dlcId; closeDlg(); setTimeout(() => dlPicksOpen(() => dlCustom(id), () => { dlO(id).src = 'picks'; }), 90); };
+let dlcReopen = '';
+ACT.dlcpick = () => { dlcReopen = dlcId; closeDlg(); setTimeout(() => ACT.dlpick(), 90); };
 ACT.dlfmt = a => { dls().fmt = a.dataset.v; upd(); };
-ACT.dlscope = a => { dls().scope = a.dataset.v; upd(); };
-ACT.dltop = a => { dls().topspan = a.dataset.v; upd(); };
-ACT.dlsrc = a => { dls().topsrc = a.dataset.v; upd(); };
-ACT.dltopn = a => { dls().topn = a.dataset.v === 'auto' ? 'auto' : +a.dataset.v; upd(); };
-ACT.dlpicks = () => dlPicksOpen('dl');
-function dlPicksOpen(from) {
+function dlPicksOpen(back, onSave) {
   const d = dls(), MAX = 12; let ids = d.picks.ids.filter(id => byId(id)).map(String);
   const all = [...S.films].sort((a, b) => titleKey(a).localeCompare(titleKey(b)));
-  const box = openDlg('<h2>Choose your films</h2><p class="note" style="margin-bottom:12px">Up to ' + MAX + ', in the order you want them ranked. They are used by Top films, Top 9, Best of and the year video.</p>' +
+  const box = openDlg('<h2>Choose your films</h2><p class="note" style="margin-bottom:12px">Up to ' + MAX + ', in the order you want them ranked. Used by Top films, My number one and the year video when they are set to hand-picked.</p>' +
     '<div class="field"><label for="pkT">Title <span class="fine">(optional)</span></label><input class="inp" id="pkT" maxlength="40" autocomplete="off" placeholder="My best of ' + S.ui.year + '" value="' + E(d.picks.title) + '"></div>' +
     '<div class="pks" id="pkSel"></div><div class="pk-quick" id="pkQk"><button type="button" class="chip" data-q="rated">Fill with my highest rated</button><button type="button" class="chip" data-q="fav">Fill with favourites</button><button type="button" class="chip" data-q="clear">Clear</button></div>' +
     '<div class="pk-s"><input class="inp" type="search" id="pkQ" placeholder="Search ' + all.length.toLocaleString() + ' films or genres…" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Search films"></div><div class="pk-g" id="pkG" role="group" aria-label="Filter by genre"></div><div class="pk-l" id="pkL" role="listbox" aria-multiselectable="true"></div><div class="pk-n" id="pkN"></div>' +
@@ -3679,12 +3740,11 @@ function dlPicksOpen(from) {
     if (q === 'clear') ids = []; else ids = S.films.filter(f => q === 'fav' ? f.fav : f.seen && f.rating > 0).sort((a, b2) => dlRK(b2) - dlRK(a)).slice(0, MAX).map(f => String(f.id));
     all2();
   });
-  const back = () => { closeDlg(); if (from === 'video') setTimeout(() => ACT.vdopen(), 90); };
-  box.querySelector('#pkCancel').onclick = back;
-  box.querySelector('#pkDone').onclick = () => { d.picks.ids = ids.slice(); d.picks.title = box.querySelector('#pkT').value.trim().slice(0, 40); if (ids.length) d.topsrc = 'picks'; save(); closeDlg(); if (from === 'video') setTimeout(() => ACT.vdopen(), 90); else refresh(); };
+  const fin = () => { closeDlg(); if (back) setTimeout(back, 90); else if (route === 'downloads') refresh(); };
+  box.querySelector('#pkCancel').onclick = fin;
+  box.querySelector('#pkDone').onclick = () => { d.picks.ids = ids.slice(); d.picks.title = box.querySelector('#pkT').value.trim().slice(0, 40); if (ids.length && onSave) onSave(); save(); fin(); };
   drawG(); all2();
 }
-ACT.dlspan = a => { dls().span = a.dataset.v; upd(); };
 ACT.dldl = a => dlSave(a.dataset.id);
 ACT.dlshare = async a => {
   try {
@@ -3696,11 +3756,11 @@ ACT.dlall = async () => {
   if (!await askConfirm('Download all ' + dlIds().length + ' images? Your browser may ask to allow multiple downloads.', { yes: 'Download all' })) return;
   for (const id of dlIds()) { await dlSave(id); await dlSleep(600); }
 };
-ACT.filmcard = a => { dls().film = a.dataset.id; dlJump = 'film'; save(); closePanel(); go('downloads'); };
-CTL.dlfilm = v => { dls().film = v; save(); refresh(); };
+ACT.filmcard = a => { dlO('film').film = a.dataset.id; dlJump = 'film'; save(); closePanel(); go('downloads'); };
+CTL.dlfilm = v => { dlO('film').film = v; save(); if (route === 'downloads') refresh(); };
 ACT.dlpick = () => {
-  const cur = String(dls().film || ''), all = [...S.films].sort((a, b) => titleKey(a).localeCompare(titleKey(b)));
-  const box = openDlg('<h2>Choose a film</h2><div class="pk-s"><input class="inp" type="search" id="pkQ" placeholder="Search ' + all.length.toLocaleString() + ' films or genres…" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Search films"></div><div class="pk-g" id="pkG" role="group" aria-label="Filter by genre"></div><div class="pk-l" id="pkL" role="listbox"></div><div class="pk-n" id="pkN"></div><div class="acts"><button type="button" class="btn" data-act="closedlg">Cancel</button></div>', { label: 'Choose a film' });
+  const cur = String(dlO('film').film || ''), all = [...S.films].sort((a, b) => titleKey(a).localeCompare(titleKey(b)));
+  const box = openDlg('<h2>Choose a film</h2><div class="pk-s"><input class="inp" type="search" id="pkQ" placeholder="Search ' + all.length.toLocaleString() + ' films or genres…" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Search films"></div><div class="pk-g" id="pkG" role="group" aria-label="Filter by genre"></div><div class="pk-l" id="pkL" role="listbox"></div><div class="pk-n" id="pkN"></div><div class="acts"><button type="button" class="btn" data-act="closedlg">Cancel</button></div>', { label: 'Choose a film', onClose: () => { if (dlcReopen) { const id = dlcReopen; dlcReopen = ''; setTimeout(() => dlCustom(id), 90); } } });
   const L = box.querySelector('#pkL'), N = box.querySelector('#pkN'), Q = box.querySelector('#pkQ'), G = box.querySelector('#pkG'), MAX = 60;
   let gen = '';
   const gc = new Map(); all.forEach(f => (f.genres || []).forEach(g => gc.set(g, (gc.get(g) || 0) + 1)));
@@ -3818,7 +3878,7 @@ async function dlRec(c, W, H) {
     else if (f.year) dlT(c, String(f.year), x, y + ph + cap * .82, DLFN.u4, 20, DLC.ink3, 'left', pw);
   }
 }
-DL.rec = { title: 'Recommendation', desc: 'Your picks, as one image.', uses: [], draw: dlRec, hidden: true };
+DL.rec = { title: 'Recommendation', desc: 'Your picks, as one image.', draw: dlRec, hidden: true };
 
 /* builder UI */
 let recTok = 0, recT = 0;
@@ -3858,10 +3918,11 @@ function recHTML() {
   PAGES.downloads.render = function () {
     base();
     if (!S.films.length) return;
-    const h = $('#view .pagehead'); if (h) h.insertAdjacentHTML('afterend', recHTML());
-    const gr = $('#view .dl-grid'); if (gr) gr.insertAdjacentHTML('beforebegin', '<h2 class="rc-h2">More images</h2>');
+    const gr = $('#view .dl-grid'), open = !!dls().recOpen;
+    if (gr) gr.insertAdjacentHTML('afterend', '<section class="rc-wrap"><button type="button" class="rc-tg" data-act="recopen" aria-expanded="' + open + '"><span><b>Make a recommendation</b><i>Pick films to suggest to a friend, add a line, and download the picture.</i></span><span class="rc-c' + (open ? ' on' : '') + '" aria-hidden="true"></span></button>' + (open ? recHTML() : '') + '</section>');
   };
-  PAGES.downloads.after = function () { baseAfter(); if (S.films.length) recPreview(); };
+  PAGES.downloads.after = function () { baseAfter(); if (S.films.length && dls().recOpen) recPreview(); };
+  ACT.recopen = () => { const d = dls(); d.recOpen = !d.recOpen; save(); refresh(); if (d.recOpen) setTimeout(() => { const el = $('.rc-wrap'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60); };
 }
 // the grid and "download all" skip the hidden recommendation entry
 
@@ -4019,13 +4080,13 @@ const vdHost = () => { const h = location.hostname; return !h || h === 'localhos
 
 /* ---- model: everything the film says comes from here ---- */
 function vdModel() {
-  const sp = dlSpan(), fs = sp.films, ents = [...sp.ents].sort((a, b) => a.date.localeCompare(b.date) || (a.ts || 0) - (b.ts || 0));
+  const sp = dlSpan(dls().vid.period === 'all' ? true : 'year'), fs = sp.films, ents = [...sp.ents].sort((a, b) => a.date.localeCompare(b.date) || (a.ts || 0) - (b.ts || 0));
   const m = { all: sp.all, yr: sp.yr, label: sp.label, films: fs, ents };
   m.watches = ents.length || fs.length;
   m.mins = ents.length ? ents.reduce((a, e) => a + (byId(e.fid).runtime || 0), 0) : fs.reduce((a, f) => a + (f.runtime || 0), 0);
   m.hours = Math.round(m.mins / 60); m.re = ents.filter(e => e.rewatch).length;
   const rated = fs.filter(f => f.rating > 0); m.rated = rated; m.avg = rated.length ? avg(rated.map(f => f.rating)) : 0;
-  { const R = dlRanked(sp, dls().vid.n, true); m.tops = R.fs; m.topsLbl = R.src === 'picks' ? [R.title, 'My number one'] : R.src === 'fav' ? ['My favourites', 'My favourite'] : ['My highest rated', 'My favourite']; }
+  { const R = dlRanked(sp, dls().vid.n, true, dls().vid.src); m.tops = R.fs; m.topsLbl = R.src === 'picks' ? [R.title, 'My number one'] : R.src === 'fav' ? ['My favourites', 'My favourite'] : ['My highest rated', 'My favourite']; }
   m.first = ents.length >= 2 ? { f: byId(ents[0].fid), when: vdDate(ents[0].date, sp.all) } : null;
   /* rhythm */
   if (!sp.all && ents.length >= 4) {
@@ -4174,7 +4235,7 @@ function vdScenes(m) {
       vdText(c, plural(m.films.length, 'film') + ', ' + m.label, M, 1680, DLFN.d8, 58, INK, vdW(t, 2.8, 4), 'left', AW);
     } });
   }
-  if (m.tops.length >= (dls().topsrc === 'picks' ? 1 : 3)) {
+  if (m.tops.length >= (dls().vid.src === 'picks' ? 1 : 3)) {
     const tp = m.tops, nT = tp.length, per = 2.1, st0 = .4, order = [...tp].reverse(), last = nT - 1;
     S_.push({ id: 'top', dur: st0 + last * per + 3.8, chrome: true, tint: A, riser: st0 + last * per, urls: tp.map(f => [f, 780]),
       back(c, t, a, T) { order.forEach((f, k) => { const u = t - (st0 + k * per), al = vdS(vdW(u, .1, 1.1)) * (k < last ? 1 - vdS(vdW(u, per - .6, per + .05)) : 1); vdBackdrop(c, f, 780, al * a, T); }); },
@@ -4434,17 +4495,18 @@ function vdWarm() { const V = VDS.V; if (V) vdLoad(V, () => { }).then(() => { if
 function vdRebuild() { if (VDS.st !== 'idle' || !VDS.V) return; const old = VDS.V, m = vdModel(); VDS.V = Object.assign({}, old, { m }, vdScenes(m)); vdPaint(VD.PREV); vdUI(); vdWarm(); }
 function vdOptDraw() {
   const box = $('#vdOpt'); if (!box || !VDS.V) return; const d = dls(), v = d.vid, names = { first: 'First film', numbers: 'Numbers', rhythm: 'Busiest month', wall: 'The wall', top: 'Top films', taste: 'Genres', dir: 'Director', colour: 'Colour' };
-  const seg = (act, now, opts) => '<div class="seg" role="group">' + opts.map(([k, l]) => '<button type="button" data-act="' + act + '" data-v="' + k + '" class="' + (now === k ? 'on' : '') + '" aria-pressed="' + (now === k) + '">' + l + '</button>').join('') + '</div>';
+  const seg = (act, now, opts) => '<div class="seg" role="group">' + opts.map(([k, l]) => '<button type="button" data-act="' + act + '" data-v="' + k + '" class="' + (String(now) === String(k) ? 'on' : '') + '" aria-pressed="' + (String(now) === String(k)) + '">' + l + '</button>').join('') + '</div>';
   box.toggleAttribute('inert', VDS.st !== 'idle'); box.style.opacity = VDS.st !== 'idle' ? .5 : '';
-  box.innerHTML = '<div class="field"><span class="lbl">Top films scene shows</span>' + seg('vdsrc', d.topsrc, [['rated', 'Highest rated'], ['fav', 'Favourites'], ['picks', 'My picks']]) + '</div>' +
-    '<div class="field"><span class="lbl">How many</span>' + seg('vdn', String(v.n), [['3', '3'], ['5', '5'], ['7', '7']]) + '</div>' +
-    '<div class="field"><button type="button" class="pkb" data-act="vdpicks"><span class="pkb-t">' + (dlPicked().length ? dlPicked().length + ' chosen' + (d.picks.title.trim() ? ', ' + E(d.picks.title.trim()) : '') : 'Choose your own films') + '</span><span class="pkb-c" aria-hidden="true"></span></button></div>' +
+  box.innerHTML = '<div class="field"><span class="lbl">Covers</span>' + seg('vdper', v.period, [['year', 'Year ' + S.ui.year], ['all', 'All time']]) + '</div>' +
+    '<div class="field"><span class="lbl">Top films scene shows</span>' + seg('vdsrc', v.src, [['rated', 'Highest rated'], ['fav', 'Favourites'], ['picks', 'Hand-picked']]) + (v.src === 'picks' ? '<div style="margin-top:8px">' + dlPicksBtn().replace('dlcpicks', 'vdpicks') + '</div>' : '') + '</div>' +
+    '<div class="field"><span class="lbl">How many</span>' + seg('vdn', v.n, [[3, '3'], [5, '5'], [7, '7']]) + '</div>' +
     '<div class="field"><span class="lbl">Scenes</span><div class="chips">' + (VDS.V.ids || []).filter(i => names[i]).map(i => '<button type="button" class="chip' + (v.off.includes(i) ? '' : ' on') + '" data-act="vdsc" data-v="' + i + '" aria-pressed="' + !v.off.includes(i) + '">' + names[i] + '</button>').join('') + '</div></div>';
 }
-ACT.vdsrc = a => { dls().topsrc = a.dataset.v; save(); vdRebuild(); };
+ACT.vdper = a => { dls().vid.period = a.dataset.v; save(); vdRebuild(); };
+ACT.vdsrc = a => { dls().vid.src = a.dataset.v; save(); vdRebuild(); };
 ACT.vdn = a => { dls().vid.n = +a.dataset.v; save(); vdRebuild(); };
 ACT.vdsc = a => { const o = dls().vid.off, i = o.indexOf(a.dataset.v); if (i < 0) o.push(a.dataset.v); else o.splice(i, 1); save(); vdRebuild(); };
-ACT.vdpicks = () => { closeDlg(); setTimeout(() => dlPicksOpen('video'), 90); };
+ACT.vdpicks = () => { closeDlg(); setTimeout(() => dlPicksOpen(() => ACT.vdopen(), () => { dls().vid.src = 'picks'; }), 90); };
 ACT.vdwatch = () => vdRun(false);
 ACT.vdmake = () => vdRun(true);
 ACT.vdstop = () => vdStop();
@@ -4466,7 +4528,7 @@ ACT.vdshare = async () => { if (!VDS.file) return; try { await navigator.share({
   PAGES.downloads.render = function () {
     base2();
     if (!S.films.length) return;
-    const h = $('#view .pagehead'), sp = dlSpan(); if (!h) return;
+    const h = $('#view .pagehead'), sp = dlSpan(dls().vid.period === 'all' ? true : 'year'); if (!h) return;
     h.insertAdjacentHTML('afterend', '<section class="vd-ban"><div class="vd-ban-t"><span class="vd-ban-k">New</span><h3>My ' + (sp.all ? 'film life' : sp.label) + ' in film, as a video</h3><p>Your real watches, ratings and posters, cut into a short vertical film with music. Ready for Stories, Reels and WhatsApp.</p></div><button type="button" class="btn pri" data-act="vdopen">Make my video</button></section>');
   };
 }
