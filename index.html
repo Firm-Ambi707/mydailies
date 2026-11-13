@@ -1059,6 +1059,7 @@ button,a,.spine,.face,.tile-po,.chip,.seg button{touch-action:manipulation}
 .rg.none{background:none;border:1.5px dashed var(--line2)}.rg.none::before{display:none}.rg.none b{color:var(--ink3);font-size:15px}
 @media (max-width:420px){.rh{gap:4px}.rx{padding:14px 10px 10px}.rx-p{min-width:0;padding:8px 10px}.rh-l{font-size:9.5px}.dr-n b{font-size:19px}}
 .lst .dl-prev{background:#161616;position:relative;overflow:hidden}.lst .dl-prev canvas{width:100%;height:auto;display:block}.lst-pg{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:10px;font:600 13px/1 var(--f-u);color:var(--ink2)}.lst-pg .ico{width:36px;padding:0}.lst-prog{position:absolute;inset:0;background:rgba(10,10,10,.86);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px;text-align:center;color:#fff}.lst-prog[hidden]{display:none}.lst-prog .vd-prog{width:80%;max-width:none}.lst .lst-dl:disabled{opacity:.5}.lst select.inp{height:40px}@media (min-width:721px){.dlc.lst{grid-template-areas:"p c"}.lst .dlc-p{position:sticky;top:0;align-self:start}.lst .dlc-a{margin-top:14px}}@media (max-width:720px){.lst .dlc-p{display:contents}.lst .pvw{grid-area:p;display:flex;flex-direction:column;align-items:center}}.lst-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.lst .chip.on{background:var(--ink);color:var(--on)}
+.cds .cd:nth-child(5n+1){--bgi:var(--t1)}.cds .cd:nth-child(5n+2){--bgi:var(--t2)}.cds .cd:nth-child(5n+3){--bgi:var(--t3)}.cds .cd:nth-child(5n+4){--bgi:var(--t4)}.cds .cd:nth-child(5n+5){--bgi:var(--t5)}
 </style></head>
 <body>
 <a class="skip" href="#view">Skip to content</a>
@@ -2802,6 +2803,28 @@ PAGES.insights = {
     cards.push(cd('In the dark', (minutes / 1440).toFixed(1) + ' days at the movies', 'Everything you have seen, played back to back, would run for ' + Math.round(minutes / 60).toLocaleString() + ' hours.', 'Hours watched', Math.round(minutes / 60).toLocaleString()));
     if (rated.length) cards.push(cd('Your taste', lovedShare >= 60 ? 'A generous critic' : lovedShare <= 25 ? 'A tough critic' : 'A balanced critic', lovedShare + '% of your ratings are 4 stars or more.', 'Rated 4 or higher', rated.filter(f => f.rating >= 4).length + ' / ' + rated.length));
     if (rewatchN) cards.push(cd('Second looks', rewatchPct + '% get a second watch', plural(rewatchN, 'film', 'films') + ' you have seen more than once.', 'Rewatched', rewatchN));
+    {
+      const monL = i => new Date(2000, i, 1).toLocaleDateString(undefined, { month: 'long' });
+      if (busiest && busiest[0] > 1) cards.push(cd('Busiest month', monL(busiest[1]) + ' was your month', plural(busiest[0], 'film', 'films') + ' logged in ' + monL(busiest[1]) + ' ' + yr + ', more than any other month.', 'Films in ' + mon(busiest[1]), busiest[0]));
+      const dEl = yr === new Date().getFullYear() ? Math.max(1, Math.ceil((Date.now() - Date.UTC(yr, 0, 1)) / 864e5)) : 365;
+      if (ents.length >= 2) { const per = dEl / ents.length; cards.push(cd('Your pace', 'A film every ' + (per < 10 ? per.toFixed(1) : Math.round(per)) + ' days', ents.length + ' watches across ' + dEl + ' days of ' + yr + '.', 'Watches in ' + yr, ents.length)); }
+      const fresh = ents.map(e => byId(e.fid)).filter(f => f && f.year === yr), freshU = new Set(fresh.map(f => f.id)).size;
+      if (freshU) cards.push(cd('Fresh off the press', plural(freshU, 'new release', 'new releases'), 'Films released in ' + yr + ' that you also watched in ' + yr + '.', 'New in ' + yr, freshU));
+      const rts = seen.filter(f => f.runtime), longF = rts.slice().sort((a, b) => b.runtime - a.runtime)[0];
+      if (longF) cards.push(cd('Endurance', E(longF.title) + ' tested you', fmtRt(longF.runtime) + ' long, the longest film you have seen. The average film on your shelf runs ' + Math.round(avg(rts.map(f => f.runtime))) + ' minutes.', 'Longest runtime', fmtRt(longF.runtime)));
+      const favN = S.films.filter(f => f.fav).length;
+      if (favN) cards.push(cd('Close to your heart', plural(favN, 'favourite', 'favourites'), Math.round(favN / Math.max(1, seen.length) * 100) + '% of what you have seen has made it to your favourites.', 'Favourites', favN));
+      const five = rated.filter(f => f.rating >= 5).length;
+      if (five) cards.push(cd('The five-star club', plural(five, 'film', 'films') + ' earned full marks', 'Only ' + Math.round(five / rated.length * 100) + '% of your ratings are a perfect 5.', 'Five stars', five));
+      const rc = new Map(); rated.forEach(f => rc.set(f.rating, (rc.get(f.rating) || 0) + 1)); const modeR = [...rc].sort((a, b) => b[1] - a[1] || b[0] - a[0])[0];
+      if (modeR && rated.length >= 3) cards.push(cd('Your average', mean.toFixed(2) + ' out of 5', 'Across ' + rated.length + ' ratings. The rating you give most often is ' + modeR[0] + ' stars, ' + plural(modeR[1], 'time', 'times') + '.', 'Most common', modeR[0] + '★'));
+      const dcs = new Map(); seen.filter(f => f.year).forEach(f => { const d = Math.floor(f.year / 10) * 10; dcs.set(d, (dcs.get(d) || 0) + 1); }); const topDc = [...dcs].sort((a, b) => b[1] - a[1] || b[0] - a[0])[0];
+      if (topDc) cards.push(cd('Favourite era', 'The ' + topDc[0] + 's are your decade', plural(topDc[1], 'film', 'films') + ' you have seen came out in the ' + topDc[0] + 's, across ' + dcs.size + ' decades in total.', 'Films from the ' + topDc[0] + 's', topDc[1]));
+      const comfort = seen.slice().sort((a, b) => wc(b) - wc(a))[0];
+      if (comfort && wc(comfort) > 1) cards.push(cd('Comfort film', E(comfort.title) + ' keeps winning you back', 'You have watched it ' + wc(comfort) + ' times, more than anything else on your shelf.', 'Watches', wc(comfort)));
+      const backlog = S.films.filter(f => f.wish && !f.seen).length;
+      if (backlog) cards.push(cd('The backlog', plural(backlog, 'film', 'films') + ' still waiting', 'Saved to your watchlist and not seen yet.', 'On the watchlist', backlog));
+    }
     const SHOWN = 4, more = cards.length - SHOWN;
     const flagship = '<section class="ins"><h2>Your signature</h2><div class="cds' + (insOpen ? ' open' : '') + '">' + cards.map((c, i) => i >= SHOWN ? c.replace('<article class="cd"', '<article class="cd x"') : c).join('') + '</div>' +
       (more > 0 ? '<button type="button" class="cds-b" data-act="insmore" aria-expanded="' + insOpen + '" data-n="' + more + '"><span>' + (insOpen ? 'Show fewer' : 'See more insights (' + more + ')') + '</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>' : '') + '</section>';
