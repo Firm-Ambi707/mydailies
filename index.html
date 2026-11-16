@@ -1060,6 +1060,26 @@ button,a,.spine,.face,.tile-po,.chip,.seg button{touch-action:manipulation}
 @media (max-width:420px){.rh{gap:4px}.rx{padding:14px 10px 10px}.rx-p{min-width:0;padding:8px 10px}.rh-l{font-size:9.5px}.dr-n b{font-size:19px}}
 .lst .dl-prev{background:#161616;position:relative;overflow:hidden}.lst .dl-prev canvas{width:100%;height:auto;display:block}.lst-pg{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:10px;font:600 13px/1 var(--f-u);color:var(--ink2)}.lst-pg .ico{width:36px;padding:0}.lst-prog{position:absolute;inset:0;background:rgba(10,10,10,.86);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px;text-align:center;color:#fff}.lst-prog[hidden]{display:none}.lst-prog .vd-prog{width:80%;max-width:none}.lst .lst-dl:disabled{opacity:.5}.lst select.inp{height:40px}@media (min-width:721px){.dlc.lst{grid-template-areas:"p c"}.lst .dlc-p{position:sticky;top:0;align-self:start}.lst .dlc-a{margin-top:14px}}@media (max-width:720px){.lst .dlc-p{display:contents}.lst .pvw{grid-area:p;display:flex;flex-direction:column;align-items:center}}.lst-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.lst .chip.on{background:var(--ink);color:var(--on)}
 .cds .cd:nth-child(5n+1){--bgi:var(--t1)}.cds .cd:nth-child(5n+2){--bgi:var(--t2)}.cds .cd:nth-child(5n+3){--bgi:var(--t3)}.cds .cd:nth-child(5n+4){--bgi:var(--t4)}.cds .cd:nth-child(5n+5){--bgi:var(--t5)}
+/* ===== compact buttons on phones ===== */
+@media (max-width:640px){
+  .btn{height:34px!important;min-height:34px!important;padding:0 13px!important;font-size:13px!important;gap:6px;border-radius:9px}
+  .btn.sm,.fbar>.btn.sm{height:30px!important;min-height:30px!important;padding:0 11px!important;font-size:12px!important}
+  .btn.ico{width:34px!important;min-width:34px!important;padding:0!important}
+  .btn.sm.ico{width:30px!important;min-width:30px!important}
+  .btn svg{width:14px;height:14px}
+  .chip{height:28px!important;padding:0 11px!important;font-size:12px!important}
+  .seg{padding:2px;border-radius:9px}
+  .seg button{height:28px!important;padding:0 11px!important;font-size:12px!important;border-radius:7px}
+  .dlg .row>*,.wl-a .btn,.vd-ban .btn{flex:0 1 auto!important;width:auto}
+  .dlg .row{gap:8px}
+  .vd-ban .btn{align-self:flex-start}
+  .dlc-a{gap:8px}
+  .dlc-a .btn{flex:1 1 auto!important}
+  .btn.wide{width:100%!important}
+  .blk-more,.cds-b{font-size:12px}
+  .tools{gap:8px}
+  .pagehead{align-items:center;gap:6px 12px}.pagehead h1{flex:1 1 auto}.pagehead .sub{order:5;flex:1 0 100%;padding:0}.pagehead .sp{display:none}
+}
 </style></head>
 <body>
 <a class="skip" href="#view">Skip to content</a>
@@ -3420,28 +3440,58 @@ function dlRanked(sp, n, ratedOnly, src) {
 const dlTopN = (auto, o) => o.n === 'auto' ? auto : o.n;
 
 /* ---- 5. Film card ---- */
+async function dlFilmBack(c, W, H, f, pal) {
+  const im = await dlImg(dlPosterURL(f, 130));
+  dlBg(c, W, H, pal.a);
+  if (im) {
+    const t = document.createElement('canvas'); t.width = 20; t.height = 30; const x = t.getContext('2d'); x.imageSmoothingQuality = 'high'; dlCover(x, im, 0, 0, 20, 30);
+    const t2 = document.createElement('canvas'); t2.width = 100; t2.height = 150; const x2 = t2.getContext('2d'); x2.imageSmoothingQuality = 'high'; x2.drawImage(t, 0, 0, 100, 150);
+    c.save(); c.imageSmoothingQuality = 'high'; c.globalAlpha = .62; dlCover(c, t2, 0, 0, W, H); c.restore();
+  }
+  const g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, 'rgba(12,12,12,.30)'); g.addColorStop(.55, 'rgba(12,12,12,.50)'); g.addColorStop(1, 'rgba(10,10,10,.86)'); c.fillStyle = g; c.fillRect(0, 0, W, H);
+  c.save(); c.globalAlpha = .07; c.globalCompositeOperation = 'overlay'; c.fillStyle = c.createPattern(dlGrain(), 'repeat'); c.fillRect(0, 0, W, H); c.restore();
+}
 async function dlFilm(c, W, H, D) {
   const f = dlPickFilm(D.o.film), m = Math.round(W * .07);
   if (!f) { dlBg(c, W, H, null); const t = dlHead(c, W, 'Dailies', 'Film card', ''), b = dlFoot(c, W, H, ''); dlEmpty(c, W, t, b, 'Add a film first'); return; }
-  const pal = palOf(f), acc = dlAccent(f), stacked = H / W > 1.2, last = entriesOf(f.id)[0];
-  dlBg(c, W, H, pal.a);
-  const lg = c.createLinearGradient(0, H * .45, 0, H); lg.addColorStop(0, 'rgba(0,0,0,0)'); lg.addColorStop(1, (pal.b || pal.a) + '77'); c.fillStyle = lg; c.fillRect(0, H * .45, W, H * .55);
+  const pal = palOf(f), acc = dlAccent(f), tall = H / W > 1.6, es = entriesOf(f.id), last = es[0];
+  await dlFilmBack(c, W, H, f, pal);
   const bot = dlFoot(c, W, H, last ? 'Watched ' + fmtDate(last.date) : f.seen ? 'Seen' : 'On the shelf');
   let pw, ph, px, py, tx, tw, al, y;
-  if (stacked) { pw = Math.min(W * .6, (H * .4) / 1.5); ph = pw * 1.5; px = (W - pw) / 2; py = m + 8; tx = W / 2; tw = W - 2 * m; al = 'center'; y = py + ph + Math.round(W * .07); }
-  else { pw = Math.min(W * .4, (H - 2 * m - 110) / 1.5); ph = pw * 1.5; px = m; py = m + Math.max(0, (H - 2 * m - 110 - ph) / 2); tx = px + pw + Math.round(W * .05); tw = W - m - tx; al = 'left'; y = py + 6; }
-  await dlDrawPoster(c, f, px, py, pw, ph, Math.round(pw * .02));
-  const kick = f.genres.slice(0, 3).join(' · ');
-  if (kick) { dlL(c, kick, tx, y + 18, 22, acc, al, .16); y += 54; }
-  const wf = dlWrapFit(c, f.title.toUpperCase(), DLFN.d8, stacked ? Math.round(W * .14) : Math.round(W * .105), tw, 2, 44);
-  wf.lines.forEach(l => { y += wf.z * .84; dlT(c, l, tx, y, DLFN.d8, wf.z, DLC.ink, al); y += wf.z * .08; }); y += 22;
-  const meta = [f.year, fmtRt(f.runtime), directorNames(f)].filter(Boolean).join('  ·  ');
-  if (meta) { dlT(c, meta, tx, y + 22, DLFN.u5, 26, DLC.ink2, al, tw); y += 58; }
-  if (f.rating > 0) { const ss = stacked ? 44 : 36; dlStars(c, tx, y + ss / 2, ss, f.rating, acc, al); y += ss + 36; }
-  const txt = (f.spoiler ? (f.tagline || '') : (f.review || f.tagline || '')).replace(/\s+/g, ' ').trim();
-  if (txt && y < bot - 60) {
-    c.fillStyle = acc; c.fillRect(al === 'center' ? tx - 30 : tx, y, 60, 3); y += 30;
-    const z = stacked ? Math.round(W * .04) : Math.round(W * .034), lh = z * 1.38; c.font = DLFN.pi(z);
+  if (tall) { pw = Math.min(W * .58, (bot - m) * .34 / 1.5 * 1.5); pw = Math.min(pw, W * .58); ph = pw * 1.5; px = (W - pw) / 2; py = m + 6; tx = W / 2; tw = W - 2 * m; al = 'center'; y = py + ph + Math.round(W * .075); }
+  else { pw = Math.min(W * .42, (bot - m * 1.2) / 1.5); ph = pw * 1.5; px = m; py = m + Math.max(0, (bot - m - ph) / 2); tx = px + pw + Math.round(W * .055); tw = W - m - tx; al = 'left'; y = py + 4; }
+  await dlDrawPoster(c, f, px, py, pw, ph, 8);
+  c.save(); dlRR(c, px + 1, py + 1, pw - 2, ph - 2, 8); c.strokeStyle = 'rgba(255,255,255,.22)'; c.lineWidth = 2; c.stroke(); c.restore();
+  if (f.fav) { const r = Math.round(pw * .07); c.save(); c.beginPath(); c.arc(px + pw - r * 1.7, py + r * 1.7, r * 1.15, 0, 6.2832); c.fillStyle = 'rgba(14,14,14,.72)'; c.fill(); c.restore(); dlT(c, '♥', px + pw - r * 1.7, py + r * 1.7 + r * .45, DLFN.u5, r * 1.3, acc, 'center'); }
+  const kick = f.genres.slice(0, 3).join('  ·  ');
+  if (kick) { dlL(c, kick, tx, y + 16, tall ? 24 : 21, acc, al, .2); y += 50; }
+  const wf = dlWrapFit(c, f.title.toUpperCase(), DLFN.d8, tall ? Math.round(W * .15) : Math.round(W * .115), tw, tall ? 2 : 3, 46);
+  wf.lines.forEach(l => { y += wf.z * .84; dlT(c, l, tx, y, DLFN.d8, wf.z, DLC.ink, al); y += wf.z * .07; });
+  y += 14;
+  const tl = (f.tagline || '').replace(/\s+/g, ' ').trim();
+  if (tl && tl.length < 90) { const z = tall ? 32 : 27; c.font = DLFN.pi(z); const ls = dlWrap(c, tl, tw).slice(0, 2); ls.forEach(l => { y += z * 1.32; dlT(c, l, tx, y, DLFN.pi, z, DLC.ink2, al); }); y += 12; }
+  const meta = [directorNames(f) && 'Directed by ' + directorNames(f)].filter(Boolean).join('');
+  if (meta) { dlT(c, meta.toUpperCase(), tx, y + 24, DLFN.u5, tall ? 22 : 19, DLC.ink3, al, tw); y += 52; }
+  if (f.rating > 0) {
+    const ss = tall ? 50 : 38, tot = ss * 5 + ss * .24 * 4, vz = tall ? 88 : 66;
+    const rt = f.rating.toFixed(1); c.font = DLFN.d8(vz); const nw = c.measureText(rt).width, gw = tot + 22 + nw, x0 = al === 'center' ? tx - gw / 2 : tx;
+    dlStars(c, x0, y + ss / 2 + 6, ss, f.rating, acc, 'left'); dlT(c, rt, x0 + tot + 22, y + ss / 2 + vz * .32 + 6, DLFN.d8, vz, acc, 'left');
+    y += ss + 40;
+  }
+  /* stat strip */
+  const cells = [];
+  if (f.year) cells.push([String(f.year), 'Released']); if (f.runtime) cells.push([fmtRt(f.runtime), 'Runtime']);
+  if (last) cells.push([fmtDate(last.date, 'short'), 'Watched']); if (es.length > 1) cells.push([es.length + '×', 'Watches']);
+  if (cells.length && y + 120 < bot) {
+    const cw = tw / cells.length, vz = tall ? 54 : 38; c.fillStyle = 'rgba(255,255,255,.2)'; c.fillRect(tx - (al === 'center' ? tw / 2 : 0), y, tw, 2);
+    const x0 = al === 'center' ? tx - tw / 2 : tx;
+    cells.forEach(([v, l], i) => { const cx = x0 + cw * i + (al === 'center' ? cw / 2 : 0); dlT(c, v, cx + (al === 'center' ? 0 : 10), y + 20 + vz * .86, DLFN.d8, vz, DLC.ink, al === 'center' ? 'center' : 'left', cw - 24); dlL(c, l, cx + (al === 'center' ? 0 : 10), y + 28 + vz * .86 + 22, tall ? 19 : 16, DLC.ink3, al === 'center' ? 'center' : 'left', .2); if (i) { c.fillStyle = 'rgba(255,255,255,.12)'; c.fillRect(x0 + cw * i - (al === 'center' ? 0 : 14), y + 18, 2, vz + 40); } });
+    y += vz + 78;
+  }
+  const mine = !f.spoiler && (f.review || '').replace(/\s+/g, ' ').trim(), txt = mine || (f.overview || '').replace(/\s+/g, ' ').trim();
+  if (txt && y < bot - 90) {
+    const z = tall ? Math.round(W * .039) : Math.round(W * .031), lh = z * 1.4; y += 6;
+    dlL(c, mine ? 'MY TAKE' : 'ABOUT', tx, y + 14, tall ? 20 : 17, acc, al, .26); y += 38; c.font = DLFN.pi(z);
     const lines = dlWrap(c, txt, tw), maxL = Math.floor((bot - y) / lh);
     if (maxL > 0) { const out = lines.slice(0, maxL); if (lines.length > maxL) out[maxL - 1] = out[maxL - 1].replace(/[\s.,;:!?]*$/, '') + '…'; out.forEach(l => { y += lh; dlT(c, l, tx, y - lh * .28, DLFN.pi, z, DLC.ink2, al); }); }
   }
