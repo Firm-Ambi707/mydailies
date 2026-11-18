@@ -1124,10 +1124,30 @@ button,a,.spine,.face,.tile-po,.chip,.seg button{touch-action:manipulation}
 .wm-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 28px}.wm-r{display:grid;grid-template-columns:minmax(80px,32%) 1fr 28px;gap:10px;align-items:center;padding:7px 4px;border:0;border-radius:8px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:pointer}.wm-r:hover,.wm-r.on{background:var(--line)}.wm-rn{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.wm-rb{height:6px;border-radius:6px;background:var(--line)}.wm-rb i{display:block;height:100%;border-radius:6px;background:#f0c35c}.wm-r b{text-align:right;font-weight:600;font-size:14px}
 @media (max-width:640px){.wm-list{grid-template-columns:1fr}.wm-s b{font-size:20px}.wm-s{padding:10px}}
 .ce-l{max-height:min(46vh,340px);overflow:auto;display:grid;gap:2px;border:1px solid var(--line);border-radius:10px;padding:6px}.ce-r{padding:7px 8px;border-radius:7px;cursor:pointer}.ce-r:hover{background:var(--line)}.pw-i{display:grid;place-items:center;font:600 22px/1 var(--f-d);color:var(--ink2);background:var(--line)}.wm-fl{width:64px}
-.lp-g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:10px 0 14px}.lp-r{position:relative;aspect-ratio:1;padding:0;border:0;background:none;color:var(--ink);cursor:pointer;font:inherit}.lp-r svg{position:absolute;inset:0;width:100%;height:100%}.lp-bg{fill:none;stroke:var(--line);stroke-width:7}.lp-fg{fill:none;stroke:#f0c35c;stroke-width:7;stroke-linecap:butt;transition:stroke-dasharray .8s cubic-bezier(.2,.8,.2,1)}.lp-t{position:absolute;inset:14%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px}.lp-t em{font-style:normal;font-size:clamp(10px,1.35vw,13px);line-height:1.2;font-weight:600}.lp-t b{font:500 clamp(22px,3.2vw,34px)/1 var(--f-d);color:var(--ink2)}.lp-t small{font-size:clamp(9px,1vw,11px);color:var(--ink3)}.lp-r:hover .lp-fg,.lp-r:focus-visible .lp-fg{stroke:#ffd77a}.lp-r:hover .lp-t b{color:var(--ink)}.lp-r.off{opacity:.5;cursor:default}
+.lp-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:8px;margin:10px 0 14px}
+.lp-r{position:relative;display:flex;align-items:center;gap:11px;padding:9px 12px 9px 9px;text-align:left;border:1px solid var(--line);border-radius:14px;background:linear-gradient(160deg,rgba(255,255,255,.035),rgba(255,255,255,0));color:var(--ink);cursor:pointer;font:inherit;transition:transform .2s,border-color .2s,background .2s}
+.lp-r:hover,.lp-r:focus-visible{transform:translateY(-2px);border-color:rgba(240,195,92,.55);background:linear-gradient(160deg,rgba(240,195,92,.09),rgba(255,255,255,0))}
+.lp-rg{position:relative;flex:none;width:52px;height:52px}.lp-rg svg{width:100%;height:100%;display:block;overflow:visible}
+.lp-bg{fill:none;stroke:var(--line);stroke-width:6;opacity:.8}.lp-fg{fill:none;stroke-width:6;stroke-linecap:round;filter:drop-shadow(0 0 3px rgba(240,195,92,.45));transition:stroke-dasharray .9s cubic-bezier(.2,.8,.2,1)}
+.lp-pc{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:600 12px/1 var(--f-d);color:var(--ink)}.lp-pc i{font-style:normal;font-size:7px;opacity:.6;margin-left:0;transform:translateY(-2px)}
+.lp-t{display:flex;flex-direction:column;min-width:0;gap:2px}.lp-t em{font-style:normal;font-size:12.5px;line-height:1.2;font-weight:600;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.lp-t small{font-size:10.5px;color:var(--ink3);font-variant-numeric:tabular-nums}
+.lp-r.full{border-color:rgba(240,195,92,.6)}.lp-r.full .lp-fg{filter:drop-shadow(0 0 5px rgba(255,215,122,.8))}.lp-r.off{opacity:.5;cursor:default}.lp-r.off:hover{transform:none;border-color:var(--line);background:none}
+.bs-w{overflow-x:auto;-webkit-overflow-scrolling:touch}.bs-g{display:grid;gap:4px;min-width:340px}.bs-r{display:grid;grid-template-columns:56px repeat(8,minmax(0,1fr));gap:4px;align-items:center}.bs-h span{font-size:10px;color:var(--ink3);text-align:center}.bs-l{font-size:11px;color:var(--ink2);white-space:nowrap}
+.bs-c{height:30px;border-radius:7px;border:1px solid transparent;background:rgba(240,195,92,calc(var(--a,0)*.85));color:#1a1204;font:600 11px/1 var(--f-d);cursor:pointer;padding:0;transition:transform .15s,box-shadow .15s}.bs-c:hover,.bs-c:focus-visible{transform:scale(1.12);box-shadow:0 0 0 2px rgba(240,195,92,.5);z-index:1}
+.bs-e{background:none;border:1px dashed var(--line);animation:bsP 3.4s ease-in-out infinite}.bs-e:hover{border-color:#f0c35c;background:rgba(240,195,92,.1)}@keyframes bsP{50%{border-color:rgba(240,195,92,.35)}}@media (prefers-reduced-motion:reduce){.bs-e{animation:none}}
+
+.sc-pick{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}.sc-pick .fb-grp{flex:1 1 220px;min-width:0}.sc-pick .sel{width:100%;max-width:100%;text-overflow:ellipsis}.sc-sw{padding:8px 12px;line-height:1}
+.sc-n{font:500 13px/1 var(--f-d);color:#f0c35c;letter-spacing:.04em;text-transform:uppercase;margin:16px 0 10px}.sc-m{margin:14px 0}
+.sc-c{display:flex;flex-direction:column;align-items:stretch;max-width:520px}
+.sc-f{display:flex;gap:12px;align-items:center;text-align:left;padding:8px 12px 8px 8px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(160deg,rgba(255,255,255,.04),rgba(255,255,255,0));color:var(--ink);font:inherit;cursor:pointer;transition:transform .2s,border-color .2s}.sc-f:hover,.sc-f:focus-visible{transform:translateX(3px);border-color:rgba(240,195,92,.55)}
+.sc-f img,.sc-ph{flex:none;width:42px;height:62px;border-radius:5px;object-fit:cover;background:var(--line)}.sc-t{display:flex;flex-direction:column;gap:2px;min-width:0}.sc-t b{font-weight:600;font-size:14px;line-height:1.25}.sc-t small{font-size:11px;color:var(--ink3)}
+.sc-l{position:relative;margin-left:29px;padding:12px 0 12px 22px;border-left:2px dashed rgba(240,195,92,.55)}.sc-l span{display:inline-flex;flex-direction:column;gap:1px;padding:5px 11px;border-radius:999px;background:rgba(240,195,92,.12);border:1px solid rgba(240,195,92,.4);font-size:12px;font-weight:600;color:#ffd77a}.sc-l small{font-weight:400;font-size:10px;color:var(--ink3)}
+@media (max-width:760px){.sc-pick .fb-grp{flex-basis:100%}.sc-sw{display:none}.sc-f img,.sc-ph{width:36px;height:54px}}
+.bs-h3{font:500 13px/1.3 var(--f-d);margin:14px 0 6px;color:var(--ink2)}@media (max-width:760px){.bs-r{grid-template-columns:44px repeat(8,minmax(0,1fr));gap:3px}.bs-l{font-size:10px}.bs-c{height:24px;font-size:10px}}
+
 .lp-l{display:grid;gap:2px;max-height:min(52vh,420px);overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:6px}.lp-i{display:flex;gap:12px;align-items:baseline;padding:8px 10px;border:0;border-radius:7px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:default;width:100%}button.lp-i{cursor:pointer}button.lp-i:hover{background:var(--line)}.lp-y{width:40px;flex:none;font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}.lp-n{font-size:14px}
-@media (max-width:760px){.lp-g{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.lp-t em{font-size:9.5px}.lp-t b{font-size:20px}.lp-t small{font-size:9px}}
-@media (max-width:420px){.lp-g{grid-template-columns:repeat(2,minmax(0,1fr))}.lp-t em{font-size:11px}.lp-t b{font-size:26px}}
+@media (max-width:760px){.lp-g{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.lp-r{padding:7px 9px 7px 7px;gap:8px;border-radius:12px}.lp-rg{width:42px;height:42px}.lp-pc{font-size:10.5px}.lp-t em{font-size:11px}.lp-t small{font-size:9.5px}}
+
 </style></head>
 <body>
 <a class="skip" href="#view">Skip to content</a>
@@ -4173,9 +4193,9 @@ DL.world = { title: 'Films around the world', desc: 'A world map shaded by where
 
 /* ===== List progress: how much of the famous lists you have seen ===== */
 const LP_STATIC = {
-  oscar: { name: 'Oscar Best Picture Winners', short: 'Oscar Best Picture', note: 'Winners from the 1st ceremony to the 97th. Matched by title and year.', raw: "Wings|1927;The Broadway Melody|1929;All Quiet on the Western Front|1930;Cimarron|1931;Grand Hotel|1932;Cavalcade|1933;It Happened One Night|1934;Mutiny on the Bounty|1935;The Great Ziegfeld|1936;The Life of Emile Zola|1937;You Can't Take It with You|1938;Gone with the Wind|1939;Rebecca|1940;How Green Was My Valley|1941;Mrs. Miniver|1942;Casablanca|1942;Going My Way|1944;The Lost Weekend|1945;The Best Years of Our Lives|1946;Gentleman's Agreement|1947;Hamlet|1948;All the King's Men|1949;All About Eve|1950;An American in Paris|1951;The Greatest Show on Earth|1952;From Here to Eternity|1953;On the Waterfront|1954;Marty|1955;Around the World in 80 Days|1956;The Bridge on the River Kwai|1957;Gigi|1958;Ben-Hur|1959;The Apartment|1960;West Side Story|1961;Lawrence of Arabia|1962;Tom Jones|1963;My Fair Lady|1964;The Sound of Music|1965;A Man for All Seasons|1966;In the Heat of the Night|1967;Oliver!|1968;Midnight Cowboy|1969;Patton|1970;The French Connection|1971;The Godfather|1972;The Sting|1973;The Godfather Part II|1974;One Flew Over the Cuckoo's Nest|1975;Rocky|1976;Annie Hall|1977;The Deer Hunter|1978;Kramer vs. Kramer|1979;Ordinary People|1980;Chariots of Fire|1981;Gandhi|1982;Terms of Endearment|1983;Amadeus|1984;Out of Africa|1985;Platoon|1986;The Last Emperor|1987;Rain Man|1988;Driving Miss Daisy|1989;Dances with Wolves|1990;The Silence of the Lambs|1991;Unforgiven|1992;Schindler's List|1993;Forrest Gump|1994;Braveheart|1995;The English Patient|1996;Titanic|1997;Shakespeare in Love|1998;American Beauty|1999;Gladiator|2000;A Beautiful Mind|2001;Chicago|2002;The Lord of the Rings: The Return of the King|2003;Million Dollar Baby|2004;Crash|2004;The Departed|2006;No Country for Old Men|2007;Slumdog Millionaire|2008;The Hurt Locker|2008;The King's Speech|2010;The Artist|2011;Argo|2012;12 Years a Slave|2013;Birdman or (The Unexpected Virtue of Ignorance)|2014;Spotlight|2015;Moonlight|2016;The Shape of Water|2017;Green Book|2018;Parasite|2019;Nomadland|2020;CODA|2021;Everything Everywhere All at Once|2022;Oppenheimer|2023;Anora|2024" },
+  oscar: { name: 'Oscar Best Picture Winners', short: 'Oscar Best Picture', note: 'Winners from the 1st ceremony to the 98th (March 2026). Matched by title and year.', raw: "Wings|1927;The Broadway Melody|1929;All Quiet on the Western Front|1930;Cimarron|1931;Grand Hotel|1932;Cavalcade|1933;It Happened One Night|1934;Mutiny on the Bounty|1935;The Great Ziegfeld|1936;The Life of Emile Zola|1937;You Can't Take It with You|1938;Gone with the Wind|1939;Rebecca|1940;How Green Was My Valley|1941;Mrs. Miniver|1942;Casablanca|1942;Going My Way|1944;The Lost Weekend|1945;The Best Years of Our Lives|1946;Gentleman's Agreement|1947;Hamlet|1948;All the King's Men|1949;All About Eve|1950;An American in Paris|1951;The Greatest Show on Earth|1952;From Here to Eternity|1953;On the Waterfront|1954;Marty|1955;Around the World in 80 Days|1956;The Bridge on the River Kwai|1957;Gigi|1958;Ben-Hur|1959;The Apartment|1960;West Side Story|1961;Lawrence of Arabia|1962;Tom Jones|1963;My Fair Lady|1964;The Sound of Music|1965;A Man for All Seasons|1966;In the Heat of the Night|1967;Oliver!|1968;Midnight Cowboy|1969;Patton|1970;The French Connection|1971;The Godfather|1972;The Sting|1973;The Godfather Part II|1974;One Flew Over the Cuckoo's Nest|1975;Rocky|1976;Annie Hall|1977;The Deer Hunter|1978;Kramer vs. Kramer|1979;Ordinary People|1980;Chariots of Fire|1981;Gandhi|1982;Terms of Endearment|1983;Amadeus|1984;Out of Africa|1985;Platoon|1986;The Last Emperor|1987;Rain Man|1988;Driving Miss Daisy|1989;Dances with Wolves|1990;The Silence of the Lambs|1991;Unforgiven|1992;Schindler's List|1993;Forrest Gump|1994;Braveheart|1995;The English Patient|1996;Titanic|1997;Shakespeare in Love|1998;American Beauty|1999;Gladiator|2000;A Beautiful Mind|2001;Chicago|2002;The Lord of the Rings: The Return of the King|2003;Million Dollar Baby|2004;Crash|2004;The Departed|2006;No Country for Old Men|2007;Slumdog Millionaire|2008;The Hurt Locker|2008;The King's Speech|2010;The Artist|2011;Argo|2012;12 Years a Slave|2013;Birdman or (The Unexpected Virtue of Ignorance)|2014;Spotlight|2015;Moonlight|2016;The Shape of Water|2017;Green Book|2018;Parasite|2019;Nomadland|2020;CODA|2021;Everything Everywhere All at Once|2022;Oppenheimer|2023;Anora|2024;One Battle After Another|2025" },
   afi: { name: 'AFI 100 Years, 100 Movies', short: 'AFI 100 Years 100 Movies', note: 'The American Film Institute list from 2007. Matched by title and year.', raw: "Citizen Kane|1941;The Godfather|1972;Casablanca|1942;Raging Bull|1980;Singin' in the Rain|1952;Gone with the Wind|1939;Lawrence of Arabia|1962;Schindler's List|1993;Vertigo|1958;The Wizard of Oz|1939;City Lights|1931;The Searchers|1956;Star Wars|1977;Psycho|1960;2001: A Space Odyssey|1968;Sunset Boulevard|1950;The Graduate|1967;The General|1926;On the Waterfront|1954;It's a Wonderful Life|1946;Chinatown|1974;Some Like It Hot|1959;The Grapes of Wrath|1940;E.T. the Extra-Terrestrial|1982;To Kill a Mockingbird|1962;Mr. Smith Goes to Washington|1939;High Noon|1952;All About Eve|1950;Double Indemnity|1944;Apocalypse Now|1979;The Maltese Falcon|1941;The Godfather Part II|1974;One Flew Over the Cuckoo's Nest|1975;Snow White and the Seven Dwarfs|1937;Annie Hall|1977;The Bridge on the River Kwai|1957;The Best Years of Our Lives|1946;The Treasure of the Sierra Madre|1948;Dr. Strangelove|1964;The Sound of Music|1965;King Kong|1933;Bonnie and Clyde|1967;Midnight Cowboy|1969;The Philadelphia Story|1940;Shane|1953;It Happened One Night|1934;A Streetcar Named Desire|1951;Rear Window|1954;Intolerance|1916;The Lord of the Rings: The Fellowship of the Ring|2001;West Side Story|1961;Taxi Driver|1976;The Deer Hunter|1978;M*A*S*H|1970;North by Northwest|1959;Jaws|1975;Rocky|1976;The Gold Rush|1925;Nashville|1975;Duck Soup|1933;Sullivan's Travels|1941;American Graffiti|1973;Cabaret|1972;Network|1976;The African Queen|1951;Raiders of the Lost Ark|1981;Who's Afraid of Virginia Woolf?|1966;Unforgiven|1992;Tootsie|1982;A Clockwork Orange|1971;Saving Private Ryan|1998;The Shawshank Redemption|1994;Butch Cassidy and the Sundance Kid|1969;The Silence of the Lambs|1991;In the Heat of the Night|1967;Forrest Gump|1994;All the President's Men|1976;Modern Times|1936;The Wild Bunch|1969;The Apartment|1960;Spartacus|1960;Sunrise: A Song of Two Humans|1927;Titanic|1997;Easy Rider|1969;A Night at the Opera|1935;Platoon|1986;12 Angry Men|1957;Bringing Up Baby|1938;The Sixth Sense|1999;Swing Time|1936;Sophie's Choice|1982;Goodfellas|1990;The French Connection|1971;Pulp Fiction|1994;The Last Picture Show|1971;Do the Right Thing|1989;Blade Runner|1982;Yankee Doodle Dandy|1942;Toy Story|1995;Ben-Hur|1959" },
-  palme: { name: "Palme d'Or Winners", short: "Cannes Palme d'Or", note: "Feature films that won the Palme d'Or or the earlier Grand Prix at Cannes. Matched by title and year.", raw: "Brief Encounter|1945;The Lost Weekend|1945;Maria Candelaria|1944;The Third Man|1949;Miracle in Milan|1951;Miss Julie|1951;Othello|1951;The Wages of Fear|1953;Gate of Hell|1953;Marty|1955;The Silent World|1956;Friendly Persuasion|1956;The Cranes Are Flying|1957;Black Orpheus|1959;La Dolce Vita|1960;Viridiana|1961;The Leopard|1963;The Umbrellas of Cherbourg|1964;The Knack ...and How to Get It|1965;A Man and a Woman|1966;Blow-Up|1966;If....|1968;M*A*S*H|1970;The Go-Between|1971;Scarecrow|1973;The Conversation|1974;Taxi Driver|1976;Padre Padrone|1977;The Tree of Wooden Clogs|1978;Apocalypse Now|1979;The Tin Drum|1979;All That Jazz|1979;Kagemusha|1980;Man of Iron|1981;Missing|1982;Yol|1982;The Ballad of Narayama|1983;Paris, Texas|1984;When Father Was Away on Business|1985;The Mission|1986;Under Satan's Sun|1987;Pelle the Conqueror|1987;Sex, Lies, and Videotape|1989;Wild at Heart|1990;Barton Fink|1991;The Best Intentions|1992;Farewell My Concubine|1993;The Piano|1993;Pulp Fiction|1994;Underground|1995;Secrets & Lies|1996;Taste of Cherry|1997;The Eel|1997;Eternity and a Day|1998;Rosetta|1999;Dancer in the Dark|2000;The Son's Room|2001;The Pianist|2002;Elephant|2003;Fahrenheit 9/11|2004;L'Enfant|2005;The Wind That Shakes the Barley|2006;4 Months, 3 Weeks and 2 Days|2007;The Class|2008;The White Ribbon|2009;Uncle Boonmee Who Can Recall His Past Lives|2010;The Tree of Life|2011;Amour|2012;Blue Is the Warmest Colour|2013;Winter Sleep|2014;Dheepan|2015;I, Daniel Blake|2016;The Square|2017;Shoplifters|2018;Parasite|2019;Titane|2021;Triangle of Sadness|2022;Anatomy of a Fall|2023;Anora|2024;It Was Just an Accident|2025" }
+  palme: { name: "Palme d'Or Winners", short: "Cannes Palme d'Or", note: "Feature films that won the Palme d'Or or the earlier Grand Prix at Cannes. Matched by title and year.", raw: "Brief Encounter|1945;The Lost Weekend|1945;Maria Candelaria|1944;The Third Man|1949;Miracle in Milan|1951;Miss Julie|1951;Othello|1951;The Wages of Fear|1953;Gate of Hell|1953;Marty|1955;The Silent World|1956;Friendly Persuasion|1956;The Cranes Are Flying|1957;Black Orpheus|1959;La Dolce Vita|1960;Viridiana|1961;The Leopard|1963;The Umbrellas of Cherbourg|1964;The Knack ...and How to Get It|1965;A Man and a Woman|1966;Blow-Up|1966;If....|1968;M*A*S*H|1970;The Go-Between|1971;Scarecrow|1973;The Conversation|1974;Taxi Driver|1976;Padre Padrone|1977;The Tree of Wooden Clogs|1978;Apocalypse Now|1979;The Tin Drum|1979;All That Jazz|1979;Kagemusha|1980;Man of Iron|1981;Missing|1982;Yol|1982;The Ballad of Narayama|1983;Paris, Texas|1984;When Father Was Away on Business|1985;The Mission|1986;Under Satan's Sun|1987;Pelle the Conqueror|1987;Sex, Lies, and Videotape|1989;Wild at Heart|1990;Barton Fink|1991;The Best Intentions|1992;Farewell My Concubine|1993;The Piano|1993;Pulp Fiction|1994;Underground|1995;Secrets & Lies|1996;Taste of Cherry|1997;The Eel|1997;Eternity and a Day|1998;Rosetta|1999;Dancer in the Dark|2000;The Son's Room|2001;The Pianist|2002;Elephant|2003;Fahrenheit 9/11|2004;L'Enfant|2005;The Wind That Shakes the Barley|2006;4 Months, 3 Weeks and 2 Days|2007;The Class|2008;The White Ribbon|2009;Uncle Boonmee Who Can Recall His Past Lives|2010;The Tree of Life|2011;Amour|2012;Blue Is the Warmest Colour|2013;Winter Sleep|2014;Dheepan|2015;I, Daniel Blake|2016;The Square|2017;Shoplifters|2018;Parasite|2019;Titane|2021;Triangle of Sadness|2022;Anatomy of a Fall|2023;Anora|2024;It Was Just an Accident|2025;Fjord|2026" }
 };
 const LP_LIVE = [
   { k: 'top', name: 'TMDB Top 250', short: 'TMDB Top 250', path: '/movie/top_rated', q: {} },
@@ -4220,16 +4240,17 @@ async function lpLoad(def) {
 let lpQ = null;
 function lpKick() { if (lpQ) return; const todo = LP_LIVE.filter(d => { const c = lpC[d.k]; return !(c && Date.now() - c.t < LPTTL) && lpSt[d.k] !== 'err'; }); if (!todo.length || !getKey()) return; lpQ = (async () => { const q = todo.slice(); const w = async () => { for (let d; (d = q.shift());) await lpLoad(d); }; await Promise.all([w(), w(), w()]); lpQ = null; })(); }
 function lpRing(def, m) {
-  const pct = m.total ? Math.round(m.done / m.total * 100) : 0, r = 52, C = 2 * Math.PI * r, nm = def.short;
-  const words = nm.split(' '), lines = []; let cur = ''; words.forEach(w => { if ((cur + ' ' + w).trim().length > 15 && cur) { lines.push(cur); cur = w; } else cur = (cur + ' ' + w).trim(); }); if (cur) lines.push(cur);
-  const dis = !m.ready;
-  return '<button type="button" class="lp-r' + (dis ? ' off' : '') + '" data-act="lpopen" data-k="' + def.k + '"' + (dis ? ' aria-disabled="true"' : '') + ' aria-label="' + E(def.name) + ', ' + (dis ? (m.st === 'err' ? 'could not load' : 'loading') : m.done + ' of ' + m.total + ' seen') + '">' +
-    '<svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="' + r + '" class="lp-bg"/>' + (dis ? '' : '<circle cx="60" cy="60" r="' + r + '" class="lp-fg" transform="rotate(-90 60 60)" stroke-dasharray="' + (C * m.done / Math.max(1, m.total)).toFixed(1) + ' ' + C.toFixed(1) + '"/>') + '</svg>' +
-    '<span class="lp-t"><em>' + lines.map(E).join('<br>') + '</em>' + (dis ? '<small>' + (m.st === 'err' ? 'Could not load' : getKey() ? 'Loading…' : 'Needs TMDB key') + '</small>' : '<b>' + pct + '%</b><small>' + m.done.toLocaleString() + ' of ' + m.total.toLocaleString() + '</small>') + '</span></button>';
+  const pct = m.total ? Math.round(m.done / m.total * 100) : 0, r = 21, C = 2 * Math.PI * r, dis = !m.ready, gid = 'lg' + def.k.replace(/\W/g, '');
+  const sub = dis ? (m.st === 'err' ? 'Could not load' : getKey() ? 'Loading…' : 'Needs TMDB key') : m.done.toLocaleString() + ' of ' + m.total.toLocaleString();
+  return '<button type="button" class="lp-r' + (dis ? ' off' : '') + (!dis && pct >= 100 ? ' full' : '') + '" data-act="lpopen" data-k="' + def.k + '"' + (dis ? ' aria-disabled="true"' : '') + ' aria-label="' + E(def.name) + ', ' + (dis ? sub : m.done + ' of ' + m.total + ' seen') + '">' +
+    '<span class="lp-rg"><svg viewBox="0 0 52 52" aria-hidden="true"><defs><linearGradient id="' + gid + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd77a"/><stop offset="1" stop-color="#e8873a"/></linearGradient></defs><circle cx="26" cy="26" r="' + r + '" class="lp-bg"/>' +
+    (dis || !m.done ? '' : '<circle cx="26" cy="26" r="' + r + '" class="lp-fg" stroke="url(#' + gid + ')" transform="rotate(-90 26 26)" stroke-dasharray="' + Math.max(0.1, C * m.done / Math.max(1, m.total) - (pct < 100 ? 0 : 0)).toFixed(1) + ' ' + C.toFixed(1) + '"/>') + '</svg>' +
+    '<span class="lp-pc">' + (dis ? '·' : pct + '<i>%</i>') + '</span></span>' +
+    '<span class="lp-t"><em>' + E(def.short) + '</em><small>' + E(sub) + '</small></span></button>';
 }
 function lpHTML() {
   const idx = lpSeenIndex(), sIds = new Set(S.films.filter(f => f.seen).map(f => String(f.id)));
-  return '<h2>List progress</h2><div class="lp-g">' + lpDefs().map(d => lpRing(d, lpModel(d, idx, sIds))).join('') + '</div><p class="note">Tap a ring to see what you have seen and what is left. The Oscar, AFI and Palme d\'Or lists are matched by title and year, so a film with a different title on TMDB may not count. The top lists come live from TMDB.</p>';
+  return '<h2>List progress</h2><div class="lp-g">' + lpDefs().map(d => lpRing(d, lpModel(d, idx, sIds))).join('') + '</div><p class="note">Tap a list to see what you have seen and what is left. The Oscar, AFI and Palme d\'Or lists are matched by title and year, so a film with a different title on TMDB may not count. The top lists come live from TMDB.</p>';
 }
 function lpDraw() { const s = $('#lpSec'); if (s && route === 'insights') s.innerHTML = lpHTML(); }
 let lpTab = 'left';
@@ -4254,6 +4275,124 @@ ACT.lpfilm = a => { closeDlg(); openFilm(a.dataset.id); };
     const html = '<section class="ins lp" id="lpSec">' + lpHTML() + '</section>', w = $('#wmSec');
     if (w) w.insertAdjacentHTML('afterend', html); else v.insertAdjacentHTML('beforeend', html);
     lpKick();
+  };
+}
+
+
+/* ===== Blind spots: genre x decade map of what you have never watched ===== */
+const BS_G = [['Drama', 18], ['Comedy', 35], ['Thriller', 53], ['Action', 28], ['Crime', 80], ['Romance', 10749], ['Horror', 27], ['Science Fiction', 878], ['Animation', 16], ['Documentary', 99], ['War', 10752], ['Western', 37]];
+const BS_D = [['≤50s', 0, 1959], ['60s', 1960, 1969], ['70s', 1970, 1979], ['80s', 1980, 1989], ['90s', 1990, 1999], ['00s', 2000, 2009], ['10s', 2010, 2019], ['20s', 2020, 2029]];
+let bsCache = {};
+function bsGrid() {
+  const g = BS_G.map(() => BS_D.map(() => 0));
+  S.films.forEach(f => { if (!f.seen || !f.year) return; const di = BS_D.findIndex(d => f.year >= d[1] && f.year <= d[2]); if (di < 0) return; (f.genres || []).forEach(n => { const gi = BS_G.findIndex(x => x[0] === n); if (gi >= 0) g[gi][di]++; }); });
+  return g;
+}
+function bsHTML() {
+  const g = bsGrid(), flat = g.flat(), empty = flat.filter(n => !n).length, tot = flat.length, mx = Math.max(1, ...flat);
+  const head = '<div class="bs-r bs-h"><span></span>' + BS_D.map(d => '<span>' + d[0] + '</span>').join('') + '</div>';
+  const rows = BS_G.map((gg, gi) => '<div class="bs-r"><span class="bs-l">' + E(gg[0] === 'Science Fiction' ? 'Sci-Fi' : gg[0]) + '</span>' + BS_D.map((d, di) => {
+    const n = g[gi][di], a = n ? (0.18 + 0.82 * Math.min(1, n / Math.min(mx, 8))).toFixed(2) : 0;
+    return '<button type="button" class="bs-c' + (n ? '' : ' bs-e') + '" data-act="bscell" data-g="' + gi + '" data-d="' + di + '"' + (n ? ' style="--a:' + a + '"' : '') + ' aria-label="' + E(gg[0]) + ' ' + d[0] + ': ' + n + ' seen">' + (n || '') + '</button>';
+  }).join('') + '</div>').join('');
+  return '<h2>Blind spots</h2><p class="note" style="margin:-4px 0 10px">Genre by decade. Dashed squares are corners of cinema you have never visited: <b>' + empty + '</b> of ' + tot + ' are still empty (' + Math.round((tot - empty) / tot * 100) + '% explored).</p>' +
+    '<div class="bs-w"><div class="bs-g">' + head + rows + '</div></div><div class="row" style="margin-top:10px"><button type="button" class="btn pri" data-act="bsroll"' + (empty ? '' : ' disabled') + '>Surprise me with a blind spot</button></div>';
+}
+function bsDraw() { const s = $('#bsSec'); if (s && route === 'insights') s.innerHTML = bsHTML(); }
+function bsDlg(gi, di) {
+  const [gn, gid] = BS_G[gi], [dn, y0, y1] = BS_D[di], key = gid + '-' + di, seen = new Set(S.films.filter(f => f.seen).map(f => String(f.id)));
+  const mine = S.films.filter(f => f.seen && f.year >= y0 && f.year <= y1 && (f.genres || []).includes(gn));
+  const wl = S.films.filter(f => !f.seen && f.year >= y0 && f.year <= y1 && (f.genres || []).includes(gn));
+  const nm = (gn === 'Science Fiction' ? 'Sci-Fi' : gn) + ' · ' + (y0 ? dn.replace('s', '') ? (y0 + 's') : dn : 'up to the 1950s');
+  const row = x => '<button type="button" class="lp-i" data-act="lpfilm" data-id="' + x.id + '"><span class="lp-y">' + (x.year || '') + '</span><span class="lp-n">' + E(x.title) + '</span></button>';
+  const rec = bsCache[key], st = rec ? rec.st : getKey() ? 'load' : 'nokey';
+  const recHTML = rec && rec.l ? (rec.l.length ? rec.l.map(row).join('') : '<p class="note">Nothing found here.</p>') : st === 'nokey' ? '<p class="note">Add a TMDB key to get suggestions.</p>' : st === 'err' ? '<p class="note">Could not load suggestions.</p>' : '<p class="note">Looking for the best ones…</p>';
+  const html = '<div class="lp-d bs-d"><h2>' + E(nm) + '</h2><p class="note">' + (mine.length ? 'You have seen ' + plural(mine.length, 'film') + ' from this corner.' : 'A true blind spot: you have not seen anything from here yet.') + '</p>' +
+    (wl.length ? '<h3 class="bs-h3">Already on your watchlist</h3><div class="lp-l" style="max-height:170px">' + wl.slice(0, 40).map(row).join('') + '</div>' : '') +
+    '<h3 class="bs-h3">Best-rated films you have not seen</h3><div class="lp-l" id="bsRec">' + recHTML + '</div><div class="row" style="margin-top:12px"><button type="button" class="btn" data-act="closedlg">Close</button></div></div>';
+  const cur = $('#dlgBox .bs-d'); if (cur) cur.outerHTML = html; else openDlg(html, { wide: true, label: nm });
+  if (!rec && getKey()) {
+    bsCache[key] = { st: 'load' };
+    tmdb('/discover/movie', { with_genres: String(gid), 'primary_release_date.gte': (y0 || 1900) + '-01-01', 'primary_release_date.lte': y1 + '-12-31', sort_by: 'vote_average.desc', 'vote_count.gte': y0 && y0 < 1980 ? 400 : 1500, include_adult: 'false', language: 'en-US' })
+      .then(r => { bsCache[key] = { l: (r.results || []).filter(m => !seen.has(String(m.id))).slice(0, 10).map(m => ({ id: m.id, title: m.title || '', year: +(m.release_date || '').slice(0, 4) || 0 })) }; })
+      .catch(() => { bsCache[key] = { st: 'err' }; })
+      .then(() => { if ($('#dlgBox .bs-d') && $('#dlgBox .bs-d h2') && $('#dlgBox .bs-d h2').textContent === nm) bsDlg(gi, di); });
+  }
+}
+ACT.bscell = a => bsDlg(+a.dataset.g, +a.dataset.d);
+ACT.bsroll = () => { const g = bsGrid(), e = []; g.forEach((r, gi) => r.forEach((n, di) => { if (!n) e.push([gi, di]); })); if (!e.length) return; const p = e[Math.floor(Math.random() * e.length)]; bsDlg(p[0], p[1]); };
+{
+  const baseB = PAGES.insights.render;
+  PAGES.insights.render = function () {
+    baseB.apply(this, arguments); const v = $('#view'); if (!v || $('#bsSec') || !S.films.some(f => f.seen)) return;
+    const html = '<section class="ins bs" id="bsSec">' + bsHTML() + '</section>', w = $('#lpSec') || $('#wmSec');
+    if (w) w.insertAdjacentHTML('afterend', html); else v.insertAdjacentHTML('beforeend', html);
+  };
+}
+
+/* ===== Film chain: how any two films on your shelf connect through the people behind them ===== */
+let scA = '', scB = '', scTick = 0;
+function scGraph() {
+  const people = new Map(), fl = new Map();
+  S.films.forEach(f => {
+    if (f.id == null) return; const ks = new Map();
+    const add = (id, name, role) => { if (!name) return; const k = id > 0 ? 'p' + id : 'n' + norm(name); if (!ks.has(k)) ks.set(k, role); else if (ks.get(k) !== role) ks.set(k, 'both'); if (!people.has(k)) people.set(k, { name, f: new Set() }); people.get(k).f.add(String(f.id)); };
+    (f.directors || []).forEach(d => add(d.id, d.name, 'directed')); (f.cast || []).forEach(c => add(c.id, c.name, 'acted in')); (f.writers || []).forEach(w => add(0, w, 'wrote'));
+    fl.set(String(f.id), { f, ks });
+  });
+  return { people, fl };
+}
+function scBfs(G, a) {
+  const dist = new Map([[a, 0]]), prev = new Map(), q = [a];
+  for (let i = 0; i < q.length; i++) { const cur = q[i], n = G.fl.get(cur); if (!n) continue; for (const k of n.ks.keys()) for (const o of G.people.get(k).f) if (!dist.has(o) && G.fl.has(o)) { dist.set(o, dist.get(cur) + 1); prev.set(o, [cur, k]); q.push(o); } }
+  return { dist, prev };
+}
+function scPath(G, a, b) {
+  const r = scBfs(G, a); if (!r.dist.has(b)) return null; const out = []; let cur = b;
+  while (cur !== a) { const [p, k] = r.prev.get(cur); out.unshift({ from: p, to: cur, k }); cur = p; } return out;
+}
+function scRand(G) {
+  const ids = [...G.fl.keys()].filter(id => [...G.fl.get(id).ks.keys()].some(k => G.people.get(k).f.size > 1)); if (ids.length < 2) return null;
+  let best = null;
+  for (let t = 0; t < 12; t++) { const a = ids[Math.floor(Math.random() * ids.length)], r = scBfs(G, a), far = [...r.dist].filter(([, d]) => d >= 2); if (!far.length) continue; const mx = Math.max(...far.map(x => x[1])), pool = far.filter(x => x[1] >= Math.max(2, mx - 1)), b = pool[Math.floor(Math.random() * pool.length)][0]; if (!best || r.dist.get(b) > best[2]) best = [a, b, r.dist.get(b)]; if (best[2] >= 3) break; }
+  return best;
+}
+function scHTML() {
+  const G = scGraph(), list = [...G.fl.values()].map(x => x.f).sort((a, b) => titleKey(a).localeCompare(titleKey(b)));
+  if (list.length < 2) return '';
+  if (!scA || !G.fl.has(scA) || !scB || !G.fl.has(scB)) { const r = scRand(G); if (r) { scA = r[0]; scB = r[1]; } else { scA = String(list[0].id); scB = String(list[1].id); } }
+  const opt = v => list.map(f => '<option value="' + E(String(f.id)) + '"' + (String(f.id) === v ? ' selected' : '') + '>' + E(f.title) + (f.year ? ' (' + f.year + ')' : '') + '</option>').join('');
+  const linked = [...G.fl.values()].filter(x => [...x.ks.keys()].some(k => G.people.get(k).f.size > 1)).length;
+  const hubs = [...G.people.values()].filter(p => p.f.size > 1).sort((a, b) => b.f.size - a.f.size).slice(0, 3);
+  return '<h2>Film chain</h2><p class="note" style="margin:-4px 0 10px">Pick any two films on your shelf and see how they connect through the people who made them. Like six degrees of separation, but with your own films.</p>' +
+    '<div class="sc-pick"><label class="fb-grp"><span>From</span><select class="sel" data-ctl="sca" aria-label="From film">' + opt(scA) + '</select></label><button type="button" class="btn sc-sw" data-act="scswap" aria-label="Swap films" title="Swap">⇄</button><label class="fb-grp"><span>To</span><select class="sel" data-ctl="scb" aria-label="To film">' + opt(scB) + '</select></label></div>' +
+    '<div id="scOut">' + scOut(G) + '</div><div class="row" style="margin:12px 0 4px;gap:8px"><button type="button" class="btn pri" data-act="scrand">Surprise me with a long chain</button><button type="button" class="btn" data-act="sccopy">Copy chain</button></div>' +
+    '<p class="note">' + linked + ' of ' + list.length + ' films share a person with another film on your shelf.' + (hubs.length ? ' Biggest connectors: ' + hubs.map(h => E(h.name) + ' (' + h.f.size + ')').join(', ') + '.' : '') + '</p>';
+}
+function scRoleOf(G, id, k) { const n = G.fl.get(id); return n ? n.ks.get(k) : ''; }
+function scOut(G) {
+  if (scA === scB) return '<p class="note sc-m">That is the same film. Pick two different ones.</p>';
+  const path = scPath(G, scA, scB), chip = id => { const f = G.fl.get(id).f; return '<button type="button" class="sc-f" data-act="lpfilm" data-id="' + E(String(f.id)) + '">' + (f.poster ? '<img src="' + img('thumb', f.poster) + '" alt="" loading="lazy">' : '<span class="sc-ph"></span>') + '<span class="sc-t"><b>' + E(f.title) + '</b><small>' + E([f.year, directorNames(f)].filter(Boolean).join(' · ')) + '</small></span></button>'; };
+  if (!path) return '<p class="note sc-m">No link yet. These two live in different corners of your shelf, and no director, writer or actor connects them. Log more films and a bridge may appear.</p>';
+  const link = st => { const G2 = G, p = G2.people.get(st.k), r1 = scRoleOf(G2, st.from, st.k), r2 = scRoleOf(G2, st.to, st.k), ph = r1 === r2 && r1 !== 'both' ? r1 + ' both' : (r1 === 'both' ? 'worked on' : r1) + ' · ' + (r2 === 'both' ? 'worked on' : r2); return '<div class="sc-l"><span>' + E(p.name) + '<small>' + E(ph) + '</small></span></div>'; };
+  return '<div class="sc-n">' + path.length + (path.length === 1 ? ' step' : ' steps') + ' apart</div><div class="sc-c">' + chip(scA) + path.map(st => link(st) + chip(st.to)).join('') + '</div>';
+}
+function scDraw(full) { const s = $('#scSec'); if (!s || route !== 'insights') return; if (full) s.innerHTML = scHTML(); else { const o = $('#scOut'); if (o) o.innerHTML = scOut(scGraph()); } }
+CTL.sca = v => { scA = v; scDraw(); }; CTL.scb = v => { scB = v; scDraw(); };
+ACT.scswap = () => { const t = scA; scA = scB; scB = t; scDraw(true); };
+ACT.scrand = () => { const r = scRand(scGraph()); if (!r) { toast('Log a few more films with cast or crew first.'); return; } scA = r[0]; scB = r[1]; scDraw(true); };
+ACT.sccopy = () => {
+  const G = scGraph(), path = scPath(G, scA, scB); if (!path) { toast('There is no chain to copy.'); return; }
+  const nm = id => { const f = G.fl.get(id).f; return f.title + (f.year ? ' (' + f.year + ')' : ''); };
+  const t = nm(scA) + path.map(st => '  →  [' + G.people.get(st.k).name + ']  →  ' + nm(st.to)).join('');
+  (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => toast('Chain copied.'), () => toast(t));
+};
+{
+  const baseC = PAGES.insights.render;
+  PAGES.insights.render = function () {
+    baseC.apply(this, arguments); const v = $('#view'); if (!v || $('#scSec') || !S.films.some(f => f.seen)) return;
+    const h = scHTML(); if (!h) return; const html = '<section class="ins sc" id="scSec">' + h + '</section>', w = $('#bsSec') || $('#lpSec') || $('#wmSec');
+    if (w) w.insertAdjacentHTML('afterend', html); else v.insertAdjacentHTML('beforeend', html);
   };
 }
 
