@@ -1123,6 +1123,7 @@ button,a,.spine,.face,.tile-po,.chip,.seg button{touch-action:manipulation}
 .wm-fs{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}.wm-f{width:52px;aspect-ratio:2/3;padding:0;border:0;border-radius:4px;overflow:hidden;background:var(--line);cursor:pointer;font-size:9px;color:var(--ink2)}.wm-f img{width:100%;height:100%;object-fit:cover;display:block}
 .wm-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 28px}.wm-r{display:grid;grid-template-columns:minmax(80px,32%) 1fr 28px;gap:10px;align-items:center;padding:7px 4px;border:0;border-radius:8px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:pointer}.wm-r:hover,.wm-r.on{background:var(--line)}.wm-rn{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.wm-rb{height:6px;border-radius:6px;background:var(--line)}.wm-rb i{display:block;height:100%;border-radius:6px;background:#f0c35c}.wm-r b{text-align:right;font-weight:600;font-size:14px}
 @media (max-width:640px){.wm-list{grid-template-columns:1fr}.wm-s b{font-size:20px}.wm-s{padding:10px}}
+.ce-l{max-height:min(46vh,340px);overflow:auto;display:grid;gap:2px;border:1px solid var(--line);border-radius:10px;padding:6px}.ce-r{padding:7px 8px;border-radius:7px;cursor:pointer}.ce-r:hover{background:var(--line)}.pw-i{display:grid;place-items:center;font:600 22px/1 var(--f-d);color:var(--ink2);background:var(--line)}.wm-fl{width:64px}
 </style></head>
 <body>
 <a class="skip" href="#view">Skip to content</a>
@@ -1466,7 +1467,7 @@ const SEEDS = [
 ];
 function newFilm(o) {
   return Object.assign({ id: 'm' + uid(), title: 'Untitled', year: 0, runtime: 0, genres: [], directors: [], writers: [], cast: [], overview: '', tagline: '',
-    poster: '', backdrop: '', vote: 0, votes: 0, wish: false, seen: false, fav: false, rating: 0, review: '', spoiler: false, tags: [], lists: [], countries: [], cty: 0,
+    poster: '', backdrop: '', vote: 0, votes: 0, wish: false, seen: false, fav: false, rating: 0, review: '', spoiler: false, tags: [], lists: [], countries: [], cty: 0, cx: 0,
     added: Date.now(), pal: null, palReal: false, hydrated: false, sample: false, guess: 0 }, o);
 }
 function seedLib() {
@@ -1499,7 +1500,7 @@ function applyTMDB(f, d) {
   if (dirs.length) f.directors = dirs;
   if (wr.length) f.writers = wr.slice(0, 3);
   if (cast.length) f.cast = cast;
-  if (Array.isArray(d.production_countries)) { f.countries = d.production_countries.map(c => c.iso_3166_1).filter(Boolean); f.cty = 1; }
+  if (Array.isArray(d.production_countries) && !f.cx) { f.countries = d.production_countries.map(c => c.iso_3166_1).filter(Boolean); f.cty = 1; }
   if (d.overview) f.overview = d.overview;
   if (d.tagline != null) f.tagline = d.tagline;
   if (d.poster_path) f.poster = d.poster_path;
@@ -2118,7 +2119,8 @@ function filmViewHTML(v) {
       '<p class="note">' + (f.seen ? 'Marked as seen, with no date logged.' : 'Nothing logged yet.') + '</p>') + '<p style="margin-top:10px"><button type="button" class="btn sm" data-act="logw" data-id="' + id + '">Log a watch</button></p></section>';
   }
   h += '<section><h3>About</h3>' + (f.overview ? '<p class="prose">' + E(f.overview) + '</p>' : '<p class="note">' + (loading ? 'Loading details from TMDB.' : ex.err ? E(errMsg(ex.err)) : 'No synopsis on file.') + '</p>') +
-    (f.writers.length ? '<p class="note" style="margin-top:8px">Written by ' + E(f.writers.join(', ')) + '</p>' : '') + '</section>';
+    (f.writers.length ? '<p class="note" style="margin-top:8px">Written by ' + E(f.writers.join(', ')) + '</p>' : '') +
+    (lib ? '<p class="note" style="margin-top:8px">Made in ' + (f.countries.length ? E(f.countries.map(c => wmName(c)).join(', ')) : 'unknown') + '. <button type="button" class="lnk" data-act="cedit" data-id="' + id + '">Edit</button></p>' : (f.countries.length ? '<p class="note" style="margin-top:8px">Made in ' + E(f.countries.map(c => wmName(c)).join(', ')) + '.</p>' : '')) + '</section>';
   if (f.cast.length) h += '<section><h3>Cast</h3><div class="cast">' + f.cast.slice(0, 14).map(c => '<button type="button" class="cp" data-act="person" data-id="' + c.id + '" data-tab="acted">' + (c.profile ? '<img src="' + img('profile', c.profile) + '" alt="" loading="lazy">' : '<span class="ph"></span>') + '<b>' + E(c.name) + '</b><small>' + E(c.character) + '</small></button>').join('') + '</div></section>';
   h += whereHTML(d, ex, isNum(f.id));
   const recs = d && d.recommendations && d.recommendations.results || [];
@@ -2771,7 +2773,7 @@ function openLog(fid, eid) {
 const PSORTS = [['films', 'Most films on your shelf'], ['rating', 'Highest rated by you'], ['name', 'Name'], ['left', 'Fewest films left']];
 function peopleAgg(kind) {
   const m = new Map();
-  for (const f of S.films) for (const p of (kind === 'directors' ? f.directors : f.cast.slice(0, 6))) {
+  for (const f of S.films) for (const p of (kind === 'directors' ? f.directors : kind === 'writers' ? f.writers.map(n => ({ id: 'w:' + n, name: n, profile: '' })) : f.cast.slice(0, 6))) {
     if (!p.id) continue; let e = m.get(p.id);
     if (!e) { e = { id: p.id, name: p.name, profile: p.profile, films: [], seen: 0, sum: 0, n: 0 }; m.set(p.id, e); }
     e.films.push(f); if (!e.profile && p.profile) e.profile = p.profile;
@@ -2779,12 +2781,13 @@ function peopleAgg(kind) {
   }
   for (const e of m.values()) {
     e.avg = e.n ? e.sum / e.n : 0;
-    const c = S.cache.people[e.id];
+    const c = kind === 'writers' ? null : S.cache.people[e.id];
     if (c) { const l = c[kind === 'directors' ? 'directed' : 'acted'].filter(x => !isObscure(x) && !(x.date && x.date > today())); e.total = l.length; e.done = l.filter(x => { const f = byId(x.id); return f && f.seen; }).length; e.left = e.total - e.done; }
   }
   return [...m.values()];
 }
 function pcard(p, kind) {
+  if (kind === 'writers') { const sp = p.films.slice(0, 12).map(f => '<i style="height:' + Math.round(14 + clamp(((f.runtime || 110) - 75) / 110, 0, 1) * 20) + 'px;background:' + palOf(f).a + '" title="' + E(f.title) + '"></i>').join(''); return '<article class="pc"><button type="button" class="pc-main" data-act="pwriter" data-n="' + E(p.name) + '"><span class="ph pw-i" aria-hidden="true">' + E((p.name.match(/\p{L}/u) || ['?'])[0]) + '</span><span class="pc-t"><b>' + E(p.name) + '</b><small>' + plural(p.films.length, 'film') + ' on your shelf, ' + p.seen + ' seen</small>' + (p.avg ? stars(p.avg, { sm: true, ro: true }) : '') + '</span></button><div class="mini" aria-hidden="true">' + sp + '</div></article>'; }
   const spines = p.films.slice(0, 12).map(f => '<i style="height:' + Math.round(14 + clamp(((f.runtime || 110) - 75) / 110, 0, 1) * 20) + 'px;background:' + palOf(f).a + '" title="' + E(f.title) + '"></i>').join('');
   const prog = p.total != null ? '<div class="pc-p"><div class="prog-bar"><i style="width:' + (p.total ? Math.round(p.done / p.total * 100) : 0) + '%"></i></div><small>Seen ' + p.done + ' of ' + p.total + (p.left === 0 ? ', all of them' : '') + '</small></div>' : '<button type="button" class="lnk pc-chk" data-act="pcheck" data-id="' + p.id + '">See how much you have seen</button>';
   return '<article class="pc"><button type="button" class="pc-main" data-act="person" data-id="' + p.id + '" data-tab="' + (kind === 'directors' ? 'directed' : 'acted') + '">' + (p.profile ? '<img src="' + img('profile', p.profile) + '" alt="" loading="lazy">' : '<span class="ph"></span>') +
@@ -2803,19 +2806,19 @@ function pagerHTML(total, per, cur) {
 }
 PAGES.people = {
   render() {
-    const kind = S.ui.pp, all = S.ui.ppAll === true || kind === 'directors', sort = S.ui.psort || 'films';
+    const kind = ['directors', 'actors', 'writers'].includes(S.ui.pp) ? S.ui.pp : 'directors', all = S.ui.ppAll === true || kind === 'directors', sort = S.ui.psort || 'films';
     let a = peopleAgg(kind); const total = a.length; if (!all) a = a.filter(p => p.films.length >= 2);
     a.sort({ films: (x, y) => y.films.length - x.films.length || y.avg - x.avg, rating: (x, y) => y.avg - x.avg || y.films.length - x.films.length, name: (x, y) => x.name.localeCompare(y.name), left: (x, y) => (x.left ?? 1e9) - (y.left ?? 1e9) || y.films.length - x.films.length }[sort]);
     const PER = 90, pages = Math.max(1, Math.ceil(a.length / PER));
     const page = clamp(Math.round(+S.ui.ppage || 1), 1, pages); S.ui.ppage = page;
     const slice = a.slice((page - 1) * PER, page * PER);
     const close = peopleAgg('directors').filter(p => p.left > 0 && p.left <= 3 && p.done >= 2).sort((x, y) => x.left - y.left || y.done - x.done)[0];
-    $('#view').innerHTML = '<div class="pagehead"><h1>People</h1><span class="sub">The directors and actors your shelf keeps coming back to.</span></div>' +
+    $('#view').innerHTML = '<div class="pagehead"><h1>People</h1><span class="sub">The directors, writers and actors your shelf keeps coming back to.</span></div>' +
       (close && String(S.ui.ppDis) !== String(close.id) ? '<div class="banner"><span>You are ' + plural(close.left, 'film') + ' away from finishing <b>' + E(close.name) + '</b>.</span><span class="sp"></span><button type="button" class="btn sm" data-act="person" data-id="' + close.id + '" data-tab="directed">See what is left</button><button type="button" class="btn sm ghost" data-act="ppdis" data-id="' + close.id + '" aria-label="Hide this message">Hide</button></div>' : '') +
-      '<div class="tools"><div class="seg" role="group" aria-label="Kind"><button type="button" data-act="ppk" data-v="directors" class="' + (kind === 'directors' ? 'on' : '') + '">Directors</button><button type="button" data-act="ppk" data-v="actors" class="' + (kind === 'actors' ? 'on' : '') + '">Actors</button></div>' +
-      (kind === 'actors' ? '<button type="button" class="chip' + (S.ui.ppAll ? ' on' : '') + '" data-act="ppall" aria-pressed="' + !!S.ui.ppAll + '">Include actors with one film</button>' : '') + '<span class="sp"></span>' +
+      '<div class="tools"><div class="seg" role="group" aria-label="Kind"><button type="button" data-act="ppk" data-v="directors" class="' + (kind === 'directors' ? 'on' : '') + '">Directors</button><button type="button" data-act="ppk" data-v="actors" class="' + (kind === 'actors' ? 'on' : '') + '">Actors</button><button type="button" data-act="ppk" data-v="writers" class="' + (kind === 'writers' ? 'on' : '') + '">Writers</button></div>' +
+      (kind !== 'directors' ? '<button type="button" class="chip' + (S.ui.ppAll ? ' on' : '') + '" data-act="ppall" aria-pressed="' + !!S.ui.ppAll + '">Include ' + kind + ' with one film</button>' : '') + '<span class="sp"></span>' +
       '<label class="fb-grp psw"><span>Sort by</span><select class="sel" data-ctl="psort" aria-label="Sort people">' + PSORTS.map(([k, l]) => '<option value="' + k + '"' + (sort === k ? ' selected' : '') + '>' + l + '</option>').join('') + '</select></label></div>' +
-      (a.length ? '<p class="note" style="margin-bottom:14px">Showing ' + ((page - 1) * PER + 1) + '–' + Math.min(page * PER, a.length) + ' of ' + plural(a.length, kind === 'directors' ? 'director' : 'actor') + (pages > 1 ? ', page ' + page + ' of ' + pages : '') + '.</p>' +
+      (a.length ? '<p class="note" style="margin-bottom:14px">Showing ' + ((page - 1) * PER + 1) + '–' + Math.min(page * PER, a.length) + ' of ' + plural(a.length, kind === 'directors' ? 'director' : kind === 'writers' ? 'writer' : 'actor') + (pages > 1 ? ', page ' + page + ' of ' + pages : '') + '.</p>' +
         '<div class="pgrid2">' + slice.map(p => pcard(p, kind)).join('') + '</div>' + pagerHTML(a.length, PER, page) :
         '<div class="empty"><h3>' + (total ? 'Nobody repeats yet' : 'No ' + kind + ' yet') + '</h3><p>' + (total ? 'Add more films and the people who appear more than once will gather here.' : 'Add films to your shelf and their ' + kind + ' will show up here.') + '</p>' + (total ? '<button class="btn" type="button" data-act="ppall">Include everyone</button>' : '<button class="btn pri" type="button" data-act="find">Find films</button>') + '</div>');
   },
@@ -2832,6 +2835,11 @@ async function prefetchPeople() {
   }
 }
 ACT.ppk = a => { S.ui.pp = a.dataset.v; S.ui.ppage = 1; upd(); };
+ACT.pwriter = a => {
+  const n = a.dataset.n, fs = S.films.filter(f => f.writers.includes(n)).sort((x, y) => (y.rating || 0) - (x.rating || 0) || (y.year || 0) - (x.year || 0));
+  openDlg('<h2>' + E(n) + '</h2><p class="note" style="margin-bottom:12px">Written ' + plural(fs.length, 'film') + ' on your shelf, ' + fs.filter(f => f.seen).length + ' seen. Credits list the first three writers of each film.</p><div class="wm-fs">' + fs.map(f => '<button type="button" class="wm-f wm-fl" data-act="pwfilm" data-id="' + f.id + '" title="' + E(f.title) + '">' + (f.poster ? '<img src="' + img('thumb', f.poster) + '" alt="' + E(f.title) + '" loading="lazy" decoding="async">' : '<span>' + E(f.title) + '</span>') + '</button>').join('') + '</div><div class="row" style="margin-top:12px"><button type="button" class="btn" data-act="closedlg">Close</button></div>', { label: n });
+};
+ACT.pwfilm = a => { closeDlg(); ACT.film(a); };
 ACT.ppall = () => { S.ui.ppAll = !S.ui.ppAll; S.ui.ppage = 1; upd(); };
 ACT.ppage = a => {
   S.ui.ppage = Math.max(1, +a.dataset.v || 1);
@@ -3009,7 +3017,7 @@ function normFilm(x) {
     directors: a(x.directors).map(d => ({ id: n(d.id), name: s(d.name), profile: s(d.profile) })), writers: a(x.writers).map(s),
     cast: a(x.cast).slice(0, 14).map(c => ({ id: n(c.id), name: s(c.name), profile: s(c.profile), character: s(c.character) })),
     overview: s(x.overview), tagline: s(x.tagline), poster: s(x.poster), backdrop: s(x.backdrop), vote: n(x.vote), votes: n(x.votes),
-    wish: !!x.wish, seen: !!x.seen, fav: !!x.fav, rating: clamp(Math.round(n(x.rating) * 2) / 2, 0, 5), review: s(x.review), spoiler: !!x.spoiler, tags: a(x.tags).map(s), lists: a(x.lists).map(s), countries: a(x.countries).map(s).filter(c => /^[A-Z]{2}$/.test(c)), cty: x.cty ? 1 : 0,
+    wish: !!x.wish, seen: !!x.seen, fav: !!x.fav, rating: clamp(Math.round(n(x.rating) * 2) / 2, 0, 5), review: s(x.review), spoiler: !!x.spoiler, tags: a(x.tags).map(s), lists: a(x.lists).map(s), countries: a(x.countries).map(s).filter(c => /^[A-Z]{2}$/.test(c)), cty: x.cty ? 1 : 0, cx: x.cx ? 1 : 0,
     added: n(x.added) || Date.now(), pal: pl && HEXC.test(pl.a) ? { a: pl.a, b: HEXC.test(pl.b) ? pl.b : pl.a, k: pl.k === '#ffffff' ? '#ffffff' : '#141414' } : null,
     palReal: !!x.palReal && !!(pl && HEXC.test(pl.a)), hydrated: !!x.hydrated, sample: !!x.sample, manual: !!x.manual, nf: !!x.nf });
 }
@@ -4113,6 +4121,16 @@ function wmHTML() {
   return h;
 }
 function wmDraw() { const s = $('#wmSec'); if (s && route === 'insights') s.innerHTML = wmHTML(); }
+
+ACT.cedit = a => {
+  const f = byId(a.dataset.id); if (!f) return; const sel = new Set(f.countries), all = Object.keys(WORLD.names).filter(c => WORLD.names[c]).sort((x, y) => wmName(x).localeCompare(wmName(y)));
+  const box = openDlg('<h2>Made in</h2><p class="note" style="margin-bottom:10px">The countries that made “' + E(f.title) + '”. This changes your world map.</p><div class="field"><input class="inp" id="ceQ" placeholder="Search countries" autocomplete="off" aria-label="Search countries"></div><div class="ce-l" id="ceL"></div><div class="row" style="margin-top:12px"><button type="button" class="btn pri" data-act="closedlg">Done</button></div>',
+    { label: 'Made in', onClose: () => { const b = $('#dlgBox'); if (b) { b.oninput = null; b.onchange = null; } save(); refresh(); } });
+  const draw = () => { const q = norm($('#ceQ').value.trim()); const list = all.filter(c => !q || norm(wmName(c)).includes(q) || c.toLowerCase() === q).sort((x, y) => sel.has(y) - sel.has(x) || wmName(x).localeCompare(wmName(y))); $('#ceL').innerHTML = list.slice(0, 80).map(c => '<label class="chk ce-r"><input type="checkbox" data-c="' + c + '"' + (sel.has(c) ? ' checked' : '') + '> ' + E(wmName(c)) + '</label>').join('') || '<p class="note">No match.</p>'; };
+  box.oninput = e => { if (e.target.id === 'ceQ') draw(); };
+  box.onchange = e => { const c = e.target.dataset && e.target.dataset.c; if (!c) return; if (e.target.checked) sel.add(c); else sel.delete(c); f.countries = [...sel]; f.cty = 1; f.cx = 1; touch(f); save(); };
+  draw(); const q = $('#ceQ'); if (q) q.focus();
+};
 ACT.wmsel = a => { const c = a.dataset.c; wmSel = wmSel === c ? '' : c; wmDraw(); };
 ACT.wmscope = a => { wmScope = a.dataset.v; wmSel = ''; wmDraw(); };
 {
