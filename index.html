@@ -284,6 +284,13 @@ body.dock-on .dock{display:block}
 .empty h3{font:800 34px/1 var(--f-d);color:var(--ink);margin-bottom:8px}
 .empty .btn{margin-top:16px}
 /* poster grid */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:8px}
+.cpo{position:relative;display:block;width:100%;aspect-ratio:2/3;padding:0;border:0;border-radius:6px;overflow:hidden;background:var(--bg3);box-shadow:0 8px 14px -10px var(--shade);transition:transform .15s}
+.cpo img{width:100%;height:100%;object-fit:cover;display:block}.cpo .fb{position:absolute;inset:0;display:flex;align-items:flex-end;padding:6px;font:700 11px/1.05 var(--f-d);background:var(--a);color:var(--k);text-align:left;overflow:hidden;word-break:break-word}
+.cpo.wl::before{content:'';position:absolute;left:0;right:0;top:0;height:3px;background:var(--a);z-index:1}.cpo.fav::after{content:'';position:absolute;right:4px;bottom:4px;width:7px;height:7px;border-radius:50%;background:#ff5d73;box-shadow:0 0 0 1.5px rgba(0,0,0,.55)}
+.cpo:focus-visible{outline:2px solid var(--a);outline-offset:1px;z-index:2}@media (hover:hover){.cpo:hover{transform:translateY(-3px) scale(1.04);z-index:2}}
+@media (max-width:760px){.cgrid{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}.cpo{border-radius:4px}.cpo .fb{font-size:9px;padding:4px}}
+@media (max-width:340px){.cgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:30px 22px}
 .tile{position:relative;min-width:0}
 .tile-po{position:relative;display:block;width:100%;aspect-ratio:2/3;padding:0;border:0;border-radius:var(--r1);overflow:hidden;background:var(--bg3);box-shadow:0 16px 26px -16px var(--shade);transition:transform .2s}
@@ -1179,6 +1186,25 @@ button,a,.spine,.face,.tile-po,.chip,.seg button{touch-action:manipulation}
 .th-g{display:grid;gap:3px;margin:8px 0 6px}.th-r{display:grid;grid-template-columns:minmax(80px,38%) 1fr 30px;gap:12px;align-items:center;width:100%;padding:7px 8px;border:0;border-radius:9px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:background .15s}.th-r:hover,.th-r:focus-visible{background:var(--line);outline:none}
 .th-l{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.th-b{height:8px;border-radius:8px;background:var(--line)}.th-b i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#e8873a,#ffd77a)}.th-r b{text-align:right;font-weight:600;font-size:13px;color:var(--ink2);font-variant-numeric:tabular-nums}
 .th-m{margin:6px 0 4px}.th-h{margin:16px 0 4px;font:600 10.5px/1 var(--f-d);letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}.th-y{list-style:none;margin:0;padding:0;display:grid;gap:2px}.th-y li{display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:baseline;padding:5px 8px;font-size:14px}.th-y b{font-weight:600;color:var(--ink3);font-variant-numeric:tabular-nums}.th-y small{color:var(--ink3);font-size:12px}
+/* ---- phones: bigger touch areas without bigger buttons, Insights jump bar and folding ---- */
+@media (pointer:coarse){
+:where(.chip,.btn,.lnk.pc-chk,.blk-more,.aboutbtn,.tnow,.gp.ex,.seg button,.ph-ex button){position:relative}
+:where(.chip,.btn,.lnk.pc-chk,.blk-more,.aboutbtn,.tnow,.gp.ex,.seg button,.ph-ex button)::after{content:'';position:absolute;inset:-6px -3px}
+.th-r,.wm-r{min-height:40px}.shr{content-visibility:auto;contain-intrinsic-size:auto 180px}
+}
+.ins-jump{display:none}.ph-all{display:none;margin:14px 0 4px}
+@media (max-width:760px){
+.ins-jump{display:flex;gap:7px;position:sticky;top:54px;z-index:20;margin:0 -16px 12px;padding:8px 16px;overflow-x:auto;scrollbar-width:none;background:color-mix(in srgb,var(--bg) 93%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.ins-jump::-webkit-scrollbar{display:none}
+.ins-jump button{position:relative;flex:none;height:30px;padding:0 13px;border-radius:999px;border:1px solid var(--line2);background:none;color:var(--ink2);font:500 13px/1 var(--f-u);cursor:pointer;white-space:nowrap}
+.ins-jump button::after{content:'';position:absolute;inset:-7px -2px}.ins-jump button.on{color:#1a1204;background:#f0c35c;border-color:#f0c35c}
+section.ins{scroll-margin-top:108px}
+.ins-f>h2{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;-webkit-tap-highlight-color:transparent}
+.ins-f>h2::after{content:'';flex:none;width:9px;height:9px;margin-right:6px;border-right:2px solid var(--ink3);border-bottom:2px solid var(--ink3);transform:rotate(-135deg);transition:transform .2s}
+.ins-c>h2::after{transform:rotate(45deg)}.ins-c>:not(h2){display:none!important}
+.ph-tl.lim .ph-ch:nth-of-type(n+3),.ph-tl.lim .ph-tr:nth-of-type(n+2){display:none}.ph-all{display:flex}
+.ph-rb{min-height:40px}
+}
 .bs-h3{font:500 13px/1.3 var(--f-d);margin:14px 0 6px;color:var(--ink2)}@media (max-width:760px){.bs-r{grid-template-columns:44px repeat(8,minmax(0,1fr));gap:3px}.bs-l{font-size:10px}.bs-c{height:24px;font-size:10px}}
 
 .lp-l{display:grid;gap:2px;max-height:min(52vh,420px);overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:6px}.lp-i{display:flex;gap:12px;align-items:baseline;padding:8px 10px;border:0;border-radius:7px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:default;width:100%}button.lp-i{cursor:pointer}button.lp-i:hover{background:var(--line)}.lp-y{width:40px;flex:none;font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}.lp-n{font-size:14px}
@@ -1901,6 +1927,9 @@ function tileHTML(f) {
     '<div class="tile-q"><button type="button" data-act="tg" data-k="seen" data-id="' + f.id + '" class="' + (f.seen ? 'on' : '') + '">Seen</button><button type="button" data-act="tg" data-k="wish" data-id="' + f.id + '" class="' + (f.wish ? 'on' : '') + '">Wishlist</button></div>' +
     '<div class="tile-in"><b>' + E(f.title) + '</b><span>' + (f.year || '') + (first ? (f.year ? ', ' : '') + E(first.name) : '') + '</span>' + '</div></div>';
 }
+function cTileHTML(f) {
+  return '<button type="button" class="cpo' + (f.fav ? ' fav' : '') + (f.wish && !f.seen ? ' wl' : '') + '" data-f="' + f.id + '" data-act="film" data-id="' + f.id + '" style="' + palStyle(f) + '" title="' + E(labelOf(f)) + '" aria-label="' + E(labelOf(f)) + '">' + (f.poster ? '<img src="' + img('thumb', f.poster) + '" alt="" loading="lazy" decoding="async">' : '<span class="fb">' + E(f.title) + '</span>') + '</button>';
+}
 function listHTML(films) {
   const th = (k, l, cls = '') => '<th class="' + cls + (S.ui.sort === k ? ' on' : '') + '"><button type="button" data-act="sortby" data-k="' + k + '">' + l + (S.ui.sort === k ? (S.ui.rev ? ' ↑' : ' ↓') : '') + '</button></th>';
   return '<table class="tbl"><thead><tr><th></th>' + th('title', 'Film') + th('year', 'Year', 'num') + th('runtime', 'Length', 'num hm') + '<th class="hm">Genres</th>' + th('crowd', 'TMDB', 'num hm') + th('rating', 'You', 'num') + '<th>Status</th></tr></thead><tbody>' +
@@ -1914,7 +1943,7 @@ function shelfBodyHTML() {
   if (!films.length) return '<div class="empty"><h3>Nothing matches</h3><p>No film on your shelf fits those filters.</p><button class="btn" type="button" data-act="clearf">Clear filters</button></div>';
   const groups = groupFilms(films), v = S.ui.view, H = shelfH(), W = Math.max(240, (box ? box.clientWidth : innerWidth - 300) - 28);
   return groups.map(g => '<section class="grp"' + (g.label ? '' : ' style="margin-top:8px"') + '>' + (g.label ? '<h2>' + E(g.label) + '<small>' + plural(g.items.length, 'film') + '</small></h2>' : '') +
-    (v === 'spines' ? shelfRows(g.items, W, H) : v === 'posters' ? '<div class="pgrid">' + g.items.map(tileHTML).join('') + '</div>' : listHTML(g.items)) + '</section>').join('');
+    (v === 'spines' ? shelfRows(g.items, W, H) : v === 'posters' ? '<div class="pgrid">' + g.items.map(tileHTML).join('') + '</div>' : v === 'compact' ? '<div class="cgrid">' + g.items.map(cTileHTML).join('') + '</div>' : listHTML(g.items)) + '</section>').join('');
 }
 function renderShelfBody() {
   const b = $('#shelfBody'); if (!b) return;
@@ -1942,7 +1971,7 @@ PAGES.shelf = {
       (hasSample ? '<div class="banner"><span>These ten films are samples so the shelf isn’t empty.<span class="wide-only"> Rate them, log them or clear them whenever you like.</span></span><span class="sp"></span><button class="btn sm" type="button" data-act="rmsamples">Remove samples</button><button class="btn sm ghost" type="button" data-act="bannerx">Keep them</button></div>' : '') +
       '<div class="tools"><div class="chips dchips">' + chip('all', 'All') + chip('seen', 'Seen') + chip('wish', 'Wishlist') + chip('fav', 'Favourites') + lists + '<button type="button" class="chip" data-act="newlist">New shelf</button>' +
       (u.list ? '<button type="button" class="chip" data-act="explist">Export</button><button type="button" class="chip" data-act="renlist">Rename</button><button type="button" class="chip" data-act="dellist">Delete shelf</button>' : '') + '</div>' + shelfMenuHTML(u, cnt) + '<span class="sp"></span>' +
-      '<div class="seg" role="group" aria-label="View">' + vb('spines', 'Spines') + vb('posters', 'Posters') + vb('list', 'List') + '</div></div>' +
+      '<div class="seg" role="group" aria-label="View">' + vb('spines', 'Spines') + vb('posters', 'Posters') + vb('list', 'List') + vb('compact', 'Compact') + '</div></div>' +
       '<div class="fbar' + (u.moref ? ' mf' : '') + '">' +
         '<div class="fb-q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input class="inp" type="search" data-ctl="q" placeholder="Search this shelf" aria-label="Search this shelf" value="' + E(shelfQ) + '"></div>' +
         sel('sort', 'Sort', SORTS.filter(([k]) => k !== 'custom' || u.sort === 'custom' || !matchMedia('(pointer:coarse)').matches).map(([k, l]) => '<option value="' + k + '"' + (u.sort === k ? ' selected' : '') + '>' + l + '</option>').join('')) +
@@ -4883,7 +4912,7 @@ function phHTML() {
   const ex = R.ex.length > 1 ? '<ul class="ph-ex">' + R.ex.map(x => '<li><small>' + x.k + '</small><button type="button" data-act="phgo" data-i="' + x.i + '">' + E(x.t) + '</button><span>' + E(x.s) + '</span></li>').join('') + '</ul>' : '';
   let body = ''; P.forEach((p, i) => { if (i) body += '<aside class="ph-tr"><span class="ph-dot"></span>' + (p.transition ? '<small>The transition</small><p>' + E(p.transition) + '</p>' : '<small>The next chapter</small>') + '</aside>'; body += phChapter(p); });
   const note = P.length === 1 ? '<p class="note">So far your taste has stayed consistent, so your journal is a single long chapter. New ones appear if what you watch changes for a sustained stretch.</p>' : '';
-  return head + fillNote + phJourney(P) + ex + '<div class="ph-tl">' + body + '</div>' + note +
+  return head + fillNote + phJourney(P) + ex + '<div class="ph-tl' + (P.length > 2 && !phAll ? ' lim' : '') + '">' + body + '</div>' + (P.length > 2 ? '<button type="button" class="cds-b ph-all" data-act="phall" data-t="Show all ' + P.length + ' chapters"><span>' + (phAll ? 'Show fewer chapters' : 'Show all ' + P.length + ' chapters') + '</span></button>' : '') + note +
     '<details class="ph-how"><summary>How phases are found</summary><p>Your watches are looked at in rolling 90-day windows that move forward 30 days at a time. Each window needs at least ' + PHX.MINN + ' watches. Two neighbouring windows are compared by how far their genre, theme, decade, country, language and runtime mixes, ratings and rewatching drift apart (Jensen-Shannon divergence, with genres and themes kept as separate distributions), minus the drift that chance alone would produce for windows of that size. A phase boundary is kept only if the change is clearly beyond chance, still holds across the whole stretches on either side, and every phase lasts at least ' + PHX.MIND + ' days. Quiet months never make a phase of their own. Themes are TMDB keywords and languages are each film\'s original language; both are used only where your films have them. Names and descriptions come from the numbers and templates, never from guesses about your life. Directors and actors are left out because they have their own sections.</p></details>';
 }
 ACT.phgo = a => { const e = document.getElementById('phc' + a.dataset.i); if (e) e.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth', block: 'start' }); };
@@ -4910,7 +4939,7 @@ function thData() {
   const srt = (a, b) => b[1].length - a[1].length || (a[0] < b[0] ? -1 : 1);
   return { seen: seen.length, nk, nl, nd, kw: [...kw.entries()].filter(x => x[1].length >= 3).sort(srt), lg: [...lg.entries()].sort(srt) };
 }
-let thOpen = false, lgOpen = false;
+let thOpen = false, lgOpen = false, phAll = false;
 const thMore = (open, act, n, lim) => n > lim ? '<button type="button" class="cds-b th-m" data-act="' + act + '" aria-expanded="' + open + '"><span>' + (open ? 'Show fewer' : 'Show all ' + n) + '</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="' + (open ? 'transform:rotate(180deg)' : '') + '"><path d="M6 9l6 6 6-6"/></svg></button>' : '';
 function thNote(T, kind) {
   if (phJob) return '<p class="note">Reading ' + kind + ' for your films… ' + phJob.done + ' of ' + phJob.tot + '</p>';
@@ -4954,6 +4983,48 @@ ACT.lgopen = a => { const T = thData(), e = T.lg.find(x => x[0] === a.dataset.k)
     const html = '<div class="ins2"><section class="ins" id="thSec">' + thHTML() + '</section><section class="ins" id="lgSec">' + lgHTML() + '</section></div>';
     const g = [...v.querySelectorAll('section.ins h2')].find(x => x.textContent === 'Genres you watch'), box = g && g.closest('.ins2');
     if (box) box.insertAdjacentHTML('afterend', html); else { const ph = $('#phSec'); if (ph) ph.insertAdjacentHTML('afterend', html); else v.insertAdjacentHTML('beforeend', html); }
+  };
+}
+
+/* ===== Insights on phones: jump bar and collapsible sections ===== */
+const INS_JUMP = { 'Your signature': 'Signature', 'Phases of You': 'Phases', 'Watches by month': 'Months', 'How you rate': 'Ratings', 'By decade': 'Decades', 'Genres you watch': 'Genres', 'Directors you return to': 'Directors', 'Themes you return to': 'Themes', 'Languages you watch': 'Languages', 'You liked more than the crowd': 'Vs the crowd', 'You liked less than the crowd': null, 'Your world': 'World', 'List progress': 'Lists', 'Blind spots': 'Blind spots', 'Film chain': 'Chain', 'Extremes': 'Extremes' };
+const INS_FOLD0 = new Set(['Watches by month', 'By decade', 'Your world', 'List progress', 'Blind spots', 'Film chain', 'Extremes']);
+let insFold = {}; try { insFold = JSON.parse(localStorage.getItem('dailies.insfold') || '{}') || {}; } catch (e) { insFold = {}; }
+const insTitle = sec => { const h = sec.querySelector(':scope > h2, :scope > .ph-hd > h2'); return h ? h.textContent.trim() : ''; };
+const insFolded = t => (t in insFold) ? !!insFold[t] : INS_FOLD0.has(t);
+const insPhone = () => matchMedia('(max-width:760px)').matches;
+function insSetFold(sec, f) { sec.classList.toggle('ins-c', f); const t = insTitle(sec); insFold[t] = f ? 1 : 0; try { localStorage.setItem('dailies.insfold', JSON.stringify(insFold)); } catch (e) { /* ignore */ } }
+ACT.insjump = a => {
+  const sec = document.querySelector('#view section.ins[data-ij="' + a.dataset.i + '"]'); if (!sec) return;
+  if (sec.classList.contains('ins-c')) insSetFold(sec, false);
+  sec.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+};
+ACT.phall = () => { phAll = !phAll; const t = $('.ph-tl'), b = $('.ph-all'); if (t) t.classList.toggle('lim', !phAll); if (b) b.querySelector('span').textContent = phAll ? 'Show fewer chapters' : b.dataset.t; };
+document.addEventListener('click', e => {
+  const h = e.target.closest && e.target.closest('#view section.ins.ins-f > h2'); if (!h || !insPhone()) return;
+  const sec = h.parentElement; insSetFold(sec, !sec.classList.contains('ins-c'));
+});
+let insRaf = 0;
+addEventListener('scroll', () => {
+  if (insRaf || route !== 'insights') return;
+  insRaf = requestAnimationFrame(() => {
+    insRaf = 0; const nav = $('#insNav'); if (!nav) return; let cur = null;
+    document.querySelectorAll('#view section.ins').forEach(s => { if (s.getBoundingClientRect().top <= 130) cur = s; });
+    nav.querySelectorAll('button').forEach(b => { const on = !!cur && b.dataset.i === cur.dataset.ij; if (on && !b.classList.contains('on')) nav.scrollTo({ left: Math.max(0, b.offsetLeft - 60), behavior: 'auto' }); b.classList.toggle('on', on); });
+  });
+}, { passive: true });
+{
+  const baseI = PAGES.insights.render;
+  PAGES.insights.render = function () {
+    baseI.apply(this, arguments); const v = $('#view'); if (!v || $('#insNav')) return;
+    const secs = [...v.querySelectorAll('section.ins')]; if (!secs.length) return; const seen = new Set(); let pills = '';
+    secs.forEach((sec, i) => {
+      const t = insTitle(sec); sec.dataset.ij = i;
+      if (sec.querySelector(':scope > h2') && t !== 'Your signature') { sec.classList.add('ins-f'); sec.classList.toggle('ins-c', insFolded(t)); }
+      const lab = t in INS_JUMP ? INS_JUMP[t] : t; if (lab && !seen.has(lab)) { seen.add(lab); pills += '<button type="button" data-act="insjump" data-i="' + i + '">' + E(lab) + '</button>'; }
+    });
+    const nav = '<nav class="ins-jump" id="insNav" aria-label="Jump to a section">' + pills + '</nav>', head = v.querySelector(':scope > .pagehead');
+    if (head) head.insertAdjacentHTML('afterend', nav); else v.insertAdjacentHTML('afterbegin', nav);
   };
 }
 
