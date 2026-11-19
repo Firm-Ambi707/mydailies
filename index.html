@@ -284,13 +284,6 @@ body.dock-on .dock{display:block}
 .empty h3{font:800 34px/1 var(--f-d);color:var(--ink);margin-bottom:8px}
 .empty .btn{margin-top:16px}
 /* poster grid */
-.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:8px}
-.cpo{position:relative;display:block;width:100%;aspect-ratio:2/3;padding:0;border:0;border-radius:6px;overflow:hidden;background:var(--bg3);box-shadow:0 8px 14px -10px var(--shade);transition:transform .15s}
-.cpo img{width:100%;height:100%;object-fit:cover;display:block}.cpo .fb{position:absolute;inset:0;display:flex;align-items:flex-end;padding:6px;font:700 11px/1.05 var(--f-d);background:var(--a);color:var(--k);text-align:left;overflow:hidden;word-break:break-word}
-.cpo.wl::before{content:'';position:absolute;left:0;right:0;top:0;height:3px;background:var(--a);z-index:1}.cpo.fav::after{content:'';position:absolute;right:4px;bottom:4px;width:7px;height:7px;border-radius:50%;background:#ff5d73;box-shadow:0 0 0 1.5px rgba(0,0,0,.55)}
-.cpo:focus-visible{outline:2px solid var(--a);outline-offset:1px;z-index:2}@media (hover:hover){.cpo:hover{transform:translateY(-3px) scale(1.04);z-index:2}}
-@media (max-width:760px){.cgrid{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}.cpo{border-radius:4px}.cpo .fb{font-size:9px;padding:4px}}
-@media (max-width:340px){.cgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:30px 22px}
 .tile{position:relative;min-width:0}
 .tile-po{position:relative;display:block;width:100%;aspect-ratio:2/3;padding:0;border:0;border-radius:var(--r1);overflow:hidden;background:var(--bg3);box-shadow:0 16px 26px -16px var(--shade);transition:transform .2s}
@@ -1927,9 +1920,6 @@ function tileHTML(f) {
     '<div class="tile-q"><button type="button" data-act="tg" data-k="seen" data-id="' + f.id + '" class="' + (f.seen ? 'on' : '') + '">Seen</button><button type="button" data-act="tg" data-k="wish" data-id="' + f.id + '" class="' + (f.wish ? 'on' : '') + '">Wishlist</button></div>' +
     '<div class="tile-in"><b>' + E(f.title) + '</b><span>' + (f.year || '') + (first ? (f.year ? ', ' : '') + E(first.name) : '') + '</span>' + '</div></div>';
 }
-function cTileHTML(f) {
-  return '<button type="button" class="cpo' + (f.fav ? ' fav' : '') + (f.wish && !f.seen ? ' wl' : '') + '" data-f="' + f.id + '" data-act="film" data-id="' + f.id + '" style="' + palStyle(f) + '" title="' + E(labelOf(f)) + '" aria-label="' + E(labelOf(f)) + '">' + (f.poster ? '<img src="' + img('thumb', f.poster) + '" alt="" loading="lazy" decoding="async">' : '<span class="fb">' + E(f.title) + '</span>') + '</button>';
-}
 function listHTML(films) {
   const th = (k, l, cls = '') => '<th class="' + cls + (S.ui.sort === k ? ' on' : '') + '"><button type="button" data-act="sortby" data-k="' + k + '">' + l + (S.ui.sort === k ? (S.ui.rev ? ' ↑' : ' ↓') : '') + '</button></th>';
   return '<table class="tbl"><thead><tr><th></th>' + th('title', 'Film') + th('year', 'Year', 'num') + th('runtime', 'Length', 'num hm') + '<th class="hm">Genres</th>' + th('crowd', 'TMDB', 'num hm') + th('rating', 'You', 'num') + '<th>Status</th></tr></thead><tbody>' +
@@ -1943,7 +1933,7 @@ function shelfBodyHTML() {
   if (!films.length) return '<div class="empty"><h3>Nothing matches</h3><p>No film on your shelf fits those filters.</p><button class="btn" type="button" data-act="clearf">Clear filters</button></div>';
   const groups = groupFilms(films), v = S.ui.view, H = shelfH(), W = Math.max(240, (box ? box.clientWidth : innerWidth - 300) - 28);
   return groups.map(g => '<section class="grp"' + (g.label ? '' : ' style="margin-top:8px"') + '>' + (g.label ? '<h2>' + E(g.label) + '<small>' + plural(g.items.length, 'film') + '</small></h2>' : '') +
-    (v === 'spines' ? shelfRows(g.items, W, H) : v === 'posters' ? '<div class="pgrid">' + g.items.map(tileHTML).join('') + '</div>' : v === 'compact' ? '<div class="cgrid">' + g.items.map(cTileHTML).join('') + '</div>' : listHTML(g.items)) + '</section>').join('');
+    (v === 'spines' ? shelfRows(g.items, W, H) : v === 'posters' ? '<div class="pgrid">' + g.items.map(tileHTML).join('') + '</div>' : listHTML(g.items)) + '</section>').join('');
 }
 function renderShelfBody() {
   const b = $('#shelfBody'); if (!b) return;
@@ -1971,7 +1961,7 @@ PAGES.shelf = {
       (hasSample ? '<div class="banner"><span>These ten films are samples so the shelf isn’t empty.<span class="wide-only"> Rate them, log them or clear them whenever you like.</span></span><span class="sp"></span><button class="btn sm" type="button" data-act="rmsamples">Remove samples</button><button class="btn sm ghost" type="button" data-act="bannerx">Keep them</button></div>' : '') +
       '<div class="tools"><div class="chips dchips">' + chip('all', 'All') + chip('seen', 'Seen') + chip('wish', 'Wishlist') + chip('fav', 'Favourites') + lists + '<button type="button" class="chip" data-act="newlist">New shelf</button>' +
       (u.list ? '<button type="button" class="chip" data-act="explist">Export</button><button type="button" class="chip" data-act="renlist">Rename</button><button type="button" class="chip" data-act="dellist">Delete shelf</button>' : '') + '</div>' + shelfMenuHTML(u, cnt) + '<span class="sp"></span>' +
-      '<div class="seg" role="group" aria-label="View">' + vb('spines', 'Spines') + vb('posters', 'Posters') + vb('list', 'List') + vb('compact', 'Compact') + '</div></div>' +
+      '<div class="seg" role="group" aria-label="View">' + vb('spines', 'Spines') + vb('posters', 'Posters') + vb('list', 'List') + '</div></div>' +
       '<div class="fbar' + (u.moref ? ' mf' : '') + '">' +
         '<div class="fb-q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input class="inp" type="search" data-ctl="q" placeholder="Search this shelf" aria-label="Search this shelf" value="' + E(shelfQ) + '"></div>' +
         sel('sort', 'Sort', SORTS.filter(([k]) => k !== 'custom' || u.sort === 'custom' || !matchMedia('(pointer:coarse)').matches).map(([k, l]) => '<option value="' + k + '"' + (u.sort === k ? ' selected' : '') + '>' + l + '</option>').join('')) +
@@ -5041,7 +5031,7 @@ function lstNorm(L) {
   if (L.src === 'list' && !S.lists.some(l => l.id === L.listId)) { L.listId = S.lists[0] ? S.lists[0].id : ''; if (!L.listId) L.src = S.films.some(f => f.fav) ? 'fav' : 'seen'; }
   if (!Array.isArray(L.ids)) L.ids = []; if (typeof L.title !== 'string') L.title = ''; if (typeof L.intro !== 'string') L.intro = '';
   if (!['listed', 'rating', 'recent', 'title', 'year'].includes(L.sort)) L.sort = 'listed';
-  if (!['detail', 'grid', 'compact'].includes(L.layout)) L.layout = 'detail';
+  if (!['detail', 'grid', 'compact', 'mosaic'].includes(L.layout)) L.layout = 'detail';
   if (!['review', 'overview', 'none'].includes(L.desc)) L.desc = 'review';
   if (!LTH[L.theme]) L.theme = 'dark'; if (!LSIZE[L.size]) L.size = 'a4'; L.nums = L.nums !== false;
   if (typeof L.genre !== 'string') L.genre = ''; if (typeof L.decade !== 'string') L.decade = ''; L.watched = /^\d{4}$/.test(L.watched) ? L.watched : ''; L.rel = /^\d{4}$/.test(L.rel) ? L.rel : ''; L.minr = [0, 2, 3, 3.5, 4, 4.5].includes(+L.minr) ? +L.minr : 0; L.rated = !!L.rated; L.rev = !!L.rev; L.limit = [0, 10, 25, 50, 100].includes(+L.limit) ? +L.limit : 0; L.cover = L.cover !== false; if (!LACC[L.acc]) L.acc = 'amber';
@@ -5068,6 +5058,16 @@ function lstModel() {
   let per, per1;
   if (L.layout === 'detail') { G.rowH = Math.round(W * (L.size === 'a4' ? .185 : .23)); per = Math.floor((bottom - G.topN) / G.rowH); per1 = Math.floor((bottom - G.top1) / G.rowH); }
   else if (L.layout === 'compact') { G.rowH = Math.round(W * (L.size === 'a4' ? .082 : .095)); per = Math.floor((bottom - G.topN) / G.rowH); per1 = Math.floor((bottom - G.top1) / G.rowH); }
+  else if (L.layout === 'mosaic') {
+    /* posters only: pick the column count that puts 15 to 20 posters on every full page */
+    const avail = bottom - G.topN, availFirst = bottom - G.top1; let best = null;
+    for (let cols = 3; cols <= 7; cols++) {
+      const gap = Math.round(W * (cols > 5 ? .011 : .014)), pw = (aw - (cols - 1) * gap) / cols, ph = Math.round(pw * 1.5), rows = Math.max(1, Math.floor((avail + gap) / (ph + gap))), n = rows * cols, sc = (n >= 15 && n <= 20 ? 0 : Math.min(Math.abs(n - 15), Math.abs(n - 20)) + 100) + Math.abs(n - 18) * .01;
+      if (!best || sc < best.sc) best = { cols, gap, pw, ph, rows, n, sc };
+    }
+    G.cols = best.cols; G.gap = best.gap; G.pw = best.pw; G.ph = best.ph; G.rgap = Math.min(best.gap * 2.4, Math.max(best.gap, (avail - best.rows * best.ph) / Math.max(1, best.rows)));
+    G.cell = best.ph + G.rgap; G.off = Math.max(0, Math.floor((avail - (best.rows * best.ph + (best.rows - 1) * G.rgap)) / 2)); per = best.rows * best.cols; per1 = Math.max(1, Math.floor((availFirst + G.rgap) / G.cell)) * best.cols;
+  }
   else { G.cols = L.size === 'a4' ? 4 : 3; G.gap = Math.round(W * .025); G.pw = (aw - (G.cols - 1) * G.gap) / G.cols; G.cell = Math.round(G.pw * 1.5 + W * .055 + G.gap); per = Math.floor((bottom - G.topN) / G.cell) * G.cols; per1 = Math.floor((bottom - G.top1) / G.cell) * G.cols; }
   per = Math.max(1, per); per1 = Math.max(1, per1);
   const pages = [fs.slice(0, per1)]; for (let i = per1; i < fs.length; i += per) pages.push(fs.slice(i, i + per));
@@ -5112,7 +5112,7 @@ function lstTicket(c, x1, x2, y, T, W) {
 async function lstDrawPage(c, M, p) {
   const { G, T, L } = M, W = G.W, H = G.H, m = G.m, aw = G.aw, items = M.pages[p] || [], first = p === 0 && L.cover, N = M.pages.length, base = p === 0 ? 0 : M.per1 + (p - 1) * M.per;
   await dlFonts();
-  const px = L.layout === 'grid' ? 300 : 130, thumbs = first ? M.films.filter(f => f.poster).slice(0, 6) : [];
+  const px = L.layout === 'grid' ? 300 : L.layout === 'mosaic' ? 240 : 130, thumbs = first ? M.films.filter(f => f.poster).slice(0, 6) : [];
   const [imgs, tims] = await Promise.all([Promise.all(items.map(f => lstLoad(f, px))), Promise.all(thumbs.map(f => lstLoad(f, 130)))]);
   const g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, T.b1); g.addColorStop(1, T.b2); c.fillStyle = g; c.fillRect(0, 0, W, H);
   if (M.films[0]) { const tn = palOf(M.films[0]).a, r = c.createRadialGradient(W * .15, 0, 0, W * .15, 0, H * .62); r.addColorStop(0, tn + (T.paper ? '2e' : '4d')); r.addColorStop(1, tn + '00'); c.fillStyle = r; c.fillRect(0, 0, W, H); }
@@ -5161,6 +5161,13 @@ async function lstDrawPage(c, M, p) {
       const note = lstNote(f, L);
       if (note) { const z = Math.round(W * .0185), lh = Math.round(z * 1.42), room = Math.floor((y0 + rh - pad - (y + Math.round(W * .016))) / lh); if (room >= 1) { c.font = DLFN.pi(z); lstClamp(c, note, tw, Math.min(room, 5)).forEach((l, k) => dlT(c, l, tx, y + Math.round(W * .016) + lh * (k + .8), DLFN.pi, z, T.ink2)); } }
       if (i < items.length - 1) lstTicket(c, 26, W - 26, y0 + rh, T, W);
+    });
+  } else if (L.layout === 'mosaic') {
+    const { cols, gap, pw, ph } = G, rr = Math.max(3, Math.round(pw * .035));
+    items.forEach((f, i) => {
+      const r = Math.floor(i / cols), cc = i % cols, x = m + cc * (pw + gap), y = top + (p === 0 ? 0 : G.off) + r * G.cell, im = imgs[i], rank = base + i + 1;
+      lstPoster(c, f, im, x, y, pw, ph, rr, T);
+      if (L.nums) { const bz = Math.round(pw * .15); c.save(); c.beginPath(); c.arc(x + bz * .78, y + bz * .78, bz * .52, 0, 6.2832); c.fillStyle = 'rgba(14,14,14,.74)'; c.fill(); c.restore(); dlT(c, String(rank), x + bz * .78, y + bz * .78 + bz * .18, DLFN.d8, bz * (rank > 99 ? .5 : .62), '#fff', 'center'); }
     });
   } else if (L.layout === 'compact') {
     const rh = G.rowH, pad = Math.round(rh * .09), ph = rh - pad * 2, pw = Math.round(ph * 2 / 3), rw = Math.round(W * .05);
@@ -5261,8 +5268,8 @@ function lstControls() {
   const ysel = (k, now, any, ys) => '<select class="inp" data-k="' + k + '" aria-label="' + any + '">' + [['', any], ...ys.map(y => [y, y])].map(([v, l]) => '<option value="' + v + '"' + (now === v ? ' selected' : '') + '>' + l + '</option>').join('') + '</select>';
   return '<div class="field"><span class="lbl">Films from</span>' + seg('src', L.src, srcs) + extra + '</div>' +
     '<div class="field"><span class="lbl">Year</span><div class="lst-2">' + ysel('watched', L.watched, 'Watched in any year', wy) + ysel('rel', L.rel, 'Released in any year', ry) + '</div>' + (L.watched && L.rel ? '<p class="fine" style="margin-top:6px">Films released in ' + L.rel + ' that you watched in ' + L.watched + '.</p>' : '') + '</div>' +
-    '<div class="field"><span class="lbl">Layout</span>' + seg('layout', L.layout, [['detail', 'Detailed'], ['grid', 'Poster grid'], ['compact', 'Compact']]) + '</div>' +
-    (L.layout === 'grid' ? '' : '<div class="field"><span class="lbl">Short note under each film</span>' + seg('desc', L.desc, [['review', 'My review'], ['overview', 'Film summary'], ['none', 'None']]) + '</div>') +
+    '<div class="field"><span class="lbl">Layout</span>' + seg('layout', L.layout, [['detail', 'Detailed'], ['grid', 'Poster grid'], ['compact', 'Compact'], ['mosaic', 'Posters only']]) + '</div>' +
+    (L.layout === 'grid' || L.layout === 'mosaic' ? '' : '<div class="field"><span class="lbl">Short note under each film</span>' + seg('desc', L.desc, [['review', 'My review'], ['overview', 'Film summary'], ['none', 'None']]) + '</div>') +
     '<div class="field"><span class="lbl">Order</span>' + seg('sort', L.sort, [['listed', 'As added'], ['rating', 'Best first'], ['recent', 'Newest first'], ['title', 'A to Z'], ['year', 'By year']]) + '</div>' +
     '<div class="field"><span class="lbl">Numbers</span>' + seg('nums', L.nums ? 'on' : 'off', [['on', 'Number the films'], ['off', 'No numbers']]) + '</div>' +
     '<div class="field"><span class="lbl">Look</span>' + seg('theme', L.theme, [['dark', 'Cinema, dark'], ['paper', 'Paper, light']]) + '</div>' +
