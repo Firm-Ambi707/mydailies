@@ -1124,14 +1124,16 @@ button,a,.spine,.face,.tile-po,.chip,.seg button{touch-action:manipulation}
 .wm-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 28px}.wm-r{display:grid;grid-template-columns:minmax(80px,32%) 1fr 28px;gap:10px;align-items:center;padding:7px 4px;border:0;border-radius:8px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:pointer}.wm-r:hover,.wm-r.on{background:var(--line)}.wm-rn{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.wm-rb{height:6px;border-radius:6px;background:var(--line)}.wm-rb i{display:block;height:100%;border-radius:6px;background:#f0c35c}.wm-r b{text-align:right;font-weight:600;font-size:14px}
 @media (max-width:640px){.wm-list{grid-template-columns:1fr}.wm-s b{font-size:20px}.wm-s{padding:10px}}
 .ce-l{max-height:min(46vh,340px);overflow:auto;display:grid;gap:2px;border:1px solid var(--line);border-radius:10px;padding:6px}.ce-r{padding:7px 8px;border-radius:7px;cursor:pointer}.ce-r:hover{background:var(--line)}.pw-i{display:grid;place-items:center;font:600 22px/1 var(--f-d);color:var(--ink2);background:var(--line)}.wm-fl{width:64px}
-.lp-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:8px;margin:10px 0 14px}
-.lp-r{position:relative;display:flex;align-items:center;gap:11px;padding:9px 12px 9px 9px;text-align:left;border:1px solid var(--line);border-radius:14px;background:linear-gradient(160deg,rgba(255,255,255,.035),rgba(255,255,255,0));color:var(--ink);cursor:pointer;font:inherit;transition:transform .2s,border-color .2s,background .2s}
-.lp-r:hover,.lp-r:focus-visible{transform:translateY(-2px);border-color:rgba(240,195,92,.55);background:linear-gradient(160deg,rgba(240,195,92,.09),rgba(255,255,255,0))}
-.lp-rg{position:relative;flex:none;width:52px;height:52px}.lp-rg svg{width:100%;height:100%;display:block;overflow:visible}
-.lp-bg{fill:none;stroke:var(--line);stroke-width:6;opacity:.8}.lp-fg{fill:none;stroke-width:6;stroke-linecap:round;filter:drop-shadow(0 0 3px rgba(240,195,92,.45));transition:stroke-dasharray .9s cubic-bezier(.2,.8,.2,1)}
-.lp-pc{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:600 12px/1 var(--f-d);color:var(--ink)}.lp-pc i{font-style:normal;font-size:7px;opacity:.6;margin-left:0;transform:translateY(-2px)}
-.lp-t{display:flex;flex-direction:column;min-width:0;gap:2px}.lp-t em{font-style:normal;font-size:12.5px;line-height:1.2;font-weight:600;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.lp-t small{font-size:10.5px;color:var(--ink3);font-variant-numeric:tabular-nums}
-.lp-r.full{border-color:rgba(240,195,92,.6)}.lp-r.full .lp-fg{filter:drop-shadow(0 0 5px rgba(255,215,122,.8))}.lp-r.off{opacity:.5;cursor:default}.lp-r.off:hover{transform:none;border-color:var(--line);background:none}
+.lp-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:12px;margin:12px 0 16px}
+.lp-r{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;padding:20px 12px 16px;text-align:center;border:1px solid var(--line);border-radius:18px;background:radial-gradient(120% 90% at 50% 0%,rgba(240,195,92,.07),rgba(255,255,255,0) 70%),linear-gradient(160deg,rgba(255,255,255,.035),rgba(255,255,255,0));color:var(--ink);cursor:pointer;font:inherit;transition:transform .22s,border-color .22s,box-shadow .22s}
+.lp-r:hover,.lp-r:focus-visible{transform:translateY(-3px);border-color:rgba(240,195,92,.6);box-shadow:0 10px 26px -12px rgba(240,195,92,.35);outline:none}
+.lp-rg{position:relative;flex:none;width:108px;height:108px}.lp-rg svg{width:100%;height:100%;display:block;overflow:visible}
+.lp-gd{fill:none;stroke:var(--line2);stroke-width:1;stroke-dasharray:1.5 5.2;opacity:.55}.lp-in{fill:rgba(240,195,92,.045);stroke:none}
+.lp-bg{fill:none;stroke:var(--line);stroke-width:9;opacity:.85}.lp-fg{fill:none;stroke-width:9;stroke-linecap:round;filter:drop-shadow(0 0 4px rgba(240,195,92,.5));transition:stroke-dasharray 1s cubic-bezier(.2,.8,.2,1)}
+.lp-pc{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:700 30px/1 var(--f-d);letter-spacing:.01em;color:var(--ink)}.lp-pc i{font-style:normal;font-size:13px;font-weight:600;opacity:.6;margin-left:1px;transform:translateY(-8px)}
+.lp-t{display:flex;flex-direction:column;align-items:center;min-width:0;gap:5px;width:100%}.lp-t em{font-style:normal;font-size:14.5px;line-height:1.25;font-weight:600;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;min-height:2.5em}.lp-t small{font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}
+.lp-go{display:inline-block;margin-top:1px;padding:3px 10px;border-radius:999px;border:1px solid rgba(240,195,92,.35);background:rgba(240,195,92,.08);font-size:11px;font-weight:600;color:#ffd77a;letter-spacing:.02em}
+.lp-r.full{border-color:rgba(240,195,92,.65);background:radial-gradient(120% 90% at 50% 0%,rgba(240,195,92,.18),rgba(255,255,255,0) 70%)}.lp-r.full .lp-fg{filter:drop-shadow(0 0 7px rgba(255,215,122,.85))}.lp-r.full .lp-go{background:#f0c35c;color:#1a1204;border-color:#f0c35c}.lp-r.off{opacity:.5;cursor:default}.lp-r.off:hover{transform:none;box-shadow:none;border-color:var(--line)}
 .bs-w{overflow-x:auto;-webkit-overflow-scrolling:touch}.bs-g{display:grid;gap:4px;min-width:340px}.bs-r{display:grid;grid-template-columns:56px repeat(8,minmax(0,1fr));gap:4px;align-items:center}.bs-h span{font-size:10px;color:var(--ink3);text-align:center}.bs-l{font-size:11px;color:var(--ink2);white-space:nowrap}
 .bs-c{height:30px;border-radius:7px;border:1px solid transparent;background:rgba(240,195,92,calc(var(--a,0)*.85));color:#1a1204;font:600 11px/1 var(--f-d);cursor:pointer;padding:0;transition:transform .15s,box-shadow .15s}.bs-c:hover,.bs-c:focus-visible{transform:scale(1.12);box-shadow:0 0 0 2px rgba(240,195,92,.5);z-index:1}
 .bs-e{background:none;border:1px dashed var(--line);animation:bsP 3.4s ease-in-out infinite}.bs-e:hover{border-color:#f0c35c;background:rgba(240,195,92,.1)}@keyframes bsP{50%{border-color:rgba(240,195,92,.35)}}@media (prefers-reduced-motion:reduce){.bs-e{animation:none}}
@@ -1143,10 +1145,35 @@ button,a,.spine,.face,.tile-po,.chip,.seg button{touch-action:manipulation}
 .sc-f img,.sc-ph{flex:none;width:42px;height:62px;border-radius:5px;object-fit:cover;background:var(--line)}.sc-t{display:flex;flex-direction:column;gap:2px;min-width:0}.sc-t b{font-weight:600;font-size:14px;line-height:1.25}.sc-t small{font-size:11px;color:var(--ink3)}
 .sc-l{position:relative;margin-left:29px;padding:12px 0 12px 22px;border-left:2px dashed rgba(240,195,92,.55)}.sc-l span{display:inline-flex;flex-direction:column;gap:1px;padding:5px 11px;border-radius:999px;background:rgba(240,195,92,.12);border:1px solid rgba(240,195,92,.4);font-size:12px;font-weight:600;color:#ffd77a}.sc-l small{font-weight:400;font-size:10px;color:var(--ink3)}
 @media (max-width:760px){.sc-pick .fb-grp{flex-basis:100%}.sc-sw{display:none}.sc-f img,.sc-ph{width:36px;height:54px}}
+.ph{margin-top:8px}.ph-hd{margin-bottom:18px}.ph-lead{font:italic 400 18px/1.55 var(--f-p);color:var(--ink2);max-width:60ch;margin:6px 0 0}
+.ph-rib{display:flex;gap:3px;margin:6px 0 4px;min-height:46px}.ph-rb{--c:hsl(var(--h) 58% 62%);min-width:34px;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;padding:7px 9px;border:0;border-radius:6px;background:linear-gradient(180deg,hsl(var(--h) 55% 60%/.16),hsl(var(--h) 55% 60%/.34));border-bottom:3px solid var(--c);color:var(--ink);font:inherit;text-align:left;cursor:pointer;overflow:hidden;transition:filter .2s,transform .2s}.ph-rb:hover,.ph-rb:focus-visible{filter:brightness(1.25);transform:translateY(-2px);outline:none}
+.ph-rb b{font:700 15px/1 var(--f-d);color:var(--c);letter-spacing:.03em}.ph-rb span{font-size:11px;line-height:1.2;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ph-ra{display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);margin-bottom:16px}
+.ph-ex{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px 22px;margin:4px 0 26px;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.ph-ex li{display:flex;flex-direction:column;gap:2px}.ph-ex small{font:600 11px/1 var(--f-d);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}.ph-ex button{align-self:flex-start;padding:0;border:0;background:none;color:#ffd77a;font:italic 400 17px/1.3 var(--f-p);text-align:left;cursor:pointer}.ph-ex button:hover{text-decoration:underline}.ph-ex span{font-size:12.5px;line-height:1.4;color:var(--ink2)}
+.ph-tl{position:relative}
+.ph-ch{--c:hsl(var(--h) 58% 66%);position:relative;display:grid;grid-template-columns:78px minmax(0,1fr);gap:0 20px;padding:34px 0 34px;scroll-margin-top:16px}
+.ph-ch::before{content:'';position:absolute;inset:0 -14px 0 -10px;border-radius:22px;background:radial-gradient(70% 60% at 0% 0%,hsl(var(--h) 60% 60%/.10),transparent 70%);pointer-events:none}
+.ph-rail{position:relative;display:flex;justify-content:center}.ph-rail::before{content:'';position:absolute;top:0;bottom:-34px;width:1px;background:linear-gradient(var(--line2),var(--line2));left:50%}.ph-no{position:relative;z-index:1;align-self:flex-start;display:grid;place-items:center;width:58px;height:58px;border-radius:50%;background:var(--bg);border:1.5px solid var(--c);color:var(--c);font:700 24px/1 var(--f-d);letter-spacing:.02em;box-shadow:0 0 0 6px var(--bg),0 0 22px -6px var(--c)}
+.ph-bd{position:relative;min-width:0}.ph-k{margin:6px 0 4px;font:600 13px/1 var(--f-d);letter-spacing:.2em;text-transform:uppercase;color:var(--c)}.ph-k b{margin-left:8px;padding:3px 8px;border-radius:999px;border:1px solid var(--c);font-size:11px;letter-spacing:.1em}
+.ph-t{margin:0;font:italic 400 clamp(30px,5vw,46px)/1.08 var(--f-p);letter-spacing:-.01em;color:var(--ink);text-wrap:balance}
+.ph-d{margin:10px 0 18px;font:600 13px/1.3 var(--f-u);letter-spacing:.04em;text-transform:uppercase;color:var(--ink2)}.ph-d span{color:var(--ink3);font-weight:500}
+.ph-p{max-width:60ch;margin:0 0 20px;font:400 18px/1.78 var(--f-p);color:var(--ink)}
+.ph-m{display:flex;flex-wrap:wrap;gap:14px 30px;margin:0 0 22px;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.ph-m dt{font:600 10.5px/1 var(--f-d);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px}.ph-m dd{margin:0;font:500 15.5px/1.3 var(--f-u);color:var(--ink)}.ph-m dd em{font-style:normal;font-size:12px;color:var(--ink3)}
+.ph-ps{display:flex;flex-wrap:wrap;gap:20px 34px;align-items:flex-end;margin-bottom:12px}
+.ph-sg{display:flex;gap:14px;align-items:flex-end}.ph-sc{display:flex;flex-direction:column;gap:3px;max-width:190px}.ph-sc small,.ph-os small{font:600 10.5px/1 var(--f-d);letter-spacing:.14em;text-transform:uppercase;color:var(--c)}.ph-sc b{font:italic 400 19px/1.2 var(--f-p)}.ph-sc span{font-size:12px;color:var(--ink3)}
+.ph-os{display:flex;flex-direction:column;gap:8px;min-width:0}.ph-os>div{display:flex;gap:7px;flex-wrap:wrap}
+.ph-po{flex:none;width:58px;aspect-ratio:2/3;padding:0;border:0;border-radius:4px;overflow:hidden;background:var(--line);cursor:pointer;box-shadow:0 6px 14px -8px #000;transition:transform .2s,box-shadow .2s;font-size:8.5px;color:var(--ink2);line-height:1.15}.ph-po:hover,.ph-po:focus-visible{transform:translateY(-4px) rotate(-1deg);box-shadow:0 12px 20px -8px #000,0 0 0 1.5px var(--c);outline:none}.ph-po.big{width:104px;border-radius:6px;box-shadow:0 14px 26px -12px #000,0 0 0 1px hsl(var(--h) 55% 60%/.5)}.ph-po img{width:100%;height:100%;object-fit:cover;display:block}.ph-po span{display:block;padding:6px}
+.ph-why{margin-top:10px;font-size:13px;color:var(--ink3)}.ph-why summary{cursor:pointer;width:max-content}.ph-why p{margin:6px 0 0;max-width:56ch;line-height:1.5;color:var(--ink2)}
+.ph-tr{position:relative;display:grid;grid-template-columns:78px minmax(0,1fr);gap:0 20px;margin:-6px 0}.ph-tr::before{content:'';grid-column:1;justify-self:center;width:1px;background:var(--line2)}.ph-tr>*{grid-column:2}.ph-tr small{display:block;margin:0 0 4px;font:600 10.5px/1 var(--f-d);letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}.ph-tr p{margin:0;padding:2px 0 2px 14px;border-left:2px solid var(--line2);max-width:58ch;font:italic 400 16px/1.55 var(--f-p);color:var(--ink2)}.ph-tr{padding:2px 0}
+.ph-tl>.ph-ch:last-of-type .ph-rail::before{display:none}
+.ph-how{margin:10px 0 4px;font-size:13px;color:var(--ink3)}.ph-how summary{cursor:pointer;width:max-content}.ph-how p{max-width:70ch;line-height:1.6;color:var(--ink2)}
+.ph-e{padding:34px 18px;text-align:center;border:1px dashed var(--line2);border-radius:18px;background:radial-gradient(80% 100% at 50% 0%,rgba(240,195,92,.06),transparent 70%)}.ph-dots{display:flex;gap:8px;justify-content:center;margin-bottom:16px}.ph-dots i{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--line2)}.ph-dots i.on{background:#f0c35c;border-color:#f0c35c}.ph-et{margin:0 0 6px;font:italic 400 26px/1.2 var(--f-p)}.ph-es{margin:0 auto;max-width:52ch;font-size:14px;line-height:1.55;color:var(--ink3)}
+@media (max-width:760px){.ph-ch,.ph-tr{grid-template-columns:40px minmax(0,1fr);gap:0 12px;padding-top:26px}.ph-tr{padding:2px 0}.ph-no{width:38px;height:38px;font-size:16px;box-shadow:0 0 0 4px var(--bg)}.ph-p{font-size:17px;line-height:1.7}.ph-m{gap:12px 22px}.ph-po.big{width:92px}.ph-rb{padding:6px 6px;min-width:26px}.ph-rb span{display:none}.ph-ch::before{inset:0 -8px 0 -8px}}
+@media (prefers-reduced-motion:reduce){.ph-rb,.ph-po{transition:none}}
 .bs-h3{font:500 13px/1.3 var(--f-d);margin:14px 0 6px;color:var(--ink2)}@media (max-width:760px){.bs-r{grid-template-columns:44px repeat(8,minmax(0,1fr));gap:3px}.bs-l{font-size:10px}.bs-c{height:24px;font-size:10px}}
 
 .lp-l{display:grid;gap:2px;max-height:min(52vh,420px);overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:6px}.lp-i{display:flex;gap:12px;align-items:baseline;padding:8px 10px;border:0;border-radius:7px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:default;width:100%}button.lp-i{cursor:pointer}button.lp-i:hover{background:var(--line)}.lp-y{width:40px;flex:none;font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}.lp-n{font-size:14px}
-@media (max-width:760px){.lp-g{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.lp-r{padding:7px 9px 7px 7px;gap:8px;border-radius:12px}.lp-rg{width:42px;height:42px}.lp-pc{font-size:10.5px}.lp-t em{font-size:11px}.lp-t small{font-size:9.5px}}
+@media (max-width:760px){.lp-g{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.lp-r{padding:16px 8px 13px;gap:10px;border-radius:16px}.lp-rg{width:92px;height:92px}.lp-pc{font-size:26px}.lp-pc i{font-size:11px;transform:translateY(-7px)}.lp-t em{font-size:13px}.lp-t small{font-size:11px}}
 
 </style></head>
 <body>
@@ -4240,13 +4267,14 @@ async function lpLoad(def) {
 let lpQ = null;
 function lpKick() { if (lpQ) return; const todo = LP_LIVE.filter(d => { const c = lpC[d.k]; return !(c && Date.now() - c.t < LPTTL) && lpSt[d.k] !== 'err'; }); if (!todo.length || !getKey()) return; lpQ = (async () => { const q = todo.slice(); const w = async () => { for (let d; (d = q.shift());) await lpLoad(d); }; await Promise.all([w(), w(), w()]); lpQ = null; })(); }
 function lpRing(def, m) {
-  const pct = m.total ? Math.round(m.done / m.total * 100) : 0, r = 21, C = 2 * Math.PI * r, dis = !m.ready, gid = 'lg' + def.k.replace(/\W/g, '');
-  const sub = dis ? (m.st === 'err' ? 'Could not load' : getKey() ? 'Loading…' : 'Needs TMDB key') : m.done.toLocaleString() + ' of ' + m.total.toLocaleString();
+  const pct = m.total ? Math.round(m.done / m.total * 100) : 0, r = 40, C = 2 * Math.PI * r, dis = !m.ready, gid = 'lg' + def.k.replace(/\W/g, '');
+  const sub = dis ? (m.st === 'err' ? 'Could not load' : getKey() ? 'Loading…' : 'Needs TMDB key') : m.done.toLocaleString() + ' of ' + m.total.toLocaleString() + ' seen';
+  const left = dis ? 0 : Math.max(0, m.total - m.done), chip = dis ? '' : '<span class="lp-go">' + (pct >= 100 ? 'Complete' : left.toLocaleString() + ' to go') + '</span>';
   return '<button type="button" class="lp-r' + (dis ? ' off' : '') + (!dis && pct >= 100 ? ' full' : '') + '" data-act="lpopen" data-k="' + def.k + '"' + (dis ? ' aria-disabled="true"' : '') + ' aria-label="' + E(def.name) + ', ' + (dis ? sub : m.done + ' of ' + m.total + ' seen') + '">' +
-    '<span class="lp-rg"><svg viewBox="0 0 52 52" aria-hidden="true"><defs><linearGradient id="' + gid + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd77a"/><stop offset="1" stop-color="#e8873a"/></linearGradient></defs><circle cx="26" cy="26" r="' + r + '" class="lp-bg"/>' +
-    (dis || !m.done ? '' : '<circle cx="26" cy="26" r="' + r + '" class="lp-fg" stroke="url(#' + gid + ')" transform="rotate(-90 26 26)" stroke-dasharray="' + Math.max(0.1, C * m.done / Math.max(1, m.total) - (pct < 100 ? 0 : 0)).toFixed(1) + ' ' + C.toFixed(1) + '"/>') + '</svg>' +
+    '<span class="lp-rg"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="' + gid + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe08f"/><stop offset="1" stop-color="#e8873a"/></linearGradient></defs><circle cx="50" cy="50" r="48" class="lp-gd"/><circle cx="50" cy="50" r="34" class="lp-in"/><circle cx="50" cy="50" r="' + r + '" class="lp-bg"/>' +
+    (dis || !m.done ? '' : '<circle cx="50" cy="50" r="' + r + '" class="lp-fg" stroke="url(#' + gid + ')" transform="rotate(-90 50 50)" stroke-dasharray="' + Math.max(0.1, C * m.done / Math.max(1, m.total)).toFixed(1) + ' ' + C.toFixed(1) + '"/>') + '</svg>' +
     '<span class="lp-pc">' + (dis ? '·' : pct + '<i>%</i>') + '</span></span>' +
-    '<span class="lp-t"><em>' + E(def.short) + '</em><small>' + E(sub) + '</small></span></button>';
+    '<span class="lp-t"><em>' + E(def.short) + '</em><small>' + E(sub) + '</small>' + chip + '</span></button>';
 }
 function lpHTML() {
   const idx = lpSeenIndex(), sIds = new Set(S.films.filter(f => f.seen).map(f => String(f.id)));
@@ -4393,6 +4421,377 @@ ACT.sccopy = () => {
     baseC.apply(this, arguments); const v = $('#view'); if (!v || $('#scSec') || !S.films.some(f => f.seen)) return;
     const h = scHTML(); if (!h) return; const html = '<section class="ins sc" id="scSec">' + h + '</section>', w = $('#bsSec') || $('#lpSec') || $('#wmSec');
     if (w) w.insertAdjacentHTML('afterend', html); else v.insertAdjacentHTML('beforeend', html);
+  };
+}
+
+/* ===== Phases of You: your watch history read as chapters ===== */
+const PHX = { WIN: 90, STEP: 30, MINN: 8, MIND: 60, PERM: 40, TH_E: 0.11, TH_Z: 2.5, TH_M: 0.07, TH_MZ: 2, KEY: 'dailies.phases1', W: { g: 0.5, d: 0.14, c: 0.18, l: 0.06, b: 0.12 } };
+const phHash = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0; return h >>> 0; };
+const phRng = seed => { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; };
+const phPc = x => Math.round(x * 100) + '%';
+function phDay(iso) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || ''); if (!m) return null;
+  const y = +m[1], mo = +m[2], d = +m[3], t = Date.UTC(y, mo - 1, d), o = new Date(t);
+  if (y < 1900 || y > 2100 || o.getUTCMonth() !== mo - 1 || o.getUTCDate() !== d) return null;
+  return Math.floor(t / 864e5);
+}
+const phIso = d => new Date(d * 864e5).toISOString().slice(0, 10);
+const PH_MON = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+function phRange(a, b, ongoing) {
+  const ya = +a.slice(0, 4), yb = +b.slice(0, 4), ma = +a.slice(5, 7) - 1, mb = +b.slice(5, 7) - 1, S = i => PH_MON[i].slice(0, 3);
+  if (ongoing) return S(ma) + ' ' + ya + ' – Ongoing';
+  if (ya === yb && ma === mb) return PH_MON[ma] + ' ' + ya;
+  if (ya === yb) return PH_MON[ma] + ' – ' + PH_MON[mb] + ' ' + ya;
+  return S(ma) + ' ' + ya + ' – ' + S(mb) + ' ' + yb;
+}
+const phSpan = days => { const m = Math.max(1, Math.round(days / 30.4)); return m >= 12 ? (m % 12 ? Math.floor(m / 12) + ' yr ' + (m % 12) + ' mo' : Math.floor(m / 12) + (m < 24 ? ' year' : ' years')) : m + (m === 1 ? ' month' : ' months'); };
+
+/* every watch becomes one dated event carrying the metadata the profile needs */
+function phBuild() {
+  const ev = [];
+  for (const e of S.entries) {
+    const f = byId(e.fid); if (!f) continue; const d = phDay(e.date); if (d == null) continue;
+    ev.push({ d, f, date: e.date, re: !!e.rewatch, id: String(e.id) });
+  }
+  ev.sort((a, b) => a.d - b.d || String(a.f.id).localeCompare(String(b.f.id)) || a.id.localeCompare(b.id));
+  const G = new Map(), D = new Map(), C = new Map(), ix = (m, k) => { if (!m.has(k)) m.set(k, m.size); return m.get(k); };
+  for (const x of ev) {
+    const f = x.f; x.gn = [...new Set((f.genres || []).map(g => String(g).trim()).filter(Boolean))]; x.gl = x.gn.map(g => ix(G, g));
+    x.dec = f.year >= 1880 ? Math.floor(f.year / 10) * 10 : 0; x.di = x.dec ? ix(D, x.dec) : -1;
+    x.cn = [...new Set(f.countries || [])]; x.cl = x.cn.map(c => ix(C, c));
+    x.lb = f.runtime > 0 ? (f.runtime < 90 ? 0 : f.runtime < 120 ? 1 : f.runtime < 150 ? 2 : 3) : -1;
+    x.r = f.rating > 0 ? f.rating : 0;
+  }
+  return { ev, G, D, C, nG: G.size, nD: D.size, nC: C.size };
+}
+function phAcc(U, list) {
+  const o = { n: list.length, g: new Float64Array(U.nG), d: new Float64Array(U.nD), c: new Float64Array(U.nC), l: new Float64Array(4), gT: 0, dT: 0, cT: 0, lT: 0, rs: 0, rn: 0, rw: 0 };
+  for (const x of list) {
+    if (x.gl.length) { const w = 1 / x.gl.length; for (const i of x.gl) o.g[i] += w; o.gT++; }
+    if (x.di >= 0) { o.d[x.di]++; o.dT++; }
+    if (x.cl.length) { const w = 1 / x.cl.length; for (const i of x.cl) o.c[i] += w; o.cT++; }
+    if (x.lb >= 0) { o.l[x.lb]++; o.lT++; }
+    if (x.r) { o.rs += x.r; o.rn++; }
+    if (x.re) o.rw++;
+  }
+  return o;
+}
+function phJsd(a, b) {
+  const K = a.length; let na = 0, nb = 0; for (let i = 0; i < K; i++) { na += a[i]; nb += b[i]; } if (!na || !nb) return null;
+  const al = 0.1, da = na + al * K, db = nb + al * K; let js = 0;
+  for (let i = 0; i < K; i++) { const p = (a[i] + al) / da, q = (b[i] + al) / db, m = (p + q) / 2; js += 0.5 * p * Math.log2(p / m) + 0.5 * q * Math.log2(q / m); }
+  return js;
+}
+function phMask(U, A, B) {
+  const ok = (ta, tb, K) => K > 1 && ta >= 3 && tb >= 3 && ta >= 0.5 * A.n && tb >= 0.5 * B.n;
+  return { g: ok(A.gT, B.gT, U.nG), d: ok(A.dT, B.dT, U.nD), c: ok(A.cT, B.cT, U.nC), l: ok(A.lT, B.lT, 4) };
+}
+function phD(A, B, m) {
+  let sw = 0, sd = 0; const add = (w, x) => { if (x != null) { sw += w; sd += w * x; } }, W = PHX.W;
+  if (m.g) add(W.g, phJsd(A.g, B.g)); if (m.d) add(W.d, phJsd(A.d, B.d)); if (m.c) add(W.c, phJsd(A.c, B.c)); if (m.l) add(W.l, phJsd(A.l, B.l));
+  const p = [Math.min(1, Math.abs(A.rw / A.n - B.rw / B.n) / 0.5)]; if (A.rn >= 3 && B.rn >= 3) p.push(Math.min(1, Math.abs(A.rs / A.rn - B.rs / B.rn) / 1.5));
+  add(W.b, p.reduce((a, b) => a + b, 0) / p.length);
+  return sw ? sd / sw : null;
+}
+/* distance between two groups of watches, corrected for what pure chance would produce (seeded permutation test: deterministic) */
+function phTest(U, L, R, seed, quick) {
+  const A = phAcc(U, L), B = phAcc(U, R), m = phMask(U, A, B); if (!(m.g || m.d || m.c)) return null;
+  const obs = phD(A, B, m); if (obs == null) return null; if (quick && obs < 0.06) return { obs, mu: obs, sd: 1, ex: -1, z: -9 };
+  const pool = L.concat(R), nL = L.length, rnd = phRng(seed ^ (pool.length * 40503)), P = PHX.PERM; let sum = 0, sq = 0;
+  for (let p = 0; p < P; p++) {
+    const a = pool.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; }
+    const v = phD(phAcc(U, a.slice(0, nL)), phAcc(U, a.slice(nL)), m) || 0; sum += v; sq += v * v;
+  }
+  const mu = sum / P, sd = Math.sqrt(Math.max(0, sq / P - mu * mu));
+  return { obs, mu, sd, ex: obs - mu, z: (obs - mu) / Math.max(sd, 0.015) };
+}
+const phLower = (ev, t) => { let lo = 0, hi = ev.length; while (lo < hi) { const mid = (lo + hi) >> 1; if (ev[mid].d < t) lo = mid + 1; else hi = mid; } return lo; };
+
+/* find the boundaries: rolling 90-day windows every 30 days, then confirm, then merge what is not truly different */
+function phSegment(U, oldB) {
+  const ev = U.ev, n = ev.length, cand = new Map();
+  const near = k => oldB.some(od => Math.abs(ev[k].d - od) <= 20);
+  for (let t = Math.ceil(ev[0].d / PHX.STEP) * PHX.STEP; t <= ev[n - 1].d; t += PHX.STEP) { const k = phLower(ev, t); if (k > 0 && k < n && !cand.has(k)) cand.set(k, t); }
+  for (const od of oldB) { const k = phLower(ev, od); if (k > 0 && k < n && !cand.has(k)) cand.set(k, od); }
+  const found = [];
+  for (const [k, t] of cand) {
+    let lo = k; while (lo > 0 && ev[lo - 1].d >= t - PHX.WIN) lo--; if (k - lo < PHX.MINN) lo = Math.max(0, k - PHX.MINN);
+    let hi = k; while (hi < n && ev[hi].d < t + PHX.WIN) hi++; if (hi - k < PHX.MINN) hi = Math.min(n, k + PHX.MINN);
+    if (k - lo < PHX.MINN || hi - k < PHX.MINN) continue;
+    const r = phTest(U, ev.slice(lo, k), ev.slice(k, hi), (k * 2654435761) >>> 0, true); if (!r) continue;
+    const f = near(k) ? 0.8 : 1; if (r.ex >= PHX.TH_E * f && r.z >= PHX.TH_Z * f) found.push({ k, ex: r.ex, z: r.z });
+  }
+  found.sort((a, b) => b.ex - a.ex || a.k - b.k);
+  let bk = []; for (const c of found) if (bk.every(k => Math.abs(ev[k].d - ev[c.k].d) >= PHX.MIND)) bk.push(c.k); bk.sort((a, b) => a - b);
+  const segs = () => { const a = [0, ...bk, n], o = []; for (let i = 0; i < a.length - 1; i++) o.push([a[i], a[i + 1]]); return o; };
+  const span = (s, i, all) => (i < all.length - 1 ? ev[all[i + 1][0]].d : ev[s[1] - 1].d) - ev[s[0]].d;
+  for (let guard = 0; guard < 200; guard++) {
+    const S = segs(); let act = false;
+    for (let i = 0; i < S.length && !act; i++) {
+      if (S.length > 1 && (S[i][1] - S[i][0] < PHX.MINN || span(S[i], i, S) < PHX.MIND)) {
+        let j = i === 0 ? 1 : i === S.length - 1 ? i - 1 : (phD(phAcc(U, ev.slice(S[i][0], S[i][1])), phAcc(U, ev.slice(S[i - 1][0], S[i - 1][1])), { g: 1, d: 1, c: 1, l: 1 }) <= phD(phAcc(U, ev.slice(S[i][0], S[i][1])), phAcc(U, ev.slice(S[i + 1][0], S[i + 1][1])), { g: 1, d: 1, c: 1, l: 1 }) ? i - 1 : i + 1);
+        bk = bk.filter(k => k !== S[Math.max(i, j)][0]); act = true;
+      }
+    }
+    if (act) continue;
+    let worst = -1, wz = 1e9;
+    for (let i = 0; i < S.length - 1; i++) {
+      const L = ev.slice(Math.max(S[i][0], S[i][1] - 160), S[i][1]), R = ev.slice(S[i + 1][0], Math.min(S[i + 1][1], S[i + 1][0] + 160)), r = phTest(U, L, R, (S[i + 1][0] * 40503) >>> 0, false);
+      if (!r || r.ex < PHX.TH_M || r.z < PHX.TH_MZ) { const zz = r ? r.z : -99; if (zz < wz) { wz = zz; worst = i; } }
+    }
+    if (worst >= 0) { bk = bk.filter(k => k !== S[worst + 1][0]); continue; }
+    break;
+  }
+  /* keep earlier boundaries where the new ones are only a few weeks away from them */
+  const S2 = segs(); bk = bk.map((k, i) => {
+    const od = oldB.find(o => Math.abs(ev[k].d - o) <= 30 && o !== ev[k].d); if (od == null) return k;
+    const k2 = phLower(ev, od), lo = i === 0 ? 0 : bk[i - 1], hi = i === bk.length - 1 ? n : bk[i + 1];
+    return (k2 - lo >= PHX.MINN && hi - k2 >= PHX.MINN && ev[k2].d - ev[lo].d >= PHX.MIND && (i === bk.length - 1 ? ev[n - 1].d : ev[hi].d) - ev[k2].d >= PHX.MIND) ? k2 : k;
+  }); void S2;
+  return segs();
+}
+
+/* the profile of one phase and of the whole journal */
+function phStats(U, list, baseHome) {
+  const A = phAcc(U, list), gAny = new Map(), dec = new Map(), cty = new Map(); let gE = 0, nh = 0, rec = 0, recN = 0, old = 0, oldN = 0, vs = [], vd = [], rt = 0, rtN = 0;
+  for (const x of list) {
+    if (x.gn.length) { gE++; for (const g of x.gn) gAny.set(g, (gAny.get(g) || 0) + 1); }
+    if (x.dec) { dec.set(x.dec, (dec.get(x.dec) || 0) + 1); oldN++; if (x.dec < 1980) old++; const wy = +x.date.slice(0, 4); recN++; if (x.f.year >= wy - 2) rec++; }
+    if (x.cn.length) { for (const c of x.cn) cty.set(c, (cty.get(c) || 0) + 1); if (baseHome && !x.cn.includes(baseHome)) nh++; }
+    if (x.f.votes > 0) vs.push(x.f.votes); if (x.r && x.f.vote > 0) vd.push(x.r * 2 - x.f.vote); if (x.f.runtime > 0) { rt += x.f.runtime; rtN++; }
+  }
+  vs.sort((a, b) => a - b); const mv = vs.length ? vs[vs.length >> 1] : 0, N = A.n;
+  let H = 0; if (A.gT) { let tot = 0; A.g.forEach(v => tot += v); if (tot) A.g.forEach(v => { if (v > 0) { const p = v / tot; H -= p * Math.log2(p); } }); H = U.nG > 1 ? H / Math.log2(Math.min(U.nG, 12)) : 0; }
+  const topD = [...dec.entries()].sort((a, b) => b[1] - a[1] || a[0] - b[0]), topC = [...cty.entries()].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1));
+  const days = list.length > 1 ? list[list.length - 1].d - list[0].d : 0;
+  return {
+    A, n: N, gE, gAny, dec, cty, topD, topC, nC: cty.size, nDec: dec.size, ent: Math.min(1, H),
+    any: names => gE ? list.filter(x => x.gn.some(g => names.includes(g))).length / gE : 0, share: g => gE ? (gAny.get(g) || 0) / gE : 0,
+    gTop: [...gAny.entries()].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)).map(([g, c]) => ({ g, s: c / gE })),
+    nh: A.cT ? nh / A.cT : 0, old: oldN ? old / oldN : 0, rec: recN ? rec / recN : 0, rwS: N ? A.rw / N : 0, avg: A.rn ? A.rs / A.rn : 0, rn: A.rn,
+    vd: vd.length >= 6 ? vd.reduce((a, b) => a + b, 0) / vd.length : null, mv, nv: vs.length, rt: rtN ? rt / rtN : 0,
+    pace: N / Math.max(1, days / 30.4), days
+  };
+}
+
+/* naming: every rule fires only if the numbers support it, and each name carries its reason */
+const PH_RULES = [
+  { n: 'The Art of Falling in Love', o: 'romance', f: P => { const r = P.any(['Romance']); return r >= 0.3 ? 0.6 + r * 0.5 + (P.any(['Drama']) >= 0.25 ? 0.05 : 0) : 0; }, w: P => 'Romance appears in ' + phPc(P.any(['Romance'])) + ' of the films' },
+  { n: 'The Romantic', o: 'romance', f: P => { const r = P.any(['Romance']); return r >= 0.25 && P.any(['Comedy']) >= 0.25 ? 0.58 + r * 0.4 : 0; }, w: P => 'Romance (' + phPc(P.any(['Romance'])) + ') and Comedy (' + phPc(P.any(['Comedy'])) + ') side by side' },
+  { n: 'The Things We Never Say', o: 'romance', f: P => { const r = P.any(['Romance']), d = P.any(['Drama']); return r >= 0.2 && d >= 0.45 ? 0.57 + (r + d) * 0.25 : 0; }, w: P => 'Romance (' + phPc(P.any(['Romance'])) + ') inside Drama (' + phPc(P.any(['Drama'])) + ')' },
+  { n: 'The Beautiful Darkness', o: 'dark', f: P => { const d = P.any(['Thriller', 'Crime', 'Horror', 'Mystery']); return d >= 0.4 ? 0.55 + d * 0.5 : 0; }, w: P => 'Thriller, Crime, Horror or Mystery in ' + phPc(P.any(['Thriller', 'Crime', 'Horror', 'Mystery'])) + ' of the films' },
+  { n: 'Between Reality and Fiction', o: 'dark', f: P => { const a = P.any(['Mystery', 'Thriller']), b = P.any(['Science Fiction', 'Fantasy', 'Mystery']); return a >= 0.3 && b >= 0.2 ? 0.56 + (a + b) * 0.2 : 0; }, w: P => 'Mystery and Thriller (' + phPc(P.any(['Mystery', 'Thriller'])) + ') mixed with the strange' },
+  { n: 'The Night Owl', o: 'dark', f: P => { const h = P.any(['Horror']); return h >= 0.25 ? 0.6 + h * 0.5 : 0; }, w: P => 'Horror in ' + phPc(P.any(['Horror'])) + ' of the films' },
+  { n: 'Somewhere Between Dreams', o: 'dream', f: P => { const d = P.any(['Fantasy', 'Science Fiction']); return d >= 0.3 ? 0.56 + d * 0.4 : 0; }, w: P => 'Fantasy and Science Fiction in ' + phPc(P.any(['Fantasy', 'Science Fiction'])) + ' of the films' },
+  { n: 'Notes from Another World', o: 'dream', f: P => { const d = P.any(['Science Fiction']); return d >= 0.3 ? 0.58 + d * 0.4 : 0; }, w: P => 'Science Fiction in ' + phPc(P.any(['Science Fiction'])) + ' of the films' },
+  { n: 'The Daydreamer', o: 'wonder', f: P => { const d = P.any(['Animation', 'Fantasy', 'Family']); return d >= 0.4 ? 0.55 + d * 0.4 : 0; }, w: P => 'Animation, Fantasy or Family in ' + phPc(P.any(['Animation', 'Fantasy', 'Family'])) + ' of the films' },
+  { n: 'A Season of Wonder', o: 'wonder', f: P => { const d = P.any(['Adventure', 'Family', 'Animation', 'Fantasy']); return d >= 0.45 ? 0.54 + d * 0.4 : 0; }, w: P => 'Adventure, Family, Animation or Fantasy in ' + phPc(P.any(['Adventure', 'Family', 'Animation', 'Fantasy'])) + ' of the films' },
+  { n: 'The Quiet Hours', o: 'quiet', f: P => { const d = P.share('Drama'); return d >= 0.55 && P.any(['Action', 'Thriller', 'Horror', 'Adventure', 'Science Fiction']) < 0.2 && P.rt >= 100 ? 0.6 + d * 0.3 : 0; }, w: P => 'Drama in ' + phPc(P.share('Drama')) + ' of the films, little action, an average runtime of ' + Math.round(P.rt) + ' minutes' },
+  { n: 'The Weight of Small Things', o: 'quiet', f: P => { const d = P.share('Drama'); return d >= 0.5 && P.any(['Comedy', 'Romance']) >= 0.2 && P.any(['Action', 'Thriller', 'Horror', 'Adventure', 'Science Fiction']) < 0.2 ? 0.59 + d * 0.25 : 0; }, w: P => 'Drama (' + phPc(P.share('Drama')) + ') softened by Comedy or Romance, with little action' },
+  { n: 'The Things That Stay', o: 'comfort', f: P => P.rwS >= 0.25 ? 0.62 + P.rwS * 0.5 : 0, w: P => phPc(P.rwS) + ' of your watches were rewatches' },
+  { n: 'The Nostalgist', o: 'comfort', f: P => P.rwS >= 0.15 && P.old >= 0.3 ? 0.66 + P.rwS * 0.3 : 0, w: P => phPc(P.rwS) + ' rewatches, and ' + phPc(P.old) + ' of the films from before 1980' },
+  { n: 'Chasing Yesterday', o: 'old', f: P => P.old >= 0.45 ? 0.64 + P.old * 0.4 : 0, w: P => phPc(P.old) + ' of the films came out before 1980' },
+  { n: 'The Old Soul', o: 'old', f: P => P.old >= 0.3 && P.share('Drama') >= 0.4 ? 0.6 + P.old * 0.3 : 0, w: P => phPc(P.old) + ' of the films from before 1980, mostly Drama' },
+  { n: 'The Shape of Yesterday', o: 'old', f: P => P.any(['History', 'War']) >= 0.3 && P.old >= 0.2 ? 0.6 + P.any(['History', 'War']) * 0.3 : 0, w: P => 'History and War in ' + phPc(P.any(['History', 'War'])) + ' of the films, with older cinema among them' },
+  { n: 'A World Beyond', o: 'world', f: P => P.nh >= 0.55 && P.nC >= 4 ? 0.66 + P.nh * 0.3 : 0, w: P => phPc(P.nh) + ' of the films came from outside ' + P.homeName + ', across ' + P.nC + ' countries' },
+  { n: 'The Wanderer', o: 'world', f: P => P.nC >= 6 && P.topCS < 0.4 ? 0.62 + Math.min(0.2, P.nC / 60) : 0, w: P => P.nC + ' countries, none above ' + phPc(P.topCS) },
+  { n: 'The Explorer', o: 'explore', f: P => P.ent >= 0.82 && P.nDec >= 4 ? 0.6 + P.ent * 0.2 : 0, w: P => 'a very even genre mix across ' + P.nDec + ' decades' },
+  { n: 'An Affair with the Unknown', o: 'unknown', f: P => P.nv >= 6 && P.mv < 1500 ? 0.63 + Math.min(0.2, (1500 - P.mv) / 6000) : 0, w: P => 'the typical film had only about ' + Math.round(P.mv).toLocaleString() + ' ratings on TMDB' },
+  { n: 'The Contrarian', o: 'contrarian', f: P => P.vd != null && P.vd <= -1 ? 0.64 + Math.min(0.2, -P.vd / 10) : 0, w: P => 'you rated ' + Math.abs(P.vd).toFixed(1) + ' points (out of 10) below the crowd on average' },
+  { n: 'The Sentimentalist', o: 'warm', f: P => P.vd != null && P.vd >= 1 && (P.share('Drama') >= 0.3 || P.share('Romance') >= 0.2) ? 0.62 + Math.min(0.2, P.vd / 10) : 0, w: P => 'you rated ' + P.vd.toFixed(1) + ' points (out of 10) above the crowd, mostly on Drama and Romance' },
+  { n: 'The Story Seeker', o: 'adventure', f: P => { const d = P.any(['Adventure', 'Action', 'Western', 'War']); return d >= 0.45 ? 0.55 + d * 0.3 : 0; }, w: P => 'Adventure, Action, Western or War in ' + phPc(P.any(['Adventure', 'Action', 'Western', 'War'])) + ' of the films' },
+  { n: 'The Observer', o: 'doc', f: P => { const d = P.any(['Documentary']); return d >= 0.2 ? 0.66 + d * 0.4 : 0; }, w: P => 'Documentary in ' + phPc(P.any(['Documentary'])) + ' of the films' },
+  { n: 'A Little More Life', o: 'comedy', f: P => { const c = P.any(['Comedy']); return c >= 0.35 && P.avgUp ? 0.58 + c * 0.3 : 0; }, w: P => 'Comedy in ' + phPc(P.any(['Comedy'])) + ' of the films, rated higher than your usual' },
+  { n: 'The Lighter Side', o: 'comedy', f: P => { const c = P.any(['Comedy']); return c >= 0.4 ? 0.5 + c * 0.3 : 0; }, w: P => 'Comedy in ' + phPc(P.any(['Comedy'])) + ' of the films' },
+  { n: 'A Thousand Little Stories', o: 'explore', f: P => P.ent >= 0.85 && P.paceUp ? 0.6 + P.ent * 0.1 : 0, w: P => 'a very even mix of genres, at a busier pace than usual (' + P.pace.toFixed(1) + ' films a month)' },
+  { n: 'The Space Between Stories', o: 'slow', f: P => P.paceDown && P.pace <= 3 ? 0.5 + (3 - P.pace) * 0.04 : 0, w: P => 'a slower stretch, about ' + P.pace.toFixed(1) + ' films a month' },
+  { n: 'The Here and Now', o: 'here', f: P => P.rec >= 0.45 ? 0.6 + P.rec * 0.2 : 0, w: P => phPc(P.rec) + ' of the films were released within two years of the day you watched them' },
+  { dyn: P => P.topD && P.topDS >= 0.45 && P.dec.size >= 1 && P.decN >= 5 ? 'Letters from the ' + P.topD + 's' : null, o: 'letters', f: P => 0.63 + P.topDS * 0.2, w: P => phPc(P.topDS) + ' of the films came from the ' + P.topD + 's' },
+  { dyn: P => P.postC ? 'Postcards from ' + P.postC : null, o: 'postcard', f: P => 0.62 + P.postS * 0.3, w: P => phPc(P.postS) + ' of the films were from ' + P.postC },
+  { n: 'The World in Between', o: 'mixed', f: () => 0.2, w: P => 'no single pull; ' + P.top3 + ' in a mixed stretch' },
+  { n: 'Somewhere Else, Somehow', o: 'mixed', f: () => 0.19, w: P => 'no single pull; ' + P.top3 + ' in a mixed stretch' },
+  { n: 'The Unfamiliar Roads', o: 'mixed', f: () => 0.18, w: P => 'no single pull; ' + P.top3 + ' in a mixed stretch' }
+];
+const PH_OPEN = {
+  romance: ['You found yourself drawn to stories about love, longing and the complicated nature of closeness.', 'Love stories kept finding their way onto your screen: longing, tenderness and the awkward courage of saying what you feel.'],
+  dark: ['The lights seemed to go a little lower. You leaned toward tension, secrets and stories that live in the shadows.', 'Something in you wanted the unease: puzzles that do not resolve politely, and endings that stay with you after the credits.'],
+  dream: ['Reality loosened its grip. You spent this stretch in imagined worlds, strange and a little luminous.', 'You kept stepping sideways out of the everyday, into places that exist only because someone dreamed them.'],
+  wonder: ['A sense of play came back. You reached for stories with open horizons, big feelings and a touch of magic.', 'There was a childlike openness to what you chose: journeys, invented worlds and the pleasure of being amazed.'],
+  quiet: ['The stories you gravitated towards began to take a quieter turn. You spent more time with intimate dramas, contemplative storytelling and films that find beauty in ordinary moments.', 'Elaborate plots seemed to matter a little less. Human relationships and the smaller details of life took centre stage.'],
+  comfort: ['You returned to what you already knew. Familiar films, watched again, took the place of discovery.', 'This was a time for old favourites: films you could settle into because you already knew how they would feel.'],
+  old: ['You kept looking backwards, towards films that had already stood the test of time.', 'The past pulled at you. Older cinema, with its different pace and different faces, filled much of this stretch.'],
+  world: ['Your map widened. Films arrived from places that were new to your shelf, with rhythms and perspectives you had not met before.', 'You travelled by screen: across borders, through other ways of telling a story.'],
+  explore: ['No single thread held this stretch together. You roamed, taking a little of everything and following curiosity wherever it pointed.', 'You were in an exploring mood, hopping between genres and eras with no apparent plan, and that was the pattern.'],
+  unknown: ['You wandered off the well-trodden path, towards films that few people have logged.', 'The famous titles lost their pull. You went looking for the quieter, lesser-known corners of cinema.'],
+  here: ['You stayed close to the present, watching films while they were still warm from release.', 'This was a stretch of keeping up: new releases, current conversations, films from right now.'],
+  contrarian: ['You watched with a sharper eye, and more often than not you disagreed with the crowd.', 'Popular opinion did not set your stars. In this stretch you judged for yourself, and the gap showed.'],
+  warm: ['You were generous with your stars and easy to move, giving films the benefit of the doubt.', 'A softer, more forgiving viewer showed up: you rated warmly and let the films reach you.'],
+  adventure: ['You went looking for motion: journeys, quests and wide open horizons.', 'Stories with somewhere to go held you. You wanted momentum, landscapes and a destination.'],
+  comedy: ['Lightness arrived. You chose films that made room for laughter and left you feeling a little better.', 'You leaned towards the funny and the warm, the films that ask you to relax your shoulders.'],
+  doc: ['You turned towards the real: people, places and true stories told straight to the camera.', 'Fact found its way onto your screen. Documentaries took up a real share of your time.'],
+  slow: ['A quieter rhythm took over. You watched fewer films, and each one was given more room.', 'The pace slowed, and the films you did choose seem to have been chosen with care.'],
+  letters: ['You settled into a single era and stayed there, getting to know its look, its sounds and its habits.', 'One stretch of film history held your attention for a long while, like reading an author\'s whole run of letters.'],
+  postcard: ['One country kept calling you back, and its films came to feel like postcards collected one by one.', 'You followed a single national cinema for a while, and it shaped what these months felt like.'],
+  mixed: ['This was a stretch with no single pull. Your taste moved in several directions at once.', 'Nothing dominated here. It reads like a period of mixed moods, with a bit of everything.']
+};
+/* the Sentimentalist/Contrarian etc. read the picks only; nothing here claims anything about your life */
+function phNames(U, phases, base, old) {
+  const used = new Set(), pickBy = (seed, arr) => arr[phHash(seed) % arr.length];
+  phases.forEach(P => {
+    const o = old && old.n && old.n[P.startDay]; P.name = null;
+    if (o && o.sig === P.sig && !used.has(o.name)) { P.name = o.name; P.why = o.why; P.rule = o.o; used.add(o.name); }
+  });
+  phases.forEach((P, idx) => {
+    if (P.name) return;
+    const cs = []; PH_RULES.forEach((r, i) => { const n = r.dyn ? r.dyn(P.m) : r.n; if (!n) return; const sc = r.f(P.m); if (sc > 0) cs.push({ n, sc, i, r }); });
+    cs.sort((a, b) => b.sc - a.sc || a.i - b.i);
+    let ch = cs.find(c => !used.has(c.n));
+    if (!ch) ch = cs[0];
+    let name = ch.n, why = ch.r.w(P.m);
+    if (used.has(name)) {
+      const j = phases.findIndex((Q, q) => q < idx && Q.name === name);
+      name = j >= 0 && !/, Again$/.test(name) ? name + ', Again' : pickBy(P.startDay + 'x', ['The World in Between', 'Somewhere Else, Somehow', 'The Unfamiliar Roads', 'A Thousand Little Stories']);
+      why = (j >= 0 ? 'the same pull as Phase ' + String(j + 1).padStart(2, '0') + ': ' : '') + why;
+      if (used.has(name)) name = name + ' II';
+    }
+    P.name = name; P.why = why; P.rule = ch.r.o; used.add(name);
+  });
+}
+function phHue(g) { return ({ Romance: 345, Drama: 42, Comedy: 28, Thriller: 215, Horror: 8, Crime: 262, 'Science Fiction': 175, Fantasy: 285, Animation: 195, Documentary: 125, Adventure: 24, Action: 14, War: 88, History: 56, Mystery: 238, Music: 315, Family: 160, Western: 30 })[g] ?? (phHash(g || 'x') % 360); }
+
+function phDescribe(P, B, prev) {
+  const m = P.m, seed = String(P.startDay), pk = (arr, s) => arr[phHash(seed + s) % arr.length], out = [];
+  out.push(pk(PH_OPEN[P.rule] || PH_OPEN.mixed, 'o'));
+  const gt = m.gTop; if (m.gE >= 3 && gt.length) {
+    const t = gt.slice(0, 3).map(x => x.g), rest = t.length > 2 ? t[1] + ' and ' + t[2] : t[1];
+    out.push(t.length > 1 ? pk([t[0] + ' led the way, with ' + rest + ' close behind.', 'Mostly it was ' + t[0] + ', joined by ' + rest + '.'], 'g') : t[0] + ' was nearly all of it.');
+  }
+  const era = [], topD = m.topD;
+  if (m.decN >= 5 && topD && m.topDS >= 0.4) era.push(['era', 'Much of it came from the ' + topD + 's (' + phPc(m.topDS) + ' of the films).', m.topDS]);
+  else if (m.decN >= 5 && m.nDec >= 4) { const ds = [...m.dec.keys()].sort((a, b) => a - b); era.push(['era', 'It stretched across ' + m.nDec + ' decades, from the ' + ds[0] + 's to the ' + ds[ds.length - 1] + 's.', 0.3]); }
+  if (m.cT >= 5 && m.homeName) {
+    if (m.nh >= 0.3) { const ch = m.topC.filter(c => c[0] !== B.home).slice(0, 3).map(c => wmName(c[0])); era.push(['geo', phPc(m.nh) + ' of the films came from outside ' + m.homeName + (ch.length ? ', chiefly ' + (ch.length > 1 ? ch.slice(0, -1).join(', ') + ' and ' + ch[ch.length - 1] : ch[0]) : '') + '.', m.nh]); }
+    else if (m.nh <= 0.1) era.push(['geo', 'Almost everything came from ' + m.homeName + '.', 0.2]);
+  }
+  era.sort((a, b) => b[2] - a[2]); era.slice(0, 2).forEach(x => out.push(x[1]));
+  const beh = [];
+  if (m.rn >= 5 && B.avg) { const d = m.avg - B.avg; if (d >= 0.25) beh.push([Math.abs(d), 'You were warmer than usual, averaging ' + m.avg.toFixed(1) + ' against your ' + B.avg.toFixed(1) + ' overall.']); else if (d <= -0.25) beh.push([Math.abs(d), 'You were tougher than usual, averaging ' + m.avg.toFixed(1) + ' against your ' + B.avg.toFixed(1) + ' overall.']); else beh.push([0.1, 'Your ratings stayed close to your usual ' + B.avg.toFixed(1) + '.']); }
+  if (m.paceUp) beh.push([0.4, 'It was also one of your busier stretches: ' + P.nf + ' films in ' + phSpan(P.days) + '.']); else if (m.paceDown) beh.push([0.4, 'The rhythm was unhurried: ' + P.nf + ' films across ' + phSpan(P.days) + '.']);
+  if (m.rwS >= 0.15) beh.push([m.rwS, phPc(m.rwS) + ' of your viewing was rewatching.']);
+  beh.sort((a, b) => b[0] - a[0]); beh.slice(0, 2).forEach(x => out.push(x[1]));
+  void prev; return out.join(' ');
+}
+function phTransition(a, b, B) {
+  const ga = new Map(a.m.gTop.map(x => [x.g, x.s])), gb = new Map(b.m.gTop.map(x => [x.g, x.s])), all = new Set([...ga.keys(), ...gb.keys()]), d = [];
+  all.forEach(g => d.push([g, (gb.get(g) || 0) - (ga.get(g) || 0)]));
+  d.sort((x, y) => y[1] - x[1] || (x[0] < y[0] ? -1 : 1)); const up = d[0], dn = d[d.length - 1], s = [];
+  if (a.m.gE >= 3 && b.m.gE >= 3 && up && up[1] >= 0.12) s.push(up[0] + ' rose from ' + phPc(ga.get(up[0]) || 0) + ' to ' + phPc(gb.get(up[0]) || 0) + (dn && dn[1] <= -0.12 ? ', while ' + dn[0] + ' eased from ' + phPc(ga.get(dn[0]) || 0) + ' to ' + phPc(gb.get(dn[0]) || 0) : '') + '.');
+  else if (a.m.gE >= 3 && b.m.gE >= 3 && dn && dn[1] <= -0.15) s.push(dn[0] + ' fell from ' + phPc(ga.get(dn[0]) || 0) + ' to ' + phPc(gb.get(dn[0]) || 0) + '.');
+  const da = a.m.topD, db = b.m.topD; if (a.m.decN >= 5 && b.m.decN >= 5 && da && db && da !== db && a.m.topDS >= 0.3 && b.m.topDS >= 0.3) s.push('Your eye moved from the ' + da + 's to the ' + db + 's.');
+  if (B.home && a.m.cT >= 5 && b.m.cT >= 5 && Math.abs(b.m.nh - a.m.nh) >= 0.2) s.push(b.m.nh > a.m.nh ? 'Your shelf grew more international (' + phPc(a.m.nh) + ' to ' + phPc(b.m.nh) + ' from outside ' + B.homeName + ').' : 'Your shelf drew closer to home (' + phPc(a.m.nh) + ' to ' + phPc(b.m.nh) + ' from outside ' + B.homeName + ').');
+  return s.slice(0, 2).join(' ');
+}
+
+function phCompute() {
+  const U = phBuild(), ev = U.ev, n = ev.length;
+  const days = n ? ev[n - 1].d - ev[0].d : 0, distinct = new Set(ev.map(x => x.d)).size;
+  if (n < PHX.MINN || days < PHX.MIND) return { status: 'few', n, days, distinct };
+  const cov = Math.max(ev.filter(x => x.gl.length).length, ev.filter(x => x.di >= 0).length, ev.filter(x => x.cl.length).length);
+  if (cov < PHX.MINN) return { status: 'meta', n, days, cov };
+  let old = null; try { old = JSON.parse(localStorage.getItem(PHX.KEY) || 'null'); } catch (e) { old = null; }
+  const oldB = old && Array.isArray(old.b) ? old.b.filter(x => typeof x === 'number') : [];
+  const segs = phSegment(U, oldB), allA = phAcc(U, ev);
+  const cc = new Map(); ev.forEach(x => x.cn.forEach(c => cc.set(c, (cc.get(c) || 0) + 1))); const home = [...cc.entries()].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))[0];
+  const hm = home && allA.cT >= 8 && home[1] / allA.cT >= 0.3 ? home[0] : '';
+  const Bm = phStats(U, ev, hm), B = { home: hm, homeName: hm ? wmName(hm) : '', avg: Bm.avg, pace: Bm.pace, rwS: Bm.rwS, m: Bm };
+  const phases = segs.map(([a, b], i) => {
+    const list = ev.slice(a, b), m = phStats(U, list, hm), last = i === segs.length - 1;
+    m.homeName = B.homeName; m.avgUp = m.rn >= 5 && B.avg && m.avg - B.avg >= 0.25; m.paceUp = B.pace && m.pace >= B.pace * 1.4 && list.length >= 12; m.paceDown = B.pace && m.pace <= B.pace * 0.6;
+    m.topCS = m.topC.length && m.cT ? m.topC[0][1] / m.cT : 0; m.decN = [...m.dec.values()].reduce((x, y) => x + y, 0); m.topD = m.topD[0] ? m.topD[0][0] : 0; m.topDS = m.topD ? (m.dec.get(m.topD) || 0) / Math.max(1, m.decN) : 0;
+    m.topD2 = m.topD; const nhC = m.topC.filter(c => c[0] !== hm)[0]; m.postC = hm && nhC && m.cT >= 5 && nhC[1] / m.cT >= 0.3 && m.nh >= 0.35 ? wmName(nhC[0]) : ''; m.postS = nhC ? nhC[1] / Math.max(1, m.cT) : 0;
+    m.top3 = m.gTop.slice(0, 3).map(x => x.g).join(', ') || 'a mix of films';
+    const filmsMap = new Map(); list.forEach(x => { const k = String(x.f.id); if (!filmsMap.has(k)) filmsMap.set(k, x.f); });
+    return { i, a, b, list, m, startDay: list[0].d, endDay: list[list.length - 1].d, start: list[0].date, end: list[list.length - 1].date, n: list.length, nf: filmsMap.size, films: [...filmsMap.values()], rewatches: list.length - filmsMap.size, sig: m.gTop.slice(0, 3).map(x => x.g).join('|'), ongoing: last && ev[n - 1].d >= phDay(isoOf(new Date())) - 120 };
+  });
+  phases.forEach((P, i) => { P.days = (i < phases.length - 1 ? phases[i + 1].startDay : P.endDay) - P.startDay;  });
+  phNames(U, phases, B, old);
+  /* signature + defining films */
+  phases.forEach(P => {
+    const m = P.m, mx = (arr, k) => arr.length ? arr[0][1] : 1, maxG = m.gTop.length ? m.gTop[0].s : 1, gS = new Map(m.gTop.map(x => [x.g, x.s]));
+    const maxD = Math.max(1, ...m.dec.values()), maxC = Math.max(1, ...m.cty.values()); void mx;
+    const reIds = new Set(P.list.filter(x => x.re).map(x => String(x.f.id)));
+    const sc = P.films.map(f => {
+      const gs = (f.genres || []).filter(Boolean), gF = gs.length ? gs.reduce((a, g) => a + (gS.get(g) || 0), 0) / gs.length / maxG : 0, dF = f.year >= 1880 ? (m.dec.get(Math.floor(f.year / 10) * 10) || 0) / maxD : 0, cs = f.countries || [], cF = cs.length ? cs.reduce((a, c) => a + (m.cty.get(c) || 0), 0) / cs.length / maxC : 0;
+      const lv = (f.rating > 0 ? (m.avg && f.rating >= m.avg ? 0.6 : 0.3) : 0.2) + (f.fav ? 0.4 : 0), s = (0.55 * gF + 0.2 * dF + 0.15 * cF + 0.1 * Math.min(1, lv)) * (f.poster ? 1 : 0.7) + (reIds.has(String(f.id)) ? 0.03 : 0);
+      return { f, s };
+    }).sort((a, b) => b.s - a.s || titleKey(a.f).localeCompare(titleKey(b.f)) || String(a.f.id).localeCompare(String(b.f.id)));
+    P.sig_f = sc[0] ? sc[0].f : null; const others = [], seenG = new Map();
+    let pool = sc.slice(1); while (others.length < 6 && pool.length) {
+      pool = pool.map(x => ({ f: x.f, s: x.s, e: x.s * (1 - 0.15 * (seenG.get((x.f.genres || [])[0] || '') || 0)) })).sort((a, b) => b.e - a.e || titleKey(a.f).localeCompare(titleKey(b.f)));
+      const t = pool.shift(); others.push(t.f); const g = (t.f.genres || [])[0] || ''; seenG.set(g, (seenG.get(g) || 0) + 1);
+    }
+    P.others = others; P.desc = phDescribe(P, B, null);
+    P.hue = phHue(m.gTop[0] ? m.gTop[0].g : P.name);
+    P.favDec = m.decN >= 5 && m.topD2 && m.topDS >= 0.3 ? m.topD2 + 's' : '';
+    P.avg = m.rn >= 3 ? m.avg : 0; P.genres3 = m.gE >= 3 ? m.gTop.slice(0, 3).map(x => x.g) : [];
+  });
+  for (let i = 1; i < phases.length; i++) phases[i].transition = phTransition(phases[i - 1], phases[i], B);
+  /* small discoveries */
+  const ex = [], mo = d => phSpan(d);
+  ex.push({ k: 'Your First Phase', t: phases[0].name, s: 'The earliest chapter on record, ' + phRange(phases[0].start, phases[0].end, false) + '.', i: 0 });
+  if (phases.length > 1) {
+    const lg = phases.slice().sort((a, b) => b.days - a.days || a.i - b.i)[0]; ex.push({ k: 'Your Longest Phase', t: lg.name, s: 'It held your attention for ' + mo(lg.days) + '.', i: lg.i });
+    const sh = phases.filter(P => !P.ongoing).sort((a, b) => a.days - b.days || a.i - b.i)[0]; if (phases.length >= 3 && sh && sh.i !== lg.i) ex.push({ k: 'Your Shortest Phase', t: sh.name, s: 'Brief, but distinct: ' + mo(sh.days) + ' and ' + plural(sh.nf, 'film') + '.', i: sh.i });
+  }
+  let best = null; for (let j = 2; j < phases.length; j++) for (let i = 0; i <= j - 2; i++) {
+    const gap = phases[j].startDay - phases[i].endDay; if (gap < 120) continue;
+    const mk = { g: 1, d: 0, c: 0, l: 0 }, r = phD(phAcc(U, phases[i].list), phAcc(U, phases[j].list), mk); if (r != null && r <= 0.12 && phases[i].m.gE >= 3 && phases[j].m.gE >= 3 && (!best || r < best.r)) best = { r, i, j, gap };
+  }
+  if (best) ex.push({ k: 'The Returning Phase', t: phases[best.j].name, s: phases[best.i].m.gTop.slice(0, 2).map(x => x.g).join(' and ') + ' came back after ' + mo(best.gap) + ', echoing Phase ' + String(best.i + 1).padStart(2, '0') + '.', i: best.j });
+  try { localStorage.setItem(PHX.KEY, JSON.stringify({ b: phases.slice(1).map(P => P.startDay), n: Object.fromEntries(phases.map(P => [P.startDay, { name: P.name, sig: P.sig, why: P.why, o: P.rule }])) })); } catch (e) { /* storage unavailable: results stay deterministic anyway */ }
+  return { status: 'ok', phases, ex, B, n, days, total: ev.length };
+}
+
+function phEmpty(R) {
+  let msg, sub = '';
+  if (R.status === 'meta') { msg = 'Your films need a few more details.'; sub = 'Phases are read from genres, release decades and countries. Open your films once with a TMDB key set and they will fill in on their own.'; }
+  else { msg = 'Your chapters are still being written.'; sub = 'Phases of You needs at least ' + PHX.MINN + ' logged watches spread over at least ' + PHX.MIND + ' days before it can see a pattern. You have ' + plural(R.n || 0, 'watch', 'watches') + (R.n ? ' over ' + plural(R.days || 0, 'day') + (R.n >= PHX.MINN && (R.days || 0) < PHX.MIND ? ', and most of them share the same few dates' : '') : '') + '.'; }
+  const dots = Array.from({ length: PHX.MINN }, (_, i) => '<i' + (i < (R.n || 0) ? ' class="on"' : '') + '></i>').join('');
+  return '<div class="ph-e"><div class="ph-dots" aria-hidden="true">' + dots + '</div><p class="ph-et">' + msg + '</p><p class="ph-es">' + sub + '</p></div>';
+}
+function phChapter(P) {
+  const pos = (f, big) => '<button type="button" class="ph-po' + (big ? ' big' : '') + '" data-act="phfilm" data-id="' + E(String(f.id)) + '" title="' + E(f.title) + (f.year ? ' (' + f.year + ')' : '') + '">' + (f.poster ? '<img src="' + E(img('thumb', f.poster)) + '" alt="' + E(f.title) + '" loading="lazy">' : '<span>' + E(f.title) + '</span>') + '</button>';
+  const meta = [['Films watched', String(P.nf) + (P.rewatches ? '<em> + ' + P.rewatches + (P.rewatches === 1 ? ' rewatch' : ' rewatches') + '</em>' : '')]];
+  if (P.avg) meta.push(['Average rating', P.avg.toFixed(1)]);
+  if (P.genres3.length) meta.push(['Dominant genres', P.genres3.map(E).join(', ')]);
+  if (P.favDec) meta.push(['Favourite decade', P.favDec]);
+  return '<article class="ph-ch" id="phc' + P.i + '" style="--h:' + P.hue + '"><div class="ph-rail"><span class="ph-no">' + String(P.i + 1).padStart(2, '0') + '</span></div><div class="ph-bd">' +
+    '<p class="ph-k">Phase ' + String(P.i + 1).padStart(2, '0') + (P.ongoing ? ' <b>Ongoing</b>' : '') + '</p><h3 class="ph-t">' + E(P.name) + '</h3><p class="ph-d">' + E(phRange(P.start, P.end, P.ongoing)) + '<span> · ' + E(phSpan(P.days)) + '</span></p>' +
+    '<p class="ph-p">' + E(P.desc) + '</p><dl class="ph-m">' + meta.map(x => '<div><dt>' + x[0] + '</dt><dd>' + x[1] + '</dd></div>').join('') + '</dl>' +
+    (P.sig_f ? '<div class="ph-ps"><div class="ph-sg">' + pos(P.sig_f, true) + '<div class="ph-sc"><small>Signature film</small><b>' + E(P.sig_f.title) + '</b><span>' + (P.sig_f.year || '') + (P.sig_f.rating > 0 ? ' · ' + P.sig_f.rating.toFixed(1) + ' ★' : '') + '</span></div></div>' + (P.others.length ? '<div class="ph-os"><small>Also defining this chapter</small><div>' + P.others.map(f => pos(f, false)).join('') + '</div></div>' : '') + '</div>' : '') +
+    '<details class="ph-why"><summary>Why this name?</summary><p>“' + E(P.name) + '” is here because ' + E(P.why) + '.</p></details></div></article>';
+}
+function phHTML() {
+  let R; try { R = phCompute(); } catch (e) { return ''; }
+  const head = '<div class="ph-hd"><h2>Phases of You</h2><p class="ph-lead">Your watch history, read as chapters. A new phase begins only when what you watch changes in a lasting way, not when the calendar turns.</p></div>';
+  if (R.status !== 'ok') return head + phEmpty(R);
+  const P = R.phases, tot = Math.max(1, P.reduce((a, p) => a + Math.max(p.days, 20), 0));
+  const rib = '<div class="ph-rib" role="list">' + P.map(p => '<button type="button" role="listitem" class="ph-rb" data-act="phgo" data-i="' + p.i + '" style="--h:' + p.hue + ';flex:' + (Math.max(p.days, 20) / tot * 100).toFixed(2) + ' 1 0" title="' + E(p.name) + '"><b>' + String(p.i + 1).padStart(2, '0') + '</b><span>' + E(p.name) + '</span></button>').join('') + '</div><div class="ph-ra"><span>' + E(phRange(P[0].start, P[0].start, false).replace(/^(\w+) /, '$1 ')) + '</span><span>' + (P[P.length - 1].ongoing ? 'Now' : E(phRange(P[P.length - 1].end, P[P.length - 1].end, false))) + '</span></div>';
+  const ex = R.ex.length > 1 || P.length === 1 ? '<ul class="ph-ex">' + R.ex.map(x => '<li><small>' + x.k + '</small><button type="button" data-act="phgo" data-i="' + x.i + '">' + E(x.t) + '</button><span>' + E(x.s) + '</span></li>').join('') + '</ul>' : '';
+  let body = ''; P.forEach((p, i) => { if (i && p.transition) body += '<aside class="ph-tr"><small>The transition</small><p>' + E(p.transition) + '</p></aside>'; body += phChapter(p); });
+  const note = P.length === 1 ? '<p class="note">So far your taste has stayed consistent, so your journal is a single long chapter. New ones appear if what you watch changes for a sustained stretch.</p>' : '';
+  return head + rib + ex + '<div class="ph-tl">' + body + '</div>' + note +
+    '<details class="ph-how"><summary>How phases are found</summary><p>Your watches are looked at in rolling 90-day windows that move forward 30 days at a time. Each window needs at least ' + PHX.MINN + ' watches. Two neighbouring windows are compared by how far their genre, decade, country and runtime mixes, ratings and rewatching drift apart (Jensen-Shannon divergence), minus the drift that chance alone would produce for windows of that size. A phase boundary is kept only if the change is clearly beyond chance, still holds across the whole stretches on either side, and every phase lasts at least ' + PHX.MIND + ' days. Quiet months never make a phase of their own. Names and descriptions come from the numbers and templates, never from guesses about your life. Directors and actors are left out because they have their own sections.</p></details>';
+}
+ACT.phgo = a => { const e = document.getElementById('phc' + a.dataset.i); if (e) e.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth', block: 'start' }); };
+ACT.phfilm = a => openFilm(a.dataset.id);
+{
+  const baseP = PAGES.insights.render;
+  PAGES.insights.render = function () {
+    baseP.apply(this, arguments); const v = $('#view'); if (!v || $('#phSec') || !S.films.some(f => f.seen)) return;
+    const h = phHTML(); if (!h) return; const html = '<section class="ins ph" id="phSec">' + h + '</section>';
+    const sec = [...v.querySelectorAll(':scope > section.ins')].find(x => /Your signature/.test((x.querySelector('h2') || {}).textContent || '')) || null;
+    if (sec) sec.insertAdjacentHTML('afterend', html); else { const f = v.querySelector(':scope > section.ins'); if (f) f.insertAdjacentHTML('beforebegin', html); else v.insertAdjacentHTML('beforeend', html); }
   };
 }
 
