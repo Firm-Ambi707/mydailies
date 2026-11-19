@@ -1145,31 +1145,37 @@ button,a,.spine,.face,.tile-po,.chip,.seg button{touch-action:manipulation}
 .sc-f img,.sc-ph{flex:none;width:42px;height:62px;border-radius:5px;object-fit:cover;background:var(--line)}.sc-t{display:flex;flex-direction:column;gap:2px;min-width:0}.sc-t b{font-weight:600;font-size:14px;line-height:1.25}.sc-t small{font-size:11px;color:var(--ink3)}
 .sc-l{position:relative;margin-left:29px;padding:12px 0 12px 22px;border-left:2px dashed rgba(240,195,92,.55)}.sc-l span{display:inline-flex;flex-direction:column;gap:1px;padding:5px 11px;border-radius:999px;background:rgba(240,195,92,.12);border:1px solid rgba(240,195,92,.4);font-size:12px;font-weight:600;color:#ffd77a}.sc-l small{font-weight:400;font-size:10px;color:var(--ink3)}
 @media (max-width:760px){.sc-pick .fb-grp{flex-basis:100%}.sc-sw{display:none}.sc-f img,.sc-ph{width:36px;height:54px}}
-.ph{margin-top:8px}.ph-hd{margin-bottom:18px}.ph-lead{font:italic 400 18px/1.55 var(--f-p);color:var(--ink2);max-width:60ch;margin:6px 0 0}
-.ph-rib{display:flex;gap:3px;margin:6px 0 4px;min-height:46px}.ph-rb{--c:hsl(var(--h) 58% 62%);min-width:34px;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;padding:7px 9px;border:0;border-radius:6px;background:linear-gradient(180deg,hsl(var(--h) 55% 60%/.16),hsl(var(--h) 55% 60%/.34));border-bottom:3px solid var(--c);color:var(--ink);font:inherit;text-align:left;cursor:pointer;overflow:hidden;transition:filter .2s,transform .2s}.ph-rb:hover,.ph-rb:focus-visible{filter:brightness(1.25);transform:translateY(-2px);outline:none}
-.ph-rb b{font:700 15px/1 var(--f-d);color:var(--c);letter-spacing:.03em}.ph-rb span{font-size:11px;line-height:1.2;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ph-ra{display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);margin-bottom:16px}
-.ph-ex{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px 22px;margin:4px 0 26px;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.ph-ex li{display:flex;flex-direction:column;gap:2px}.ph-ex small{font:600 11px/1 var(--f-d);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}.ph-ex button{align-self:flex-start;padding:0;border:0;background:none;color:#ffd77a;font:italic 400 17px/1.3 var(--f-p);text-align:left;cursor:pointer}.ph-ex button:hover{text-decoration:underline}.ph-ex span{font-size:12.5px;line-height:1.4;color:var(--ink2)}
-.ph-tl{position:relative}
-.ph-ch{--c:hsl(var(--h) 58% 66%);position:relative;display:grid;grid-template-columns:78px minmax(0,1fr);gap:0 20px;padding:34px 0 34px;scroll-margin-top:16px}
-.ph-ch::before{content:'';position:absolute;inset:0 -14px 0 -10px;border-radius:22px;background:radial-gradient(70% 60% at 0% 0%,hsl(var(--h) 60% 60%/.10),transparent 70%);pointer-events:none}
-.ph-rail{position:relative;display:flex;justify-content:center}.ph-rail::before{content:'';position:absolute;top:0;bottom:-34px;width:1px;background:linear-gradient(var(--line2),var(--line2));left:50%}.ph-no{position:relative;z-index:1;align-self:flex-start;display:grid;place-items:center;width:58px;height:58px;border-radius:50%;background:var(--bg);border:1.5px solid var(--c);color:var(--c);font:700 24px/1 var(--f-d);letter-spacing:.02em;box-shadow:0 0 0 6px var(--bg),0 0 22px -6px var(--c)}
-.ph-bd{position:relative;min-width:0}.ph-k{margin:6px 0 4px;font:600 13px/1 var(--f-d);letter-spacing:.2em;text-transform:uppercase;color:var(--c)}.ph-k b{margin-left:8px;padding:3px 8px;border-radius:999px;border:1px solid var(--c);font-size:11px;letter-spacing:.1em}
-.ph-t{margin:0;font:italic 400 clamp(30px,5vw,46px)/1.08 var(--f-p);letter-spacing:-.01em;color:var(--ink);text-wrap:balance}
-.ph-d{margin:10px 0 18px;font:600 13px/1.3 var(--f-u);letter-spacing:.04em;text-transform:uppercase;color:var(--ink2)}.ph-d span{color:var(--ink3);font-weight:500}
-.ph-p{max-width:60ch;margin:0 0 20px;font:400 18px/1.78 var(--f-p);color:var(--ink)}
-.ph-m{display:flex;flex-wrap:wrap;gap:14px 30px;margin:0 0 22px;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.ph-m dt{font:600 10.5px/1 var(--f-d);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px}.ph-m dd{margin:0;font:500 15.5px/1.3 var(--f-u);color:var(--ink)}.ph-m dd em{font-style:normal;font-size:12px;color:var(--ink3)}
-.ph-ps{display:flex;flex-wrap:wrap;gap:20px 34px;align-items:flex-end;margin-bottom:12px}
-.ph-sg{display:flex;gap:14px;align-items:flex-end}.ph-sc{display:flex;flex-direction:column;gap:3px;max-width:190px}.ph-sc small,.ph-os small{font:600 10.5px/1 var(--f-d);letter-spacing:.14em;text-transform:uppercase;color:var(--c)}.ph-sc b{font:italic 400 19px/1.2 var(--f-p)}.ph-sc span{font-size:12px;color:var(--ink3)}
-.ph-os{display:flex;flex-direction:column;gap:8px;min-width:0}.ph-os>div{display:flex;gap:7px;flex-wrap:wrap}
-.ph-po{flex:none;width:58px;aspect-ratio:2/3;padding:0;border:0;border-radius:4px;overflow:hidden;background:var(--line);cursor:pointer;box-shadow:0 6px 14px -8px #000;transition:transform .2s,box-shadow .2s;font-size:8.5px;color:var(--ink2);line-height:1.15}.ph-po:hover,.ph-po:focus-visible{transform:translateY(-4px) rotate(-1deg);box-shadow:0 12px 20px -8px #000,0 0 0 1.5px var(--c);outline:none}.ph-po.big{width:104px;border-radius:6px;box-shadow:0 14px 26px -12px #000,0 0 0 1px hsl(var(--h) 55% 60%/.5)}.ph-po img{width:100%;height:100%;object-fit:cover;display:block}.ph-po span{display:block;padding:6px}
-.ph-why{margin-top:10px;font-size:13px;color:var(--ink3)}.ph-why summary{cursor:pointer;width:max-content}.ph-why p{margin:6px 0 0;max-width:56ch;line-height:1.5;color:var(--ink2)}
-.ph-tr{position:relative;display:grid;grid-template-columns:78px minmax(0,1fr);gap:0 20px;margin:-6px 0}.ph-tr::before{content:'';grid-column:1;justify-self:center;width:1px;background:var(--line2)}.ph-tr>*{grid-column:2}.ph-tr small{display:block;margin:0 0 4px;font:600 10.5px/1 var(--f-d);letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}.ph-tr p{margin:0;padding:2px 0 2px 14px;border-left:2px solid var(--line2);max-width:58ch;font:italic 400 16px/1.55 var(--f-p);color:var(--ink2)}.ph-tr{padding:2px 0}
-.ph-tl>.ph-ch:last-of-type .ph-rail::before{display:none}
-.ph-how{margin:10px 0 4px;font-size:13px;color:var(--ink3)}.ph-how summary{cursor:pointer;width:max-content}.ph-how p{max-width:70ch;line-height:1.6;color:var(--ink2)}
-.ph-e{padding:34px 18px;text-align:center;border:1px dashed var(--line2);border-radius:18px;background:radial-gradient(80% 100% at 50% 0%,rgba(240,195,92,.06),transparent 70%)}.ph-dots{display:flex;gap:8px;justify-content:center;margin-bottom:16px}.ph-dots i{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--line2)}.ph-dots i.on{background:#f0c35c;border-color:#f0c35c}.ph-et{margin:0 0 6px;font:italic 400 26px/1.2 var(--f-p)}.ph-es{margin:0 auto;max-width:52ch;font-size:14px;line-height:1.55;color:var(--ink3)}
-@media (max-width:760px){.ph-ch,.ph-tr{grid-template-columns:40px minmax(0,1fr);gap:0 12px;padding-top:26px}.ph-tr{padding:2px 0}.ph-no{width:38px;height:38px;font-size:16px;box-shadow:0 0 0 4px var(--bg)}.ph-p{font-size:17px;line-height:1.7}.ph-m{gap:12px 22px}.ph-po.big{width:92px}.ph-rb{padding:6px 6px;min-width:26px}.ph-rb span{display:none}.ph-ch::before{inset:0 -8px 0 -8px}}
-@media (prefers-reduced-motion:reduce){.ph-rb,.ph-po{transition:none}}
+.ph{margin-top:10px}.ph-hd{margin-bottom:20px}.ph-lead{font:italic 400 19px/1.55 var(--f-p);color:var(--ink2);max-width:58ch;margin:8px 0 0}.ph-fn{margin:0 0 14px;font-size:12.5px;color:var(--ink3)}
+.ph-lb{margin:0 0 7px;font:600 10.5px/1 var(--f-d);letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
+.ph-jr{margin:4px 0 22px;padding:18px 18px 12px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.03),transparent)}
+.ph-bars{display:flex;align-items:flex-end;gap:2px;height:84px;margin-bottom:5px}.ph-bars i{--c:hsl(var(--h) 62% 64%);flex:1 1 0;min-width:2px;border-radius:3px 3px 0 0;background:linear-gradient(180deg,var(--c),hsl(var(--h) 50% 44%/.55));opacity:.92;transition:opacity .2s,filter .2s}.ph-bars i.z{background:var(--line);opacity:.8}.ph-bars i:hover{filter:brightness(1.3)}
+.ph-rib{display:flex;gap:3px}.ph-rb{--c:hsl(var(--h) 62% 66%);min-width:30px;display:flex;flex-direction:column;gap:2px;padding:7px 9px 8px;border:0;border-top:3px solid var(--c);border-radius:0 0 8px 8px;background:linear-gradient(180deg,hsl(var(--h) 55% 55%/.2),hsl(var(--h) 55% 55%/.05));color:var(--ink);font:inherit;text-align:left;cursor:pointer;overflow:hidden;transition:background .2s,transform .2s}.ph-rb:hover,.ph-rb:focus-visible{background:linear-gradient(180deg,hsl(var(--h) 55% 55%/.34),hsl(var(--h) 55% 55%/.1));transform:translateY(2px);outline:none}
+.ph-rb b{font:700 14px/1 var(--f-d);color:var(--c);letter-spacing:.04em}.ph-rb span{font-size:11px;line-height:1.2;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ph-ra{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--ink3)}
+.ph-ex{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px 26px;margin:0 0 30px;padding:2px 2px 0}.ph-ex li{display:flex;flex-direction:column;gap:3px;padding-left:14px;border-left:1px solid var(--line2)}.ph-ex small{font:600 10.5px/1 var(--f-d);letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}.ph-ex button{align-self:flex-start;padding:0;border:0;background:none;color:#ffd77a;font:italic 400 18px/1.25 var(--f-p);text-align:left;cursor:pointer}.ph-ex button:hover{text-decoration:underline}.ph-ex span{font-size:12.5px;line-height:1.45;color:var(--ink2)}
+.ph-tl{display:flex;flex-direction:column}
+.ph-ch{--c:hsl(var(--h) 62% 68%);position:relative;display:grid;grid-template-columns:minmax(0,1fr) 236px;gap:0 38px;padding:40px 38px 34px;border-radius:28px;border:1px solid hsl(var(--h) 40% 55%/.3);background:linear-gradient(150deg,hsl(var(--h) 50% 50%/.17),hsl(var(--h) 40% 40%/.05) 55%,transparent);overflow:hidden;scroll-margin-top:14px;isolation:isolate}
+.ph-bg{position:absolute;inset:0;z-index:-2;overflow:hidden}.ph-bg img{position:absolute;inset:-30px;width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;filter:blur(38px) saturate(1.4);opacity:.3}.ph-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,color-mix(in srgb,var(--bg) 93%,transparent) 20%,color-mix(in srgb,var(--bg) 62%,transparent) 100%)}
+.ph-gh{position:absolute;z-index:-1;right:290px;top:8px;font:800 210px/1 var(--f-d);color:hsl(var(--h) 65% 65%/.07);letter-spacing:-.02em;pointer-events:none;user-select:none}
+.ph-main{min-width:0}.ph-k{margin:0 0 10px;display:flex;align-items:center;gap:10px;font:600 13px/1 var(--f-d);letter-spacing:.24em;text-transform:uppercase;color:var(--c)}.ph-k::before{content:'';width:28px;height:1px;background:var(--c)}.ph-k b{padding:3px 9px;border-radius:999px;border:1px solid var(--c);font-size:10.5px;letter-spacing:.12em}
+.ph-t{margin:0;font:italic 400 clamp(34px,5.4vw,58px)/1.04 var(--f-p);letter-spacing:-.015em;color:var(--ink);text-wrap:balance}
+.ph-d{margin:12px 0 22px;font:600 12.5px/1.3 var(--f-u);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}.ph-d span{color:var(--ink3);font-weight:500}
+.ph-p{max-width:58ch;margin:0 0 24px;font:400 18.5px/1.8 var(--f-p);color:var(--ink)}.ph-p::first-letter{float:left;margin:.06em .1em 0 0;font:italic 400 3.9em/.78 var(--f-p);color:var(--c)}
+.ph-st{display:flex;flex-wrap:wrap;gap:14px 38px;margin:0 0 24px;padding:18px 0;border-top:1px solid hsl(var(--h) 30% 60%/.25);border-bottom:1px solid hsl(var(--h) 30% 60%/.25)}.ph-st div{display:flex;flex-direction:column;gap:6px}.ph-st b{font:700 44px/.9 var(--f-d);color:var(--ink);letter-spacing:.01em}.ph-st b em{font-style:normal;font-size:20px;color:var(--c);margin-left:3px}.ph-st span{font:600 10.5px/1 var(--f-d);letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}.ph-st small{font-size:11px;color:var(--ink3);margin-top:-2px}
+.ph-gb{margin:0 0 20px;max-width:520px}.ph-gbar{display:flex;gap:3px;height:12px}.ph-gbar i{border-radius:6px;min-width:6px}.ph-gbar i.rest{background:var(--line)}.ph-gb ul{list-style:none;display:flex;flex-wrap:wrap;gap:6px 20px;margin:10px 0 0;padding:0;font-size:13.5px;color:var(--ink2)}.ph-gb li{display:flex;align-items:center;gap:7px}.ph-gb li i{width:9px;height:9px;border-radius:50%}.ph-gb li b{font-weight:600;color:var(--ink)}
+.ph-ch2{margin:0 0 16px}.ph-ch2>div{display:flex;flex-wrap:wrap;gap:7px}.ph-ch2 span{padding:5px 12px;border-radius:999px;border:1px solid hsl(var(--h) 45% 60%/.4);background:hsl(var(--h) 50% 55%/.1);font-size:13px;color:var(--ink)}.ph-ch2 span.l{border-style:dashed}
+.ph-why{margin-top:12px;font-size:13px;color:var(--ink3)}.ph-why summary{cursor:pointer;width:max-content}.ph-why p{margin:6px 0 0;max-width:54ch;line-height:1.55;color:var(--ink2)}
+.ph-side{display:flex;flex-direction:column;gap:24px;align-items:stretch;padding-top:6px}.ph-sg{display:flex;flex-direction:column;gap:12px}.ph-sc{display:flex;flex-direction:column;gap:4px}.ph-sc small{font:600 10.5px/1 var(--f-d);letter-spacing:.16em;text-transform:uppercase;color:var(--c)}.ph-sc b{font:italic 400 21px/1.2 var(--f-p)}.ph-sc span{font-size:12.5px;color:var(--ink3)}
+.ph-po{display:block;padding:0;border:0;border-radius:6px;overflow:hidden;background:var(--line);cursor:pointer;font-size:9px;line-height:1.15;color:var(--ink2);transition:transform .25s,box-shadow .25s}.ph-po img{width:100%;height:100%;object-fit:cover;display:block}.ph-po span{display:block;padding:7px}
+.ph-po.big{width:100%;aspect-ratio:2/3;box-shadow:0 22px 40px -18px #000,0 0 0 1px hsl(var(--h) 60% 65%/.45);transform:rotate(1.5deg)}.ph-po.big:hover,.ph-po.big:focus-visible{transform:rotate(0) translateY(-4px);outline:none}
+.ph-os>div{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.ph-po.sm{aspect-ratio:2/3;box-shadow:0 8px 16px -10px #000}.ph-po.sm:hover,.ph-po.sm:focus-visible{transform:translateY(-4px);box-shadow:0 12px 20px -8px #000,0 0 0 1.5px var(--c);outline:none}
+.ph-tr{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 12px 4px;margin:0}.ph-tr::before{content:'';width:1px;height:34px;background:linear-gradient(transparent,var(--line2))}.ph-dot{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--line2);background:var(--bg);margin:-1px 0 8px}.ph-tr small{font:600 10.5px/1 var(--f-d);letter-spacing:.18em;text-transform:uppercase;color:var(--ink3)}.ph-tr p{margin:8px 0 0;max-width:52ch;font:italic 400 16.5px/1.55 var(--f-p);color:var(--ink2)}.ph-tr::after{content:'';width:1px;height:34px;margin-top:12px;background:linear-gradient(var(--line2),transparent)}
+.ph-how{margin:18px 0 4px;font-size:13px;color:var(--ink3)}.ph-how summary{cursor:pointer;width:max-content}.ph-how p{max-width:72ch;line-height:1.6;color:var(--ink2)}
+.ph-e{padding:34px 18px;text-align:center;border:1px dashed var(--line2);border-radius:20px;background:radial-gradient(80% 100% at 50% 0%,rgba(240,195,92,.06),transparent 70%)}.ph-dots{display:flex;gap:8px;justify-content:center;margin-bottom:16px}.ph-dots i{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--line2)}.ph-dots i.on{background:#f0c35c;border-color:#f0c35c}.ph-et{margin:0 0 6px;font:italic 400 26px/1.2 var(--f-p)}.ph-es{margin:0 auto;max-width:52ch;font-size:14px;line-height:1.55;color:var(--ink3)}
+:root[data-theme=light] .ph-ch{--c:hsl(var(--h) 60% 34%)}:root[data-theme=light] .ph-bars i{--c:hsl(var(--h) 55% 48%)}:root[data-theme=light] .ph-rb{--c:hsl(var(--h) 55% 36%)}:root[data-theme=light] .ph-gh{color:hsl(var(--h) 55% 45%/.1)}:root[data-theme=light] .ph-ex button{color:#8a5a00}
+@media (max-width:900px){.ph-ch{grid-template-columns:minmax(0,1fr)}.ph-side{flex-direction:row;flex-wrap:wrap;align-items:flex-start;gap:20px;margin-top:22px}.ph-sg{flex-direction:row;align-items:flex-end;flex:0 0 auto}.ph-po.big{width:112px}.ph-sc{max-width:150px}.ph-os{flex:1 1 220px}}
+@media (max-width:760px){.ph-ch{padding:26px 18px 22px;border-radius:22px}.ph-gh{font-size:140px;right:10px;top:4px}.ph-p{font-size:17px;line-height:1.72}.ph-st b{font-size:36px}.ph-st{gap:12px 28px}.ph-jr{padding:14px 12px 10px}.ph-rb{padding:6px 5px;min-width:24px}.ph-rb span{display:none}.ph-bars{height:64px}}
+@media (max-width:760px){.ph-os{flex:1 1 100%}.ph-os>div{grid-template-columns:repeat(6,1fr);gap:5px}}
+@media (prefers-reduced-motion:reduce){.ph-rb,.ph-po,.ph-bars i{transition:none}}
 .bs-h3{font:500 13px/1.3 var(--f-d);margin:14px 0 6px;color:var(--ink2)}@media (max-width:760px){.bs-r{grid-template-columns:44px repeat(8,minmax(0,1fr));gap:3px}.bs-l{font-size:10px}.bs-c{height:24px;font-size:10px}}
 
 .lp-l{display:grid;gap:2px;max-height:min(52vh,420px);overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:6px}.lp-i{display:flex;gap:12px;align-items:baseline;padding:8px 10px;border:0;border-radius:7px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:default;width:100%}button.lp-i{cursor:pointer}button.lp-i:hover{background:var(--line)}.lp-y{width:40px;flex:none;font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}.lp-n{font-size:14px}
@@ -1519,7 +1525,7 @@ const SEEDS = [
 function newFilm(o) {
   return Object.assign({ id: 'm' + uid(), title: 'Untitled', year: 0, runtime: 0, genres: [], directors: [], writers: [], cast: [], overview: '', tagline: '',
     poster: '', backdrop: '', vote: 0, votes: 0, wish: false, seen: false, fav: false, rating: 0, review: '', spoiler: false, tags: [], lists: [], countries: [], cty: 0, cx: 0,
-    added: Date.now(), pal: null, palReal: false, hydrated: false, sample: false, guess: 0 }, o);
+    added: Date.now(), pal: null, palReal: false, hydrated: false, sample: false, guess: 0, lang: '', kw: [], kd: 0 }, o);
 }
 function seedLib() {
   const t = today(), now = Date.now();
@@ -1557,6 +1563,8 @@ function applyTMDB(f, d) {
   if (d.poster_path) f.poster = d.poster_path;
   if (d.backdrop_path) f.backdrop = d.backdrop_path;
   if (d.vote_average != null) { f.vote = d.vote_average; f.votes = d.vote_count || 0; }
+  if (d.original_language) f.lang = String(d.original_language);
+  if (d.keywords && Array.isArray(d.keywords.keywords)) { f.kw = d.keywords.keywords.map(k => k.name).filter(Boolean).slice(0, 16); f.kd = 1; }
   f.hydrated = true;
 }
 function reId(f, nid) {
@@ -1579,7 +1587,7 @@ async function hydrateOne(f) {
   let d = null; const want = norm(f.title);
   if (typeof f.id === 'number') {
     try {
-      d = await tmdb('/movie/' + f.id, { append_to_response: 'credits' });
+      d = await tmdb('/movie/' + f.id, { append_to_response: 'credits,keywords' });
       if (f.guess && f.id === f.guess && norm(d.title) !== want && norm(d.original_title) !== want) d = null;
     } catch (e) { if (e.status === 404) d = null; else throw e; }
   }
@@ -1589,7 +1597,7 @@ async function hydrateOne(f) {
     const yr = x => +(x.release_date || '').slice(0, 4) || 0;
     const hit = list.find(x => norm(x.title) === want && (!f.year || Math.abs(yr(x) - f.year) <= 1)) || list.find(x => norm(x.title) === want) || list[0];
     if (!hit) { f.hydrated = true; f.nf = true; return; }
-    d = await tmdb('/movie/' + hit.id, { append_to_response: 'credits' });
+    d = await tmdb('/movie/' + hit.id, { append_to_response: 'credits,keywords' });
   }
   if (reId(f, d.id) === 'dropped') return;
   applyTMDB(f, d);
@@ -2129,7 +2137,7 @@ async function loadFilm(v) {
   const ex = mem.films.get(key); if (ex && (ex.d || ex.loading)) return;
   mem.films.set(key, { loading: true });
   try {
-    const d = await tmdb('/movie/' + v.id, { append_to_response: 'credits,recommendations,watch/providers,videos' });
+    const d = await tmdb('/movie/' + v.id, { append_to_response: 'credits,keywords,recommendations,watch/providers,videos' });
     const tmp = newFilm({ id: d.id }); applyTMDB(tmp, d); mem.films.set(key, { d, tmp });
     (d.recommendations && d.recommendations.results || []).forEach(remember);
     const f = byId(v.id);
@@ -3070,7 +3078,7 @@ function normFilm(x) {
     overview: s(x.overview), tagline: s(x.tagline), poster: s(x.poster), backdrop: s(x.backdrop), vote: n(x.vote), votes: n(x.votes),
     wish: !!x.wish, seen: !!x.seen, fav: !!x.fav, rating: clamp(Math.round(n(x.rating) * 2) / 2, 0, 5), review: s(x.review), spoiler: !!x.spoiler, tags: a(x.tags).map(s), lists: a(x.lists).map(s), countries: a(x.countries).map(s).filter(c => /^[A-Z]{2}$/.test(c)), cty: x.cty ? 1 : 0, cx: x.cx ? 1 : 0,
     added: n(x.added) || Date.now(), pal: pl && HEXC.test(pl.a) ? { a: pl.a, b: HEXC.test(pl.b) ? pl.b : pl.a, k: pl.k === '#ffffff' ? '#ffffff' : '#141414' } : null,
-    palReal: !!x.palReal && !!(pl && HEXC.test(pl.a)), hydrated: !!x.hydrated, sample: !!x.sample, manual: !!x.manual, nf: !!x.nf });
+    palReal: !!x.palReal && !!(pl && HEXC.test(pl.a)), hydrated: !!x.hydrated, sample: !!x.sample, manual: !!x.manual, nf: !!x.nf, lang: /^[a-z]{2,3}$/.test(s(x.lang)) ? s(x.lang) : '', kw: a(x.kw).map(s).filter(Boolean).slice(0, 16), kd: x.kd ? 1 : 0 });
 }
 /* ---------- import: keep what you have, never duplicate ---------- */
 const realFilms = () => S.films.filter(f => !f.sample);
@@ -3112,7 +3120,7 @@ function mergeLibrary(films, ents, lists, progs) {
       m.seen = m.seen || inc.seen; m.fav = m.fav || inc.fav; m.wish = m.seen ? false : (m.wish || inc.wish);
       if (!m.rating) m.rating = inc.rating; if (!m.review) { m.review = inc.review; m.spoiler = inc.spoiler; }
       m.lists = [...new Set([...(m.lists || []), ...inc.lists])]; m.tags = [...new Set([...(m.tags || []), ...(inc.tags || [])])];
-      if (!m.hydrated && inc.hydrated) { ['overview', 'tagline', 'poster', 'backdrop', 'runtime', 'genres', 'directors', 'cast', 'writers', 'vote', 'votes', 'pal', 'palReal'].forEach(k => { if (inc[k] && (!m[k] || (Array.isArray(m[k]) && !m[k].length))) m[k] = inc[k]; }); if (+inc.id === inc.id || isNum(inc.id)) { m.hydrated = true; } }
+      if (!m.hydrated && inc.hydrated) { ['overview', 'tagline', 'poster', 'backdrop', 'runtime', 'genres', 'directors', 'cast', 'writers', 'vote', 'votes', 'lang', 'kw', 'pal', 'palReal'].forEach(k => { if (inc[k] && (!m[k] || (Array.isArray(m[k]) && !m[k].length))) m[k] = inc[k]; }); if (+inc.id === inc.id || isNum(inc.id)) { m.hydrated = true; } }
     } else {
       if (byI.has(String(inc.id))) { const nid = 'i' + uid() + added; idMap.set(String(inc.id), nid); inc.id = nid; } else idMap.set(String(inc.id), inc.id);
       S.films.push(inc); reg(inc); added++;
@@ -4425,7 +4433,10 @@ ACT.sccopy = () => {
 }
 
 /* ===== Phases of You: your watch history read as chapters ===== */
-const PHX = { WIN: 90, STEP: 30, MINN: 8, MIND: 60, PERM: 40, TH_E: 0.11, TH_Z: 2.5, TH_M: 0.07, TH_MZ: 2, KEY: 'dailies.phases1', W: { g: 0.5, d: 0.14, c: 0.18, l: 0.06, b: 0.12 } };
+const PHX = { WIN: 90, STEP: 30, MINN: 8, MIND: 60, PERM: 40, TH_E: 0.11, TH_Z: 2.5, TH_M: 0.07, TH_MZ: 2, KEY: 'dailies.phases2', W: { g: 0.4, t: 0.14, d: 0.12, c: 0.12, a: 0.1, l: 0.04, b: 0.08 } };
+const PH_JUNK = /credits|stinger|sequel|remake|reboot|franchise|based on|director|screenwriter|cameo|anime|short film|^\d|\bpart \d|film (in|within)|^(new york|los angeles|london|paris|usa|united states)/;
+const phKw = f => (f.kw || []).map(k => String(k).toLowerCase().trim()).filter(k => k && !PH_JUNK.test(k));
+const phLang = c => { if (c === 'cn') return 'Cantonese'; try { const n = new Intl.DisplayNames(['en'], { type: 'language' }).of(c); return n && n !== c ? n : c.toUpperCase(); } catch (e) { return c.toUpperCase(); } };
 const phHash = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0; return h >>> 0; };
 const phRng = seed => { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; };
 const phPc = x => Math.round(x * 100) + '%';
@@ -4454,23 +4465,30 @@ function phBuild() {
     ev.push({ d, f, date: e.date, re: !!e.rewatch, id: String(e.id) });
   }
   ev.sort((a, b) => a.d - b.d || String(a.f.id).localeCompare(String(b.f.id)) || a.id.localeCompare(b.id));
-  const G = new Map(), D = new Map(), C = new Map(), ix = (m, k) => { if (!m.has(k)) m.set(k, m.size); return m.get(k); };
+  const G = new Map(), D = new Map(), C = new Map(), LG = new Map(), ix = (m, k) => { if (!m.has(k)) m.set(k, m.size); return m.get(k); };
   for (const x of ev) {
     const f = x.f; x.gn = [...new Set((f.genres || []).map(g => String(g).trim()).filter(Boolean))]; x.gl = x.gn.map(g => ix(G, g));
     x.dec = f.year >= 1880 ? Math.floor(f.year / 10) * 10 : 0; x.di = x.dec ? ix(D, x.dec) : -1;
     x.cn = [...new Set(f.countries || [])]; x.cl = x.cn.map(c => ix(C, c));
+    x.lg = /^[a-z]{2,3}$/.test(f.lang || '') && f.lang !== 'xx' ? f.lang : ''; x.ll = x.lg ? [ix(LG, x.lg)] : [];
     x.lb = f.runtime > 0 ? (f.runtime < 90 ? 0 : f.runtime < 120 ? 1 : f.runtime < 150 ? 2 : 3) : -1;
     x.r = f.rating > 0 ? f.rating : 0;
   }
-  return { ev, G, D, C, nG: G.size, nD: D.size, nC: C.size };
+  const df = new Map(), seenF = new Set();
+  for (const x of ev) { const k = String(x.f.id); if (seenF.has(k)) continue; seenF.add(k); for (const w of new Set(phKw(x.f))) df.set(w, (df.get(w) || 0) + 1); }
+  const TV = new Map(); [...df.entries()].filter(([, c]) => c >= 3).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)).slice(0, 150).forEach(([w]) => TV.set(w, TV.size));
+  for (const x of ev) x.tl = [...new Set(phKw(x.f).filter(w => TV.has(w)).slice(0, 10).map(w => TV.get(w)))];
+  return { ev, G, D, C, LG, TV, nG: G.size, nD: D.size, nC: C.size, nL: LG.size, nT: TV.size };
 }
 function phAcc(U, list) {
-  const o = { n: list.length, g: new Float64Array(U.nG), d: new Float64Array(U.nD), c: new Float64Array(U.nC), l: new Float64Array(4), gT: 0, dT: 0, cT: 0, lT: 0, rs: 0, rn: 0, rw: 0 };
+  const o = { n: list.length, g: new Float64Array(U.nG), d: new Float64Array(U.nD), c: new Float64Array(U.nC), l: new Float64Array(4), a: new Float64Array(U.nL), t: new Float64Array(U.nT), gT: 0, dT: 0, cT: 0, lT: 0, aT: 0, tT: 0, rs: 0, rn: 0, rw: 0 };
   for (const x of list) {
     if (x.gl.length) { const w = 1 / x.gl.length; for (const i of x.gl) o.g[i] += w; o.gT++; }
     if (x.di >= 0) { o.d[x.di]++; o.dT++; }
     if (x.cl.length) { const w = 1 / x.cl.length; for (const i of x.cl) o.c[i] += w; o.cT++; }
     if (x.lb >= 0) { o.l[x.lb]++; o.lT++; }
+    if (x.ll.length) { o.a[x.ll[0]]++; o.aT++; }
+    if (x.tl.length) { const w = 1 / x.tl.length; for (const i of x.tl) o.t[i] += w; o.tT++; }
     if (x.r) { o.rs += x.r; o.rn++; }
     if (x.re) o.rw++;
   }
@@ -4484,18 +4502,18 @@ function phJsd(a, b) {
 }
 function phMask(U, A, B) {
   const ok = (ta, tb, K) => K > 1 && ta >= 3 && tb >= 3 && ta >= 0.5 * A.n && tb >= 0.5 * B.n;
-  return { g: ok(A.gT, B.gT, U.nG), d: ok(A.dT, B.dT, U.nD), c: ok(A.cT, B.cT, U.nC), l: ok(A.lT, B.lT, 4) };
+  return { g: ok(A.gT, B.gT, U.nG), d: ok(A.dT, B.dT, U.nD), c: ok(A.cT, B.cT, U.nC), l: ok(A.lT, B.lT, 4), a: ok(A.aT, B.aT, U.nL), t: ok(A.tT, B.tT, U.nT) };
 }
 function phD(A, B, m) {
   let sw = 0, sd = 0; const add = (w, x) => { if (x != null) { sw += w; sd += w * x; } }, W = PHX.W;
-  if (m.g) add(W.g, phJsd(A.g, B.g)); if (m.d) add(W.d, phJsd(A.d, B.d)); if (m.c) add(W.c, phJsd(A.c, B.c)); if (m.l) add(W.l, phJsd(A.l, B.l));
+  if (m.g) add(W.g, phJsd(A.g, B.g)); if (m.d) add(W.d, phJsd(A.d, B.d)); if (m.c) add(W.c, phJsd(A.c, B.c)); if (m.l) add(W.l, phJsd(A.l, B.l)); if (m.a) add(W.a, phJsd(A.a, B.a)); if (m.t) add(W.t, phJsd(A.t, B.t));
   const p = [Math.min(1, Math.abs(A.rw / A.n - B.rw / B.n) / 0.5)]; if (A.rn >= 3 && B.rn >= 3) p.push(Math.min(1, Math.abs(A.rs / A.rn - B.rs / B.rn) / 1.5));
   add(W.b, p.reduce((a, b) => a + b, 0) / p.length);
   return sw ? sd / sw : null;
 }
 /* distance between two groups of watches, corrected for what pure chance would produce (seeded permutation test: deterministic) */
 function phTest(U, L, R, seed, quick) {
-  const A = phAcc(U, L), B = phAcc(U, R), m = phMask(U, A, B); if (!(m.g || m.d || m.c)) return null;
+  const A = phAcc(U, L), B = phAcc(U, R), m = phMask(U, A, B); if (!(m.g || m.d || m.c || m.a || m.t)) return null;
   const obs = phD(A, B, m); if (obs == null) return null; if (quick && obs < 0.06) return { obs, mu: obs, sd: 1, ex: -1, z: -9 };
   const pool = L.concat(R), nL = L.length, rnd = phRng(seed ^ (pool.length * 40503)), P = PHX.PERM; let sum = 0, sq = 0;
   for (let p = 0; p < P; p++) {
@@ -4529,7 +4547,7 @@ function phSegment(U, oldB) {
     const S = segs(); let act = false;
     for (let i = 0; i < S.length && !act; i++) {
       if (S.length > 1 && (S[i][1] - S[i][0] < PHX.MINN || span(S[i], i, S) < PHX.MIND)) {
-        let j = i === 0 ? 1 : i === S.length - 1 ? i - 1 : (phD(phAcc(U, ev.slice(S[i][0], S[i][1])), phAcc(U, ev.slice(S[i - 1][0], S[i - 1][1])), { g: 1, d: 1, c: 1, l: 1 }) <= phD(phAcc(U, ev.slice(S[i][0], S[i][1])), phAcc(U, ev.slice(S[i + 1][0], S[i + 1][1])), { g: 1, d: 1, c: 1, l: 1 }) ? i - 1 : i + 1);
+        let j = i === 0 ? 1 : i === S.length - 1 ? i - 1 : (phD(phAcc(U, ev.slice(S[i][0], S[i][1])), phAcc(U, ev.slice(S[i - 1][0], S[i - 1][1])), { g: 1, d: 1, c: 1, l: 1, a: 1, t: 1 }) <= phD(phAcc(U, ev.slice(S[i][0], S[i][1])), phAcc(U, ev.slice(S[i + 1][0], S[i + 1][1])), { g: 1, d: 1, c: 1, l: 1, a: 1, t: 1 }) ? i - 1 : i + 1);
         bk = bk.filter(k => k !== S[Math.max(i, j)][0]); act = true;
       }
     }
@@ -4552,12 +4570,14 @@ function phSegment(U, oldB) {
 }
 
 /* the profile of one phase and of the whole journal */
-function phStats(U, list, baseHome) {
-  const A = phAcc(U, list), gAny = new Map(), dec = new Map(), cty = new Map(); let gE = 0, nh = 0, rec = 0, recN = 0, old = 0, oldN = 0, vs = [], vd = [], rt = 0, rtN = 0;
+function phStats(U, list, baseHome, baseLang) {
+  const A = phAcc(U, list), lng = new Map(), kwc = new Map(), gAny = new Map(), dec = new Map(), cty = new Map(); let langE = 0, nhl = 0, kwRaw = 0, gE = 0, nh = 0, rec = 0, recN = 0, old = 0, oldN = 0, vs = [], vd = [], rt = 0, rtN = 0;
   for (const x of list) {
     if (x.gn.length) { gE++; for (const g of x.gn) gAny.set(g, (gAny.get(g) || 0) + 1); }
     if (x.dec) { dec.set(x.dec, (dec.get(x.dec) || 0) + 1); oldN++; if (x.dec < 1980) old++; const wy = +x.date.slice(0, 4); recN++; if (x.f.year >= wy - 2) rec++; }
     if (x.cn.length) { for (const c of x.cn) cty.set(c, (cty.get(c) || 0) + 1); if (baseHome && !x.cn.includes(baseHome)) nh++; }
+    if (x.lg) { lng.set(x.lg, (lng.get(x.lg) || 0) + 1); langE++; if (baseLang && x.lg !== baseLang) nhl++; }
+    { const kws = phKw(x.f); if (kws.length) { kwRaw++; for (const w of new Set(kws)) kwc.set(w, (kwc.get(w) || 0) + 1); } }
     if (x.f.votes > 0) vs.push(x.f.votes); if (x.r && x.f.vote > 0) vd.push(x.r * 2 - x.f.vote); if (x.f.runtime > 0) { rt += x.f.runtime; rtN++; }
   }
   vs.sort((a, b) => a - b); const mv = vs.length ? vs[vs.length >> 1] : 0, N = A.n;
@@ -4570,11 +4590,13 @@ function phStats(U, list, baseHome) {
     gTop: [...gAny.entries()].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)).map(([g, c]) => ({ g, s: c / gE })),
     nh: A.cT ? nh / A.cT : 0, old: oldN ? old / oldN : 0, rec: recN ? rec / recN : 0, rwS: N ? A.rw / N : 0, avg: A.rn ? A.rs / A.rn : 0, rn: A.rn,
     vd: vd.length >= 6 ? vd.reduce((a, b) => a + b, 0) / vd.length : null, mv, nv: vs.length, rt: rtN ? rt / rtN : 0,
-    pace: N / Math.max(1, days / 30.4), days
+    pace: N / Math.max(1, days / 30.4), days, lng, langE, nhl: langE ? nhl / langE : 0, kwc, kwRaw,
+    kwAny: toks => kwRaw ? list.filter(x => phKw(x.f).some(w => toks.some(t => w.includes(t)))).length / kwRaw : 0
   };
 }
 
 /* naming: every rule fires only if the numbers support it, and each name carries its reason */
+const phTh = (n, o, toks, th, base) => ({ n, o, f: P => { const s = P.kwAny(toks); return P.kwRaw >= 5 && s >= th ? base + s * 0.3 : 0; }, w: P => 'themes such as ' + (P.themes.length ? P.themes.slice(0, 3).join(', ') : toks.slice(0, 3).join(', ')) + ' in ' + phPc(P.kwAny(toks)) + ' of the films' });
 const PH_RULES = [
   { n: 'The Art of Falling in Love', o: 'romance', f: P => { const r = P.any(['Romance']); return r >= 0.3 ? 0.6 + r * 0.5 + (P.any(['Drama']) >= 0.25 ? 0.05 : 0) : 0; }, w: P => 'Romance appears in ' + phPc(P.any(['Romance'])) + ' of the films' },
   { n: 'The Romantic', o: 'romance', f: P => { const r = P.any(['Romance']); return r >= 0.25 && P.any(['Comedy']) >= 0.25 ? 0.58 + r * 0.4 : 0; }, w: P => 'Romance (' + phPc(P.any(['Romance'])) + ') and Comedy (' + phPc(P.any(['Comedy'])) + ') side by side' },
@@ -4608,6 +4630,20 @@ const PH_RULES = [
   { n: 'The Here and Now', o: 'here', f: P => P.rec >= 0.45 ? 0.6 + P.rec * 0.2 : 0, w: P => phPc(P.rec) + ' of the films were released within two years of the day you watched them' },
   { dyn: P => P.topD && P.topDS >= 0.45 && P.dec.size >= 1 && P.decN >= 5 ? 'Letters from the ' + P.topD + 's' : null, o: 'letters', f: P => 0.63 + P.topDS * 0.2, w: P => phPc(P.topDS) + ' of the films came from the ' + P.topD + 's' },
   { dyn: P => P.postC ? 'Postcards from ' + P.postC : null, o: 'postcard', f: P => 0.62 + P.postS * 0.3, w: P => phPc(P.postS) + ' of the films were from ' + P.postC },
+  phTh('What We Carry', 'loss', ['grief', 'death', 'loss', 'mourning', 'funeral', 'widow', 'bereave', 'terminal'], 0.3, 0.64),
+  phTh('The Summer Before Everything', 'coming', ['coming of age', 'teenage', 'teenager', 'high school', 'adolescen', 'growing up', 'first love', 'youth'], 0.3, 0.64),
+  phTh('A House Full of Voices', 'family', ['family', 'father', 'mother', 'sibling', 'parent', 'brother', 'sister', 'grandmother', 'grandfather'], 0.4, 0.63),
+  phTh('Letters from the Front', 'war', ['world war', 'soldier', 'nazi', 'holocaust', 'vietnam war', 'military', 'battle', 'resistance'], 0.3, 0.64),
+  phTh('Nothing Is What It Seems', 'crime', ['murder', 'serial killer', 'heist', 'detective', 'investigation', 'police', 'gangster', 'mafia', 'revenge', 'kidnap', 'conspiracy'], 0.4, 0.63),
+  phTh('The Shape of Tomorrow', 'future', ['dystopia', 'time travel', 'alien', 'space', 'artificial intelligence', 'post-apocalyptic', 'robot', 'future', 'cyberpunk'], 0.3, 0.64),
+  phTh('A Heart in Transit', 'love', ['love', 'romance', 'marriage', 'infidelity', 'lover', 'relationship', 'affair', 'wedding', 'breakup'], 0.4, 0.62),
+  phTh('Somewhere to Belong', 'belong', ['loneliness', 'alienation', 'outsider', 'isolation', 'solitude', 'identity', 'self-discovery', 'refugee'], 0.25, 0.65),
+  phTh('Miles from Anywhere', 'road', ['road trip', 'journey', 'travel', 'survival', 'wilderness', 'quest', 'expedition', 'voyage'], 0.3, 0.63),
+  phTh('The Art of Making Things', 'art', ['music', 'musician', 'artist', 'painter', 'writer', 'filmmaking', 'theater', 'dance', 'singer', 'band'], 0.35, 0.63),
+  phTh('The Weight of the World', 'society', ['politic', 'corruption', 'class', 'poverty', 'inequality', 'dictator', 'capitalis', 'activis', 'protest', 'prison'], 0.3, 0.63),
+  phTh('The Colours of Memory', 'memory', ['memory', 'amnesia', 'dream', 'nostalgia', 'surreal', 'alternate reality', 'nightmare', 'remember'], 0.3, 0.64),
+  { n: 'In Another Tongue', o: 'lang', f: P => P.langE >= 5 && P.nhl >= 0.5 && P.nL >= 3 ? 0.65 + P.nhl * 0.3 : 0, w: P => phPc(P.nhl) + ' of the films were not in ' + P.homeLangName + ', across ' + P.nL + ' languages' },
+  { dyn: P => P.langPost ? 'Spoken in ' + P.langPost : null, o: 'langone', f: P => 0.64 + P.langPostS * 0.2, w: P => phPc(P.langPostS) + ' of the films were in ' + P.langPost },
   { n: 'The World in Between', o: 'mixed', f: () => 0.2, w: P => 'no single pull; ' + P.top3 + ' in a mixed stretch' },
   { n: 'Somewhere Else, Somehow', o: 'mixed', f: () => 0.19, w: P => 'no single pull; ' + P.top3 + ' in a mixed stretch' },
   { n: 'The Unfamiliar Roads', o: 'mixed', f: () => 0.18, w: P => 'no single pull; ' + P.top3 + ' in a mixed stretch' }
@@ -4632,6 +4668,20 @@ const PH_OPEN = {
   slow: ['A quieter rhythm took over. You watched fewer films, and each one was given more room.', 'The pace slowed, and the films you did choose seem to have been chosen with care.'],
   letters: ['You settled into a single era and stayed there, getting to know its look, its sounds and its habits.', 'One stretch of film history held your attention for a long while, like reading an author\'s whole run of letters.'],
   postcard: ['One country kept calling you back, and its films came to feel like postcards collected one by one.', 'You followed a single national cinema for a while, and it shaped what these months felt like.'],
+  loss: ['Stories about what is lost, and what we carry afterwards, ran through these months.', 'Grief, absence and remembering kept turning up in the films you chose.'],
+  coming: ['Youth was the subject: first loves, awkward summers and people becoming someone.', 'You kept returning to stories about growing up, with all the uncertainty that carries.'],
+  family: ['Families filled the screen: the closeness, the friction and the things handed down.', 'The films kept going home, to kitchens, parents, siblings and old arguments.'],
+  war: ['History pressed in. You followed stories of war, duty and ordinary people caught in large events.', 'These months were spent among soldiers, resistance and the long shadow of conflict.'],
+  crime: ['You kept chasing the truth behind a locked door: investigations, schemes and people with secrets.', 'Plots of crime, pursuit and deception pulled you along.'],
+  future: ['You looked forward, to futures and machines, strange planets and what might come after us.', 'The next world, whatever it was, held your attention.'],
+  love: ['Relationships were the centre of it: love in its hopeful and its complicated forms.', 'Again and again, the stories you picked were about people trying to reach each other.'],
+  belong: ['You were drawn to stories about being on the outside and finding where you fit.', 'Loneliness, identity and the search for belonging recurred through this stretch.'],
+  road: ['You went on journeys: roads, expeditions and the slow change that travel brings.', 'Movement ran through your choices, from long drives to survival stories.'],
+  art: ['Making things was the subject: musicians, writers, artists and the work behind the work.', 'You spent time with stories about creating, and about the people who cannot stop.'],
+  society: ['The films turned to the world around people: power, money, class and the systems we live inside.', 'You gravitated to stories with something to say about how society works, and fails.'],
+  memory: ['Memory and dreams blurred together here, with stories that bend time and the way we remember.', 'You followed films that treat the past as something slippery and alive.'],
+  lang: ['Your ear travelled. Much of what you watched was in languages other than your usual one.', 'You let subtitles take you somewhere else for a while.'],
+  langone: ['One language kept calling you back, and you followed it film after film.', 'You settled into the sound of a single language for a stretch.'],
   mixed: ['This was a stretch with no single pull. Your taste moved in several directions at once.', 'Nothing dominated here. It reads like a period of mixed moods, with a bit of everything.']
 };
 /* the Sentimentalist/Contrarian etc. read the picks only; nothing here claims anything about your life */
@@ -4645,8 +4695,9 @@ function phNames(U, phases, base, old) {
     if (P.name) return;
     const cs = []; PH_RULES.forEach((r, i) => { const n = r.dyn ? r.dyn(P.m) : r.n; if (!n) return; const sc = r.f(P.m); if (sc > 0) cs.push({ n, sc, i, r }); });
     cs.sort((a, b) => b.sc - a.sc || a.i - b.i);
-    let ch = cs.find(c => !used.has(c.n));
-    if (!ch) ch = cs[0];
+    let ch = null; const top = cs[0];
+    if (top && used.has(top.n)) { const j = phases.findIndex((Q, q) => q < idx && Q.name === top.n); if (j >= 0) { const dd = phD(phAcc(U, phases[j].list), phAcc(U, P.list), { g: 1, d: 0, c: 0, l: 0, a: 1, t: 1 }); if (dd != null && dd <= 0.2) ch = top; } }
+    if (!ch) ch = cs.find(c => !used.has(c.n)) || cs[0];
     let name = ch.n, why = ch.r.w(P.m);
     if (used.has(name)) {
       const j = phases.findIndex((Q, q) => q < idx && Q.name === name);
@@ -4673,7 +4724,9 @@ function phDescribe(P, B, prev) {
     if (m.nh >= 0.3) { const ch = m.topC.filter(c => c[0] !== B.home).slice(0, 3).map(c => wmName(c[0])); era.push(['geo', phPc(m.nh) + ' of the films came from outside ' + m.homeName + (ch.length ? ', chiefly ' + (ch.length > 1 ? ch.slice(0, -1).join(', ') + ' and ' + ch[ch.length - 1] : ch[0]) : '') + '.', m.nh]); }
     else if (m.nh <= 0.1) era.push(['geo', 'Almost everything came from ' + m.homeName + '.', 0.2]);
   }
-  era.sort((a, b) => b[2] - a[2]); era.slice(0, 2).forEach(x => out.push(x[1]));
+  if (m.langE >= 5 && m.homeLang && m.nhl >= 0.3) { const ls = [...m.lng.entries()].filter(c => c[0] !== m.homeLang).sort((x, y) => y[1] - x[1] || (x[0] < y[0] ? -1 : 1)).slice(0, 2).map(c => phLang(c[0])); era.push(['lang', phPc(m.nhl) + ' were not in ' + m.homeLangName + (ls.length ? ', mostly ' + ls.join(' and ') : '') + '.', m.nhl]); }
+  if (m.themes.length >= 2) era.push(['theme', 'The stories kept circling ideas like ' + (m.themes.length > 2 ? m.themes.slice(0, 2).join(', ') + ' and ' + m.themes[2] : m.themes.join(' and ')) + '.', 0.55]);
+  era.sort((a, b) => b[2] - a[2]); era.slice(0, 3).forEach(x => out.push(x[1]));
   const beh = [];
   if (m.rn >= 5 && B.avg) { const d = m.avg - B.avg; if (d >= 0.25) beh.push([Math.abs(d), 'You were warmer than usual, averaging ' + m.avg.toFixed(1) + ' against your ' + B.avg.toFixed(1) + ' overall.']); else if (d <= -0.25) beh.push([Math.abs(d), 'You were tougher than usual, averaging ' + m.avg.toFixed(1) + ' against your ' + B.avg.toFixed(1) + ' overall.']); else beh.push([0.1, 'Your ratings stayed close to your usual ' + B.avg.toFixed(1) + '.']); }
   if (m.paceUp) beh.push([0.4, 'It was also one of your busier stretches: ' + P.nf + ' films in ' + phSpan(P.days) + '.']); else if (m.paceDown) beh.push([0.4, 'The rhythm was unhurried: ' + P.nf + ' films across ' + phSpan(P.days) + '.']);
@@ -4689,6 +4742,8 @@ function phTransition(a, b, B) {
   else if (a.m.gE >= 3 && b.m.gE >= 3 && dn && dn[1] <= -0.15) s.push(dn[0] + ' fell from ' + phPc(ga.get(dn[0]) || 0) + ' to ' + phPc(gb.get(dn[0]) || 0) + '.');
   const da = a.m.topD, db = b.m.topD; if (a.m.decN >= 5 && b.m.decN >= 5 && da && db && da !== db && a.m.topDS >= 0.3 && b.m.topDS >= 0.3) s.push('Your eye moved from the ' + da + 's to the ' + db + 's.');
   if (B.home && a.m.cT >= 5 && b.m.cT >= 5 && Math.abs(b.m.nh - a.m.nh) >= 0.2) s.push(b.m.nh > a.m.nh ? 'Your shelf grew more international (' + phPc(a.m.nh) + ' to ' + phPc(b.m.nh) + ' from outside ' + B.homeName + ').' : 'Your shelf drew closer to home (' + phPc(a.m.nh) + ' to ' + phPc(b.m.nh) + ' from outside ' + B.homeName + ').');
+  const ta = a.m.themes[0], tb = b.m.themes[0]; if (ta && tb && ta !== tb && !b.m.themes.includes(ta)) s.push('Recurring ideas turned from ' + ta + ' to ' + tb + '.');
+  if (a.m.langE >= 5 && b.m.langE >= 5 && B.homeLang && Math.abs(b.m.nhl - a.m.nhl) >= 0.25) s.push(b.m.nhl > a.m.nhl ? 'More of the films were in languages other than ' + B.homeLangName + ' (' + phPc(a.m.nhl) + ' to ' + phPc(b.m.nhl) + ').' : 'You came back towards ' + B.homeLangName + ' (' + phPc(a.m.nhl) + ' to ' + phPc(b.m.nhl) + ' in other languages).');
   return s.slice(0, 2).join(' ');
 }
 
@@ -4698,15 +4753,18 @@ function phCompute() {
   if (n < PHX.MINN || days < PHX.MIND) return { status: 'few', n, days, distinct };
   const cov = Math.max(ev.filter(x => x.gl.length).length, ev.filter(x => x.di >= 0).length, ev.filter(x => x.cl.length).length);
   if (cov < PHX.MINN) return { status: 'meta', n, days, cov };
-  let old = null; try { old = JSON.parse(localStorage.getItem(PHX.KEY) || 'null'); } catch (e) { old = null; }
+  const pend = !!getKey() && phNeed().length > 0; let old = null; try { if (!pend) old = JSON.parse(localStorage.getItem(PHX.KEY) || 'null'); } catch (e) { old = null; }
   const oldB = old && Array.isArray(old.b) ? old.b.filter(x => typeof x === 'number') : [];
   const segs = phSegment(U, oldB), allA = phAcc(U, ev);
   const cc = new Map(); ev.forEach(x => x.cn.forEach(c => cc.set(c, (cc.get(c) || 0) + 1))); const home = [...cc.entries()].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))[0];
   const hm = home && allA.cT >= 8 && home[1] / allA.cT >= 0.3 ? home[0] : '';
-  const Bm = phStats(U, ev, hm), B = { home: hm, homeName: hm ? wmName(hm) : '', avg: Bm.avg, pace: Bm.pace, rwS: Bm.rwS, m: Bm };
+  const lcn = new Map(); ev.forEach(x => { if (x.lg) lcn.set(x.lg, (lcn.get(x.lg) || 0) + 1); }); const hlE = [...lcn.entries()].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))[0], lTot = [...lcn.values()].reduce((x, y) => x + y, 0), hl = hlE && lTot >= 8 && hlE[1] / lTot >= 0.3 ? hlE[0] : '';
+  const Bm = phStats(U, ev, hm, hl), B = { home: hm, homeName: hm ? wmName(hm) : '', homeLang: hl, homeLangName: hl ? phLang(hl) : '', avg: Bm.avg, pace: Bm.pace, rwS: Bm.rwS, m: Bm };
   const phases = segs.map(([a, b], i) => {
-    const list = ev.slice(a, b), m = phStats(U, list, hm), last = i === segs.length - 1;
-    m.homeName = B.homeName; m.avgUp = m.rn >= 5 && B.avg && m.avg - B.avg >= 0.25; m.paceUp = B.pace && m.pace >= B.pace * 1.4 && list.length >= 12; m.paceDown = B.pace && m.pace <= B.pace * 0.6;
+    const list = ev.slice(a, b), m = phStats(U, list, hm, hl), last = i === segs.length - 1;
+    m.homeName = B.homeName; m.homeLang = hl; m.homeLangName = B.homeLangName; m.nL = m.lng.size;
+    { const nl = [...m.lng.entries()].filter(c => c[0] !== hl).sort((x, y) => y[1] - x[1] || (x[0] < y[0] ? -1 : 1))[0]; m.langPost = hl && nl && m.langE >= 5 && nl[1] / m.langE >= 0.3 && m.nhl >= 0.35 ? phLang(nl[0]) : ''; m.langPostS = nl ? nl[1] / Math.max(1, m.langE) : 0; }
+    m.themes = []; if (m.kwRaw >= 5) { const o = []; for (const [w, c] of m.kwc) { if (c < 3) continue; const sh = c / m.kwRaw, bs = (Bm.kwc.get(w) || 0) / Math.max(1, Bm.kwRaw), lift = segs.length === 1 ? 1 : sh / Math.max(bs, 0.01); if (sh >= 0.15 && (segs.length === 1 || lift >= 1.25)) o.push([w, sh * Math.min(lift, 3)]); } o.sort((x, y) => y[1] - x[1] || (x[0] < y[0] ? -1 : 1)); m.themes = o.slice(0, 4).map(x => x[0]); } m.avgUp = m.rn >= 5 && B.avg && m.avg - B.avg >= 0.25; m.paceUp = B.pace && m.pace >= B.pace * 1.4 && list.length >= 12; m.paceDown = B.pace && m.pace <= B.pace * 0.6;
     m.topCS = m.topC.length && m.cT ? m.topC[0][1] / m.cT : 0; m.decN = [...m.dec.values()].reduce((x, y) => x + y, 0); m.topD = m.topD[0] ? m.topD[0][0] : 0; m.topDS = m.topD ? (m.dec.get(m.topD) || 0) / Math.max(1, m.decN) : 0;
     m.topD2 = m.topD; const nhC = m.topC.filter(c => c[0] !== hm)[0]; m.postC = hm && nhC && m.cT >= 5 && nhC[1] / m.cT >= 0.3 && m.nh >= 0.35 ? wmName(nhC[0]) : ''; m.postS = nhC ? nhC[1] / Math.max(1, m.cT) : 0;
     m.top3 = m.gTop.slice(0, 3).map(x => x.g).join(', ') || 'a mix of films';
@@ -4733,6 +4791,8 @@ function phCompute() {
     P.others = others; P.desc = phDescribe(P, B, null);
     P.hue = phHue(m.gTop[0] ? m.gTop[0].g : P.name);
     P.favDec = m.decN >= 5 && m.topD2 && m.topDS >= 0.3 ? m.topD2 + 's' : '';
+    P.langs = m.langE >= 5 ? [...m.lng.entries()].sort((x, y) => y[1] - x[1] || (x[0] < y[0] ? -1 : 1)).filter(c => c[1] / m.langE >= 0.1).slice(0, 3).map(c => phLang(c[0])) : [];
+    P.themes = m.themes;
     P.avg = m.rn >= 3 ? m.avg : 0; P.genres3 = m.gE >= 3 ? m.gTop.slice(0, 3).map(x => x.g) : [];
   });
   for (let i = 1; i < phases.length; i++) phases[i].transition = phTransition(phases[i - 1], phases[i], B);
@@ -4748,40 +4808,78 @@ function phCompute() {
     const mk = { g: 1, d: 0, c: 0, l: 0 }, r = phD(phAcc(U, phases[i].list), phAcc(U, phases[j].list), mk); if (r != null && r <= 0.12 && phases[i].m.gE >= 3 && phases[j].m.gE >= 3 && (!best || r < best.r)) best = { r, i, j, gap };
   }
   if (best) ex.push({ k: 'The Returning Phase', t: phases[best.j].name, s: phases[best.i].m.gTop.slice(0, 2).map(x => x.g).join(' and ') + ' came back after ' + mo(best.gap) + ', echoing Phase ' + String(best.i + 1).padStart(2, '0') + '.', i: best.j });
-  try { localStorage.setItem(PHX.KEY, JSON.stringify({ b: phases.slice(1).map(P => P.startDay), n: Object.fromEntries(phases.map(P => [P.startDay, { name: P.name, sig: P.sig, why: P.why, o: P.rule }])) })); } catch (e) { /* storage unavailable: results stay deterministic anyway */ }
+  if (!pend) try { localStorage.setItem(PHX.KEY, JSON.stringify({ b: phases.slice(1).map(P => P.startDay), n: Object.fromEntries(phases.map(P => [P.startDay, { name: P.name, sig: P.sig, why: P.why, o: P.rule }])) })); } catch (e) { /* storage unavailable: results stay deterministic anyway */ }
   return { status: 'ok', phases, ex, B, n, days, total: ev.length };
+}
+
+/* backfill: languages and themes for films saved before they were recorded */
+const phTried = new Set(); let phJob = null, phP = null;
+const phNeed = () => S.films.filter(f => f.seen && !f.kd && isNum(f.id) && !phTried.has(f.id));
+function phDraw() { const s = $('#phSec'); if (s && route === 'insights') s.innerHTML = phHTML(); }
+function phFill() {
+  if (phP || !getKey()) return phP; const tot = phNeed().length; if (!tot) return null;
+  phJob = { done: 0, tot, err: null };
+  const worker = async () => {
+    for (let f; phJob && !phJob.err && (f = phNeed()[0]);) {
+      phTried.add(f.id);
+      try { const d = await tmdb('/movie/' + f.id, { append_to_response: 'keywords' }); if (d.original_language) f.lang = String(d.original_language); f.kw = ((d.keywords && d.keywords.keywords) || []).map(k => k.name).filter(Boolean).slice(0, 16); f.kd = 1; }
+      catch (e) { if (e.code === 'NO_KEY' || e.status === 401 || e.status === 429) phJob.err = e; }
+      phJob.done++; if (phJob.done % 8 === 0) phDraw();
+    }
+  };
+  phP = Promise.all([worker(), worker(), worker()]).then(() => { save(); phJob = null; phP = null; phDraw(); }).catch(() => { phJob = null; phP = null; });
+  return phP;
 }
 
 function phEmpty(R) {
   let msg, sub = '';
-  if (R.status === 'meta') { msg = 'Your films need a few more details.'; sub = 'Phases are read from genres, release decades and countries. Open your films once with a TMDB key set and they will fill in on their own.'; }
+  if (R.status === 'meta') { msg = 'Your films need a few more details.'; sub = 'Phases are read from genres, release decades, countries, languages and themes. Open your films once with a TMDB key set and they will fill in on their own.'; }
   else { msg = 'Your chapters are still being written.'; sub = 'Phases of You needs at least ' + PHX.MINN + ' logged watches spread over at least ' + PHX.MIND + ' days before it can see a pattern. You have ' + plural(R.n || 0, 'watch', 'watches') + (R.n ? ' over ' + plural(R.days || 0, 'day') + (R.n >= PHX.MINN && (R.days || 0) < PHX.MIND ? ', and most of them share the same few dates' : '') : '') + '.'; }
   const dots = Array.from({ length: PHX.MINN }, (_, i) => '<i' + (i < (R.n || 0) ? ' class="on"' : '') + '></i>').join('');
   return '<div class="ph-e"><div class="ph-dots" aria-hidden="true">' + dots + '</div><p class="ph-et">' + msg + '</p><p class="ph-es">' + sub + '</p></div>';
 }
+const phCap = t => t ? t.charAt(0).toUpperCase() + t.slice(1) : t;
 function phChapter(P) {
-  const pos = (f, big) => '<button type="button" class="ph-po' + (big ? ' big' : '') + '" data-act="phfilm" data-id="' + E(String(f.id)) + '" title="' + E(f.title) + (f.year ? ' (' + f.year + ')' : '') + '">' + (f.poster ? '<img src="' + E(img('thumb', f.poster)) + '" alt="' + E(f.title) + '" loading="lazy">' : '<span>' + E(f.title) + '</span>') + '</button>';
-  const meta = [['Films watched', String(P.nf) + (P.rewatches ? '<em> + ' + P.rewatches + (P.rewatches === 1 ? ' rewatch' : ' rewatches') + '</em>' : '')]];
-  if (P.avg) meta.push(['Average rating', P.avg.toFixed(1)]);
-  if (P.genres3.length) meta.push(['Dominant genres', P.genres3.map(E).join(', ')]);
-  if (P.favDec) meta.push(['Favourite decade', P.favDec]);
-  return '<article class="ph-ch" id="phc' + P.i + '" style="--h:' + P.hue + '"><div class="ph-rail"><span class="ph-no">' + String(P.i + 1).padStart(2, '0') + '</span></div><div class="ph-bd">' +
-    '<p class="ph-k">Phase ' + String(P.i + 1).padStart(2, '0') + (P.ongoing ? ' <b>Ongoing</b>' : '') + '</p><h3 class="ph-t">' + E(P.name) + '</h3><p class="ph-d">' + E(phRange(P.start, P.end, P.ongoing)) + '<span> · ' + E(phSpan(P.days)) + '</span></p>' +
-    '<p class="ph-p">' + E(P.desc) + '</p><dl class="ph-m">' + meta.map(x => '<div><dt>' + x[0] + '</dt><dd>' + x[1] + '</dd></div>').join('') + '</dl>' +
-    (P.sig_f ? '<div class="ph-ps"><div class="ph-sg">' + pos(P.sig_f, true) + '<div class="ph-sc"><small>Signature film</small><b>' + E(P.sig_f.title) + '</b><span>' + (P.sig_f.year || '') + (P.sig_f.rating > 0 ? ' · ' + P.sig_f.rating.toFixed(1) + ' ★' : '') + '</span></div></div>' + (P.others.length ? '<div class="ph-os"><small>Also defining this chapter</small><div>' + P.others.map(f => pos(f, false)).join('') + '</div></div>' : '') + '</div>' : '') +
-    '<details class="ph-why"><summary>Why this name?</summary><p>“' + E(P.name) + '” is here because ' + E(P.why) + '.</p></details></div></article>';
+  const pos = (f, cls) => '<button type="button" class="ph-po ' + cls + '" data-act="phfilm" data-id="' + E(String(f.id)) + '" title="' + E(f.title) + (f.year ? ' (' + f.year + ')' : '') + '">' + (f.poster ? '<img src="' + E(img(cls === 'big' ? 'big' : 'thumb', f.poster)) + '" alt="' + E(f.title) + '" loading="lazy">' : '<span>' + E(f.title) + '</span>') + '</button>';
+  const st = [['Films watched', String(P.nf), P.rewatches ? '+ ' + P.rewatches + (P.rewatches === 1 ? ' rewatch' : ' rewatches') : '']];
+  if (P.avg) st.push(['Average rating', P.avg.toFixed(1), '★']); if (P.favDec) st.push(['Favourite decade', P.favDec, '']);
+  let gb = ''; const gt = P.m.gE >= 3 ? P.m.gTop.slice(0, 3) : [];
+  if (gt.length) {
+    const rest = Math.max(0, P.m.gTop.slice(3).reduce((a, x) => a + x.s, 0)), tot = gt.reduce((a, x) => a + x.s, 0) + rest, H = P.hue, col = ['hsl(' + H + ' 68% 62%)', 'hsl(' + H + ' 52% 48%)', 'hsl(' + H + ' 40% 38%)'];
+    gb = '<div class="ph-gb"><p class="ph-lb">Dominant genres</p><div class="ph-gbar" role="img" aria-label="' + E(gt.map(x => x.g + ' ' + phPc(x.s)).join(', ')) + '">' + gt.map((x, i) => '<i style="flex:' + (x.s / tot).toFixed(3) + ';background:' + col[i] + '" title="' + E(x.g + ' ' + phPc(x.s)) + '"></i>').join('') + (rest > 0.02 ? '<i class="rest" style="flex:' + (rest / tot).toFixed(3) + '"></i>' : '') + '</div><ul>' + gt.map((x, i) => '<li><i style="background:' + col[i] + '"></i>' + E(x.g) + ' <b>' + phPc(x.s) + '</b></li>').join('') + '</ul></div>';
+  }
+  const chips = (P.themes.length ? '<div class="ph-ch2"><p class="ph-lb">Recurring themes</p><div>' + P.themes.map(t => '<span>' + E(phCap(t)) + '</span>').join('') + '</div></div>' : '') + (P.langs.length ? '<div class="ph-ch2"><p class="ph-lb">Languages</p><div>' + P.langs.map(t => '<span class="l">' + E(t) + '</span>').join('') + '</div></div>' : '');
+  const bg = P.sig_f && P.sig_f.poster ? '<div class="ph-bg" aria-hidden="true"><img src="' + E(img('thumb', P.sig_f.poster)) + '" alt=""></div>' : '';
+  const no = String(P.i + 1).padStart(2, '0');
+  return '<article class="ph-ch" id="phc' + P.i + '" style="--h:' + P.hue + '">' + bg + '<span class="ph-gh" aria-hidden="true">' + no + '</span><div class="ph-main">' +
+    '<p class="ph-k">Phase ' + no + (P.ongoing ? '<b>Ongoing</b>' : '') + '</p><h3 class="ph-t">' + E(P.name) + '</h3><p class="ph-d">' + E(phRange(P.start, P.end, P.ongoing)) + '<span> · ' + E(phSpan(P.days)) + '</span></p>' +
+    '<p class="ph-p">' + E(P.desc) + '</p><div class="ph-st">' + st.map(x => '<div><b>' + x[1] + (x[2] === '★' ? '<em>★</em>' : '') + '</b><span>' + x[0] + '</span>' + (x[2] && x[2] !== '★' ? '<small>' + x[2] + '</small>' : '') + '</div>').join('') + '</div>' + gb + chips +
+    '<details class="ph-why"><summary>Why this name?</summary><p>“' + E(P.name) + '” is here because ' + E(P.why) + '.</p></details></div>' +
+    (P.sig_f ? '<div class="ph-side"><div class="ph-sg">' + pos(P.sig_f, 'big') + '<div class="ph-sc"><small>Signature film</small><b>' + E(P.sig_f.title) + '</b><span>' + (P.sig_f.year || '') + (P.sig_f.rating > 0 ? ' · ' + P.sig_f.rating.toFixed(1) + ' ★' : '') + '</span></div></div>' + (P.others.length ? '<div class="ph-os"><p class="ph-lb">Also defining this chapter</p><div>' + P.others.map(f => pos(f, 'sm')).join('') + '</div></div>' : '') + '</div>' : '') + '</article>';
+}
+function phJourney(P) {
+  const mi = d => { const t = new Date(d * 864e5); return t.getUTCFullYear() * 12 + t.getUTCMonth(); };
+  const first = mi(P[0].startDay), last = mi(P[P.length - 1].endDay), span = last - first + 1, step = Math.max(1, Math.ceil(span / 72)), nb = Math.ceil(span / step), cnt = new Array(nb).fill(0);
+  P.forEach(p => p.list.forEach(x => { cnt[Math.min(nb - 1, Math.floor((mi(x.d) - first) / step))]++; }));
+  const starts = P.map(p => Math.max(0, Math.floor((mi(p.startDay) - first) / step))); starts[0] = 0;
+  const segOf = b => { let k = 0; for (let i = 0; i < starts.length; i++) if (b >= starts[i]) k = i; return k; }, mx = Math.max(1, ...cnt);
+  const lab = b => { const m = first + b * step; return PH_MON[m % 12].slice(0, 3) + ' ' + Math.floor(m / 12); };
+  const bars = cnt.map((c, b) => '<i' + (c ? '' : ' class="z"') + ' style="--h:' + P[segOf(b)].hue + ';height:' + (c ? Math.max(10, Math.round(c / mx * 100)) : 3) + '%" title="' + lab(b) + ': ' + plural(c, 'watch', 'watches') + '"></i>').join('');
+  const rib = P.map((p, i) => '<button type="button" class="ph-rb" data-act="phgo" data-i="' + p.i + '" style="--h:' + p.hue + ';flex:' + Math.max(1, (starts[i + 1] == null ? nb : starts[i + 1]) - starts[i]) + ' 1 0" title="' + E(p.name) + '"><b>' + String(p.i + 1).padStart(2, '0') + '</b><span>' + E(p.name) + '</span></button>').join('');
+  return '<div class="ph-jr"><p class="ph-lb">Your journey, month by month</p><div class="ph-bars" role="img" aria-label="Watches per month, coloured by phase">' + bars + '</div><div class="ph-rib">' + rib + '</div><div class="ph-ra"><span>' + lab(0) + '</span><span>' + (P[P.length - 1].ongoing ? 'Now' : lab(nb - 1)) + '</span></div></div>';
 }
 function phHTML() {
   let R; try { R = phCompute(); } catch (e) { return ''; }
+  const need = S.films.filter(f => f.seen && !f.kd && isNum(f.id)).length;
+  const fillNote = phJob ? '<p class="ph-fn" role="status">Reading languages and themes for your films… ' + phJob.done + ' of ' + phJob.tot + '</p>' : (need && !getKey() ? '<p class="ph-fn">Add a TMDB key in Settings and languages and themes will fill in on their own, making phases sharper.</p>' : '');
   const head = '<div class="ph-hd"><h2>Phases of You</h2><p class="ph-lead">Your watch history, read as chapters. A new phase begins only when what you watch changes in a lasting way, not when the calendar turns.</p></div>';
-  if (R.status !== 'ok') return head + phEmpty(R);
-  const P = R.phases, tot = Math.max(1, P.reduce((a, p) => a + Math.max(p.days, 20), 0));
-  const rib = '<div class="ph-rib" role="list">' + P.map(p => '<button type="button" role="listitem" class="ph-rb" data-act="phgo" data-i="' + p.i + '" style="--h:' + p.hue + ';flex:' + (Math.max(p.days, 20) / tot * 100).toFixed(2) + ' 1 0" title="' + E(p.name) + '"><b>' + String(p.i + 1).padStart(2, '0') + '</b><span>' + E(p.name) + '</span></button>').join('') + '</div><div class="ph-ra"><span>' + E(phRange(P[0].start, P[0].start, false).replace(/^(\w+) /, '$1 ')) + '</span><span>' + (P[P.length - 1].ongoing ? 'Now' : E(phRange(P[P.length - 1].end, P[P.length - 1].end, false))) + '</span></div>';
-  const ex = R.ex.length > 1 || P.length === 1 ? '<ul class="ph-ex">' + R.ex.map(x => '<li><small>' + x.k + '</small><button type="button" data-act="phgo" data-i="' + x.i + '">' + E(x.t) + '</button><span>' + E(x.s) + '</span></li>').join('') + '</ul>' : '';
-  let body = ''; P.forEach((p, i) => { if (i && p.transition) body += '<aside class="ph-tr"><small>The transition</small><p>' + E(p.transition) + '</p></aside>'; body += phChapter(p); });
+  if (R.status !== 'ok') return head + phEmpty(R) + fillNote;
+  const P = R.phases;
+  const ex = R.ex.length > 1 ? '<ul class="ph-ex">' + R.ex.map(x => '<li><small>' + x.k + '</small><button type="button" data-act="phgo" data-i="' + x.i + '">' + E(x.t) + '</button><span>' + E(x.s) + '</span></li>').join('') + '</ul>' : '';
+  let body = ''; P.forEach((p, i) => { if (i) body += '<aside class="ph-tr"><span class="ph-dot"></span>' + (p.transition ? '<small>The transition</small><p>' + E(p.transition) + '</p>' : '<small>The next chapter</small>') + '</aside>'; body += phChapter(p); });
   const note = P.length === 1 ? '<p class="note">So far your taste has stayed consistent, so your journal is a single long chapter. New ones appear if what you watch changes for a sustained stretch.</p>' : '';
-  return head + rib + ex + '<div class="ph-tl">' + body + '</div>' + note +
-    '<details class="ph-how"><summary>How phases are found</summary><p>Your watches are looked at in rolling 90-day windows that move forward 30 days at a time. Each window needs at least ' + PHX.MINN + ' watches. Two neighbouring windows are compared by how far their genre, decade, country and runtime mixes, ratings and rewatching drift apart (Jensen-Shannon divergence), minus the drift that chance alone would produce for windows of that size. A phase boundary is kept only if the change is clearly beyond chance, still holds across the whole stretches on either side, and every phase lasts at least ' + PHX.MIND + ' days. Quiet months never make a phase of their own. Names and descriptions come from the numbers and templates, never from guesses about your life. Directors and actors are left out because they have their own sections.</p></details>';
+  return head + fillNote + phJourney(P) + ex + '<div class="ph-tl">' + body + '</div>' + note +
+    '<details class="ph-how"><summary>How phases are found</summary><p>Your watches are looked at in rolling 90-day windows that move forward 30 days at a time. Each window needs at least ' + PHX.MINN + ' watches. Two neighbouring windows are compared by how far their genre, theme, decade, country, language and runtime mixes, ratings and rewatching drift apart (Jensen-Shannon divergence, with genres and themes kept as separate distributions), minus the drift that chance alone would produce for windows of that size. A phase boundary is kept only if the change is clearly beyond chance, still holds across the whole stretches on either side, and every phase lasts at least ' + PHX.MIND + ' days. Quiet months never make a phase of their own. Themes are TMDB keywords and languages are each film\'s original language; both are used only where your films have them. Names and descriptions come from the numbers and templates, never from guesses about your life. Directors and actors are left out because they have their own sections.</p></details>';
 }
 ACT.phgo = a => { const e = document.getElementById('phc' + a.dataset.i); if (e) e.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth', block: 'start' }); };
 ACT.phfilm = a => openFilm(a.dataset.id);
@@ -4792,9 +4890,9 @@ ACT.phfilm = a => openFilm(a.dataset.id);
     const h = phHTML(); if (!h) return; const html = '<section class="ins ph" id="phSec">' + h + '</section>';
     const sec = [...v.querySelectorAll(':scope > section.ins')].find(x => /Your signature/.test((x.querySelector('h2') || {}).textContent || '')) || null;
     if (sec) sec.insertAdjacentHTML('afterend', html); else { const f = v.querySelector(':scope > section.ins'); if (f) f.insertAdjacentHTML('beforebegin', html); else v.insertAdjacentHTML('beforeend', html); }
+    phFill();
   };
 }
-
 /* ===== Lists: any number of films, as a PDF or as pictures ===== */
 const LSIZE = { a4: { w: 1240, h: 1754, l: 'A4 page', K: 1.5 }, ig: { w: 1080, h: 1350, l: 'Instagram post', K: 1.25 }, phone: { w: 1080, h: 1920, l: 'Phone screen', K: 1.25 } };
 const LACC = { amber: ['#f2b24c', '#b8731a', 'Amber'], red: ['#ef6b5f', '#b33a2f', 'Red'], green: ['#6fc28a', '#2f7d4b', 'Green'], blue: ['#6bb3ee', '#2f6fa8', 'Blue'], pink: ['#ee7fae', '#b0436f', 'Pink'] };
