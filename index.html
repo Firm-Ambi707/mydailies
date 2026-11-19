@@ -1176,6 +1176,9 @@ button,a,.spine,.face,.tile-po,.chip,.seg button{touch-action:manipulation}
 @media (max-width:760px){.ph-ch{padding:26px 18px 22px;border-radius:22px}.ph-gh{font-size:140px;right:10px;top:4px}.ph-p{font-size:17px;line-height:1.72}.ph-st b{font-size:36px}.ph-st{gap:12px 28px}.ph-jr{padding:14px 12px 10px}.ph-rb{padding:6px 5px;min-width:24px}.ph-rb span{display:none}.ph-bars{height:64px}}
 @media (max-width:760px){.ph-os{flex:1 1 100%}.ph-os>div{grid-template-columns:repeat(6,1fr);gap:5px}}
 @media (prefers-reduced-motion:reduce){.ph-rb,.ph-po,.ph-bars i{transition:none}}
+.th-g{display:grid;gap:3px;margin:8px 0 6px}.th-r{display:grid;grid-template-columns:minmax(80px,38%) 1fr 30px;gap:12px;align-items:center;width:100%;padding:7px 8px;border:0;border-radius:9px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:background .15s}.th-r:hover,.th-r:focus-visible{background:var(--line);outline:none}
+.th-l{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.th-b{height:8px;border-radius:8px;background:var(--line)}.th-b i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#e8873a,#ffd77a)}.th-r b{text-align:right;font-weight:600;font-size:13px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.th-m{margin:6px 0 4px}.th-h{margin:16px 0 4px;font:600 10.5px/1 var(--f-d);letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}.th-y{list-style:none;margin:0;padding:0;display:grid;gap:2px}.th-y li{display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:baseline;padding:5px 8px;font-size:14px}.th-y b{font-weight:600;color:var(--ink3);font-variant-numeric:tabular-nums}.th-y small{color:var(--ink3);font-size:12px}
 .bs-h3{font:500 13px/1.3 var(--f-d);margin:14px 0 6px;color:var(--ink2)}@media (max-width:760px){.bs-r{grid-template-columns:44px repeat(8,minmax(0,1fr));gap:3px}.bs-l{font-size:10px}.bs-c{height:24px;font-size:10px}}
 
 .lp-l{display:grid;gap:2px;max-height:min(52vh,420px);overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:6px}.lp-i{display:flex;gap:12px;align-items:baseline;padding:8px 10px;border:0;border-radius:7px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:default;width:100%}button.lp-i{cursor:pointer}button.lp-i:hover{background:var(--line)}.lp-y{width:40px;flex:none;font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}.lp-n{font-size:14px}
@@ -2965,6 +2968,8 @@ PAGES.insights = {
     if (bigDay && bigDay[1].length > 1) cards.push(cd('The big one', dayLbl(bigDay[0]) + ' was your marathon', 'You watched ' + plural(bigDay[1].length, 'film', 'films') + ' in a single day.', 'Films that day', bigDay[1].length));
     if (topG) cards.push(cd('Genre chemistry', E(topG[0]) + ' gets most of your attention', 'It appears in ' + topG[1] + ' of your watched films across ' + gmap.size + ' genres.' + (bestG ? ' Your highest rated genre, with at least three ratings, is ' + E(bestG[0]) + ' at ' + bestG[1].toFixed(2) + ' out of 5.' : ''), 'Genres explored', gmap.size));
     if (topD && topD.c > 1) cards.push(cd('Your director', E(topD.n) + ' keeps coming back', 'You have seen ' + plural(topD.c, 'film', 'films') + ' directed by ' + E(topD.n) + ', more than anyone else.', 'Films seen', topD.c));
+    { const T = thData(); if (T.kw.length && T.kw[0][1].length >= 4 && T.kw[0][1].length / Math.max(1, T.nk) >= 0.12) { const a1 = T.kw[0], b1 = T.kw[1]; cards.push(cd('Your recurring theme', 'You keep coming back to ' + E(a1[0]) + (b1 && b1[1].length >= 3 ? ' and ' + E(b1[0]) : ''), 'It runs through ' + a1[1].length + ' of the ' + T.nk + ' films you have seen that have themes on record.', 'Films with this theme', a1[1].length)); }
+      if (T.lg.length >= 2) { const hl = T.lg[0], oth = T.nl - hl[1].length; if (oth / Math.max(1, T.nl) >= 0.2) cards.push(cd('Your ear travels', Math.round(oth / T.nl * 100) + '% of your films are not in ' + E(phLang(hl[0])), 'You have watched in ' + T.lg.length + ' languages. After ' + E(phLang(hl[0])) + ', ' + E(phLang(T.lg[1][0])) + ' comes next.', 'Languages', T.lg.length)); } }
     if (medYear) cards.push(cd('Your film year', 'You live around ' + medYear, 'Half of everything you have seen came out before ' + medYear + ', and half after.', 'Median year', medYear));
     if (ages.length) cards.push(cd('Film age', 'You watch ' + avgAge + '-year-old films', 'That is how old the average film was when you watched it in ' + yr + '.', 'Average age', avgAge + ' yrs'));
     cards.push(cd('In the dark', (minutes / 1440).toFixed(1) + ' days at the movies', 'Everything you have seen, played back to back, would run for ' + Math.round(minutes / 60).toLocaleString() + ' hours.', 'Hours watched', Math.round(minutes / 60).toLocaleString()));
@@ -4815,7 +4820,7 @@ function phCompute() {
 /* backfill: languages and themes for films saved before they were recorded */
 const phTried = new Set(); let phJob = null, phP = null;
 const phNeed = () => S.films.filter(f => f.seen && !f.kd && isNum(f.id) && !phTried.has(f.id));
-function phDraw() { const s = $('#phSec'); if (s && route === 'insights') s.innerHTML = phHTML(); }
+function phDraw() { const s = $('#phSec'); if (s && route === 'insights') s.innerHTML = phHTML(); if (typeof thDraw === 'function') thDraw(); }
 function phFill() {
   if (phP || !getKey()) return phP; const tot = phNeed().length; if (!tot) return null;
   phJob = { done: 0, tot, err: null };
@@ -4893,6 +4898,65 @@ ACT.phfilm = a => openFilm(a.dataset.id);
     phFill();
   };
 }
+/* ===== Themes you return to + Languages you watch ===== */
+const TH_GEN = new Set(['independent film', 'surprise ending', 'flashback', 'voice-over narration', 'voice over', 'narration', 'nonlinear timeline', 'ensemble cast', 'cult film', 'nudity', 'male nudity', 'female nudity', 'sex', 'gore', 'violence', 'blood', 'based on true story', 'true story', 'biography']);
+const thWords = f => [...new Set(phKw(f).filter(w => !TH_GEN.has(w)))];
+function thData() {
+  const seen = S.films.filter(f => f.seen), kw = new Map(), lg = new Map(); let nk = 0, nl = 0, nd = 0;
+  for (const f of seen) {
+    if (f.kd) nd++; const ws = thWords(f); if (ws.length) { nk++; for (const w of ws) { if (!kw.has(w)) kw.set(w, []); kw.get(w).push(f); } }
+    if (/^[a-z]{2,3}$/.test(f.lang || '') && f.lang !== 'xx') { nl++; if (!lg.has(f.lang)) lg.set(f.lang, []); lg.get(f.lang).push(f); }
+  }
+  const srt = (a, b) => b[1].length - a[1].length || (a[0] < b[0] ? -1 : 1);
+  return { seen: seen.length, nk, nl, nd, kw: [...kw.entries()].filter(x => x[1].length >= 3).sort(srt), lg: [...lg.entries()].sort(srt) };
+}
+let thOpen = false, lgOpen = false;
+const thMore = (open, act, n, lim) => n > lim ? '<button type="button" class="cds-b th-m" data-act="' + act + '" aria-expanded="' + open + '"><span>' + (open ? 'Show fewer' : 'Show all ' + n) + '</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="' + (open ? 'transform:rotate(180deg)' : '') + '"><path d="M6 9l6 6 6-6"/></svg></button>' : '';
+function thNote(T, kind) {
+  if (phJob) return '<p class="note">Reading ' + kind + ' for your films… ' + phJob.done + ' of ' + phJob.tot + '</p>';
+  if (!getKey() && T.nd < T.seen) return '<p class="note">Add a TMDB key in Settings and your ' + kind + ' will fill in on their own.</p>';
+  return '';
+}
+function thRows(list, max, act, name) {
+  return list.map(([k, fs]) => '<button type="button" class="th-r" data-act="' + act + '" data-k="' + E(k) + '" aria-label="' + E(name(k)) + ', ' + plural(fs.length, 'film') + '"><span class="th-l">' + E(name(k)) + '</span><span class="th-b"><i style="width:' + Math.max(4, Math.round(fs.length / max * 100)) + '%"></i></span><b>' + fs.length + '</b></button>').join('');
+}
+function thHTML() {
+  const T = thData(), LIM = 6, EXP = 20, list = T.kw.slice(0, thOpen ? EXP : LIM);
+  let h = '<h2>Themes you return to</h2>';
+  if (!list.length) return h + '<p class="note">' + (T.nd ? 'No theme has shown up in three or more of your films yet.' : 'Themes come from TMDB keywords, and none of your films have them yet.') + '</p>' + thNote(T, 'themes');
+  h += '<div class="th-g">' + thRows(list, T.kw[0][1].length, 'thopen', k => phCap(k)) + '</div>' + thMore(thOpen, 'thmore', Math.min(EXP, T.kw.length), LIM);
+  if (thOpen) {
+    const by = new Map(); for (const e of S.entries) { const f = byId(e.fid); if (!f || !f.seen) continue; const y = +String(e.date).slice(0, 4); if (!y) continue; const ws = thWords(f); if (!ws.length) continue; if (!by.has(y)) by.set(y, { n: 0, m: new Map() }); const o = by.get(y); o.n++; for (const w of ws) o.m.set(w, (o.m.get(w) || 0) + 1); }
+    const rows = [...by.entries()].filter(([, o]) => o.n >= 6).sort((a, b) => b[0] - a[0]).map(([y, o]) => { const t = [...o.m.entries()].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))[0]; return t && t[1] >= 3 ? '<li><b>' + y + '</b><span>' + E(phCap(t[0])) + '</span><small>' + plural(t[1], 'film') + '</small></li>' : ''; }).join('');
+    if (rows) h += '<p class="th-h">Top theme by year</p><ul class="th-y">' + rows + '</ul>';
+  }
+  return h + '<p class="note">' + T.nk + ' of your ' + T.seen + ' seen films have themes on record. Tap a theme to see its films.</p>' + thNote(T, 'themes');
+}
+function lgHTML() {
+  const T = thData(), LIM = 6, list = T.lg.slice(0, lgOpen ? T.lg.length : LIM);
+  let h = '<h2>Languages you watch</h2>';
+  if (!list.length) return h + '<p class="note">' + (T.nd ? 'No language information on your films yet.' : 'Languages come from TMDB, and none of your films have one yet.') + '</p>' + thNote(T, 'languages');
+  h += '<div class="th-g">' + thRows(list, T.lg[0][1].length, 'lgopen', phLang) + '</div>' + thMore(lgOpen, 'lgmore', T.lg.length, LIM);
+  return h + '<p class="note">' + (T.lg.length === 1 ? 'Everything you have seen is in ' + phLang(T.lg[0][0]) + '.' : T.nl + ' films across ' + T.lg.length + ' languages, the original language of each film.') + ' Tap one to see its films.</p>' + thNote(T, 'languages');
+}
+const thDraw = () => { const a = $('#thSec'), b = $('#lgSec'); if (route !== 'insights') return; if (a) a.innerHTML = thHTML(); if (b) b.innerHTML = lgHTML(); };
+function thDlg(title, sub, films) {
+  const rows = films.slice().sort((a, b) => (b.year || 0) - (a.year || 0) || titleKey(a).localeCompare(titleKey(b))).slice(0, 300).map(f => '<button type="button" class="lp-i" data-act="lpfilm" data-id="' + E(String(f.id)) + '"><span class="lp-y">' + (f.year || '') + '</span><span class="lp-n">' + E(f.title) + '</span></button>').join('');
+  openDlg('<div class="lp-d"><h2>' + E(title) + '</h2><p class="note">' + sub + '</p><div class="lp-l">' + rows + '</div><div class="row" style="margin-top:12px"><button type="button" class="btn" data-act="closedlg">Close</button></div></div>', { wide: true, label: title });
+}
+ACT.thmore = () => { thOpen = !thOpen; thDraw(); }; ACT.lgmore = () => { lgOpen = !lgOpen; thDraw(); };
+ACT.thopen = a => { const T = thData(), e = T.kw.find(x => x[0] === a.dataset.k); if (e) thDlg('Theme: ' + phCap(e[0]), plural(e[1].length, 'film') + ' you have seen with this theme.', e[1]); };
+ACT.lgopen = a => { const T = thData(), e = T.lg.find(x => x[0] === a.dataset.k); if (e) thDlg(phLang(e[0]), plural(e[1].length, 'film') + ' you have seen in this language.', e[1]); };
+{
+  const baseT = PAGES.insights.render;
+  PAGES.insights.render = function () {
+    baseT.apply(this, arguments); const v = $('#view'); if (!v || $('#thSec') || !S.films.some(f => f.seen)) return;
+    const html = '<div class="ins2"><section class="ins" id="thSec">' + thHTML() + '</section><section class="ins" id="lgSec">' + lgHTML() + '</section></div>';
+    const g = [...v.querySelectorAll('section.ins h2')].find(x => x.textContent === 'Genres you watch'), box = g && g.closest('.ins2');
+    if (box) box.insertAdjacentHTML('afterend', html); else { const ph = $('#phSec'); if (ph) ph.insertAdjacentHTML('afterend', html); else v.insertAdjacentHTML('beforeend', html); }
+  };
+}
+
 /* ===== Lists: any number of films, as a PDF or as pictures ===== */
 const LSIZE = { a4: { w: 1240, h: 1754, l: 'A4 page', K: 1.5 }, ig: { w: 1080, h: 1350, l: 'Instagram post', K: 1.25 }, phone: { w: 1080, h: 1920, l: 'Phone screen', K: 1.25 } };
 const LACC = { amber: ['#f2b24c', '#b8731a', 'Amber'], red: ['#ef6b5f', '#b33a2f', 'Red'], green: ['#6fc28a', '#2f7d4b', 'Green'], blue: ['#6bb3ee', '#2f6fa8', 'Blue'], pink: ['#ee7fae', '#b0436f', 'Pink'] };
