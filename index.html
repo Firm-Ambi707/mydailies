@@ -1198,6 +1198,41 @@ section.ins{scroll-margin-top:108px}
 .ph-tl.lim .ph-ch:nth-of-type(n+3),.ph-tl.lim .ph-tr:nth-of-type(n+2){display:none}.ph-all{display:flex}
 .ph-rb{min-height:40px}
 }
+.rr{margin:0 0 18px;border:1px solid var(--line2);border-radius:var(--r3);background:var(--bg2);overflow:hidden}
+.rr-tg{display:flex;align-items:center;gap:13px;width:100%;padding:14px 16px;background:none;border:0;color:var(--ink);text-align:left;cursor:pointer;font:inherit}
+.rr-t{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}.rr-t b{font:600 19px/1.1 var(--f-d);letter-spacing:.04em;text-transform:uppercase}.rr-t em{font-style:normal;color:var(--ink3);font-size:13px}
+.rr-chev{transition:transform .25s;flex:none;color:var(--ink3)}.rr.open .rr-chev{transform:rotate(180deg)}
+.rr-body{padding:4px 16px 16px;border-top:1px solid var(--line)}
+.rr-stage{display:grid;grid-template-columns:150px minmax(0,1fr);gap:20px;align-items:center;padding:16px 0}
+.rr-cylw{position:relative;width:150px;height:150px}.rr-cyl{width:100%;height:100%;display:block}
+.rr-bd{fill:var(--bg3);stroke:var(--line2);stroke-width:2}.rr-ch{fill:var(--bg);stroke:var(--line2);stroke-width:1.5}.rr-hub{fill:var(--bg4);stroke:var(--line2)}
+.rr-mk{position:absolute;left:50%;top:-5px;width:0;height:0;margin-left:-8px;border:8px solid transparent;border-top:12px solid var(--ink);border-bottom:0}
+.rr-cylw.go .rr-cyl{animation:rrSpin var(--d,2700ms) cubic-bezier(.12,.7,.12,1) forwards}
+@keyframes rrSpin{from{transform:rotate(0)}to{transform:rotate(var(--to))}}
+.rr-cylw.hit .rr-cyl{transform:rotate(var(--to))}.rr-cylw.hit{animation:rrThud .45s}
+@keyframes rrThud{0%{transform:scale(1)}25%{transform:scale(1.06) translateY(2px)}60%{transform:translateX(-3px)}100%{transform:none}}
+.rr-out{min-width:0}.rr-wait{display:flex;flex-direction:column;gap:8px;align-items:flex-start}.rr-wait b{font:600 24px/1.1 var(--f-d);letter-spacing:.03em;text-transform:uppercase}.rr-wait span{color:var(--ink3);font-size:14px;max-width:46ch}
+.rr-go{height:44px;padding:0 22px;font-size:15px;margin-top:6px}
+.rr-card{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:14px;border-radius:var(--r3);background:linear-gradient(135deg,color-mix(in srgb,var(--a,#888) 34%,var(--bg3)),var(--bg3) 70%);border:1px solid color-mix(in srgb,var(--a,#888) 50%,var(--line2))}
+.rr-card.fresh{animation:rrIn .6s cubic-bezier(.2,.9,.2,1)}.rr-card.fresh .rr-po{animation:rrPo .7s cubic-bezier(.2,1.2,.3,1)}
+@keyframes rrIn{from{opacity:0;transform:translateY(14px) scale(.96);filter:brightness(2.2)}to{opacity:1;transform:none;filter:none}}
+@keyframes rrPo{from{transform:scale(.7) rotate(-4deg)}to{transform:none}}
+.rr-po{padding:0;border:0;background:var(--bg4);border-radius:6px;overflow:hidden;aspect-ratio:2/3;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.08);color:var(--ink2);font-size:12px}
+.rr-po img{width:100%;height:100%;object-fit:cover;display:block}
+.rr-info{min-width:0;display:flex;flex-direction:column;gap:7px}.rr-k{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.rr-info h3{font:600 clamp(24px,4vw,34px)/1.02 var(--f-d);letter-spacing:.02em;margin:0}.rr-meta{color:var(--ink2);font-size:13.5px}
+.rr-badges{display:flex;flex-wrap:wrap;gap:6px}.rr-b{padding:3px 9px;border-radius:999px;border:1px solid var(--line2);font-size:12px;color:var(--ink2)}.rr-b b{color:var(--ink)}
+.rr-info p{margin:0;color:var(--ink2);font-size:14px;line-height:1.5}
+.rr-act{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}.rr-act .btn[disabled]{opacity:.45;cursor:default}
+.rr-err,.rr-note{margin:8px 0 0;font-size:13px;color:var(--ink2)}.rr-err{color:var(--l1)}
+.rr-opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 16px;padding-top:14px;border-top:1px dashed var(--line)}
+.rr-opts .seg{display:flex}.rr-opts .seg button{flex:1 1 0;min-width:0;white-space:normal;line-height:1.2;padding:6px 4px}
+.rr-sel{display:flex;flex-direction:column;gap:6px}
+.rr-foot{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:14px;color:var(--ink3);font-size:12px;line-height:1.4}
+.rr-mu{flex:none;background:none;border:1px solid var(--line2);border-radius:999px;color:var(--ink2);padding:4px 11px;font:inherit;font-size:12px;cursor:pointer}
+@media (max-width:640px){.rr-stage{grid-template-columns:1fr;justify-items:center;text-align:center;gap:12px}.rr-cylw{width:120px;height:120px}.rr-wait{align-items:center}.rr-card{grid-template-columns:96px minmax(0,1fr);text-align:left;gap:12px;padding:12px}.rr-out{width:100%}.rr-opts{grid-template-columns:1fr 1fr}.rr-opts .field:nth-child(-n+3){grid-column:1/-1}.rr-foot{flex-direction:column;align-items:flex-start}}
+@media (max-width:420px){.rr-card{grid-template-columns:1fr}.rr-po{width:110px}}
+@media (prefers-reduced-motion:reduce){.rr-card.fresh,.rr-card.fresh .rr-po,.rr-cylw.hit{animation:none}}
 .bs-h3{font:500 13px/1.3 var(--f-d);margin:14px 0 6px;color:var(--ink2)}@media (max-width:760px){.bs-r{grid-template-columns:44px repeat(8,minmax(0,1fr));gap:3px}.bs-l{font-size:10px}.bs-c{height:24px;font-size:10px}}
 
 .lp-l{display:grid;gap:2px;max-height:min(52vh,420px);overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:6px}.lp-i{display:flex;gap:12px;align-items:baseline;padding:8px 10px;border:0;border-radius:7px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:default;width:100%}button.lp-i{cursor:pointer}button.lp-i:hover{background:var(--line)}.lp-y{width:40px;flex:none;font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}.lp-n{font-size:14px}
@@ -5017,6 +5052,182 @@ addEventListener('scroll', () => {
     if (head) head.insertAdjacentHTML('afterend', nav); else v.insertAdjacentHTML('afterbegin', nav);
   };
 }
+
+/* ===== Russian roulette: one random film, hard quality floor, no repeats ===== */
+const RR_FLOOR = { r: 5.5, v: 100 };
+const RR_ODDS = { wild: { r: 5.5, v: 100, l: 'Wild', d: '5.5+ and 100+ votes' }, fair: { r: 6.5, v: 500, l: 'Fair', d: '6.5+ and 500+ votes' }, safe: { r: 7.2, v: 2000, l: 'Safe', d: '7.2+ and 2000+ votes' } };
+const RR_ERA = { any: ['Any era'], old: ['Before 1980', null, '1979-12-31'], mid: ['1980 to 1999', '1980-01-01', '1999-12-31'], new: ['2000 to 2014', '2000-01-01', '2014-12-31'], now: ['2015 on', '2015-01-01', null] };
+const RR_LEN = { any: ['Any length'], short: ['Under 100m', 60, 99], std: ['Up to 2h 15m', 60, 135], epic: ['2h 30m +', 150, null] };
+const RR_SORT = { wild: ['popularity.desc', 'vote_count.desc', 'revenue.desc', 'primary_release_date.desc'], fair: ['popularity.desc', 'vote_count.desc', 'vote_average.desc'], safe: ['vote_average.desc', 'vote_count.desc'] };
+const rrMem = { key: '', pool: [], page: new Set(), loading: false, phase: 'idle', cur: null, left: 2, err: '', note: '', to: 0, ctx: null, tok: 0 };
+function rrUI() {
+  const u = S.ui; const r = u.rr = (u.rr && typeof u.rr === 'object') ? u.rr : {};
+  if (typeof r.open !== 'boolean') r.open = false;
+  if (!RR_ODDS[r.odds]) r.odds = 'fair';
+  if (!RR_ERA[r.era]) r.era = 'any';
+  if (!RR_LEN[r.len]) r.len = 'any';
+  if (typeof r.genre !== 'string' || (r.genre && !GENRE_ID[r.genre])) r.genre = '';
+  if (r.mode !== 'hard') r.mode = 'casual';
+  if (!['any', 'wish', 'shelf'].includes(r.src)) r.src = 'any';
+  if (typeof r.mute !== 'boolean') r.mute = false;
+  if (!Array.isArray(r.hist)) r.hist = [];
+  r.hist = r.hist.filter(x => typeof x === 'string' || isNum(x)).slice(-80);
+  return r;
+}
+const rrReduce = () => { try { return matchMedia('(prefers-reduced-motion:reduce)').matches; } catch (e) { return false; } };
+const rrSleep = ms => new Promise(r => setTimeout(r, ms));
+function rrKey() { const r = rrUI(); return [r.odds, r.era, r.len, r.genre, r.src].join('~'); }
+function rrTone(freq, dur, vol, type, at) {
+  const r = rrUI(); if (r.mute) return;
+  try {
+    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+    const c = rrMem.ctx = rrMem.ctx || new AC(); if (c.state === 'suspended') c.resume();
+    const o = c.createOscillator(), g = c.createGain(), t = c.currentTime + (at || 0);
+    o.type = type || 'square'; o.frequency.setValueAtTime(freq, t); o.frequency.exponentialRampToValueAtTime(Math.max(40, freq * .5), t + dur);
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + .02);
+  } catch (e) { /* sound is optional */ }
+}
+function rrClicks(total) {
+  let t = 0, gap = .045;
+  while (t < total - .25) { rrTone(1500 + Math.random() * 300, .035, .05, 'square', t); t += gap; gap *= 1.17; }
+}
+function rrOk(x, fromDetail) {
+  const v = +(x.vote_average ?? x.vote), n = +(x.vote_count ?? x.votes), o = RR_ODDS[rrUI().odds];
+  if (!(v >= RR_FLOOR.r && n >= RR_FLOOR.v && v >= o.r && n >= o.v)) return false;
+  const poster = x.poster_path || x.poster, ov = x.overview;
+  if (!poster || !ov || ov.length < 30) return false;
+  if (x.adult) return false;
+  const yr = +(x.release_date || '').slice(0, 4) || x.year || 0;
+  if (yr && yr > new Date().getFullYear()) return false;
+  if (x.release_date && x.release_date > today()) return false;
+  if (fromDetail && x.runtime != null && x.runtime < 60) return false;
+  if (!fromDetail && ((x.genre_ids || []).includes(10770))) return false;
+  if ((x.genres || []).some(g => g.id === 10770)) return false;
+  return true;
+}
+function rrSeen(id) { return rrUI().hist.some(h => String(h) === String(id)); }
+function rrShelfPool() {
+  const r = rrUI(), o = RR_ODDS[r.odds], era = RR_ERA[r.era], ln = RR_LEN[r.len];
+  return S.films.filter(f => {
+    if (f.seen || (r.src === 'wish' && !f.wish) || rrSeen(f.id)) return false;
+    if (!(f.vote >= RR_FLOOR.r && f.votes >= RR_FLOOR.v && f.vote >= o.r && f.votes >= o.v)) return false;
+    if (!f.poster || (f.runtime && f.runtime < 60) || (f.year && f.year > new Date().getFullYear())) return false;
+    if (r.genre && !f.genres.includes(r.genre)) return false;
+    if (era[1] && f.year && f.year < +era[1].slice(0, 4)) return false; if (era[2] && f.year && f.year > +era[2].slice(0, 4)) return false;
+    if (ln[1] && f.runtime && f.runtime < ln[1]) return false; if (ln[2] && f.runtime && f.runtime > ln[2]) return false;
+    return true;
+  });
+}
+async function rrFill() {
+  const r = rrUI(), key = rrKey(); if (rrMem.key !== key) { rrMem.key = key; rrMem.pool = []; rrMem.page = new Set(); }
+  if (rrMem.loading) return; rrMem.loading = true;
+  try {
+    const era = RR_ERA[r.era], ln = RR_LEN[r.len], o = RR_ODDS[r.odds], sorts = RR_SORT[r.odds];
+    for (let k = 0; k < 4 && rrMem.pool.length < 4; k++) {
+      const sort = sorts[Math.floor(Math.random() * sorts.length)], maxP = sort === 'vote_average.desc' ? 10 : 30;
+      let page = 1 + Math.floor(Math.random() * (k > 1 ? 4 : maxP)); const pk = sort + page; if (rrMem.page.has(pk) && k < 3) continue; rrMem.page.add(pk);
+      const p = { sort_by: sort, page, 'vote_count.gte': o.v, 'vote_average.gte': o.r, include_adult: 'false', without_genres: '10770', 'with_runtime.gte': Math.max(60, ln[1] || 0) };
+      if (ln[2]) p['with_runtime.lte'] = ln[2];
+      if (era[1]) p['primary_release_date.gte'] = era[1]; if (era[2]) p['primary_release_date.lte'] = era[2]; else p['primary_release_date.lte'] = today();
+      if (r.genre) p.with_genres = GENRE_ID[r.genre];
+      const res = await tmdb('/discover/movie', p);
+      if (rrMem.key !== key) return;
+      const ids = new Set(rrMem.pool.map(x => x.id));
+      const list = (res.results || []).filter(x => rrOk(x) && !rrSeen(x.id) && !ids.has(x.id) && !(byId(x.id) && byId(x.id).seen));
+      rrMem.pool.push(...list);
+    }
+    for (let i = rrMem.pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [rrMem.pool[i], rrMem.pool[j]] = [rrMem.pool[j], rrMem.pool[i]]; }
+  } finally { rrMem.loading = false; }
+}
+async function rrPick() {
+  const r = rrUI(); let src = r.src;
+  if (src === 'any' && !getKey()) { src = 'shelf'; rrMem.note = 'No TMDB key yet, so this roll came from your unseen shelf. Add a key in Settings to roll from all of TMDB.'; } else rrMem.note = '';
+  if (src !== 'any') {
+    const pool = rrShelfPool(); if (!pool.length) throw Object.assign(new Error('EMPTY'), { code: 'EMPTY', shelf: true });
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+  for (let tries = 0; tries < 6; tries++) {
+    if (rrMem.key !== rrKey() || rrMem.pool.length < 1) await rrFill();
+    const c = rrMem.pool.shift(); if (!c) { if (tries > 2) break; continue; }
+    if (rrMem.pool.length < 2) rrFill().catch(() => { });
+    let d = null; try { d = await tmdb('/movie/' + c.id, { append_to_response: 'credits' }); } catch (e) { if (e.code === 'NO_KEY') throw e; }
+    const src2 = d || c;
+    if (d && !rrOk(d, true)) continue;
+    if (!d) continue;
+    const f = newFilm(fromTM(d)); applyTMDB(f, d); if (!(f.runtime >= 60)) continue;
+    f.vote = d.vote_average; f.votes = d.vote_count; return f;
+  }
+  throw Object.assign(new Error('EMPTY'), { code: 'EMPTY' });
+}
+async function rrSpin() {
+  if (rrMem.phase === 'spin') return;
+  const r = rrUI(), tok = ++rrMem.tok, dur = rrReduce() ? 600 : 2700;
+  rrMem.phase = 'spin'; rrMem.err = ''; rrMem.to = 360 * 5 + Math.floor(Math.random() * 6) * 60 + (Math.random() * 14 - 7);
+  rrMem.dur = dur; rrDraw(); if (!rrReduce()) rrClicks(dur);
+  let f = null, err = null;
+  const [res] = await Promise.all([rrPick().then(x => ({ f: x }), e => ({ e })), rrSleep(dur)]);
+  if (tok !== rrMem.tok) return;
+  if (res.e) {
+    err = res.e; rrMem.phase = rrMem.cur ? 'reveal' : 'idle';
+    rrMem.err = err.code === 'NO_KEY' ? 'Add your TMDB key in Settings to roll from all of TMDB.' : err.code === 'EMPTY' ? (err.shelf ? 'Nothing on your ' + (r.src === 'wish' ? 'wishlist' : 'unseen shelf') + ' clears these odds. Loosen the rules or roll from anywhere.' : 'Could not find a film that clears those rules. Loosen them a little and spin again.') : errMsg(err);
+    rrDraw(); return;
+  }
+  f = res.f; r.hist.push(f.id); r.hist = r.hist.slice(-80);
+  rrMem.cur = f; rrMem.phase = 'reveal'; rrMem.fresh = true; save();
+  rrTone(110, .28, .22, 'sine'); rrTone(70, .4, .2, 'sine', .04); try { navigator.vibrate && navigator.vibrate([30, 40, 60]); } catch (e) { }
+  rrDraw();
+}
+function rrCyl() {
+  let ch = ''; for (let i = 0; i < 6; i++) { const a = i * 60 * Math.PI / 180; ch += '<circle class="rr-ch" cx="' + (60 + 33 * Math.sin(a)).toFixed(1) + '" cy="' + (60 - 33 * Math.cos(a)).toFixed(1) + '" r="10"/>'; }
+  const sp = rrMem.phase === 'spin';
+  return '<div class="rr-cylw' + (sp ? ' go' : '') + (rrMem.phase === 'reveal' ? ' hit' : '') + '"><svg class="rr-cyl" viewBox="0 0 120 120" aria-hidden="true" style="--to:' + rrMem.to.toFixed(1) + 'deg;--d:' + (rrMem.dur || 2700) + 'ms"><circle class="rr-bd" cx="60" cy="60" r="55"/>' + ch + '<circle class="rr-hub" cx="60" cy="60" r="9"/></svg><i class="rr-mk"></i></div>';
+}
+function rrCard(f) {
+  const rt = f.vote ? (+f.vote).toFixed(1) : '', yr = f.year || '', gen = (f.genres || []).slice(0, 3).join(' · '), dir = (f.directors || []).map(d => d.name).slice(0, 2).join(', ');
+  const ov = (f.overview || '').length > 190 ? f.overview.slice(0, 187).replace(/\s+\S*$/, '') + '…' : f.overview;
+  return '<article class="rr-card' + (rrMem.fresh ? ' fresh' : '') + '" style="' + palStyle(f) + '"><button type="button" class="rr-po" data-act="film" data-id="' + E(f.id) + '" aria-label="Open ' + E(f.title) + '">' + (f.poster ? '<img src="' + E(img('big', f.poster)) + '" alt="" decoding="async">' : '<span>' + E(f.title) + '</span>') + '</button>' +
+    '<div class="rr-info"><span class="rr-k">Tonight, by chance</span><h3>' + E(f.title) + '</h3><div class="rr-meta">' + [yr, f.runtime ? fmtRt(f.runtime) : '', gen].filter(Boolean).map(E).join(' · ') + '</div>' +
+    '<div class="rr-badges">' + (rt ? '<span class="rr-b"><b>' + rt + '</b> TMDB</span>' : '') + (f.votes ? '<span class="rr-b"><b>' + (+f.votes).toLocaleString('en-US') + '</b> votes</span>' : '') + (dir ? '<span class="rr-b">' + E(dir) + '</span>' : '') + (byId(f.id) ? '<span class="rr-b">On your shelf</span>' : '') + '</div>' +
+    '<p>' + E(ov) + '</p>' + rrBtns() + '</div></article>';
+}
+function rrBtns() {
+  const r = rrUI(), hard = r.mode === 'hard';
+  return '<div class="rr-act"><button type="button" class="btn pri" data-act="rrlock">Lock it in</button>' +
+    (hard ? '<button type="button" class="btn" data-act="rrclear">Not tonight</button>' : '<button type="button" class="btn" data-act="rrspin"' + (rrMem.left < 1 ? ' disabled' : '') + '>Spin again' + (rrMem.left > 0 ? ' · ' + rrMem.left + ' left' : ' · none left') + '</button>') + '</div>';
+}
+function rrInner() {
+  const r = rrUI(), seg = (act, cur, opts) => '<div class="seg" role="group">' + opts.map(([v, l]) => '<button type="button" data-act="' + act + '" data-v="' + v + '" class="' + (cur === v ? 'on' : '') + '" aria-pressed="' + (cur === v) + '">' + l + '</button>').join('') + '</div>';
+  const head = '<div class="rr-h"><button type="button" class="rr-tg" data-act="rrtoggle" aria-expanded="' + r.open + '" aria-controls="rrBody"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="6.5" r="1.7"/><circle cx="16.7" cy="9.2" r="1.7"/><circle cx="16.7" cy="14.8" r="1.7"/><circle cx="12" cy="17.5" r="1.7"/><circle cx="7.3" cy="14.8" r="1.7"/><circle cx="7.3" cy="9.2" r="1.7"/></svg><span class="rr-t"><b>Russian roulette</b><em>Spin the cylinder, watch whatever it lands on.</em></span><svg class="rr-chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></div>';
+  if (!r.open) return head;
+  const o = RR_ODDS[r.odds];
+  let out;
+  if (rrMem.phase === 'spin') out = '<div class="rr-wait"><b>Spinning…</b><span>Rated ' + o.r + '+ with ' + o.v + '+ votes, nothing you have seen, nothing repeated.</span></div>';
+  else if (rrMem.cur && rrMem.phase === 'reveal') out = rrCard(rrMem.cur) + (rrMem.err ? '<p class="rr-err" role="alert">' + E(rrMem.err) + '</p>' : '');
+  else out = '<div class="rr-wait"><b>One film. No takebacks.</b><span>Every roll is rated ' + o.r + '+ on TMDB with ' + o.v + '+ votes.</span><button type="button" class="btn pri rr-go" data-act="rrspin">Pull the trigger</button>' + (rrMem.err ? '<p class="rr-err" role="alert">' + E(rrMem.err) + '</p>' : '') + '</div>';
+  const gsel = '<label class="rr-sel"><span class="lbl">Genre</span><select class="sel" data-ctl="rrgenre" aria-label="Genre"><option value="">Any genre</option>' + GLIST.map(g => '<option' + (r.genre === g ? ' selected' : '') + '>' + E(g) + '</option>').join('') + '</select></label>';
+  const sel = (id, lab, map, cur) => '<label class="rr-sel"><span class="lbl">' + lab + '</span><select class="sel" data-ctl="' + id + '" aria-label="' + lab + '">' + Object.keys(map).map(k => '<option value="' + k + '"' + (cur === k ? ' selected' : '') + '>' + E(map[k][0]) + '</option>').join('') + '</select></label>';
+  return head + '<div class="rr-body" id="rrBody"><div class="rr-stage">' + rrCyl() + '<div class="rr-out" aria-live="polite">' + out + '</div></div>' +
+    (rrMem.note ? '<p class="rr-note">' + E(rrMem.note) + '</p>' : '') +
+    '<div class="rr-opts"><div class="field"><span class="lbl">Odds</span>' + seg('rrodds', r.odds, Object.keys(RR_ODDS).map(k => [k, RR_ODDS[k].l])) + '</div>' +
+    '<div class="field"><span class="lbl">Mode</span>' + seg('rrmode', r.mode, [['casual', 'Casual, 2 re-spins'], ['hard', 'Hardcore, one shot']]) + '</div>' +
+    '<div class="field"><span class="lbl">Pick from</span>' + seg('rrsrc', r.src, [['any', 'Anywhere'], ['wish', 'Wishlist'], ['shelf', 'Unseen shelf']]) + '</div>' +
+    sel('rrera', 'Era', RR_ERA, r.era) + sel('rrlen', 'Length', RR_LEN, r.len) + gsel + '</div>' +
+    '<div class="rr-foot"><span>Always: ' + RR_FLOOR.r + '+ rating, ' + RR_FLOOR.v + '+ votes, released, has poster and synopsis, 60 min or longer, not seen, never a repeat.</span><button type="button" class="rr-mu" data-act="rrmute" aria-pressed="' + r.mute + '">' + (r.mute ? 'Sound off' : 'Sound on') + '</button></div></div>';
+}
+function rrHTML() { return '<section class="rr' + (rrUI().open ? ' open' : '') + '" id="rr">' + rrInner() + '</section>'; }
+function rrDraw() { const el = document.getElementById('rr'); if (!el) return; el.className = 'rr' + (rrUI().open ? ' open' : ''); el.innerHTML = rrInner(); if (rrMem.phase === 'reveal') rrMem.fresh = false; }
+const rrSet = o => { Object.assign(rrUI(), o); rrMem.err = ''; rrMem.note = ''; save(); rrDraw(); if (rrUI().open && rrUI().src === 'any' && getKey() && rrMem.phase !== 'spin') rrFill().catch(() => { }); };
+ACT.rrtoggle = () => { const r = rrUI(); r.open = !r.open; save(); rrDraw(); if (r.open && r.src === 'any' && getKey()) rrFill().catch(() => { }); };
+ACT.rrspin = () => { const r = rrUI(); if (rrMem.phase === 'spin') return; if (rrMem.cur && rrMem.phase === 'reveal') { if (r.mode === 'hard' || rrMem.left < 1) return; rrMem.left--; } else rrMem.left = r.mode === 'hard' ? 0 : 2; rrSpin(); };
+ACT.rrlock = () => { const f = rrMem.cur; if (!f) return; const a = adoptFilm(f, true); rrMem.cur = null; rrMem.phase = 'idle'; rrMem.left = 2; commit(); toast('Locked in: ' + a.title + (a.wish ? ', on your wishlist' : '')); openFilm(a.id); };
+ACT.rrclear = () => { rrMem.cur = null; rrMem.phase = 'idle'; rrMem.left = 2; rrMem.err = ''; rrDraw(); };
+ACT.rrodds = a => { rrMem.cur = null; rrMem.phase = 'idle'; rrSet({ odds: a.dataset.v }); };
+ACT.rrmode = a => { rrMem.left = a.dataset.v === 'hard' ? 0 : 2; rrSet({ mode: a.dataset.v }); };
+ACT.rrsrc = a => { rrSet({ src: a.dataset.v }); };
+ACT.rrmute = () => { const r = rrUI(); r.mute = !r.mute; save(); rrDraw(); };
+CTL.rrera = v => rrSet({ era: v }); CTL.rrlen = v => rrSet({ len: v }); CTL.rrgenre = v => rrSet({ genre: v });
+(function () { const base = PAGES.tonight.render; PAGES.tonight.render = function () { base.apply(this, arguments); const c = document.querySelector('#view .tnc'); if (c) c.insertAdjacentHTML('beforebegin', rrHTML()); if (rrUI().open && rrUI().src === 'any' && getKey() && rrMem.phase === 'idle') rrFill().catch(() => { }); }; })();
 
 /* ===== Lists: any number of films, as a PDF or as pictures ===== */
 const LSIZE = { a4: { w: 1240, h: 1754, l: 'A4 page', K: 1.5 }, ig: { w: 1080, h: 1350, l: 'Instagram post', K: 1.25 }, phone: { w: 1080, h: 1920, l: 'Phone screen', K: 1.25 } };
