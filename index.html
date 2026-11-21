@@ -1241,6 +1241,44 @@ section.ins{scroll-margin-top:108px}
 @media (max-width:640px){.rr-stage{min-height:0;grid-template-columns:1fr;justify-items:center;text-align:center;gap:12px}.rr-cylw{width:120px;height:120px}.rr-wait{align-items:center}.rr-card{grid-template-columns:96px minmax(0,1fr);text-align:left;gap:12px;padding:12px}.rr-out{width:100%}.rr-opts{grid-template-columns:1fr 1fr}.rr-opts .field:nth-child(-n+3){grid-column:1/-1}.rr-foot{flex-direction:column;align-items:flex-start}}
 @media (max-width:420px){.rr-card{grid-template-columns:1fr}.rr-po{width:110px}}
 @media (prefers-reduced-motion:reduce){.rr-card.fresh,.rr-card.fresh .rr-po,.rr-cylw.hit{animation:none}}
+.p-nv{padding:0 8px}.p-nv[disabled]{opacity:.35}.p-pos{font-size:12.5px;color:var(--ink3);min-width:44px;text-align:center}.p-bar #pClose{margin-left:2px}
+.bk-t{margin-left:8px}.bk-t.on{background:var(--ink);color:var(--on);border-color:transparent}
+.bkbar{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:30;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;max-width:min(94vw,780px);padding:9px 10px;border-radius:16px;background:var(--bg3);border:1px solid var(--line2);box-shadow:0 18px 40px -14px rgba(0,0,0,.65)}
+.bkbar[hidden]{display:none}.bk-n{padding:0 8px;font-size:13px;color:var(--ink2);white-space:nowrap}.bk-n b{color:var(--ink);font-size:15px}.bk-d{color:var(--l1)}
+body.bk-mode #toasts{bottom:92px}
+[data-f].bk-on{outline:3px solid var(--ink);outline-offset:-3px;filter:brightness(1.08)}
+.tile.bk-on{outline-offset:2px;border-radius:6px}
+body.bk-mode #view [data-act="film"]{cursor:copy}
+body.bk-mode #view{padding-bottom:120px}@media (max-width:999px){body.bk-mode #view{padding-bottom:200px}.bkbar{left:10px;right:10px;transform:none;max-width:none;bottom:calc(62px + env(safe-area-inset-bottom,0px) + 8px);gap:5px}body.bk-mode #toasts{bottom:150px}.bk-n{flex:1 1 100%;text-align:center;padding:0}.bkbar .btn{flex:1 1 auto;padding:0 10px}}
+.pgrid{--pw:164px;grid-template-columns:repeat(auto-fill,minmax(var(--pw),1fr));gap:36px 22px}
+.pgrid[data-sz=s]{--pw:124px;gap:26px 14px}.pgrid[data-sz=l]{--pw:218px;gap:42px 26px}
+.tile-po{border-radius:7px;box-shadow:0 0 0 1px rgba(255,255,255,.07),0 2px 5px rgba(0,0,0,.3),0 20px 32px -20px rgba(0,0,0,.75);transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s}
+.tile-po::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;background:linear-gradient(155deg,rgba(255,255,255,.15),rgba(255,255,255,0) 36%,rgba(0,0,0,0) 62%,rgba(0,0,0,.26));box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.tile-po:focus-visible{transform:translateY(-6px);outline:2px solid var(--ink);outline-offset:3px}
+@media (hover:hover){.tile-po:hover{transform:translateY(-6px);box-shadow:0 0 0 1px rgba(255,255,255,.12),0 4px 8px rgba(0,0,0,.3),0 28px 38px -18px rgba(0,0,0,.8)}.tile:hover .tp-f,.tile:hover .tp{opacity:0}}
+.tile-po.fav{animation:none;box-shadow:0 0 0 1px color-mix(in srgb,var(--a) 65%,#fff),0 14px 38px -12px color-mix(in srgb,var(--a) 60%,transparent)}
+.tp,.tp-f{position:absolute;z-index:4;background:rgba(18,18,18,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,.14);transition:opacity .2s}
+.tp{left:8px;top:8px;display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 9px;border-radius:11px;font:600 11.5px/1 var(--f-u);letter-spacing:.03em}
+.tp i{font-style:normal;color:#f0c35c;font-size:11px}.tp.w{background:rgba(240,195,92,.92);color:#1a1405;border-color:transparent}
+.tp-f{right:8px;top:8px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;color:#ff8a98;font-size:12px}
+.tile-in{padding-top:12px}
+.tile-in b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font:600 18px/1.1 var(--f-d);letter-spacing:.025em}
+.tile-in span{margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12.5px;letter-spacing:.01em}
+.tile-q{z-index:6;top:10px}.tile-q button{background:rgba(18,18,18,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.16);height:30px}
+.stools{display:inline-flex;gap:8px;align-items:center;margin-left:8px}.stools .psz,.stools .bk-t{margin:0}.psz button{min-width:32px}
+@media (max-width:999px){.stools{display:flex;margin:8px 0 0}.stools .psz{flex:1;display:flex}.stools .psz button{flex:1}.pgrid{--pw:148px;gap:28px 14px}.pgrid[data-sz=s]{--pw:104px;gap:20px 10px}.pgrid[data-sz=l]{--pw:170px;gap:32px 14px}.tile-in b{font-size:17px}.tp{height:20px;padding:0 8px;font-size:11px}}
+@media (prefers-reduced-motion:reduce){.tile-po{transition:none}}
+.st-tabs{display:flex;margin:4px 0 16px;width:100%}.st-tabs button{flex:1 1 0;min-width:0}
+.st-p[hidden]{display:none}
+.st-r{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid var(--line)}.st-r:last-child{border-bottom:0}
+.st-t{display:flex;flex-direction:column;gap:3px;min-width:0}.st-t b{font:500 15px/1.2 var(--f-u)}.st-t span{font-size:12.5px;color:var(--ink3);line-height:1.4}
+.st-c{display:flex;align-items:center;gap:8px;flex:none;flex-wrap:wrap;justify-content:flex-end}.st-c .sel{width:auto;min-width:150px}
+.st-sep{height:1px;background:var(--line);margin:14px 0}
+.st-sw{position:relative;display:inline-block;width:44px;height:26px;flex:none;cursor:pointer}.st-sw input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer;z-index:1}
+.st-sw i{position:absolute;inset:0;border-radius:999px;background:var(--bg4);border:1px solid var(--line2);transition:background .2s}.st-sw i::after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:var(--ink2);transition:transform .2s,background .2s}
+.st-sw input:checked+i{background:var(--ink)}.st-sw input:checked+i::after{transform:translateX(18px);background:var(--on)}.st-sw input:focus-visible+i{outline:2px solid var(--ink);outline-offset:2px}
+@media (max-width:640px){.st-r{flex-direction:column;align-items:stretch;gap:10px}.st-c{justify-content:flex-start}.st-c .seg{flex:1 1 100%;display:flex}.st-c .seg button{flex:1}.st-c .sel{width:100%}.st-tabs button{padding:0 4px;font-size:13px}}
+.rm *,.rm *::before,.rm *::after{animation:none!important;transition:none!important}
 .bs-h3{font:500 13px/1.3 var(--f-d);margin:14px 0 6px;color:var(--ink2)}@media (max-width:760px){.bs-r{grid-template-columns:44px repeat(8,minmax(0,1fr));gap:3px}.bs-l{font-size:10px}.bs-c{height:24px;font-size:10px}}
 
 .lp-l{display:grid;gap:2px;max-height:min(52vh,420px);overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:6px}.lp-i{display:flex;gap:12px;align-items:baseline;padding:8px 10px;border:0;border-radius:7px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:default;width:100%}button.lp-i{cursor:pointer}button.lp-i:hover{background:var(--line)}.lp-y{width:40px;flex:none;font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}.lp-n{font-size:14px}
@@ -1359,7 +1397,7 @@ function fmtRt(m) { if (!m) return ''; const h = Math.floor(m / 60), r = m % 60;
 function img(kind, p) {
   if (!p) return '';
   if (/^https?:/.test(p)) return p;
-  const sz = { poster: 'w342', thumb: 'w154', profile: 'w185', backdrop: 'w1280', logo: 'w92', big: 'w500' }[kind] || 'w342';
+  const lo = S.set && S.set.dq === 'low', sz = (lo ? { poster: 'w185', thumb: 'w92', profile: 'w92', backdrop: 'w780', logo: 'w92', big: 'w342' } : { poster: 'w342', thumb: 'w154', profile: 'w185', backdrop: 'w1280', logo: 'w92', big: 'w500' })[kind] || (lo ? 'w185' : 'w342');
   return IMGB + sz + p;
 }
 const plural = (n, a, b) => n + ' ' + (n === 1 ? a : (b || a + 's'));
@@ -1714,7 +1752,7 @@ function renderRail() {
   renderLogo();
 }
 function patch(id, o, opt) { const f = byId(id); if (!f) return null; touch(f); Object.assign(f, o); commit(opt); return f; }
-function markSeen(f, { entry = true, date = today(), note = '' } = {}) {
+function markSeen(f, { entry = !(S.set && S.set.autoLog === false), date = today(), note = '' } = {}) {
   f.seen = true; f.wish = false;
   if (entry) S.entries.push({ id: uid(), fid: f.id, date, note, rewatch: false, ts: Date.now() });
 }
@@ -1957,11 +1995,12 @@ function shelfRows(films, W, H) {
   return packRows(items, W).map(r => '<div class="shr"><div class="books"' + (innerWidth < 1000 ? ' style="height:' + (Math.max(...r.map(it => it.h)) + 26) + 'px"' : '') + '>' + r.map(it => (it.face ? faceHTML(it.f, it) : spineHTML(it.f, it)).replace('<button type="button"', '<button type="button" draggable="true"')).join('') + '</div><div class="board"></div></div>').join('');
 }
 function tileHTML(f) {
-  const first = f.directors[0], badge = (f.fav ? '<span aria-label="Favourite">♥</span>' : '') + (f.seen ? '<span>' + (f.rating ? f.rating : '✓') + '</span>' : '');
+  const first = f.directors[0], meta = [f.year || '', first ? first.name : ''].filter(Boolean).join(' · ');
+  const st = f.seen ? (f.rating ? '<span class="tp"><i>★</i>' + f.rating + '</span>' : '<span class="tp">Seen</span>') : (f.wish ? '<span class="tp w">Wishlist</span>' : '');
   return '<div class="tile" data-f="' + f.id + '" style="' + palStyle(f) + '"><button type="button" class="tile-po' + (f.fav ? ' fav' : '') + '" data-act="film" data-id="' + f.id + '" aria-label="' + E(labelOf(f)) + '"><span class="fb">' + E(f.title) + '</span>' +
-    (f.poster ? '<img src="' + img('poster', f.poster) + '" alt="" loading="lazy">' : '') + (f.wish && !f.seen ? '<i class="cap"></i>' : '') + (badge ? '<span class="badge">' + badge + '</span>' : '') + '</button>' +
+    (f.poster ? '<img src="' + img('poster', f.poster) + '" alt="" loading="lazy">' : '') + (f.fav ? '<span class="tp-f" aria-hidden="true">♥</span>' : '') + st + '</button>' +
     '<div class="tile-q"><button type="button" data-act="tg" data-k="seen" data-id="' + f.id + '" class="' + (f.seen ? 'on' : '') + '">Seen</button><button type="button" data-act="tg" data-k="wish" data-id="' + f.id + '" class="' + (f.wish ? 'on' : '') + '">Wishlist</button></div>' +
-    '<div class="tile-in"><b>' + E(f.title) + '</b><span>' + (f.year || '') + (first ? (f.year ? ', ' : '') + E(first.name) : '') + '</span>' + '</div></div>';
+    '<div class="tile-in"><b>' + E(f.title) + '</b><span>' + E(meta) + '</span></div></div>';
 }
 function listHTML(films) {
   const th = (k, l, cls = '') => '<th class="' + cls + (S.ui.sort === k ? ' on' : '') + '"><button type="button" data-act="sortby" data-k="' + k + '">' + l + (S.ui.sort === k ? (S.ui.rev ? ' ↑' : ' ↓') : '') + '</button></th>';
@@ -2536,7 +2575,7 @@ const MOODS = [['Gripping', ['Thriller', 'Crime', 'Mystery', 'Action', 'War', 'H
 const MINS = [[90, '90 minutes'], [120, '2 hours'], [150, '2½ hours'], [180, '3 hours'], [240, '4 hours'], [360, '6 hours']];
 function clockStr(start, add) {
   const [h, m] = String(start || '20:30').split(':').map(Number), t = (h || 0) * 60 + (m || 0) + add, d = new Date(); d.setHours(0, t, 0, 0);
-  return d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + (t >= 1440 ? ' (after midnight)' : '');
+  return d.toLocaleTimeString([], Object.assign({ hour: 'numeric', minute: '2-digit' }, S.set.clock === '24' ? { hourCycle: 'h23' } : S.set.clock === '12' ? { hour12: true } : {})) + (t >= 1440 ? ' (after midnight)' : '');
 }
 function rewatchOk(f, em) { const e = em.get(String(f.id)); return !e || e[0].date < addDays(today(), -365); }
 const GENRE_ID = { Action: 28, Adventure: 12, Animation: 16, Comedy: 35, Crime: 80, Documentary: 99, Drama: 18, Family: 10751, Fantasy: 14, History: 36, Horror: 27, Music: 10402, Mystery: 9648, Romance: 10749, 'Science Fiction': 878, Thriller: 53, War: 10752, Western: 37 };
@@ -3099,26 +3138,67 @@ PAGES.insights = {
 };
 /* ===== Dailies: settings, import, export ===== */
 const REGIONS = [['US', 'United States'], ['GB', 'United Kingdom'], ['CA', 'Canada'], ['AU', 'Australia'], ['IN', 'India'], ['BD', 'Bangladesh'], ['PK', 'Pakistan'], ['DE', 'Germany'], ['FR', 'France'], ['ES', 'Spain'], ['IT', 'Italy'], ['NL', 'Netherlands'], ['SE', 'Sweden'], ['IE', 'Ireland'], ['JP', 'Japan'], ['KR', 'South Korea'], ['BR', 'Brazil'], ['MX', 'Mexico'], ['NZ', 'New Zealand'], ['ZA', 'South Africa'], ['SG', 'Singapore'], ['AE', 'United Arab Emirates'], ['TR', 'Türkiye']];
+const stDefaults = () => { const s = S.set; if (!['auto', 'on'].includes(s.rm)) s.rm = 'auto'; if (!['std', 'low'].includes(s.dq)) s.dq = 'std'; if (!['auto', '12', '24'].includes(s.clock)) s.clock = 'auto'; s.keys = s.keys !== false; s.autoLog = s.autoLog !== false; if (!['off', '14', '21', '30', '90'].includes(String(s.bk))) s.bk = '21'; s.bk = String(s.bk); };
+function applySet() { stDefaults(); document.documentElement.classList.toggle('rm', S.set.rm === 'on'); }
+let stTab = 'look';
+const csvCell = v => { v = String(v ?? ''); return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+function dlText(name, text, type) { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + text], { type })); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 3000); }
+function csvFilms() {
+  const ln = new Map(S.lists.map(l => [l.id, l.name])), head = ['Title', 'Year', 'Directors', 'Genres', 'Runtime (min)', 'Status', 'Rating', 'Favourite', 'Shelves', 'Tags', 'TMDB id'];
+  return [head].concat(S.films.map(f => [f.title, f.year || '', f.directors.map(d => d.name).join('; '), f.genres.join('; '), f.runtime || '', f.seen ? 'Seen' : f.wish ? 'Wishlist' : 'On shelf', f.rating || '', f.fav ? 'Yes' : '', f.lists.map(id => ln.get(id)).filter(Boolean).join('; '), (f.tags || []).join('; '), typeof f.id === 'number' ? f.id : ''])).map(r => r.map(csvCell).join(',')).join('\r\n');
+}
+function csvDiary() {
+  const head = ['Date', 'Title', 'Year', 'Rating', 'Rewatch', 'Note'];
+  return [head].concat([...S.entries].sort((a, b) => a.date.localeCompare(b.date) || a.ts - b.ts).map(e => { const f = byId(e.fid); return f ? [e.date, f.title, f.year || '', f.rating || '', e.rewatch ? 'Yes' : '', e.note || ''] : null; }).filter(Boolean)).map(r => r.map(csvCell).join(',')).join('\r\n');
+}
+function stUsage() { try { const b = new Blob([localStorage.getItem(LSK) || '']).size; return (b > 1048576 ? (b / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(b / 1024)) + ' KB'); } catch (e) { return 'unknown'; } }
 function openSettings() {
-  const s = S.set, seg = (act, cur, opts) => '<div class="seg" role="group">' + opts.map(([v, l]) => '<button type="button" data-act="' + act + '" data-v="' + v + '" class="' + (cur === v ? 'on' : '') + '" aria-pressed="' + (cur === v) + '">' + l + '</button>').join('') + '</div>';
-  const b = openDlg('<h2>Settings</h2>' +
-    '<h3>Appearance</h3><div class="row" style="align-items:center">' + seg('theme', s.theme, [['dark', 'Dark'], ['light', 'Light'], ['auto', 'Match my device']]) +
-    '<label class="chk"><input type="checkbox" data-act="tint"' + (s.tint ? ' checked' : '') + '> Tint the interface with the colour of the film in view</label></div>' +
-    '<h3>Film data</h3><div class="row"><div class="field"><label for="stKey">TMDB key</label><input class="inp" id="stKey" type="password" autocomplete="off" spellcheck="false" placeholder="' + (s.key ? '' : 'Using the built-in key') + '" value="' + E(s.key) + '"></div>' +
-    '<div class="field"><label for="stReg">Streaming region</label><select class="sel" id="stReg" data-ctl="region">' + REGIONS.map(([c, n]) => '<option value="' + c + '"' + (s.region === c ? ' selected' : '') + '>' + n + '</option>').join('') + '</select></div></div>' +
-    '<p class="note" style="margin-top:8px"><button type="button" class="btn sm" data-act="testkey">Test and save key</button> <span id="stMsg" role="status"></span></p>' +
-    '<h3>Your data</h3><p class="note" style="margin-bottom:10px">Everything lives in this browser. Export a copy now and then.</p><div class="row" style="gap:8px">' +
-    '<button type="button" class="btn" data-act="export">Export library</button><label class="btn" tabindex="0">Import export file<input id="stJ" type="file" accept=".json,application/json" hidden></label>' +
+  stDefaults(); const s = S.set, u = S.ui, rr = typeof rrUI === 'function' ? rrUI() : { mute: false };
+  const seg = (act, cur, opts) => '<div class="seg" role="group">' + opts.map(([v, l]) => '<button type="button" data-act="' + act + '" data-v="' + v + '" class="' + (cur === v ? 'on' : '') + '" aria-pressed="' + (cur === v) + '">' + l + '</button>').join('') + '</div>';
+  const so = (k, cur, opts) => '<div class="seg" role="group">' + opts.map(([v, l]) => '<button type="button" data-act="sopt" data-k="' + k + '" data-v="' + v + '" class="' + (String(cur) === v ? 'on' : '') + '" aria-pressed="' + (String(cur) === v) + '">' + l + '</button>').join('') + '</div>';
+  const sw = (act, k, on, lab) => '<label class="st-sw"><input type="checkbox" role="switch" data-act="' + act + '"' + (k ? ' data-k="' + k + '"' : '') + (on ? ' checked' : '') + ' aria-label="' + E(lab) + '"><i></i></label>';
+  const row = (t, d, c) => '<div class="st-r"><div class="st-t"><b>' + t + '</b>' + (d ? '<span>' + d + '</span>' : '') + '</div><div class="st-c">' + c + '</div></div>';
+  const tabs = [['look', 'Appearance'], ['lib', 'Library'], ['data', 'Data'], ['about', 'About']];
+  const own = S.films.length, ent = S.entries.length;
+  const look = row('Theme', 'Dark, light, or follow your device.', seg('theme', s.theme, [['dark', 'Dark'], ['light', 'Light'], ['auto', 'Device']])) +
+    row('Tint with the film in view', 'The interface picks up the colour of the poster you are looking at.', sw('tint', '', s.tint, 'Tint the interface')) +
+    row('Reduce motion', 'Turns off animations. Auto follows your device setting.', so('rm', s.rm, [['auto', 'Auto'], ['on', 'Always']])) +
+    row('Poster quality', 'Data saver loads smaller images, which helps on slow or metered connections.', so('dq', s.dq, [['std', 'Standard'], ['low', 'Data saver']])) +
+    row('Time format', 'Used for Tonight start and end times.', so('clock', s.clock, [['auto', 'Device'], ['12', '12-hour'], ['24', '24-hour']]));
+  const lib = row('Shelf view', 'What the Shelf opens with.', so('view', u.view, [['spines', 'Spines'], ['posters', 'Posters'], ['list', 'List']])) +
+    row('Poster size', 'Applies to the Posters view.', so('psz', ['s', 'm', 'l'].includes(u.psz) ? u.psz : 'm', [['s', 'Small'], ['m', 'Medium'], ['l', 'Large']])) +
+    row('Marking seen adds a diary entry', 'Dated today. Turn off if you would rather log watches yourself.', sw('stog', 'autoLog', s.autoLog, 'Marking seen adds a diary entry')) +
+    row('Keyboard shortcuts', 'Single-key shortcuts such as n, g then s, and /. Ctrl K always works.', sw('stog', 'keys', s.keys, 'Keyboard shortcuts') + '<button type="button" class="btn sm" data-act="stkeys">See list</button>') +
+    row('Roulette sound', 'Clicks while the cylinder spins.', sw('stog', 'rrsound', !rr.mute, 'Roulette sound')) +
+    row('Streaming region', 'Where "where to watch" looks.', '<select class="sel" id="stReg" data-ctl="region" aria-label="Streaming region">' + REGIONS.map(([c, n]) => '<option value="' + c + '"' + (s.region === c ? ' selected' : '') + '>' + n + '</option>').join('') + '</select>');
+  const data = '<div class="row"><div class="field"><label for="stKey">TMDB key</label><input class="inp" id="stKey" type="password" autocomplete="off" spellcheck="false" placeholder="' + (s.key ? '' : 'Using the built-in key') + '" value="' + E(s.key) + '"></div></div>' +
+    '<p class="note" style="margin:8px 0 4px"><button type="button" class="btn sm" data-act="testkey">Test and save key</button> <span id="stMsg" role="status"></span></p>' +
+    '<div class="st-sep"></div>' + row('Back up', 'Everything lives in this browser. ' + backupAgo(), '<button type="button" class="btn" data-act="export">Export library</button>') +
+    row('Spreadsheet export', 'Opens in Excel or Sheets. Reviews stay in the full export.', '<button type="button" class="btn" data-act="stcsvf">Films CSV</button><button type="button" class="btn" data-act="stcsvd">Diary CSV</button>') +
+    row('Backup reminder', 'How long before Dailies nudges you to back up.', so('bk', s.bk, [['off', 'Never'], ['14', '2 weeks'], ['30', 'Monthly'], ['90', 'Quarterly']].concat(s.bk === '21' ? [['21', '3 weeks']] : []).sort((a, b) => (a[0] === 'off' ? -1 : b[0] === 'off' ? 1 : +a[0] - +b[0])))) +
+    '<div class="st-sep"></div><div class="row" style="gap:8px"><label class="btn" tabindex="0">Import export file<input id="stJ" type="file" accept=".json,application/json" hidden></label>' +
     '<label class="btn" tabindex="0">Import Letterboxd CSV<input id="stL" type="file" accept=".csv,text/csv" multiple hidden></label><button type="button" class="btn" data-act="manual">Add a film by hand</button></div>' +
     '<p class="note" style="margin-top:8px">Letterboxd: export from its settings, then pick watched.csv, ratings.csv, diary.csv or watchlist.csv. Several files at once is fine.</p>' +
-    '<div class="row" style="gap:8px;margin-top:14px">' + (S.films.some(f => f.sample) ? '<button type="button" class="btn" data-act="rmsamples">Remove sample films</button>' : '') + '<button type="button" class="btn danger" data-act="resetall">Reset everything</button></div>' +
-    '<p class="note" style="margin-top:14px">' + backupAgo() + '</p>' +
-    '<div class="tmdb-f">' + tmdbBadge() + '<p class="note">Dailies uses the TMDB API for film data but is not endorsed or certified by TMDB. Streaming availability is provided by JustWatch.</p></div>' +
+    '<div class="st-sep"></div><p class="note">Stored here: ' + plural(own, 'film') + ', ' + plural(ent, 'diary entry', 'diary entries') + ', about ' + stUsage() + '.</p>' +
+    '<div class="row" style="gap:8px;margin-top:12px">' + (S.films.some(f => f.sample) ? '<button type="button" class="btn" data-act="rmsamples">Remove sample films</button>' : '') + '<button type="button" class="btn danger" data-act="resetall">Reset everything</button></div>';
+  const about = '<div class="tmdb-f">' + tmdbBadge() + '<p class="note">Dailies uses the TMDB API for film data but is not endorsed or certified by TMDB. Streaming availability is provided by JustWatch.</p></div>';
+  const b = openDlg('<h2>Settings</h2><div class="st-tabs seg" role="tablist" aria-label="Settings sections">' + tabs.map(([k, l]) => '<button type="button" role="tab" data-act="sttab" data-v="' + k + '" class="' + (stTab === k ? 'on' : '') + '" aria-selected="' + (stTab === k) + '">' + l + '</button>').join('') + '</div>' +
+    [['look', look], ['lib', lib], ['data', data], ['about', about]].map(([k, h]) => '<section class="st-p" data-tab="' + k + '" role="tabpanel"' + (stTab === k ? '' : ' hidden') + '>' + h + '</section>').join('') +
     '<div class="acts"><button type="button" class="btn pri" data-act="dlgx">Done</button></div>', { wide: true, label: 'Settings' });
   $('#stJ', b).onchange = e => { const f = e.target.files[0]; e.target.value = ''; if (f) importJSON(f); };
   $('#stL', b).onchange = e => { const fs = [...e.target.files]; e.target.value = ''; if (fs.length) importLetterboxd(fs); };
   $$('label.btn[tabindex]', b).forEach(l => l.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); l.querySelector('input').click(); } }));
 }
+ACT.sttab = a => { stTab = a.dataset.v; const box = a.closest('#dlg') || document; $$('.st-tabs button', box).forEach(x => { const on = x === a; x.classList.toggle('on', on); x.setAttribute('aria-selected', on); }); $$('.st-p', box).forEach(p => { p.hidden = p.dataset.tab !== stTab; }); };
+ACT.sopt = a => {
+  const k = a.dataset.k, v = a.dataset.v; if (k === 'view' || k === 'psz') S.ui[k] = v; else S.set[k] = v;
+  $$('button', a.parentNode).forEach(x => { const on = x === a; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); });
+  applySet(); save(); refresh();
+};
+ACT.stog = a => { const k = a.dataset.k; if (k === 'rrsound') { rrUI().mute = !a.checked; } else S.set[k] = a.checked; applySet(); save(); };
+ACT.stkeys = () => { closeDlg(); shortcutsDlg(); };
+ACT.stcsvf = () => { dlText('dailies-films-' + today() + '.csv', csvFilms(), 'text/csv'); toast('Films exported'); };
+ACT.stcsvd = () => { dlText('dailies-diary-' + today() + '.csv', csvDiary(), 'text/csv'); toast('Diary exported'); };
 ACT.settings = () => openSettings();
 ACT.theme = a => { S.set.theme = a.dataset.v; applyTheme(); save(); syncAccent(); $$('[data-act="theme"]').forEach(x => { x.classList.toggle('on', x === a); x.setAttribute('aria-pressed', x === a); }); };
 ACT.tint = a => { S.set.tint = a.checked; save(); syncAccent(); };
@@ -3130,7 +3210,7 @@ ACT.testkey = async () => {
   catch (e) { S.set.key = old; m.textContent = errMsg(e); }
 };
 function exportData() {
-  const o = { app: 'dailies', v: 1, at: new Date().toISOString(), films: S.films, entries: S.entries, lists: S.lists, progs: S.progs, ui: S.ui, set: { theme: S.set.theme, region: S.set.region, tint: S.set.tint } };
+  const o = { app: 'dailies', v: 1, at: new Date().toISOString(), films: S.films, entries: S.entries, lists: S.lists, progs: S.progs, ui: S.ui, set: { theme: S.set.theme, region: S.set.region, tint: S.set.tint, rm: S.set.rm, dq: S.set.dq, clock: S.set.clock, keys: S.set.keys, autoLog: S.set.autoLog, bk: S.set.bk } };
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(o, null, 1)], { type: 'application/json' })); a.download = 'dailies-' + today() + '.json';
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 3000); S.set.lastBackup = Date.now(); S.set.nudgeAt = Date.now() + 21 * 864e5; save(); toast('Library exported');
 }
@@ -3213,7 +3293,7 @@ async function importJSON(file) {
     S.progs = (o.progs || []).filter(p => p && Array.isArray(p.films)); S.set.seeded = true;
     if (o.ui && typeof o.ui === 'object') Object.assign(S.ui, { view: o.ui.view, group: o.ui.group, sort: o.ui.sort }, {});
     ['view', 'group', 'sort'].forEach(k => { if (!S.ui[k]) S.ui[k] = blank().ui[k]; });
-    if (o.set) { if (['dark', 'light', 'auto'].includes(o.set.theme)) S.set.theme = o.set.theme; if (o.set.region) S.set.region = String(o.set.region).slice(0, 2).toUpperCase(); applyTheme(); }
+    if (o.set) { if (['dark', 'light', 'auto'].includes(o.set.theme)) S.set.theme = o.set.theme; if (o.set.region) S.set.region = String(o.set.region).slice(0, 2).toUpperCase(); ['rm', 'dq', 'clock', 'keys', 'autoLog', 'bk'].forEach(k => { if (o.set[k] !== undefined) S.set[k] = o.set[k]; }); applySet(); applyTheme(); }
     closeDlg(); commit(); hydrate(); ensurePals(); toast('Imported ' + plural(films.length, 'film'));
   } catch (e) { toast('That file is not a Dailies export.'); }
 }
@@ -5669,7 +5749,7 @@ const ownFilmCount = () => S.films.filter(f => !f.sample).length;
 function backupAgo() { const t = S.set.lastBackup; if (!t) return 'You have not backed up yet.'; const d = Math.floor((Date.now() - t) / 864e5); return 'Last backup: ' + (d < 1 ? 'today' : d === 1 ? 'yesterday' : d + ' days ago') + '.'; }
 function backupNudge() {
   if (ownFilmCount() < 3) return; const now = Date.now(), last = S.set.lastBackup || 0;
-  if (last && now - last < 21 * 864e5) return; if (S.set.nudgeAt && now < S.set.nudgeAt) return;
+  const gap = S.set.bk === 'off' ? 0 : (+S.set.bk || 21); if (!gap) return; if (last && now - last < gap * 864e5) return; if (S.set.nudgeAt && now < S.set.nudgeAt) return;
   S.set.nudgeAt = now + 7 * 864e5; save();
   toast('Your library lives only in this browser. A quick backup keeps it safe.', { label: 'Back up', fn: () => exportData(), ms: 6000 });
 }
@@ -6271,7 +6351,7 @@ ACT.wlcgo = () => { closeDlg(); setTimeout(() => { try { openOmni('films'); } ca
 ACT.wlcimport = () => { closeDlg(); setTimeout(() => openSettings(), 120); };
 ACT.wlcabout = () => { closeDlg(); setTimeout(() => aboutDlg(), 120); };
 function shortcutsDlg() {
-  const rows = [['/ or Ctrl K', 'Find a film, director, actor or command'], ['n', 'Log a watch'], ['g then s', 'Go to Shelf'], ['g then t', 'Go to Tonight'], ['g then d', 'Go to Diary'], ['g then p', 'Go to People'], ['g then i', 'Go to Insights'], ['g then w', 'Go to Downloadables'], ['Esc', 'Close whatever is open'], ['?', 'Show this list']];
+  const rows = [['/ or Ctrl K', 'Find a film, director, actor or command'], ['n', 'Log a watch'], ['← or →', 'Previous or next film while a film is open'], ['Select (Shelf)', 'Pick many films, then mark, list or remove them at once'], ['g then s', 'Go to Shelf'], ['g then t', 'Go to Tonight'], ['g then d', 'Go to Diary'], ['g then p', 'Go to People'], ['g then i', 'Go to Insights'], ['g then w', 'Go to Downloadables'], ['Esc', 'Close whatever is open'], ['?', 'Show this list']];
   openDlg('<h2>Keyboard shortcuts</h2><table class="keys">' + rows.map(r => '<tr><td><kbd>' + E(r[0]) + '</kbd></td><td>' + E(r[1]) + '</td></tr>').join('') + '</table><div class="acts"><button class="btn pri" type="button" data-act="dlgx">Done</button></div>', { label: 'Keyboard shortcuts' });
 }
 document.addEventListener('keydown', e => {
@@ -6283,7 +6363,7 @@ document.addEventListener('keydown', e => {
     if (typeof panelOpen === 'function' && panelOpen()) { closePanel(); return; }
   }
   if ((e.key === 'k' || e.key === 'K') && (e.metaKey || e.ctrlKey)) { e.preventDefault(); if (typeof openOmni === 'function') openOmni(); return; }
-  if (typing || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (typing || e.metaKey || e.ctrlKey || e.altKey || S.set.keys === false) return;
   if (e.key === '/') { e.preventDefault(); if (typeof openOmni === 'function') openOmni(); return; }
   if (e.key === '?') { shortcutsDlg(); return; }
   if (gPending) { gPending = false; const r = { s: 'shelf', t: 'tonight', d: 'diary', p: 'people', i: 'insights', w: 'downloads' }[e.key]; if (r) go(r); return; }
@@ -6313,6 +6393,100 @@ function boot() {
   if (!welcomeSeen() && !S.films.some(f => !f.sample)) setTimeout(() => { if ($('#dlg').hidden && !welcomeSeen()) welcomeDlg(); }, 500);
 }
 try { boot(); } catch (err) { console.error(err); document.body.insertAdjacentHTML('afterbegin', '<p style="padding:20px;font:14px sans-serif">Something went wrong starting Dailies. Open the browser console for details.</p>'); }
+
+/* ===== Ergonomics: browse films inside the panel, select many on the shelf ===== */
+(function () {
+  /* -- panel: previous / next film in the order you opened it from -- */
+  const navIdx = () => { const v = PS.open && PS.stack.length === 1 ? PS.stack[0] : null; if (!v || v.t !== 'film' || !PS.navIds) return -1; return PS.navIds.findIndex(x => String(x) === String(v.id)); };
+  function navSync() {
+    const i = navIdx(), n = PS.navIds ? PS.navIds.length : 0, show = i >= 0 && n > 1;
+    ['pPrev', 'pNext', 'pPos'].forEach(id => { const el = document.getElementById(id); if (el) el.hidden = !show; });
+    if (show) { document.getElementById('pPrev').disabled = i <= 0; document.getElementById('pNext').disabled = i >= n - 1; document.getElementById('pPos').textContent = (i + 1) + ' / ' + n; }
+  }
+  function browse(d) {
+    const i = navIdx(); if (i < 0) return; const j = i + d; if (j < 0 || j >= PS.navIds.length) return;
+    PS.stack = [{ t: 'film', id: PS.navIds[j] }]; renderPanel(true); loadFilm(PS.stack[0]); navSync();
+  }
+  const bar = document.querySelector('#panel .p-bar'), cl = document.getElementById('pClose');
+  const mkb = (id, d, lab) => { const b = document.createElement('button'); b.type = 'button'; b.id = id; b.className = 'btn sm ghost p-nv'; b.hidden = true; b.setAttribute('aria-label', lab); b.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="' + d + '"/></svg>'; return b; };
+  const pos = document.createElement('span'); pos.id = 'pPos'; pos.className = 'p-pos'; pos.hidden = true;
+  bar.insertBefore(mkb('pPrev', 'm15 5-7 7 7 7', 'Previous film'), cl); bar.insertBefore(pos, cl); bar.insertBefore(mkb('pNext', 'm9 5 7 7-7 7', 'Next film'), cl);
+  document.getElementById('pPrev').onclick = () => browse(-1); document.getElementById('pNext').onclick = () => browse(1);
+  const rp = renderPanel; renderPanel = function () { rp.apply(this, arguments); navSync(); };
+  const pv = pushView; pushView = function (v) { if (!PS.open) { PS.navIds = PS.pendNav || null; } PS.pendNav = null; return pv.apply(this, arguments); };
+  document.addEventListener('keydown', e => {
+    if (!PS.open || e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return; if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    const t = e.target; if (t.matches && t.matches('input,textarea,select,[contenteditable]')) return; if (!$('#dlg').hidden || !$('#cf').hidden || !$('#omni').hidden) return;
+    if (navIdx() < 0) return; e.preventDefault(); browse(e.key === 'ArrowLeft' ? -1 : 1);
+  });
+
+  /* -- shelf: select many, act once -- */
+  const BK = { on: false, ids: new Set() };
+  const bb = document.createElement('div'); bb.id = 'bkbar'; bb.className = 'bkbar'; bb.hidden = true; bb.setAttribute('role', 'region'); bb.setAttribute('aria-label', 'Selected films'); document.body.appendChild(bb);
+  const mark = () => { $$('#view [data-f]').forEach(el => el.classList.toggle('bk-on', BK.on && BK.ids.has(String(el.dataset.f)))); };
+  function bar2() {
+    document.body.classList.toggle('bk-mode', BK.on && route === 'shelf'); const n = BK.ids.size;
+    bb.hidden = !(BK.on && route === 'shelf'); if (bb.hidden) return;
+    const b = (a, l, cls) => '<button type="button" class="btn sm' + (cls ? ' ' + cls : '') + '" data-act="' + a + '"' + (n || a === 'bkall' || a === 'bkdone' ? '' : ' disabled') + '>' + l + '</button>';
+    bb.innerHTML = '<span class="bk-n" aria-live="polite"><b>' + n + '</b> selected</span>' + b('bkall', 'Select all') + b('bkseen', 'Seen') + b('bkwish', 'Wishlist') + b('bkfav', 'Favourite') + b('bklist', 'Add to shelf') + b('bkrm', 'Remove', 'bk-d') + b('bkdone', 'Done', 'pri');
+  }
+  const bkSet = on => { BK.on = on; if (!on) BK.ids.clear(); mark(); bar2(); const t = document.querySelector('[data-act="bkmode"]'); if (t) { t.classList.toggle('on', on); t.setAttribute('aria-pressed', on); } };
+  const sw = PAGES.shelf.render; PAGES.shelf.render = function () {
+    sw.apply(this, arguments); const seg = document.querySelector('#view .seg[aria-label="View"]');
+    if (seg && !document.querySelector('[data-act="bkmode"]')) seg.insertAdjacentHTML('afterend', '<button type="button" class="btn sm bk-t' + (BK.on ? ' on' : '') + '" data-act="bkmode" aria-pressed="' + BK.on + '">Select</button>');
+    mark(); bar2();
+  };
+  const rf = refresh; refresh = function () { rf.apply(this, arguments); if (route !== 'shelf' && BK.on) bkSet(false); else bar2(); };
+  const af = ACT.film; ACT.film = function (a) {
+    if (BK.on && route === 'shelf' && a.closest('#view')) { const id = String(a.dataset.id || (a.closest('[data-f]') || {}).dataset?.f || ''); if (id) { BK.ids.has(id) ? BK.ids.delete(id) : BK.ids.add(id); mark(); bar2(); } return; }
+    PS.pendNav = (route === 'shelf' && a.closest('#view')) ? visibleFilms().map(f => f.id) : null; return af.apply(this, arguments);
+  };
+  const snap = ids => ({ fs: ids.map(id => byId(id)).filter(Boolean).map(f => structuredClone(f)), ents: [...S.entries], progs: S.progs.map(p => [p, [...p.films]]) });
+  const undo = s => () => { s.fs.forEach(c => { const i = S.films.findIndex(f => String(f.id) === String(c.id)); if (i >= 0) S.films[i] = c; else S.films.push(c); }); S.entries = s.ents; s.progs.forEach(([p, fl]) => { p.films = fl; }); commit(); };
+  const sel = () => [...BK.ids].map(id => byId(id)).filter(Boolean);
+  const done = (msg, s) => { BK.ids.clear(); commit(); toast(msg, { label: 'Undo', fn: undo(s) }); };
+  ACT.bkmode = () => bkSet(!BK.on);
+  ACT.bkdone = () => bkSet(false);
+  ACT.bkall = () => { const all = visibleFilms().map(f => String(f.id)); if (all.every(id => BK.ids.has(id))) BK.ids.clear(); else all.forEach(id => BK.ids.add(id)); mark(); bar2(); };
+  ACT.bkseen = () => { const l = sel().filter(f => !f.seen); if (!l.length) { toast('Those are all seen already'); return; } const s = snap(l.map(f => f.id)); l.forEach(f => { touch(f); markSeen(f); }); done(plural(l.length, 'film') + ' logged as seen today', s); };
+  const flag = (k, onMsg, offMsg) => () => { let l = sel(); if (k === 'wish') { const un = l.filter(f => !f.seen); if (!un.length && l.length) { toast('Films you have seen cannot go on the wishlist'); return; } if (l.some(f => !f.wish && !f.seen)) l = un; else l = l.filter(f => f.wish); } if (!l.length) return; const on = l.some(f => !f[k]), s = snap(l.map(f => f.id)); l.forEach(f => { touch(f); f[k] = on; if (k === 'wish' && on && f.seen) f.wish = false; }); done(on ? onMsg(l.length) : offMsg(l.length), s); };
+  ACT.bkwish = flag('wish', n => plural(n, 'film') + ' on your wishlist', n => plural(n, 'film') + ' off your wishlist');
+  ACT.bkfav = flag('fav', n => plural(n, 'film') + ' marked favourite', n => plural(n, 'film') + ' unfavourited');
+  ACT.bkrm = async () => {
+    const l = sel(); if (!l.length) return; if (!await askConfirm('Remove ' + plural(l.length, 'film') + ' from your shelf? Their log entries go too. You can undo for a few seconds.', { yes: 'Remove', danger: true })) return;
+    const s = snap(l.map(f => f.id)), ids = new Set(l.map(f => String(f.id)));
+    S.films = S.films.filter(f => !ids.has(String(f.id))); S.entries = S.entries.filter(e => !ids.has(String(e.fid))); S.progs.forEach(p => { p.films = p.films.filter(x => !ids.has(String(x))); });
+    done('Removed ' + plural(l.length, 'film'), s);
+  };
+  ACT.bklist = () => {
+    const l = sel(); if (!l.length) return; const ids = l.map(f => String(f.id));
+    const body = () => (S.lists.length ? '<div class="chips">' + S.lists.map(x => { const n = l.filter(f => f.lists.includes(x.id)).length; return '<button type="button" class="chip' + (n === l.length ? ' on' : '') + '" data-lid="' + E(x.id) + '">' + E(x.name) + ' <small>' + n + '/' + l.length + '</small></button>'; }).join('') + '</div>' : '<p class="lead">You have no shelves yet. Name one below.</p>');
+    const box = openDlg('<h2>Add ' + plural(l.length, 'film') + ' to a shelf</h2><p class="lead">Tap a shelf to add them all. Tap it again if every film is already in it, to take them out.</p><div id="bkl">' + body() + '</div><div class="field" style="margin-top:14px"><label for="bkn">New shelf</label><div class="row"><input class="inp" id="bkn" maxlength="60" placeholder="Name"><button type="button" class="btn" id="bkc">Create</button></div></div><div class="acts"><button class="btn pri" type="button" data-act="dlgx">Done</button></div>', { label: 'Add to shelf' });
+    const apply = lid => { const s = snap(ids), cur = ids.map(id => byId(id)).filter(Boolean), all = cur.every(f => f.lists.includes(lid)); cur.forEach(f => { touch(f); const i = f.lists.indexOf(lid); if (all) { if (i >= 0) f.lists.splice(i, 1); } else if (i < 0) f.lists.push(lid); }); commit(); $('#bkl', box).innerHTML = body(); toast((all ? 'Taken out of' : 'Added to') + ' "' + (S.lists.find(x => x.id === lid) || {}).name + '"', { label: 'Undo', fn: undo(s) }); };
+    box.addEventListener('click', e => { const b = e.target.closest('[data-lid]'); if (b) apply(b.dataset.lid); });
+    $('#bkc', box).onclick = () => { const x = createList($('#bkn', box).value); if (x) { $('#bkn', box).value = ''; apply(x.id); } };
+  };
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && BK.on && route === 'shelf' && $('#dlg').hidden && $('#cf').hidden && $('#omni').hidden && !PS.open) bkSet(false); });
+  window.addEventListener('hashchange', () => { if (BK.on) bkSet(false); });
+  try { if (route === 'shelf' && document.querySelector('#view .pagehead')) refresh(); } catch (e) { }
+})();
+
+
+/* poster size control */
+(function () {
+  const sizes = [['s', 'S'], ['m', 'M'], ['l', 'L']], g = () => (['s', 'm', 'l'].includes(S.ui.psz) ? S.ui.psz : 'm');
+  const sw = PAGES.shelf.render; PAGES.shelf.render = function () {
+    sw.apply(this, arguments);
+    $$('#view .pgrid').forEach(x => { x.dataset.sz = g(); });
+    const seg = document.querySelector('#view .seg[aria-label="View"]');
+    if (seg && S.ui.view === 'posters' && !document.querySelector('.psz')) seg.insertAdjacentHTML('afterend', '<div class="seg psz" role="group" aria-label="Poster size">' + sizes.map(([k, l]) => '<button type="button" data-act="psz" data-v="' + k + '" class="' + (g() === k ? 'on' : '') + '" aria-pressed="' + (g() === k) + '" aria-label="' + ({ s: 'Small', m: 'Medium', l: 'Large' })[k] + ' posters">' + l + '</button>').join('') + '</div>');
+    const t = document.querySelector('.bk-t'), p = document.querySelector('.psz');
+    if (t && !t.parentNode.classList.contains('stools')) { const w = document.createElement('div'); w.className = 'stools'; t.before(w); if (p) w.appendChild(p); w.appendChild(t); }
+  };
+  ACT.psz = a => { S.ui.psz = a.dataset.v; upd(); };
+})();
+
+try { applySet(); refresh(); } catch (e) { }
 </script>
 </body>
 </html>
