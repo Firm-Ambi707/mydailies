@@ -1225,12 +1225,20 @@ section.ins{scroll-margin-top:108px}
 .rr-info p{margin:0;color:var(--ink2);font-size:14px;line-height:1.5}
 .rr-act{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}.rr-act .btn[disabled]{opacity:.45;cursor:default}
 .rr-err,.rr-note{margin:8px 0 0;font-size:13px;color:var(--ink2)}.rr-err{color:var(--l1)}
-.rr-opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 16px;padding-top:14px;border-top:1px dashed var(--line)}
+.rr-opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 16px;padding-top:14px}
 .rr-opts .seg{display:flex}.rr-opts .seg button{flex:1 1 0;min-width:0;white-space:normal;line-height:1.2;padding:6px 4px}
 .rr-sel{display:flex;flex-direction:column;gap:6px}
 .rr-foot{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:14px;color:var(--ink3);font-size:12px;line-height:1.4}
 .rr-mu{flex:none;background:none;border:1px solid var(--line2);border-radius:999px;color:var(--ink2);padding:4px 11px;font:inherit;font-size:12px;cursor:pointer}
-@media (max-width:640px){.rr-stage{grid-template-columns:1fr;justify-items:center;text-align:center;gap:12px}.rr-cylw{width:120px;height:120px}.rr-wait{align-items:center}.rr-card{grid-template-columns:96px minmax(0,1fr);text-align:left;gap:12px;padding:12px}.rr-out{width:100%}.rr-opts{grid-template-columns:1fr 1fr}.rr-opts .field:nth-child(-n+3){grid-column:1/-1}.rr-foot{flex-direction:column;align-items:flex-start}}
+.rr-cylw{filter:drop-shadow(0 6px 14px rgba(0,0,0,.45))}.rr-fl{fill:var(--bg2)}.rr-bu{fill:#d9a441;stroke:#8a6420;stroke-width:1.2}
+.rr-lit{position:absolute;left:50%;top:15.5%;width:19%;aspect-ratio:1;margin:-9.5% 0 0 -9.5%;border-radius:50%;box-shadow:0 0 0 0 rgba(240,195,92,0);transition:box-shadow .3s}
+.rr-cylw.hit .rr-lit{box-shadow:0 0 0 2px #f0c35c,0 0 18px 4px rgba(240,195,92,.55)}
+.rr-stage{min-height:218px}
+.rr-card{position:relative;overflow:hidden}.rr-card>*{position:relative}.rr-card>.rr-bg{position:absolute;inset:-20px;background-size:cover;background-position:center;filter:blur(26px) saturate(1.3);opacity:.32;z-index:0}.rr-card>.rr-po,.rr-card>.rr-info{z-index:1}
+.rr-rb{display:flex;align-items:center;gap:10px;width:100%;padding:11px 0 0;margin-top:2px;border:0;border-top:1px dashed var(--line);background:none;color:var(--ink);font:inherit;cursor:pointer;text-align:left}
+.rr-rb span{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}.rr-rb em{flex:1;min-width:0;font-style:normal;font-size:13px;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rr-rb svg{flex:none;color:var(--ink3);transition:transform .2s}.rr-rb[aria-expanded=true] svg{transform:rotate(180deg)}
+.rr-rb+.rr-opts{border-top:0;padding-top:12px}
+@media (max-width:640px){.rr-stage{min-height:0;grid-template-columns:1fr;justify-items:center;text-align:center;gap:12px}.rr-cylw{width:120px;height:120px}.rr-wait{align-items:center}.rr-card{grid-template-columns:96px minmax(0,1fr);text-align:left;gap:12px;padding:12px}.rr-out{width:100%}.rr-opts{grid-template-columns:1fr 1fr}.rr-opts .field:nth-child(-n+3){grid-column:1/-1}.rr-foot{flex-direction:column;align-items:flex-start}}
 @media (max-width:420px){.rr-card{grid-template-columns:1fr}.rr-po{width:110px}}
 @media (prefers-reduced-motion:reduce){.rr-card.fresh,.rr-card.fresh .rr-po,.rr-cylw.hit{animation:none}}
 .bs-h3{font:500 13px/1.3 var(--f-d);margin:14px 0 6px;color:var(--ink2)}@media (max-width:760px){.bs-r{grid-template-columns:44px repeat(8,minmax(0,1fr));gap:3px}.bs-l{font-size:10px}.bs-c{height:24px;font-size:10px}}
@@ -5070,6 +5078,7 @@ function rrUI() {
   if (r.mode !== 'hard') r.mode = 'casual';
   if (!['any', 'wish', 'shelf'].includes(r.src)) r.src = 'any';
   if (typeof r.mute !== 'boolean') r.mute = false;
+  if (typeof r.ropen !== 'boolean') r.ropen = false;
   if (!Array.isArray(r.hist)) r.hist = [];
   r.hist = r.hist.filter(x => typeof x === 'string' || isNum(x)).slice(-80);
   return r;
@@ -5144,7 +5153,7 @@ async function rrPick() {
   const r = rrUI(); let src = r.src;
   if (src === 'any' && !getKey()) { src = 'shelf'; rrMem.note = 'No TMDB key yet, so this roll came from your unseen shelf. Add a key in Settings to roll from all of TMDB.'; } else rrMem.note = '';
   if (src !== 'any') {
-    const pool = rrShelfPool(); if (!pool.length) throw Object.assign(new Error('EMPTY'), { code: 'EMPTY', shelf: true });
+    const pool = rrShelfPool(); if (!pool.length) throw Object.assign(new Error('EMPTY'), { code: 'EMPTY', shelf: true, missing: S.films.filter(x => !x.seen && !(x.votes > 0)).length });
     return pool[Math.floor(Math.random() * pool.length)];
   }
   for (let tries = 0; tries < 6; tries++) {
@@ -5163,14 +5172,14 @@ async function rrPick() {
 async function rrSpin() {
   if (rrMem.phase === 'spin') return;
   const r = rrUI(), tok = ++rrMem.tok, dur = rrReduce() ? 600 : 2700;
-  rrMem.phase = 'spin'; rrMem.err = ''; rrMem.to = 360 * 5 + Math.floor(Math.random() * 6) * 60 + (Math.random() * 14 - 7);
+  rrMem.phase = 'spin'; rrMem.err = ''; rrMem.to = 360 * 5 + Math.floor(Math.random() * 6) * 60;
   rrMem.dur = dur; rrDraw(); if (!rrReduce()) rrClicks(dur);
   let f = null, err = null;
   const [res] = await Promise.all([rrPick().then(x => ({ f: x }), e => ({ e })), rrSleep(dur)]);
   if (tok !== rrMem.tok) return;
   if (res.e) {
     err = res.e; rrMem.phase = rrMem.cur ? 'reveal' : 'idle';
-    rrMem.err = err.code === 'NO_KEY' ? 'Add your TMDB key in Settings to roll from all of TMDB.' : err.code === 'EMPTY' ? (err.shelf ? 'Nothing on your ' + (r.src === 'wish' ? 'wishlist' : 'unseen shelf') + ' clears these odds. Loosen the rules or roll from anywhere.' : 'Could not find a film that clears those rules. Loosen them a little and spin again.') : errMsg(err);
+    rrMem.err = err.code === 'NO_KEY' ? 'Add your TMDB key in Settings to roll from all of TMDB.' : err.code === 'EMPTY' ? (err.shelf ? 'Nothing on your ' + (r.src === 'wish' ? 'wishlist' : 'unseen shelf') + ' clears these rules.' + (err.missing ? ' ' + plural(err.missing, 'unseen film') + ' ' + (err.missing === 1 ? 'has' : 'have') + ' no TMDB rating saved, so ' + (err.missing === 1 ? 'it' : 'they') + ' cannot be checked.' : '') + ' Loosen the rules or roll from anywhere.' : 'Could not find a film that clears those rules. Loosen them a little and spin again.') : errMsg(err);
     rrDraw(); return;
   }
   f = res.f; r.hist.push(f.id); r.hist = r.hist.slice(-80);
@@ -5179,14 +5188,14 @@ async function rrSpin() {
   rrDraw();
 }
 function rrCyl() {
-  let ch = ''; for (let i = 0; i < 6; i++) { const a = i * 60 * Math.PI / 180; ch += '<circle class="rr-ch" cx="' + (60 + 33 * Math.sin(a)).toFixed(1) + '" cy="' + (60 - 33 * Math.cos(a)).toFixed(1) + '" r="10"/>'; }
+  let ch = ''; for (let i = 0; i < 6; i++) { const a = i * 60 * Math.PI / 180, x = (60 + 33 * Math.sin(a)).toFixed(1), y = (60 - 33 * Math.cos(a)).toFixed(1), fa = (i * 60 + 30) * Math.PI / 180; ch += '<circle class="rr-ch" cx="' + x + '" cy="' + y + '" r="10"/>' + (i === 0 ? '<circle class="rr-bu" cx="' + x + '" cy="' + y + '" r="6"/>' : '') + '<circle class="rr-fl" cx="' + (60 + 53 * Math.sin(fa)).toFixed(1) + '" cy="' + (60 - 53 * Math.cos(fa)).toFixed(1) + '" r="5"/>'; }
   const sp = rrMem.phase === 'spin';
-  return '<div class="rr-cylw' + (sp ? ' go' : '') + (rrMem.phase === 'reveal' ? ' hit' : '') + '"><svg class="rr-cyl" viewBox="0 0 120 120" aria-hidden="true" style="--to:' + rrMem.to.toFixed(1) + 'deg;--d:' + (rrMem.dur || 2700) + 'ms"><circle class="rr-bd" cx="60" cy="60" r="55"/>' + ch + '<circle class="rr-hub" cx="60" cy="60" r="9"/></svg><i class="rr-mk"></i></div>';
+  return '<div class="rr-cylw' + (sp ? ' go' : '') + (rrMem.phase === 'reveal' ? ' hit' : '') + '"><svg class="rr-cyl" viewBox="0 0 120 120" aria-hidden="true" style="--to:' + rrMem.to.toFixed(1) + 'deg;--d:' + (rrMem.dur || 2700) + 'ms"><circle class="rr-bd" cx="60" cy="60" r="55"/>' + ch + '<circle class="rr-hub" cx="60" cy="60" r="9"/></svg><i class="rr-mk"></i><i class="rr-lit"></i></div>';
 }
 function rrCard(f) {
   const rt = f.vote ? (+f.vote).toFixed(1) : '', yr = f.year || '', gen = (f.genres || []).slice(0, 3).join(' · '), dir = (f.directors || []).map(d => d.name).slice(0, 2).join(', ');
   const ov = (f.overview || '').length > 190 ? f.overview.slice(0, 187).replace(/\s+\S*$/, '') + '…' : f.overview;
-  return '<article class="rr-card' + (rrMem.fresh ? ' fresh' : '') + '" style="' + palStyle(f) + '"><button type="button" class="rr-po" data-act="film" data-id="' + E(f.id) + '" aria-label="Open ' + E(f.title) + '">' + (f.poster ? '<img src="' + E(img('big', f.poster)) + '" alt="" decoding="async">' : '<span>' + E(f.title) + '</span>') + '</button>' +
+  return '<article class="rr-card' + (rrMem.fresh ? ' fresh' : '') + '" style="' + palStyle(f) + '">' + (f.poster ? '<i class="rr-bg" style="background-image:url(&quot;' + E(img('thumb', f.poster)) + '&quot;)"></i>' : '') + '<button type="button" class="rr-po" data-act="film" data-id="' + E(f.id) + '" aria-label="Open ' + E(f.title) + '">' + (f.poster ? '<img src="' + E(img('big', f.poster)) + '" alt="" decoding="async">' : '<span>' + E(f.title) + '</span>') + '</button>' +
     '<div class="rr-info"><span class="rr-k">Tonight, by chance</span><h3>' + E(f.title) + '</h3><div class="rr-meta">' + [yr, f.runtime ? fmtRt(f.runtime) : '', gen].filter(Boolean).map(E).join(' · ') + '</div>' +
     '<div class="rr-badges">' + (rt ? '<span class="rr-b"><b>' + rt + '</b> TMDB</span>' : '') + (f.votes ? '<span class="rr-b"><b>' + (+f.votes).toLocaleString('en-US') + '</b> votes</span>' : '') + (dir ? '<span class="rr-b">' + E(dir) + '</span>' : '') + (byId(f.id) ? '<span class="rr-b">On your shelf</span>' : '') + '</div>' +
     '<p>' + E(ov) + '</p>' + rrBtns() + '</div></article>';
@@ -5209,10 +5218,11 @@ function rrInner() {
   const sel = (id, lab, map, cur) => '<label class="rr-sel"><span class="lbl">' + lab + '</span><select class="sel" data-ctl="' + id + '" aria-label="' + lab + '">' + Object.keys(map).map(k => '<option value="' + k + '"' + (cur === k ? ' selected' : '') + '>' + E(map[k][0]) + '</option>').join('') + '</select></label>';
   return head + '<div class="rr-body" id="rrBody"><div class="rr-stage">' + rrCyl() + '<div class="rr-out" aria-live="polite">' + out + '</div></div>' +
     (rrMem.note ? '<p class="rr-note">' + E(rrMem.note) + '</p>' : '') +
-    '<div class="rr-opts"><div class="field"><span class="lbl">Odds</span>' + seg('rrodds', r.odds, Object.keys(RR_ODDS).map(k => [k, RR_ODDS[k].l])) + '</div>' +
+    '<button type="button" class="rr-rb" data-act="rropts" aria-expanded="' + !!r.ropen + '"><span>Rules</span><em>' + [o.l + ' odds', r.mode === 'hard' ? 'Hardcore' : 'Casual', { any: 'Anywhere', wish: 'Wishlist', shelf: 'Unseen shelf' }[r.src], RR_ERA[r.era][0], RR_LEN[r.len][0], r.genre || 'Any genre'].filter(x => !/^Any /.test(x)).join(' · ') + '</em><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>' +
+    (r.ropen ? '<div class="rr-opts"><div class="field"><span class="lbl">Odds</span>' + seg('rrodds', r.odds, Object.keys(RR_ODDS).map(k => [k, RR_ODDS[k].l])) + '</div>' +
     '<div class="field"><span class="lbl">Mode</span>' + seg('rrmode', r.mode, [['casual', 'Casual, 2 re-spins'], ['hard', 'Hardcore, one shot']]) + '</div>' +
     '<div class="field"><span class="lbl">Pick from</span>' + seg('rrsrc', r.src, [['any', 'Anywhere'], ['wish', 'Wishlist'], ['shelf', 'Unseen shelf']]) + '</div>' +
-    sel('rrera', 'Era', RR_ERA, r.era) + sel('rrlen', 'Length', RR_LEN, r.len) + gsel + '</div>' +
+    sel('rrera', 'Era', RR_ERA, r.era) + sel('rrlen', 'Length', RR_LEN, r.len) + gsel + '</div>' : '') +
     '<div class="rr-foot"><span>Always: ' + RR_FLOOR.r + '+ rating, ' + RR_FLOOR.v + '+ votes, released, has poster and synopsis, 60 min or longer, not seen, never a repeat.</span><button type="button" class="rr-mu" data-act="rrmute" aria-pressed="' + r.mute + '">' + (r.mute ? 'Sound off' : 'Sound on') + '</button></div></div>';
 }
 function rrHTML() { return '<section class="rr' + (rrUI().open ? ' open' : '') + '" id="rr">' + rrInner() + '</section>'; }
@@ -5225,6 +5235,7 @@ ACT.rrclear = () => { rrMem.cur = null; rrMem.phase = 'idle'; rrMem.left = 2; rr
 ACT.rrodds = a => { rrMem.cur = null; rrMem.phase = 'idle'; rrSet({ odds: a.dataset.v }); };
 ACT.rrmode = a => { rrMem.left = a.dataset.v === 'hard' ? 0 : 2; rrSet({ mode: a.dataset.v }); };
 ACT.rrsrc = a => { rrSet({ src: a.dataset.v }); };
+ACT.rropts = () => { const r = rrUI(); r.ropen = !r.ropen; save(); rrDraw(); };
 ACT.rrmute = () => { const r = rrUI(); r.mute = !r.mute; save(); rrDraw(); };
 CTL.rrera = v => rrSet({ era: v }); CTL.rrlen = v => rrSet({ len: v }); CTL.rrgenre = v => rrSet({ genre: v });
 (function () { const base = PAGES.tonight.render; PAGES.tonight.render = function () { base.apply(this, arguments); const c = document.querySelector('#view .tnc'); if (c) c.insertAdjacentHTML('beforebegin', rrHTML()); if (rrUI().open && rrUI().src === 'any' && getKey() && rrMem.phase === 'idle') rrFill().catch(() => { }); }; })();
