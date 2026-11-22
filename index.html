@@ -65,6 +65,7 @@ body::before{left:var(--rail);background-image:var(--artL);-webkit-mask-image:li
 body::after{right:0;background-image:var(--artR);-webkit-mask-image:linear-gradient(270deg,#000 0,transparent 100%);mask-image:linear-gradient(270deg,#000 0,transparent 100%)}
 body[data-route=shelf]{--artL:var(--art-mono);--artR:var(--art-night)}
 body[data-route=tonight]{--artL:var(--art-night);--artR:var(--art-crimson)}
+body[data-route=explore]{--artL:var(--art-crimson);--artR:var(--art-night);--artO:.2}
 body[data-route=diary]{--artL:var(--art-crimson);--artR:var(--art-mono)}
 body[data-route=people]{--artL:var(--art-face);--artR:var(--art-night);--artO:.24}
 body[data-route=insights]{--artL:var(--art-ink);--artR:var(--art-mono);--artO:.15}
@@ -338,7 +339,7 @@ body.dock-on .dock{display:block}
 .topbar{display:flex;position:fixed;top:0;left:0;right:0;height:54px;align-items:center;gap:6px;padding:0 10px 0 16px;background:var(--bg);border-bottom:1px solid var(--line);z-index:20}
 .topbar .brand b{font-size:30px}
 .topbar .sp{flex:1}
-.tabbar{display:grid;grid-template-columns:repeat(6,1fr);position:fixed;bottom:0;left:0;right:0;height:62px;background:var(--bg);border-top:1px solid var(--line);z-index:20;padding-bottom:env(safe-area-inset-bottom,0)}
+.tabbar{display:grid;grid-template-columns:repeat(4,1fr) 58px;position:fixed;bottom:0;left:0;right:0;height:62px;background:var(--bg);border-top:1px solid var(--line);z-index:20;padding-bottom:env(safe-area-inset-bottom,0)}
 .tabbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--ink3);font-size:11px}
 .tabbar a.on{color:var(--ink)}
 .tabbar svg{width:21px;height:21px}
@@ -1374,6 +1375,133 @@ html.rm .cv-c,html.rm .cv-g,html.rm .cv-in.sw{transition:none!important;animatio
 .cv-in .cv-o{margin:14px auto 0;max-width:520px;color:var(--ink3);font:400 14px/1.55 var(--f-u);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .cv-in{min-height:230px}
 @media (max-width:760px){.cv-in .cv-o{-webkit-line-clamp:3}.cv-y{top:calc(var(--cw)*.4)}}
+/* ===== Explore ===== */
+.xb{display:flex;flex-direction:column;gap:12px;margin:2px 0 26px}
+.xchips{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding:2px 0}.xchips::-webkit-scrollbar{display:none}
+.xchips .chip{flex:none}
+.xtools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.xrow{margin:0 0 38px}
+.xrh{display:flex;align-items:flex-end;gap:14px;margin-bottom:12px}
+.xrh h2{font:700 26px/1 var(--f-d);margin:0}.xrh p{margin:5px 0 0;color:var(--ink3);font-size:13.5px}
+.xrh .sp{flex:1}
+.xnav{display:flex;gap:6px}.xnav button{width:34px;height:34px;border-radius:50%;border:1px solid var(--line2);background:none;color:var(--ink);font-size:17px;line-height:1;cursor:pointer}.xnav button:hover{background:var(--bg3)}
+@media (pointer:coarse){.xnav{display:none}}
+.xstrip{--xw:clamp(128px,13vw,158px);display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x proximity;padding:4px 4px 14px;margin:0 -4px;scrollbar-width:none;overscroll-behavior-x:contain}.xstrip::-webkit-scrollbar{display:none}
+.xgrid{--xw:100%;display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:26px 18px}
+.xc{position:relative;flex:none;width:var(--xw);scroll-snap-align:start}
+.xgrid .xc{width:auto}
+.xc-po{position:relative;display:block;width:100%;aspect-ratio:2/3;padding:0;border:0;border-radius:7px;overflow:hidden;background:var(--bg3);cursor:pointer;box-shadow:0 0 0 1px rgba(255,255,255,.07),0 2px 5px rgba(0,0,0,.3),0 20px 32px -20px rgba(0,0,0,.75);transition:transform .28s cubic-bezier(.2,.7,.2,1)}
+.xc-po img{width:100%;height:100%;object-fit:cover;display:block}
+.xc-po::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:linear-gradient(155deg,rgba(255,255,255,.14),rgba(255,255,255,0) 36%,rgba(0,0,0,0) 62%,rgba(0,0,0,.26))}
+.xc:hover .xc-po,.xc-po:focus-visible{transform:translateY(-5px)}
+.xc-v{position:absolute;left:8px;top:8px;z-index:2;padding:3px 8px;border-radius:999px;background:rgba(14,14,14,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;font:600 11.5px/1 var(--f-u)}.xc-v i{font-style:normal;color:#f0c35c;margin-right:3px}
+.xc-add{position:absolute;right:8px;top:calc(var(--xw) * 1.5 - 44px);z-index:3;width:34px;height:34px;border-radius:50%;border:0;background:#f0c35c;color:#1a1204;font:600 20px/1 var(--f-u);cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.45);opacity:0;transform:scale(.8);transition:opacity .2s,transform .2s}
+.xgrid .xc-add{top:auto;bottom:62px}
+.xc:hover .xc-add,.xc-add:focus-visible{opacity:1;transform:none}
+@media (pointer:coarse){.xc-add{opacity:1;transform:none;width:32px;height:32px}}
+.xc-t{padding:9px 2px 0}.xc-t b{display:block;font:600 14px/1.25 var(--f-u);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.xc-t span{display:block;margin-top:3px;color:var(--ink3);font-size:12.5px}
+.xc.sk .xc-po{background:linear-gradient(100deg,var(--bg3) 30%,var(--bg4) 50%,var(--bg3) 70%) 0 0/200% 100%;animation:xsk 1.3s linear infinite;box-shadow:none}.xc.sk .xc-po::after{display:none}
+.xc.sk .xc-t{padding-top:10px}.xc.sk .xc-t i{display:block;height:10px;border-radius:5px;background:var(--bg3);width:80%;margin-bottom:6px}.xc.sk .xc-t i+i{width:40%}
+@keyframes xsk{to{background-position:-200% 0}}
+html.rm .xc.sk .xc-po{animation:none}
+.xerr{padding:14px 0;color:var(--ink3);font-size:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.xmore{display:flex;justify-content:center;margin:26px 0 8px}
+@media (max-width:760px){.xtools{display:grid;grid-template-columns:1fr 1fr;gap:8px}.xtools .fb-grp{display:flex;width:100%;min-width:0}.xtools .fb-grp .sel{flex:1;min-width:0;width:100%}.xtools>.chip,.xtools>.btn{width:100%;justify-content:center}.xrh h2{font-size:22px}.xstrip{--xw:132px;gap:12px;margin:0 -16px;padding-left:16px;padding-right:16px;scroll-padding-left:16px}.xgrid{grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:22px 12px}.xc-add{top:calc(var(--xw) * 1.5 - 42px)}}
+/* ===== Phone: More sheet ===== */
+.tb-more{display:flex;align-items:center;justify-content:center;border:0;background:none;color:var(--ink3);cursor:pointer;position:relative}
+.tb-more svg{width:22px;height:22px}.tb-more.on,.tb-more[aria-expanded=true]{color:var(--ink)}
+.tb-more.on::after{content:"";position:absolute;top:10px;right:15px;width:7px;height:7px;border-radius:50%;background:#f0c35c}
+#moreScrim{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;animation:mrF .2s ease}
+#moreScrim[hidden]{display:none}
+#moreSheet{width:100%;max-width:560px;margin:0 auto;background:var(--bg2);border-radius:20px 20px 0 0;border:1px solid var(--line2);border-bottom:0;padding:10px 12px calc(14px + env(safe-area-inset-bottom,0px));animation:mrU .28s cubic-bezier(.2,.8,.2,1)}
+#moreSheet::before{content:"";display:block;width:38px;height:4px;border-radius:3px;background:var(--line2);margin:0 auto 10px}
+#moreSheet a,#moreSheet button{display:flex;align-items:center;gap:16px;width:100%;height:56px;padding:0 14px;border:0;border-radius:12px;background:none;color:var(--ink);text-decoration:none;font:500 17px/1 var(--f-u);cursor:pointer;text-align:left}
+#moreSheet a:active,#moreSheet button:active,#moreSheet a.on{background:var(--bg3)}
+#moreSheet svg{width:22px;height:22px;color:var(--ink2);flex:none}
+#moreSheet .mr-sep{height:1px;background:var(--line);margin:6px 8px}
+@keyframes mrU{from{transform:translateY(40px);opacity:0}}@keyframes mrF{from{opacity:0}}
+html.rm #moreSheet,html.rm #moreScrim{animation:none}
+@media (min-width:1000px){#moreScrim{display:none!important}}
+/* ===== Explore: charts ===== */
+.x-tabs{display:flex;gap:4px;margin:2px 0 6px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}.x-tabs::-webkit-scrollbar{display:none}
+.x-tabs button{position:relative;flex:none;height:46px;padding:0 18px;border:0;background:none;color:var(--ink3);font:500 15px/1 var(--f-u);cursor:pointer;white-space:nowrap}
+.x-tabs button:hover,.x-tabs button.on{color:var(--ink)}
+.x-tabs button.on::after{content:"";position:absolute;left:12px;right:12px;bottom:-1px;height:2px;border-radius:2px;background:#f0c35c}
+.x-lead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:22px 0 22px}.x-lead h2{font:700 30px/1 var(--f-d);margin:0}.x-lead p{margin:0;color:var(--ink3);font-size:14px}
+.x-lead .x-seen{margin-left:auto;color:var(--ink2);font-size:13.5px}.x-lead .x-seen b{color:#f0c35c;font-weight:600}
+.xchart{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:30px 20px}
+.xchart .xc{width:auto}.xchart .xc-add{top:auto;bottom:64px}
+.xc-n{position:absolute;left:8px;bottom:6px;z-index:2;font:800 54px/1 var(--f-d);color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.7);letter-spacing:-.02em;pointer-events:none}
+.xc-po.n::after{background:linear-gradient(155deg,rgba(255,255,255,.14),rgba(255,255,255,0) 36%,rgba(0,0,0,0) 48%,rgba(0,0,0,.62))}
+.xc-o{position:absolute;right:8px;top:8px;z-index:2;padding:3px 8px;border-radius:999px;background:rgba(240,195,92,.92);color:#1a1204;font:600 11px/1 var(--f-u)}
+.xc.own .xc-po{opacity:.72}
+@media (max-width:760px){.x-tabs{gap:0;margin-right:-4px}.x-tabs button{padding:0 10px;font-size:14px}.x-tabs button.on::after{left:6px;right:6px}.xchart{grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:24px 12px}.xc-n{font-size:42px}.x-lead h2{font-size:24px}.x-lead .x-seen{margin-left:0;width:100%}.xchart .xc-add{bottom:62px}}
+/* ===== Tonight 2.0 ===== */
+.tn-grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:30px;align-items:start}
+.tn-side{position:sticky;top:18px}
+.tn-pan{border:1px solid var(--line);border-radius:16px;background:var(--bg2);padding:18px 18px 20px;display:grid;gap:20px}
+.tn-pan>h3,.sh-h b{font:700 22px/1 var(--f-d);margin:0}
+.tn-cs .lbl{display:flex;align-items:baseline;gap:8px;margin-bottom:8px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}.tn-cs .lbl i{font-style:normal;letter-spacing:0;text-transform:none;opacity:.8}
+.tn-ch{display:flex;flex-wrap:wrap;gap:7px}.tn-ch .chip{height:34px;padding:0 14px}
+@media (pointer:coarse){.tn-ch .chip{height:40px}}
+.tn-cs .seg{display:flex;width:100%;background:var(--bg)}.tn-cs .seg button{flex:1}
+.tn-cs .tbox{height:44px;width:100%}.tn-cs .tin{font-size:16px;height:34px;flex:1;min-width:0}
+.tn-src{display:grid;gap:8px}
+.tn-src button{display:flex;flex-direction:column;align-items:flex-start;gap:3px;width:100%;padding:11px 14px;border:1px solid var(--line2);border-radius:12px;background:none;color:var(--ink);text-align:left;cursor:pointer;transition:border-color .15s,background .15s}
+.tn-src button b{font:600 15px/1.2 var(--f-u)}.tn-src button span{font-size:12.5px;color:var(--ink3);line-height:1.35}
+.tn-src button.on{border-color:#f0c35c;background:color-mix(in srgb,#f0c35c 9%,transparent)}
+.tn-hero{position:relative;overflow:hidden;border-radius:20px;border:1px solid var(--line2);background:linear-gradient(140deg,color-mix(in srgb,var(--a) 36%,var(--bg2)),var(--bg2) 70%);box-shadow:0 30px 60px -40px rgba(0,0,0,.8)}
+.tn-bg{position:absolute;inset:-20%;background-size:cover;background-position:center;filter:blur(56px) saturate(1.3);opacity:.26;pointer-events:none}
+.tn-in{position:relative;padding:26px 26px 24px}
+.tn-top{display:flex;justify-content:space-between;gap:12px;margin-bottom:18px;font-size:12.5px;color:var(--ink3);letter-spacing:.04em}
+.tn-feats{display:grid;gap:26px}.tn-feats[data-n="2"]{grid-template-columns:1fr 1fr;gap:30px}
+.tn-f{display:grid;grid-template-columns:clamp(130px,18vw,200px) minmax(0,1fr);gap:22px;align-items:start}
+.tn-feats[data-n="2"] .tn-f{grid-template-columns:120px minmax(0,1fr);gap:16px}
+.tn-po{position:relative;display:block;width:100%;aspect-ratio:2/3;padding:0;border:0;border-radius:8px;overflow:hidden;background:var(--a);cursor:pointer;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 24px 40px -18px rgba(0,0,0,.85);transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.tn-po:hover{transform:translateY(-4px) rotate(-.6deg)}
+.tn-po img{width:100%;height:100%;object-fit:cover;display:block}.tn-po .fb{position:absolute;inset:0;display:flex;align-items:flex-end;padding:12px;font:700 22px/1 var(--f-d);color:var(--k);text-align:left}
+.tn-po::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(155deg,rgba(255,255,255,.18),rgba(255,255,255,0) 38%,rgba(0,0,0,.22))}
+.tn-k{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#f0c35c;margin-bottom:8px}
+.tn-fi h2{font:700 clamp(28px,4.2vw,46px)/1 var(--f-d);margin:0 0 9px;overflow-wrap:anywhere}
+.tn-feats[data-n="2"] .tn-fi h2{font-size:clamp(24px,2.6vw,32px)}
+.tn-m{margin:0;color:var(--ink2);font-size:14.5px;line-height:1.45}
+.tn-o{margin:12px 0 0;color:var(--ink3);font-size:14px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tn-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}.tn-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);font:500 12.5px/1 var(--f-u);color:var(--ink)}.tn-pill i{font-style:normal;color:#f0c35c}
+.tn-why{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:7px}.tn-why li{display:flex;gap:9px;color:var(--ink2);font-size:14px;line-height:1.4}.tn-why li::before{content:"";flex:none;width:7px;height:7px;margin-top:6px;border-radius:50%;background:#f0c35c}
+.tn-time{margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
+.tn-when{display:flex;align-items:flex-end;gap:22px;flex-wrap:wrap;margin-bottom:14px}.tn-when small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px}.tn-when b{font:700 28px/1 var(--f-d);letter-spacing:.01em}
+.tn-when .tn-ar{width:30px;height:2px;background:var(--line2);margin-bottom:10px;position:relative}.tn-when .tn-ar::after{content:"";position:absolute;right:0;top:-3px;width:7px;height:7px;border-top:2px solid var(--line2);border-right:2px solid var(--line2);transform:rotate(45deg)}
+.tn-when .tn-rt{margin-left:auto;text-align:right}
+.tn-bar{display:flex;gap:3px;height:34px}
+.tn-seg{display:flex;align-items:center;padding:0 12px;border-radius:6px;background:var(--a);color:var(--k);font:600 12.5px/1 var(--f-u);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;min-width:0}
+.tn-gap{flex:15;background:repeating-linear-gradient(90deg,rgba(255,255,255,.2) 0 2px,transparent 2px 5px);border-radius:4px;opacity:.5}
+.tn-spare{border-radius:6px;border:1px dashed var(--line2)}
+.tn-say{margin:10px 0 0;color:var(--ink3);font-size:12.5px;line-height:1.5}
+.tn-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}.tn-acts .btn{height:46px;padding:0 20px;font-size:15px}.tn-acts .btn svg{width:17px;height:17px;margin-right:8px}
+.tn-alts{margin-top:34px}.tn-alts h3{font:700 22px/1 var(--f-d);margin:0 0 4px}.tn-alts>p{margin:0 0 14px;color:var(--ink3);font-size:13.5px}
+.tn-ag{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tn-alt{display:flex;gap:13px;align-items:center;width:100%;padding:10px;border:1px solid var(--line);border-radius:14px;background:var(--bg2);color:var(--ink);text-align:left;cursor:pointer;transition:border-color .15s,transform .2s}
+.tn-alt:hover{border-color:var(--line2);transform:translateY(-2px)}
+.tn-alt img,.tn-alt .fb{flex:none;width:54px;aspect-ratio:2/3;border-radius:5px;object-fit:cover;background:var(--a)}.tn-alt .fb{display:flex;align-items:flex-end;padding:4px;font:700 10px/1 var(--f-d);color:var(--k)}
+.tn-alt div{min-width:0}.tn-alt b{display:block;font:600 14.5px/1.25 var(--f-u);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.tn-alt span{display:block;margin-top:4px;color:var(--ink3);font-size:12.5px}.tn-alt em{display:block;margin-top:5px;font-style:normal;color:#f0c35c;font-size:12px}
+.tn-sum{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 -16px 18px;padding:2px 16px}.tn-sum::-webkit-scrollbar{display:none}
+.tn-sum button{flex:none;display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 15px;border-radius:999px;border:1px solid var(--line2);background:var(--bg2);color:var(--ink);font:500 14px/1 var(--f-u);cursor:pointer;white-space:nowrap}
+.tn-sum button svg{width:16px;height:16px}.tn-sum .tn-tune{background:#f0c35c;border-color:#f0c35c;color:#1a1204;font-weight:600}
+.tn-relax{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.sh-scrim{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;animation:mrF .2s ease}.sh-scrim[hidden]{display:none}
+.sh{width:100%;max-width:620px;max-height:88vh;margin:0 auto;display:flex;flex-direction:column;background:var(--bg2);border-radius:22px 22px 0 0;border:1px solid var(--line2);border-bottom:0;animation:mrU .28s cubic-bezier(.2,.8,.2,1)}
+.sh::before{content:"";display:block;width:38px;height:4px;border-radius:3px;background:var(--line2);margin:9px auto 0;flex:none}
+.sh-h{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 12px;flex:none}
+.sh-b{overflow-y:auto;padding:4px 18px calc(24px + env(safe-area-inset-bottom,0px));display:grid;gap:22px;align-content:start;overscroll-behavior:contain}
+html.rm .sh,html.rm .sh-scrim{animation:none}
+@media (max-width:760px){
+.tn-in{padding:16px 16px 18px}.tn-top{margin-bottom:14px}
+.tn-f{grid-template-columns:108px minmax(0,1fr);gap:14px}.tn-feats[data-n="2"]{grid-template-columns:1fr}.tn-feats[data-n="2"] .tn-f{grid-template-columns:96px minmax(0,1fr)}
+.tn-fi h2{font-size:27px}.tn-o{-webkit-line-clamp:2;font-size:13.5px;margin-top:9px}.tn-feats[data-n="2"] .tn-o{display:none}
+.tn-when b{font-size:23px}.tn-when{gap:14px}
+.tn-acts .tn-go{flex:1 1 100%}.tn-acts .btn:not(.tn-go){flex:1}
+.tn-ag{grid-template-columns:1fr}
+}
 .bs-h3{font:500 13px/1.3 var(--f-d);margin:14px 0 6px;color:var(--ink2)}@media (max-width:760px){.bs-r{grid-template-columns:44px repeat(8,minmax(0,1fr));gap:3px}.bs-l{font-size:10px}.bs-c{height:24px;font-size:10px}}
 
 .lp-l{display:grid;gap:2px;max-height:min(52vh,420px);overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:6px}.lp-i{display:flex;gap:12px;align-items:baseline;padding:8px 10px;border:0;border-radius:7px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:default;width:100%}button.lp-i{cursor:pointer}button.lp-i:hover{background:var(--line)}.lp-y{width:40px;flex:none;font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}.lp-n{font-size:14px}
@@ -1397,6 +1525,7 @@ html.rm .cv-c,html.rm .cv-g,html.rm .cv-in.sw{transition:none!important;animatio
   <nav class="nav" id="nav" aria-label="Sections">
     <a href="#/shelf" data-r="shelf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="4" y="5" width="4" height="15" rx="1"/><rect x="10" y="3" width="4" height="17" rx="1"/><path d="m16 7 4 1-3 12-4-1z"/></svg><span>Shelf</span><small id="nShelf"></small></a>
     <a href="#/tonight" data-r="tonight"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><span>Tonight</span></a>
+    <a href="#/explore" data-r="explore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.6 8.4-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg><span>Explore</span></a>
     <a href="#/diary" data-r="diary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg><span>Diary</span><small id="nDiary"></small></a>
     <a href="#/people" data-r="people"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c.5-3.6 3-5.5 6-5.5s5.5 1.9 6 5.5"/><path d="M16 5a3 3 0 0 1 0 6M18 14.8c1.7.7 2.7 2.4 3 5.2"/></svg><span>People</span></a>
     <a href="#/insights" data-r="insights"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 20v-6M11 20V5M17 20v-9M3 20h18"/></svg><span>Insights</span></a>
@@ -1426,10 +1555,9 @@ html.rm .cv-c,html.rm .cv-g,html.rm .cv-in.sw{transition:none!important;animatio
 <nav class="tabbar" id="tabbar" aria-label="Sections">
   <a href="#/shelf" data-r="shelf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="4" y="5" width="4" height="15" rx="1"/><rect x="10" y="3" width="4" height="17" rx="1"/><path d="m16 7 4 1-3 12-4-1z"/></svg>Shelf</a>
   <a href="#/tonight" data-r="tonight"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>Tonight</a>
+  <a href="#/explore" data-r="explore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.6 8.4-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg>Explore</a>
   <a href="#/diary" data-r="diary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>Diary</a>
-  <a href="#/people" data-r="people"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c.5-3.6 3-5.5 6-5.5s5.5 1.9 6 5.5"/><path d="M16 5a3 3 0 0 1 0 6M18 14.8c1.7.7 2.7 2.4 3 5.2"/></svg>People</a>
-  <a href="#/insights" data-r="insights"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 20v-6M11 20V5M17 20v-9M3 20h18"/></svg>Insights</a>
-  <a href="#/downloads" data-r="downloads"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>Saves</a>
+  <button type="button" class="tb-more" id="tbMore" aria-label="More sections" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </nav>
 
 <div id="scrim" hidden></div>
@@ -1705,7 +1833,7 @@ const guessOf = f => f.seen && f.rating > 0 ? f.rating : (predict(f) || {}).scor
 /* ===== Dailies: data, mutations, UI primitives ===== */
 const ACT = {};
 const PAGES = {};
-const ROUTES = ['shelf', 'tonight', 'diary', 'people', 'insights', 'downloads'];
+const ROUTES = ['shelf', 'tonight', 'explore', 'diary', 'people', 'insights', 'downloads'];
 let route = 'shelf';
 
 const SEEDS = [
@@ -2536,6 +2664,7 @@ ACT.ogsort = a => { OM.gsort = a.dataset.v; loadGenre(false); };
 const CMDS = [
   { t: 'Go to Shelf', k: 'shelf library', fn: () => go('shelf') },
   { t: 'Go to Tonight and pick something to watch', k: 'tonight what to watch pick', fn: () => go('tonight') },
+  { t: 'Go to Explore', k: 'explore discover browse trending find new', fn: () => go('explore') },
   { t: 'Go to Diary', k: 'diary calendar log', fn: () => go('diary') },
   { t: 'Go to People', k: 'people directors actors', fn: () => go('people') },
   { t: 'Go to Insights', k: 'insights stats charts', fn: () => go('insights') },
@@ -3273,7 +3402,6 @@ function openSettings() {
     row('Poster size', 'Applies to the Posters view.', so('psz', ['s', 'm', 'l'].includes(u.psz) ? u.psz : 'm', [['s', 'Small'], ['m', 'Medium'], ['l', 'Large']])) +
     row('Marking seen adds a diary entry', 'Dated today. Turn off if you would rather log watches yourself.', sw('stog', 'autoLog', s.autoLog, 'Marking seen adds a diary entry')) +
     row('Keyboard shortcuts', 'Single-key shortcuts such as n, g then s, and /. Ctrl K always works.', sw('stog', 'keys', s.keys, 'Keyboard shortcuts') + '<button type="button" class="btn sm" data-act="stkeys">See list</button>') +
-    row('Roulette sound', 'Clicks while the cylinder spins.', sw('stog', 'rrsound', !rr.mute, 'Roulette sound')) +
     row('Streaming region', 'Where "where to watch" looks.', '<select class="sel" id="stReg" data-ctl="region" aria-label="Streaming region">' + REGIONS.map(([c, n]) => '<option value="' + c + '"' + (s.region === c ? ' selected' : '') + '>' + n + '</option>').join('') + '</select>');
   const data = '<div class="row"><div class="field"><label for="stKey">TMDB key</label><input class="inp" id="stKey" type="password" autocomplete="off" spellcheck="false" placeholder="' + (s.key ? '' : 'Using the built-in key') + '" value="' + E(s.key) + '"></div></div>' +
     '<p class="note" style="margin:8px 0 4px"><button type="button" class="btn sm" data-act="testkey">Test and save key</button> <span id="stMsg" role="status"></span></p>' +
@@ -5422,7 +5550,7 @@ ACT.rrsrc = a => { rrSet({ src: a.dataset.v }); };
 ACT.rropts = () => { const r = rrUI(); r.ropen = !r.ropen; save(); rrDraw(); };
 ACT.rrmute = () => { const r = rrUI(); r.mute = !r.mute; save(); rrDraw(); };
 CTL.rrera = v => rrSet({ era: v }); CTL.rrlen = v => rrSet({ len: v }); CTL.rrgenre = v => rrSet({ genre: v });
-(function () { const base = PAGES.tonight.render; PAGES.tonight.render = function () { base.apply(this, arguments); const c = document.querySelector('#view .tnc'); if (c) c.insertAdjacentHTML('beforebegin', rrHTML()); if (rrUI().open && rrUI().src === 'any' && getKey() && rrMem.phase === 'idle') rrFill().catch(() => { }); }; })();
+/* Roulette is switched off for now (code kept, not mounted) */
 
 /* ===== Lists: any number of films, as a PDF or as pictures ===== */
 const LSIZE = { a4: { w: 1240, h: 1754, l: 'A4 page', K: 1.5 }, ig: { w: 1080, h: 1350, l: 'Instagram post', K: 1.25 }, phone: { w: 1080, h: 1920, l: 'Phone screen', K: 1.25 } };
@@ -6458,7 +6586,7 @@ ACT.wlcgo = () => { closeDlg(); setTimeout(() => { try { openOmni('films'); } ca
 ACT.wlcimport = () => { closeDlg(); setTimeout(() => openSettings(), 120); };
 ACT.wlcabout = () => { closeDlg(); setTimeout(() => aboutDlg(), 120); };
 function shortcutsDlg() {
-  const rows = [['/ or Ctrl K', 'Find a film, director, actor or command'], ['n', 'Log a watch'], ['← or →', 'Previous or next film while a film is open'], ['Select (Shelf)', 'Pick many films, then mark, list or remove them at once'], ['g then s', 'Go to Shelf'], ['g then t', 'Go to Tonight'], ['g then d', 'Go to Diary'], ['g then p', 'Go to People'], ['g then i', 'Go to Insights'], ['g then w', 'Go to Downloadables'], ['Esc', 'Close whatever is open'], ['?', 'Show this list']];
+  const rows = [['/ or Ctrl K', 'Find a film, director, actor or command'], ['n', 'Log a watch'], ['← or →', 'Previous or next film while a film is open'], ['Select (Shelf)', 'Pick many films, then mark, list or remove them at once'], ['g then s', 'Go to Shelf'], ['g then t', 'Go to Tonight'], ['g then e', 'Go to Explore'], ['g then d', 'Go to Diary'], ['g then p', 'Go to People'], ['g then i', 'Go to Insights'], ['g then w', 'Go to Downloadables'], ['Esc', 'Close whatever is open'], ['?', 'Show this list']];
   openDlg('<h2>Keyboard shortcuts</h2><table class="keys">' + rows.map(r => '<tr><td><kbd>' + E(r[0]) + '</kbd></td><td>' + E(r[1]) + '</td></tr>').join('') + '</table><div class="acts"><button class="btn pri" type="button" data-act="dlgx">Done</button></div>', { label: 'Keyboard shortcuts' });
 }
 document.addEventListener('keydown', e => {
@@ -6473,7 +6601,7 @@ document.addEventListener('keydown', e => {
   if (typing || e.metaKey || e.ctrlKey || e.altKey || S.set.keys === false) return;
   if (e.key === '/') { e.preventDefault(); if (typeof openOmni === 'function') openOmni(); return; }
   if (e.key === '?') { shortcutsDlg(); return; }
-  if (gPending) { gPending = false; const r = { s: 'shelf', t: 'tonight', d: 'diary', p: 'people', i: 'insights', w: 'downloads' }[e.key]; if (r) go(r); return; }
+  if (gPending) { gPending = false; const r = { s: 'shelf', t: 'tonight', e: 'explore', d: 'diary', p: 'people', i: 'insights', w: 'downloads' }[e.key]; if (r) go(r); return; }
   if (e.key === 'g') { gPending = true; setTimeout(() => { gPending = false; }, 900); return; }
   if (e.key === 'n' && typeof openLog === 'function') { e.preventDefault(); openLog(); }
 });
@@ -6722,6 +6850,195 @@ document.addEventListener('keydown', e => {
   renderShelfBody = function () { baseRender.apply(this, arguments); const v = $('#view'); if (v) v.dataset.sv = S.ui.view; if (S.ui.view === 'carousel') { if (document.querySelector('.bk-t.on') && ACT.bkmode) ACT.bkmode(); cvInit(); } };
 }
 try { if (route === 'shelf' && S.ui.view === 'carousel') refresh(); } catch (e) { /* ignore */ }
+/* ===== Explore: a few good charts ===== */
+const EXC = { tab: 'week', d: new Map() }, EX_YR = new Date().getFullYear();
+const EX_TABS = [['week', 'This week'], ['year', 'Best of ' + EX_YR], ['all', 'All time'], ['you', 'For you']];
+const EX_INFO = { week: ['Trending this week', 'What everyone is watching right now'], year: ['Best of ' + EX_YR, 'The best rated films released this year'], all: ['The all time greats', 'The highest rated films ever made'], you: ['Picked for you', 'Built from the films you rated highly'] };
+const exOwn = id => byId(id), exCnt = b => (b || []).filter(x => x && x.poster_path && !x.adult);
+function exFetch(tab, page) {
+  if (tab === 'week') return tmdb('/trending/movie/week', { page });
+  if (tab === 'all') return tmdb('/movie/top_rated', { page });
+  return tmdb('/discover/movie', { primary_release_year: EX_YR, sort_by: 'vote_average.desc', 'vote_count.gte': 200, 'primary_release_date.lte': new Date().toISOString().slice(0, 10), include_adult: 'false', page });
+}
+async function exForYou() {
+  const loved = S.films.filter(f => f.seen && f.rating >= 4 && isNum(f.id)).sort((a, b) => b.rating - a.rating || b.added - a.added).slice(0, 4), gi = tasteGenreIds(), sc = new Map();
+  const add = (b, w) => { if (!b || !b.id || !b.poster_path || b.adult || byId(b.id)) return; const e = sc.get(b.id) || { b, s: 0 }; e.s += w + (b.vote_average || 0) / 20; sc.set(b.id, e); };
+  const rs = await Promise.allSettled(loved.map(f => tmdb('/movie/' + f.id + '/recommendations')));
+  rs.forEach((r, i) => { if (r.status === 'fulfilled') (r.value.results || []).forEach((b, k) => add(b, (1.4 - i * .15) * (1 - k / 40))); });
+  if (gi.length) { try { const r = await tmdb('/discover/movie', { with_genres: gi.join('|'), 'vote_average.gte': 7, 'vote_count.gte': 800, sort_by: 'popularity.desc', include_adult: 'false' }); (r.results || []).forEach((b, k) => add(b, .6 * (1 - k / 40))); } catch (e) { if (!sc.size) throw e; } }
+  if (!rs.some(r => r.status === 'fulfilled') && !sc.size && loved.length) { const e = rs.find(r => r.status === 'rejected'); throw e.reason; }
+  return [...sc.values()].sort((a, b) => b.s - a.s).slice(0, 30).map(x => x.b);
+}
+async function exLoad(tab, more) {
+  let e = EXC.d.get(tab); if (!e) { e = { list: [], page: 0, total: 1, state: 'idle', err: '', at: 0, retry: false }; EXC.d.set(tab, e); }
+  if (e.state === 'load') return; if (!more && e.state === 'ok' && Date.now() - e.at < 18e5) return; if (more && e.page >= e.total) return;
+  if (!more && e.state !== 'idle') Object.assign(e, { list: [], page: 0, total: 1 });
+  e.state = 'load'; e.err = ''; exPaint();
+  try {
+    if (tab === 'you') { const l = await exForYou(); l.forEach(remember); e.list = l; e.page = e.total = 1; }
+    else { const r = await exFetch(tab, e.page + 1), have = new Set(e.list.map(x => x.id)); exCnt(r.results).forEach(b => { if (!have.has(b.id)) { remember(b); e.list.push(b); } }); e.page = r.page || e.page + 1; e.total = Math.min(r.total_pages || 1, 5); }
+    e.state = 'ok'; e.at = Date.now();
+  } catch (x) { e.state = 'err'; e.err = errMsg(x); e.noKey = x && x.code === 'NO_KEY'; }
+  exPaint();
+}
+const xSk = n => Array.from({ length: n }, () => '<div class="xc sk"><div class="xc-po"></div><div class="xc-t"><i></i><i></i></div></div>').join('');
+function xCard(b, rank) {
+  const y = (b.release_date || '').slice(0, 4), v = b.vote_average && b.vote_count >= 20 ? '<span class="xc-v"><i>★</i>' + b.vote_average.toFixed(1) + '</span>' : '', own = exOwn(b.id);
+  return '<div class="xc' + (own ? ' own' : '') + '"><button type="button" class="xc-po' + (rank && rank <= 10 ? ' n' : '') + '" data-act="film" data-id="' + b.id + '" aria-label="Open ' + E(b.title || '') + '"><img src="' + img('poster', b.poster_path) + '" alt="" loading="lazy" draggable="false">' + v +
+    (own ? '<span class="xc-o">' + (own.seen ? 'Seen' : own.wish ? 'Wishlist' : 'On shelf') + '</span>' : '') + (rank && rank <= 10 ? '<span class="xc-n" aria-hidden="true">' + rank + '</span>' : '') + '</button>' +
+    (own ? '' : '<button type="button" class="xc-add" data-act="xwish" data-id="' + b.id + '" aria-label="Add ' + E(b.title || '') + ' to your wishlist" title="Add to wishlist">+</button>') +
+    '<div class="xc-t"><b>' + E(b.title || '') + '</b><span>' + E(y) + '</span></div></div>';
+}
+function exBodyHTML() {
+  const tab = EXC.tab, e = EXC.d.get(tab) || { state: 'idle', list: [] }, info = EX_INFO[tab], chart = tab !== 'you';
+  let seen = ''; if (e.list.length && chart) { const n = e.list.filter(b => { const f = exOwn(b.id); return f && f.seen; }).length; seen = '<span class="x-seen">You have seen <b>' + n + '</b> of ' + e.list.length + ' shown</span>'; }
+  let h = '<div class="x-lead"><h2>' + E(info[0]) + '</h2><p>' + E(info[1]) + '</p>' + seen + '</div>';
+  if (e.state === 'err') return h + '<div class="xerr">' + E(e.err) + (e.noKey ? ' <button class="btn sm" type="button" data-act="settings">Settings</button>' : ' <button class="btn sm" type="button" data-act="xretry">Try again</button>') + '</div>';
+  if (e.state === 'ok' && !e.list.length) return h + '<div class="empty"><h3>' + (tab === 'you' ? 'Nothing to suggest yet' : 'Nothing here') + '</h3><p>' + (tab === 'you' ? 'Rate a few films 4 stars or higher and this fills up with picks made for you.' : 'Try again in a moment.') + '</p></div>';
+  h += '<div class="xchart">' + e.list.map((b, i) => xCard(b, chart ? i + 1 : 0)).join('') + (e.state === 'load' || e.state === 'idle' ? xSk(e.list.length ? 6 : 12) : '') + '</div>';
+  if (e.state === 'ok' && e.page < e.total && chart) h += '<div class="xmore"><button class="btn" type="button" data-act="exmore">Show more</button></div>';
+  return h;
+}
+function exPaint() { const b = $('#exBody'); if (route === 'explore' && b) b.innerHTML = exBodyHTML(); }
+PAGES.explore = {
+  render() {
+    const v = $('#view'); if (!v) return; const head = '<div class="pagehead"><h1>Explore</h1><span class="sub">What is worth watching</span></div>';
+    if (!getKey()) { v.innerHTML = head + '<div class="empty"><h3>Add a TMDB key to explore</h3><p>Explore pulls charts and recommendations from TMDB.</p><button class="btn pri" type="button" data-act="settings">Open Settings</button></div>'; return; }
+    if (!EX_TABS.some(t => t[0] === EXC.tab)) EXC.tab = 'week';
+    v.innerHTML = head + '<nav class="x-tabs" id="exTabs" aria-label="Explore charts">' + EX_TABS.map(t => '<button type="button" data-act="extab" data-t="' + t[0] + '" class="' + (EXC.tab === t[0] ? 'on' : '') + '">' + E(t[1]) + '</button>').join('') + '</nav><div id="exBody"></div>';
+    exPaint(); exLoad(EXC.tab, false);
+  }
+};
+ACT.extab = a => { EXC.tab = a.dataset.t; $$('#exTabs button').forEach(b => b.classList.toggle('on', b.dataset.t === EXC.tab)); exPaint(); exLoad(EXC.tab, false); };
+ACT.exmore = () => exLoad(EXC.tab, true);
+ACT.xretry = () => { const e = EXC.d.get(EXC.tab); if (e) e.state = 'idle'; exLoad(EXC.tab, false); };
+ACT.xwish = a => { const b = mem.pre.get(String(a.dataset.id)); if (!b) return; addFilm(Object.assign({ id: +a.dataset.id }, b), { wish: true }); exPaint(); };
+/* ===== Phone: More sheet ===== */
+(function () {
+  const btn = $('#tbMore'); if (!btn) return; let sc = null;
+  const close = () => { if (sc) { sc.hidden = true; btn.setAttribute('aria-expanded', 'false'); } };
+  const open = () => {
+    if (!sc) {
+      sc = document.createElement('div'); sc.id = 'moreScrim'; sc.hidden = true;
+      const item = r => { const a = $('#nav a[data-r="' + r + '"]'); return a ? '<a href="#/' + r + '" data-r="' + r + '">' + a.querySelector('svg').outerHTML + '<span>' + E(a.querySelector('span').textContent) + '</span></a>' : ''; };
+      sc.innerHTML = '<div id="moreSheet" role="dialog" aria-modal="true" aria-label="More sections">' + ['people', 'insights', 'downloads'].map(item).join('') + '<div class="mr-sep"></div><button type="button" id="mrSet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg><span>Settings</span></button></div>';
+      document.body.appendChild(sc);
+      sc.addEventListener('click', e => { if (e.target === sc || e.target.closest('#moreSheet a')) close(); const s = e.target.closest('#mrSet'); if (s) { close(); openSettings(); } });
+      renderRail();
+    }
+    sc.hidden = false; btn.setAttribute('aria-expanded', 'true'); const first = sc.querySelector('a'); if (first) first.focus();
+  };
+  btn.addEventListener('click', () => (sc && !sc.hidden ? close() : open()));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && sc && !sc.hidden) { e.stopPropagation(); e.preventDefault(); close(); } }, true);
+  addEventListener('hashchange', close);
+  const rr = renderRail; renderRail = function () { rr.apply(this, arguments); btn.classList.toggle('on', ['people', 'insights', 'downloads'].includes(route)); };
+  renderRail();
+})();
+/* ===== Tonight 2.0: the pick first, the tuning second ===== */
+const TN_WIDE = matchMedia('(min-width:1180px)');
+const TN_MINS = [[90, '90m'], [120, '2h'], [150, '2½h'], [180, '3h'], [240, '4h'], [360, '6h']];
+const TN_SRC = [['wish', 'Wishlist', 'Films you have been meaning to see'], ['new', 'Something new', 'Fresh picks from TMDB, not on your shelf yet'], ['any', 'Whole shelf', 'Unseen films, plus favourites worth a rewatch']];
+const tnMinsLbl = m => (TN_MINS.find(x => x[0] === m) || [0, m + 'm'])[1];
+const TN_IC = { clock: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>', tune: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>', shuf: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>' };
+function tnTimeHTML(p, t) {
+  const fs = p.films, rts = fs.map(f => f.runtime || 110), win = Math.max(t.mins, p.total), spare = win - p.total, say = []; let at = 0, bar = '<div class="tn-bar">';
+  fs.forEach((f, i) => {
+    if (i) { bar += '<span class="tn-gap" title="Interval, 15 minutes"></span>'; at += 15; }
+    bar += '<span class="tn-seg" style="flex:' + rts[i] + ';' + palStyle(f) + '" title="' + E(f.title) + '">' + E(f.title) + '</span>';
+    say.push(f.title + ' ' + clockStr(t.start, at) + ' to ' + clockStr(t.start, at + rts[i])); at += rts[i];
+  });
+  if (spare > 0) bar += '<span class="tn-spare" style="flex:' + spare + '" title="Spare time"></span>';
+  return '<div class="tn-when"><div><small>Starts</small><b>' + E(clockStr(t.start, 0)) + '</b></div><span class="tn-ar" aria-hidden="true"></span><div><small>Ends' + (clockStr(t.start, p.total).includes('after midnight') ? ', next day' : '') + '</small><b>' + E(clockStr(t.start, p.total).replace(' (after midnight)', '')) + '</b></div><div class="tn-rt"><small>Runtime</small><b>' + E(fmtRt(p.total)) + '</b></div></div>' + bar + '</div><p class="tn-say">' + E(say.join('. ')) + '.' + (spare > 0 ? ' ' + spare + ' minutes to spare.' : '') + '</p>';
+}
+function tnFeat(f, i, n, isNew) {
+  const pr = !f.seen ? predict(f) : null, em = entriesOf(f.id), k = isNew ? 'New to you' : n > 1 ? (i ? 'Second feature' : 'First feature') : 'Tonight’s pick', tags = [];
+  if (f.seen) { tags.push('<span class="tn-pill"><i>★</i>You rated ' + f.rating + '</span>'); tags.push('<span class="tn-pill">Rewatch' + (em[0] ? ', last ' + E(fmtDate(em[0].date)) : '') + '</span>'); }
+  else { if (pr) tags.push('<span class="tn-pill"><i>★</i>Likely ' + pr.score.toFixed(1) + ' for you</span>'); else if (f.votes >= 50) tags.push('<span class="tn-pill"><i>★</i>' + f.vote.toFixed(1) + ' on TMDB</span>');}
+  const meta = [f.year, fmtRt(f.runtime || 110), f.genres.slice(0, 2).join(', ')].filter(Boolean).join('  ·  ');
+  return '<article class="tn-f" style="' + palStyle(f) + '"><button type="button" class="tn-po" data-act="film" data-id="' + f.id + '" aria-label="Open ' + E(f.title) + '">' + (f.poster ? '<img src="' + img('big', f.poster) + '" alt="">' : '<span class="fb">' + E(f.title) + '</span>') + '</button>' +
+    '<div class="tn-fi"><div class="tn-k">' + k + '</div><h2>' + E(f.title) + '</h2><p class="tn-m">' + E(meta) + (f.directors.length ? '<br>Directed by ' + E(directorNames(f)) : '') + '</p>' + (f.overview ? '<p class="tn-o">' + E(f.overview) + '</p>' : '') + '<div class="tn-tags">' + tags.join('') + '</div></div></article>';
+}
+function tnAlts(p) {
+  const t = S.ui.tn; if (t.mode !== 'single' || !p || !p.films || p.single) return [];
+  const { inc, exc } = tnRules(t), em = entryMap(), cur = p.films[0].id;
+  let base = t.src === 'new' ? tnNew.pool.slice() : S.films.filter(f => t.src === 'wish' ? f.wish : (!f.seen || (f.rating >= 4 && rewatchOk(f, em))));
+  base = base.filter(f => f.id !== cur && !f.genres.some(g => exc.has(g)) && (!inc.size || f.genres.some(g => inc.has(g))) && (f.runtime || 110) <= t.mins);
+  const mg = new Set(t.mood.flatMap(m => (MOODS.find(x => x[0] === m) || [0, []])[1])), pool = mg.size && !inc.size ? base.filter(f => f.genres.some(g => mg.has(g))) : base;
+  return pool.map(f => ({ f, s: tnScore(f, inc, mg) + (hash(String(f.id) + '|' + tnMem.n) % 100) / 160 })).sort((a, b) => b.s - a.s).slice(0, 3).map(x => x.f);
+}
+function tnHeroHTML(p, isNew) {
+  const t = S.ui.tn, n = p.films.length, f0 = p.films[0];
+  return '<section class="tn-hero" style="' + palStyle(f0) + '">' + (f0.poster ? '<i class="tn-bg" style="background-image:url(\'' + img('big', f0.poster) + '\')"></i>' : '') + '<div class="tn-in">' +
+    '<div class="tn-top"><span>' + (isNew ? 'Pick ' + p.n : 'Pick ' + p.n + (p.fit ? ' of ' + p.fit + ' that fit' : '')) + '</span><span>' + (n > 1 ? 'Double bill' : 'Single feature') + '</span></div>' +
+    (p.relaxed ? '<p class="tn-say" style="margin:-6px 0 14px">Nothing in the pool matches that mood, so this is the closest fit.</p>' : '') + (t.mode === 'double' && p.single ? '<p class="tn-say" style="margin:-6px 0 14px">No two films fit in that time, so here is a single feature.</p>' : '') +
+    '<div class="tn-feats" data-n="' + n + '">' + p.films.map((f, i) => tnFeat(f, i, n, isNew)).join('') + '</div>' +
+    (p.why && p.why.length ? '<ul class="tn-why">' + p.why.map(w => '<li>' + E(w) + '</li>').join('') + '</ul>' : '') +
+    '<div class="tn-time" id="tnTime">' + tnTimeHTML(p, t) + '</div>' +
+    '<div class="tn-acts"><button type="button" class="btn pri tn-go" data-act="tdone">We watched ' + (n > 1 ? 'them' : 'it') + '</button><button type="button" class="btn" data-act="treroll">' + TN_IC.shuf + 'Another ' + (n > 1 ? 'pairing' : 'one') + '</button><button type="button" class="btn" data-act="tsave">Save</button>' + (isNew ? '<button type="button" class="btn" data-act="twish">Wishlist</button>' : '') + '</div></div></section>';
+}
+billHTML = function (p, isNew) {
+  const al = tnMem.alts = tnAlts(p);
+  return tnHeroHTML(p, isNew) + (al.length ? '<section class="tn-alts"><h3>Or maybe</h3><p>Same evening, other films. Tap one to swap it in.</p><div class="tn-ag">' + al.map(f => '<button type="button" class="tn-alt" style="' + palStyle(f) + '" data-act="talt" data-id="' + f.id + '">' + (f.poster ? '<img src="' + img('poster', f.poster) + '" alt="">' : '<span class="fb">' + E(f.title) + '</span>') + '<div><b>' + E(f.title) + '</b><span>' + E([f.year, fmtRt(f.runtime || 110)].filter(Boolean).join('  ·  ')) + '</span>' + (!f.seen && predict(f) ? '<em>Likely ' + predict(f).score.toFixed(1) + ' for you</em>' : f.seen ? '<em>Rewatch, you rated it ' + f.rating + '</em>' : '') + '</div></button>').join('') + '</div></section>' : '');
+};
+function tnCtlHTML() {
+  const t = S.ui.tn; tnRules(t);
+  const chip = (act, v, label, on) => '<button type="button" class="chip' + (on ? ' on' : '') + '" data-act="' + act + '" data-v="' + v + '" aria-pressed="' + !!on + '">' + label + '</button>';
+  return '<div class="tn-cs"><span class="lbl">Start at</span><div class="tbox">' + TN_IC.clock + '<input class="tin" type="time" id="tnStart" data-ctl="tstart" value="' + E(t.start) + '"><button type="button" class="tnow" data-act="tnow">Now</button></div></div>' +
+    '<div class="tn-cs"><span class="lbl">Time available</span><div class="tn-ch">' + TN_MINS.map(([v, l]) => chip('tmins', v, l, t.mins === v)).join('') + '</div></div>' +
+    '<div class="tn-cs"><span class="lbl">Mood <i>pick any</i></span><div class="tn-ch">' + MOODS.map(([m]) => chip('tmood', m, m, t.mood.includes(m))).join('') + '</div></div>' +
+    '<div class="tn-cs"><span class="lbl">Pick from</span><div class="tn-src">' + TN_SRC.map(([v, l, d]) => '<button type="button" data-act="tsrc" data-v="' + v + '" class="' + (t.src === v ? 'on' : '') + '" aria-pressed="' + (t.src === v) + '"><b>' + l + '</b><span>' + d + '</span></button>').join('') + '</div></div>' +
+    '<div class="tn-cs"><span class="lbl">Format</span><div class="seg" role="group">' + [['single', 'Single feature'], ['double', 'Double bill']].map(([v, l]) => '<button type="button" data-act="tmode" data-v="' + v + '" class="' + (t.mode === v ? 'on' : '') + '" aria-pressed="' + (t.mode === v) + '">' + l + '</button>').join('') + '</div></div>' +
+    '<div class="tn-cs"><span class="lbl">Genres</span>' + tnGenresHTML(t) + '</div>';
+}
+function tnSumHTML() {
+  const t = S.ui.tn, b = (ic, txt, id) => '<button type="button" data-act="tntune"' + (id ? ' id="' + id + '"' : '') + '>' + ic + '<span>' + E(txt) + '</span></button>';
+  return '<div class="tn-sum" aria-label="Tonight settings"><button type="button" class="tn-tune" data-act="tntune">' + TN_IC.tune + 'Tune</button>' + b(TN_IC.clock, clockStr(t.start, 0).replace(' (after midnight)', '') + ' · ' + tnMinsLbl(t.mins), 'tnSumT') + b('', t.mood.length ? t.mood.join(', ') : 'Any mood') + b('', (TN_SRC.find(x => x[0] === t.src) || TN_SRC[0])[1]) + (t.mode === 'double' ? b('', 'Double bill') : '') + '</div>';
+}
+function tnEmptyHTML(t) {
+  const pool = S.films.filter(f => t.src === 'wish' ? f.wish : !f.seen).length, ix = TN_MINS.findIndex(m => m[0] === t.mins), relax = [];
+  if (ix >= 0 && ix < TN_MINS.length - 1) relax.push('<button class="btn" type="button" data-act="tmins" data-v="' + TN_MINS[ix + 1][0] + '">Make it ' + TN_MINS[ix + 1][1] + '</button>');
+  if (t.mood.length) relax.push('<button class="btn" type="button" data-act="tclrmood">Any mood</button>');
+  if (t.src === 'wish') relax.push('<button class="btn" type="button" data-act="tsrc" data-v="any">Whole shelf</button>');
+  if (t.src !== 'new') relax.push('<button class="btn" type="button" data-act="tsrc" data-v="new">Something new</button>');
+  return '<div class="empty"><h3>Nothing fits that evening</h3><p>' + (pool ? 'No film ' + (t.src === 'wish' ? 'on your wishlist ' : '') + 'fits ' + tnMinsLbl(t.mins) + (t.mood.length ? ' in that mood' : '') + '. Loosen one thing:' : 'Your wishlist is empty. Add a few films you want to see, or let Tonight find something new.') + '</p><div class="tn-relax">' + relax.join('') + (pool ? '' : '<button class="btn pri" type="button" data-act="find">Find films</button>') + '</div></div>';
+}
+PAGES.tonight = {
+  render() {
+    const t = S.ui.tn; tnRules(t); const wide = TN_WIDE.matches; let res;
+    if (t.src === 'new') res = tnNewHTML();
+    else { const p = tnCurrent(); res = p && p.exhausted ? tnExhaustHTML(p) : p ? billHTML(p, false) : tnEmptyHTML(t); }
+    const past = [...S.progs].sort((a, b) => b.ts - a.ts).slice(0, 6);
+    $('#view').innerHTML = '<div class="pagehead"><h1>Tonight</h1><span class="sub">Your evening, programmed.</span></div>' +
+      (wide ? '<div class="tn-grid"><div class="tn-main">' + res + '</div><aside class="tn-side" aria-label="Tune the evening"><div class="tn-pan"><h3>The evening</h3>' + tnCtlHTML() + '</div></aside></div>' : tnSumHTML() + res) +
+      (past.length ? '<section class="past"><h2>Saved programmes</h2>' + past.map(g => '<div class="pg"><span class="pg-d">' + E(fmtDate(g.date)) + '</span><span class="pg-f">' + g.films.map(id => { const f = byId(id); return f ? '<button type="button" class="lnk" data-act="film" data-id="' + f.id + '">' + E(f.title) + '</button>' : ''; }).filter(Boolean).join(' and ') + '</span><button type="button" class="btn sm ghost" data-act="pgdel" data-id="' + g.id + '">Remove</button></div>').join('') + '</section>' : '');
+    if (t.src === 'new') tnEnsureNew();
+    const sh = $('#tnShB'); if (sh && !$('#tnSh').hidden) { if (wide) tnClose(); else { const st = sh.scrollTop; sh.innerHTML = tnCtlHTML(); sh.scrollTop = st; } }
+  }
+};
+function tnClose() { const s = $('#tnSh'); if (s) s.hidden = true; }
+ACT.tntune = () => {
+  let s = $('#tnSh');
+  if (!s) {
+    s = document.createElement('div'); s.id = 'tnSh'; s.className = 'sh-scrim'; s.hidden = true;
+    s.innerHTML = '<div class="sh" role="dialog" aria-modal="true" aria-label="Tune the evening"><div class="sh-h"><b>Tune the evening</b><button type="button" class="btn sm pri" data-act="tnshdone">Show me</button></div><div class="sh-b" id="tnShB"></div></div>';
+    document.body.appendChild(s); s.addEventListener('click', e => { if (e.target === s) tnClose(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !s.hidden) { e.preventDefault(); e.stopPropagation(); tnClose(); } }, true);
+    addEventListener('hashchange', tnClose);
+  }
+  $('#tnShB').innerHTML = tnCtlHTML(); s.hidden = false;
+};
+ACT.tnshdone = () => tnClose();
+ACT.tclrmood = () => tnSet({ mood: [], seed: 0 });
+ACT.talt = a => {
+  const p = tnCurrent(), f = (tnMem.alts || []).find(x => String(x.id) === String(a.dataset.id)); if (!p || !f) return;
+  const t = S.ui.tn, { inc } = tnRules(t), rt = f.runtime || 110, H = t.hist || (t.hist = {});
+  tnMem.cur = Object.assign({}, p, { films: [f], total: rt, relaxed: false, single: false, why: tnWhy([f], t, inc, rt) }); tnMem.shown.add(f.id); tnMem.last = [f]; H[f.id] = Date.now(); save(); refresh({ noPanel: true }); window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+CTL.tstart = v => {
+  if (!/^\d{2}:\d{2}$/.test(v)) return; S.ui.tn.start = v; save(); const p = tnCurrent(), el = $('#tnTime'); if (p && p.films && el) el.innerHTML = tnTimeHTML(p, S.ui.tn);
+  const sm = $('#tnSumT span'); if (sm) sm.textContent = clockStr(v, 0).replace(' (after midnight)', '') + ' · ' + tnMinsLbl(S.ui.tn.mins);
+};
+TN_WIDE.addEventListener('change', () => { if (route === 'tonight') refresh({ noPanel: true }); });
 </script>
 </body>
 </html>
