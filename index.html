@@ -1502,6 +1502,10 @@ html.rm .sh,html.rm .sh-scrim{animation:none}
 .tn-acts .tn-go{flex:1 1 100%}.tn-acts .btn:not(.tn-go){flex:1}
 .tn-ag{grid-template-columns:1fr}
 }
+.x-lead{display:flex;align-items:flex-end;justify-content:space-between;gap:14px 20px;flex-wrap:wrap;margin:22px 0 22px}.x-lead h2{margin:0 0 6px}.x-lead p{margin:0}
+.x-gen{margin-left:auto}.x-gen .sel{min-width:150px}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.x-sent{height:1px}.x-end{text-align:center;color:var(--ink3);font-size:13.5px;margin:34px 0 10px}
+@media (max-width:760px){.x-gen{margin-left:0;width:100%}.x-gen .sel{width:100%}}
 .bs-h3{font:500 13px/1.3 var(--f-d);margin:14px 0 6px;color:var(--ink2)}@media (max-width:760px){.bs-r{grid-template-columns:44px repeat(8,minmax(0,1fr));gap:3px}.bs-l{font-size:10px}.bs-c{height:24px;font-size:10px}}
 
 .lp-l{display:grid;gap:2px;max-height:min(52vh,420px);overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:6px}.lp-i{display:flex;gap:12px;align-items:baseline;padding:8px 10px;border:0;border-radius:7px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:default;width:100%}button.lp-i{cursor:pointer}button.lp-i:hover{background:var(--line)}.lp-y{width:40px;flex:none;font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}.lp-n{font-size:14px}
@@ -6850,56 +6854,86 @@ document.addEventListener('keydown', e => {
   renderShelfBody = function () { baseRender.apply(this, arguments); const v = $('#view'); if (v) v.dataset.sv = S.ui.view; if (S.ui.view === 'carousel') { if (document.querySelector('.bk-t.on') && ACT.bkmode) ACT.bkmode(); cvInit(); } };
 }
 try { if (route === 'shelf' && S.ui.view === 'carousel') refresh(); } catch (e) { /* ignore */ }
-/* ===== Explore: a few good charts ===== */
-const EXC = { tab: 'week', d: new Map() }, EX_YR = new Date().getFullYear();
-const EX_TABS = [['week', 'This week'], ['year', 'Best of ' + EX_YR], ['all', 'All time'], ['you', 'For you']];
-const EX_INFO = { week: ['Trending this week', 'What everyone is watching right now'], year: ['Best of ' + EX_YR, 'The best rated films released this year'], all: ['The all time greats', 'The highest rated films ever made'], you: ['Picked for you', 'Built from the films you rated highly'] };
-const exOwn = id => byId(id), exCnt = b => (b || []).filter(x => x && x.poster_path && !x.adult);
-function exFetch(tab, page) {
-  if (tab === 'week') return tmdb('/trending/movie/week', { page });
-  if (tab === 'all') return tmdb('/movie/top_rated', { page });
-  return tmdb('/discover/movie', { primary_release_year: EX_YR, sort_by: 'vote_average.desc', 'vote_count.gte': 200, 'primary_release_date.lte': new Date().toISOString().slice(0, 10), include_adult: 'false', page });
+/* ===== Explore: a few good charts, endless scroll, one genre filter ===== */
+const EXC = { tab: 'week', genre: '', d: new Map() }, EX_YR = new Date().getFullYear(), EX_MAXP = 40;
+const EX_TABS = [['week', 'Trending'], ['year', 'Best of ' + EX_YR], ['all', 'All time'], ['you', 'For you']];
+const EX_INFO = { week: ['Trending now', 'What people are watching right now'], year: ['Best of ' + EX_YR, 'Released this year, 700+ votes, rated 6.5 or higher'], all: ['The all time greats', '2,000+ votes and rated 7 or higher'], you: ['Picked for you', 'From the films and genres you rate highly, and it keeps going'] };
+const EX_GEN = ['Action', 'Adventure', 'Animation', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery', 'Romance', 'Science Fiction', 'Thriller', 'War', 'Western'];
+const exKey = () => EXC.tab + '|' + EXC.genre, exOwn = id => byId(id);
+const exIso = (add = 0) => { const d = new Date(Date.now() + add * 864e5); return d.toISOString().slice(0, 10); };
+function exDisc(q) {
+  const p = Object.assign({ include_adult: 'false', 'with_runtime.gte': 60, 'primary_release_date.lte': exIso() }, q); if (EXC.genre && GENRE_ID[EXC.genre] && !('with_genres' in q && q.__keep)) p.with_genres = GENRE_ID[EXC.genre]; delete p.__keep; return tmdb('/discover/movie', p);
 }
-async function exForYou() {
-  const loved = S.films.filter(f => f.seen && f.rating >= 4 && isNum(f.id)).sort((a, b) => b.rating - a.rating || b.added - a.added).slice(0, 4), gi = tasteGenreIds(), sc = new Map();
-  const add = (b, w) => { if (!b || !b.id || !b.poster_path || b.adult || byId(b.id)) return; const e = sc.get(b.id) || { b, s: 0 }; e.s += w + (b.vote_average || 0) / 20; sc.set(b.id, e); };
-  const rs = await Promise.allSettled(loved.map(f => tmdb('/movie/' + f.id + '/recommendations')));
-  rs.forEach((r, i) => { if (r.status === 'fulfilled') (r.value.results || []).forEach((b, k) => add(b, (1.4 - i * .15) * (1 - k / 40))); });
-  if (gi.length) { try { const r = await tmdb('/discover/movie', { with_genres: gi.join('|'), 'vote_average.gte': 7, 'vote_count.gte': 800, sort_by: 'popularity.desc', include_adult: 'false' }); (r.results || []).forEach((b, k) => add(b, .6 * (1 - k / 40))); } catch (e) { if (!sc.size) throw e; } }
-  if (!rs.some(r => r.status === 'fulfilled') && !sc.size && loved.length) { const e = rs.find(r => r.status === 'rejected'); throw e.reason; }
-  return [...sc.values()].sort((a, b) => b.s - a.s).slice(0, 30).map(x => x.b);
+function exChartFetch(tab, page) {
+  if (tab === 'week') return exDisc({ sort_by: 'popularity.desc', 'primary_release_date.gte': exIso(-110), 'vote_count.gte': 60, page });
+  if (tab === 'year') return exDisc({ sort_by: 'vote_average.desc', 'primary_release_date.gte': EX_YR + '-01-01', 'vote_count.gte': 700, 'vote_average.gte': 6.5, page });
+  return exDisc({ sort_by: 'vote_average.desc', 'vote_count.gte': 2000, 'vote_average.gte': 7, page });
 }
+function exYouInit() {
+  const loved = S.films.filter(f => f.seen && f.rating >= 4 && isNum(f.id)).sort((a, b) => b.rating - a.rating || b.added - a.added).slice(0, 4), gi = tasteGenreIds(), src = [];
+  loved.forEach(f => src.push({ max: 3, soft: true, fetch: p => tmdb('/movie/' + f.id + '/recommendations', { page: p }) }));
+  if (gi.length && !EXC.genre) src.push({ max: EX_MAXP, fetch: p => exDisc({ with_genres: gi.join('|'), __keep: 1, sort_by: 'popularity.desc', 'vote_count.gte': 500, 'vote_average.gte': 6.8, page: p }) });
+  src.push({ max: EX_MAXP, fetch: p => exDisc({ sort_by: 'popularity.desc', 'vote_count.gte': 1000, 'vote_average.gte': 7, page: p }) });
+  return { src, i: 0, page: 0 };
+}
+const exOk = (b, tab) => b && b.id && b.poster_path && !b.adult && (tab !== 'you' || (!byId(b.id) && (b.vote_count || 0) >= 100 && (b.vote_average || 0) >= 6)) && (!EXC.genre || !b.genre_ids || b.genre_ids.includes(GENRE_ID[EXC.genre]));
 async function exLoad(tab, more) {
-  let e = EXC.d.get(tab); if (!e) { e = { list: [], page: 0, total: 1, state: 'idle', err: '', at: 0, retry: false }; EXC.d.set(tab, e); }
-  if (e.state === 'load') return; if (!more && e.state === 'ok' && Date.now() - e.at < 18e5) return; if (more && e.page >= e.total) return;
-  if (!more && e.state !== 'idle') Object.assign(e, { list: [], page: 0, total: 1 });
+  const key = exKey(); let e = EXC.d.get(key);
+  if (!e) { e = { list: [], page: 0, total: 1, state: 'idle', err: '', at: 0, done: false, fy: null }; EXC.d.set(key, e); }
+  if (e.state === 'load') return; if (!more && e.state === 'ok' && Date.now() - e.at < 18e5) return; if (more && e.done) return;
+  if (!more && e.state !== 'idle') Object.assign(e, { list: [], page: 0, total: 1, done: false, fy: null });
   e.state = 'load'; e.err = ''; exPaint();
   try {
-    if (tab === 'you') { const l = await exForYou(); l.forEach(remember); e.list = l; e.page = e.total = 1; }
-    else { const r = await exFetch(tab, e.page + 1), have = new Set(e.list.map(x => x.id)); exCnt(r.results).forEach(b => { if (!have.has(b.id)) { remember(b); e.list.push(b); } }); e.page = r.page || e.page + 1; e.total = Math.min(r.total_pages || 1, 5); }
+    const have = new Set(e.list.map(x => x.id)); let added = 0;
+    if (tab === 'you') {
+      if (!e.fy) e.fy = exYouInit();
+      for (let guard = 0; guard < 6 && added < 10 && e.fy.i < e.fy.src.length; guard++) {
+        const s = e.fy.src[e.fy.i], page = e.fy.page + 1; let r = null;
+        try { r = await s.fetch(page); } catch (x) { if (!s.soft) throw x; }
+        if (r) (r.results || []).forEach(b => { if (exOk(b, tab) && !have.has(b.id)) { have.add(b.id); remember(b); e.list.push(b); added++; } });
+        e.fy.page = page; if (!r || page >= Math.min(r.total_pages || 1, s.max)) { e.fy.i++; e.fy.page = 0; }
+      }
+      e.done = e.fy.i >= e.fy.src.length;
+    } else {
+      for (let guard = 0; guard < 4 && !added && !e.done; guard++) {
+        const r = await exChartFetch(tab, e.page + 1); e.page = r.page || e.page + 1; e.total = Math.min(r.total_pages || 1, EX_MAXP);
+        (r.results || []).forEach(b => { if (exOk(b, tab) && !have.has(b.id)) { have.add(b.id); remember(b); e.list.push(b); added++; } });
+        if (e.page >= e.total) e.done = true;
+      }
+    }
     e.state = 'ok'; e.at = Date.now();
   } catch (x) { e.state = 'err'; e.err = errMsg(x); e.noKey = x && x.code === 'NO_KEY'; }
-  exPaint();
+  if (exKey() === key) exPaint();
 }
 const xSk = n => Array.from({ length: n }, () => '<div class="xc sk"><div class="xc-po"></div><div class="xc-t"><i></i><i></i></div></div>').join('');
-function xCard(b, rank) {
+function xCard(b) {
   const y = (b.release_date || '').slice(0, 4), v = b.vote_average && b.vote_count >= 20 ? '<span class="xc-v"><i>★</i>' + b.vote_average.toFixed(1) + '</span>' : '', own = exOwn(b.id);
-  return '<div class="xc' + (own ? ' own' : '') + '"><button type="button" class="xc-po' + (rank && rank <= 10 ? ' n' : '') + '" data-act="film" data-id="' + b.id + '" aria-label="Open ' + E(b.title || '') + '"><img src="' + img('poster', b.poster_path) + '" alt="" loading="lazy" draggable="false">' + v +
-    (own ? '<span class="xc-o">' + (own.seen ? 'Seen' : own.wish ? 'Wishlist' : 'On shelf') + '</span>' : '') + (rank && rank <= 10 ? '<span class="xc-n" aria-hidden="true">' + rank + '</span>' : '') + '</button>' +
+  return '<div class="xc' + (own ? ' own' : '') + '"><button type="button" class="xc-po" data-act="film" data-id="' + b.id + '" aria-label="Open ' + E(b.title || '') + '"><img src="' + img('poster', b.poster_path) + '" alt="" loading="lazy" draggable="false">' + v +
+    (own ? '<span class="xc-o">' + (own.seen ? 'Seen' : own.wish ? 'Wishlist' : 'On shelf') + '</span>' : '') + '</button>' +
     (own ? '' : '<button type="button" class="xc-add" data-act="xwish" data-id="' + b.id + '" aria-label="Add ' + E(b.title || '') + ' to your wishlist" title="Add to wishlist">+</button>') +
     '<div class="xc-t"><b>' + E(b.title || '') + '</b><span>' + E(y) + '</span></div></div>';
 }
+function exLeadHTML(e) {
+  const tab = EXC.tab, info = EX_INFO[tab]; let sub = info[1];
+  if (e.list.length && tab !== 'you') { const n = e.list.filter(b => { const f = exOwn(b.id); return f && f.seen; }).length; sub += '  ·  you have seen ' + n + ' of ' + e.list.length + ' loaded'; }
+  return '<div class="x-lead"><div><h2>' + E(info[0] + (EXC.genre ? ': ' + EXC.genre : '')) + '</h2><p>' + E(sub) + '</p></div><label class="x-gen"><span class="sr">Genre</span><select class="sel" data-ctl="exgen" aria-label="Genre">' + ['<option value="">All genres</option>'].concat(EX_GEN.map(g => '<option value="' + E(g) + '"' + (EXC.genre === g ? ' selected' : '') + '>' + E(g) + '</option>')).join('') + '</select></label></div>';
+}
 function exBodyHTML() {
-  const tab = EXC.tab, e = EXC.d.get(tab) || { state: 'idle', list: [] }, info = EX_INFO[tab], chart = tab !== 'you';
-  let seen = ''; if (e.list.length && chart) { const n = e.list.filter(b => { const f = exOwn(b.id); return f && f.seen; }).length; seen = '<span class="x-seen">You have seen <b>' + n + '</b> of ' + e.list.length + ' shown</span>'; }
-  let h = '<div class="x-lead"><h2>' + E(info[0]) + '</h2><p>' + E(info[1]) + '</p>' + seen + '</div>';
+  const e = EXC.d.get(exKey()) || { state: 'idle', list: [] }; let h = exLeadHTML(e);
   if (e.state === 'err') return h + '<div class="xerr">' + E(e.err) + (e.noKey ? ' <button class="btn sm" type="button" data-act="settings">Settings</button>' : ' <button class="btn sm" type="button" data-act="xretry">Try again</button>') + '</div>';
-  if (e.state === 'ok' && !e.list.length) return h + '<div class="empty"><h3>' + (tab === 'you' ? 'Nothing to suggest yet' : 'Nothing here') + '</h3><p>' + (tab === 'you' ? 'Rate a few films 4 stars or higher and this fills up with picks made for you.' : 'Try again in a moment.') + '</p></div>';
-  h += '<div class="xchart">' + e.list.map((b, i) => xCard(b, chart ? i + 1 : 0)).join('') + (e.state === 'load' || e.state === 'idle' ? xSk(e.list.length ? 6 : 12) : '') + '</div>';
-  if (e.state === 'ok' && e.page < e.total && chart) h += '<div class="xmore"><button class="btn" type="button" data-act="exmore">Show more</button></div>';
+  if (e.state === 'ok' && !e.list.length) return h + '<div class="empty"><h3>Nothing matches</h3><p>No film fits these rules' + (EXC.genre ? ' in ' + E(EXC.genre) : '') + '. Try another genre.</p></div>';
+  h += '<div class="xchart">' + e.list.map(xCard).join('') + (e.state === 'load' || e.state === 'idle' ? xSk(e.list.length ? 6 : 12) : '') + '</div>';
+  if (e.state === 'ok' && !e.done) h += '<div id="exSent" class="x-sent" aria-hidden="true"></div>';
+  else if (e.state === 'ok' && e.list.length > 20) h += '<p class="x-end">That is everything for now.</p>';
   return h;
 }
-function exPaint() { const b = $('#exBody'); if (route === 'explore' && b) b.innerHTML = exBodyHTML(); }
+let exIO = null;
+function exWatch() {
+  const s = $('#exSent'); if (!s || !('IntersectionObserver' in window)) return;
+  if (!exIO) exIO = new IntersectionObserver(es => { if (es.some(x => x.isIntersecting) && route === 'explore') { const e = EXC.d.get(exKey()); if (e && e.state === 'ok' && !e.done) exLoad(EXC.tab, true); } }, { rootMargin: '900px 0px' });
+  exIO.disconnect(); exIO.observe(s);
+}
+function exPaint() { const b = $('#exBody'); if (route === 'explore' && b) { b.innerHTML = exBodyHTML(); exWatch(); } }
 PAGES.explore = {
   render() {
     const v = $('#view'); if (!v) return; const head = '<div class="pagehead"><h1>Explore</h1><span class="sub">What is worth watching</span></div>';
@@ -6910,8 +6944,8 @@ PAGES.explore = {
   }
 };
 ACT.extab = a => { EXC.tab = a.dataset.t; $$('#exTabs button').forEach(b => b.classList.toggle('on', b.dataset.t === EXC.tab)); exPaint(); exLoad(EXC.tab, false); };
-ACT.exmore = () => exLoad(EXC.tab, true);
-ACT.xretry = () => { const e = EXC.d.get(EXC.tab); if (e) e.state = 'idle'; exLoad(EXC.tab, false); };
+CTL.exgen = v => { EXC.genre = v; exPaint(); exLoad(EXC.tab, false); };
+ACT.xretry = () => { const e = EXC.d.get(exKey()); if (e) e.state = 'idle'; exLoad(EXC.tab, false); };
 ACT.xwish = a => { const b = mem.pre.get(String(a.dataset.id)); if (!b) return; addFilm(Object.assign({ id: +a.dataset.id }, b), { wish: true }); exPaint(); };
 /* ===== Phone: More sheet ===== */
 (function () {
