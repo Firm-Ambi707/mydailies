@@ -1286,11 +1286,33 @@ body.bk-mode #view{padding-bottom:120px}@media (max-width:999px){body.bk-mode #v
 .fbar .seg[aria-label=View] button{position:relative;width:38px;height:36px!important;padding:0!important;font-size:0!important;flex:none}
 .fbar .seg[aria-label=View] button::before,.fbar>[data-act=moref]::before{content:"";position:absolute;inset:0;margin:auto;width:19px;height:19px;background:currentColor;-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat}
 .fbar .seg [data-v=spines]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3.5' y='5' width='4.5' height='15' rx='1'/%3E%3Crect x='9.8' y='3' width='4.5' height='17' rx='1'/%3E%3Crect x='16' y='7' width='4.5' height='13' rx='1'/%3E%3C/svg%3E")}.fbar .seg [data-v=posters]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4' y='3.5' width='7' height='10' rx='1.2'/%3E%3Crect x='13' y='3.5' width='7' height='10' rx='1.2'/%3E%3Crect x='4' y='15.5' width='7' height='5' rx='1.2'/%3E%3Crect x='13' y='15.5' width='7' height='5' rx='1.2'/%3E%3C/svg%3E")}.fbar .seg [data-v=list]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3.5' y='5' width='17' height='2.6' rx='1.3'/%3E%3Crect x='3.5' y='10.7' width='17' height='2.6' rx='1.3'/%3E%3Crect x='3.5' y='16.4' width='17' height='2.6' rx='1.3'/%3E%3C/svg%3E")}
-.fbar>[data-act=moref]{order:3;position:relative;flex:none;width:44px;min-height:40px;padding:0!important;font-size:0!important;--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 7h9M17 7h3M4 17h3M11 17h9' stroke='black' stroke-width='2' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='15' cy='7' r='2.4'/%3E%3Ccircle cx='9' cy='17' r='2.4'/%3E%3C/svg%3E")}
+.fbar:not(.mf) .fb-grp,.fbar:not(.mf)>[data-act=rev]{display:none}.fbar .psz{order:3}.fbar>[data-act=moref]{order:4;position:relative;flex:none;width:44px;min-height:40px;padding:0!important;font-size:0!important;--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 7h9M17 7h3M4 17h3M11 17h9' stroke='black' stroke-width='2' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='15' cy='7' r='2.4'/%3E%3Ccircle cx='9' cy='17' r='2.4'/%3E%3C/svg%3E")}
 .fbar>[data-act=moref][data-n]::after{content:attr(data-n);position:absolute;top:-5px;right:-5px;min-width:17px;height:17px;border-radius:9px;background:var(--ink);color:var(--on);font:600 10.5px/17px var(--f-u);text-align:center}
 .fbar .fb-q{order:1;flex:1 1 120px;min-width:110px}.fb-q .inp{height:40px}
-.fbar.mf .fb-grp{order:4}
+.fbar.mf .fb-grp{order:5}.fbar.mf>[data-act=rev]{order:6}
 }
+.fbar .seg[aria-label=View]{margin-left:auto}
+.fbar .seg[aria-label=View] button{position:relative;width:38px;height:34px!important;padding:0!important;font-size:0!important;flex:none}
+.fbar .seg[aria-label=View] button::before{content:"";position:absolute;inset:0;margin:auto;width:19px;height:19px;background:currentColor;-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat}
+.fbar .seg [data-v=spines]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3.5' y='5' width='4.5' height='15' rx='1'/%3E%3Crect x='9.8' y='3' width='4.5' height='17' rx='1'/%3E%3Crect x='16' y='7' width='4.5' height='13' rx='1'/%3E%3C/svg%3E")}.fbar .seg [data-v=posters]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4' y='3.5' width='7' height='10' rx='1.2'/%3E%3Crect x='13' y='3.5' width='7' height='10' rx='1.2'/%3E%3Crect x='4' y='15.5' width='7' height='5' rx='1.2'/%3E%3Crect x='13' y='15.5' width='7' height='5' rx='1.2'/%3E%3C/svg%3E")}.fbar .seg [data-v=list]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3.5' y='5' width='17' height='2.6' rx='1.3'/%3E%3Crect x='3.5' y='10.7' width='17' height='2.6' rx='1.3'/%3E%3Crect x='3.5' y='16.4' width='17' height='2.6' rx='1.3'/%3E%3C/svg%3E")}
+.fbar .psz button{height:34px!important;min-width:32px;padding:0 8px!important;font-size:12.5px!important}
+.pagehead>.bk-t{height:34px;align-self:flex-end}
+.pp-st{display:flex;flex-wrap:wrap;gap:6px 22px;list-style:none;margin:0 0 16px;padding:0;color:var(--ink3);font-size:13.5px}.pp-st b{color:var(--ink);font-weight:600}
+.pp-q{flex:0 1 230px;min-width:150px}
+.pgrid2{grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.pc2{position:relative;display:flex;flex-direction:column;gap:16px;padding:16px;border:1px solid var(--line);border-radius:var(--r3);background:linear-gradient(160deg,var(--bg2),var(--bg));transition:border-color .2s,transform .25s}
+@media (hover:hover){.pc2:hover{border-color:var(--line2);transform:translateY(-2px)}}
+.pc2.done{border-color:color-mix(in srgb,#f0c35c 45%,var(--line))}
+.pc2 .pc-main{gap:16px;padding-right:70px}.pc2 .pc-main img,.pc2 .pc-main .ph{width:76px;height:102px;border-radius:7px;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 14px 26px -14px rgba(0,0,0,.85)}
+.pc2 .pw-i{display:grid;place-items:center;font:700 34px var(--f-d);color:var(--ink2)}
+.pc2 .pc-t b{font-size:27px;line-height:1.02}
+.pc-b{position:absolute;top:14px;right:14px;padding:3px 10px;border-radius:999px;font:600 11px/1.5 var(--f-u);letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line2);color:var(--ink2);background:var(--bg3)}.pc-b.g{background:#f0c35c;color:#1a1405;border-color:transparent}
+.pcs-row{display:flex;align-items:center;min-height:58px;padding-left:8px}
+.pcs{position:relative;display:block;width:38px;height:57px;border-radius:4px;overflow:hidden;margin-left:-8px;box-shadow:0 0 0 2px var(--bg2),0 6px 12px -6px rgba(0,0,0,.7)}.pcs:first-child{margin-left:0}
+.pcs img{width:100%;height:100%;object-fit:cover;display:block}.pcs.un{filter:grayscale(.85) brightness(.65)}
+.pcs-more{margin-left:10px;font-size:12.5px;color:var(--ink3)}
+.pc2 .pc-p{margin-top:auto}.pc2 .prog-bar{margin-bottom:6px}.pc-pl{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink3)}.pc-pl b{color:var(--ink)}
+@media (max-width:640px){.pgrid2{grid-template-columns:1fr;gap:12px}.pc2{padding:14px;gap:14px}.pc2 .pc-main img,.pc2 .pc-main .ph{width:64px;height:86px}.pc2 .pc-t b{font-size:24px}.pp-q{flex:1 1 100%}.pp-st{gap:4px 16px;font-size:13px}}
 .bs-h3{font:500 13px/1.3 var(--f-d);margin:14px 0 6px;color:var(--ink2)}@media (max-width:760px){.bs-r{grid-template-columns:44px repeat(8,minmax(0,1fr));gap:3px}.bs-l{font-size:10px}.bs-c{height:24px;font-size:10px}}
 
 .lp-l{display:grid;gap:2px;max-height:min(52vh,420px);overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:6px}.lp-i{display:flex;gap:12px;align-items:baseline;padding:8px 10px;border:0;border-radius:7px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:default;width:100%}button.lp-i{cursor:pointer}button.lp-i:hover{background:var(--line)}.lp-y{width:40px;flex:none;font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}.lp-n{font-size:14px}
@@ -2962,11 +2984,14 @@ function peopleAgg(kind) {
   return [...m.values()];
 }
 function pcard(p, kind) {
-  if (kind === 'writers') { const sp = p.films.slice(0, 12).map(f => '<i style="height:' + Math.round(14 + clamp(((f.runtime || 110) - 75) / 110, 0, 1) * 20) + 'px;background:' + palOf(f).a + '" title="' + E(f.title) + '"></i>').join(''); return '<article class="pc"><button type="button" class="pc-main" data-act="pwriter" data-n="' + E(p.name) + '"><span class="ph pw-i" aria-hidden="true">' + E((p.name.match(/\p{L}/u) || ['?'])[0]) + '</span><span class="pc-t"><b>' + E(p.name) + '</b><small>' + plural(p.films.length, 'film') + ' on your shelf, ' + p.seen + ' seen</small>' + (p.avg ? stars(p.avg, { sm: true, ro: true }) : '') + '</span></button><div class="mini" aria-hidden="true">' + sp + '</div></article>'; }
-  const spines = p.films.slice(0, 12).map(f => '<i style="height:' + Math.round(14 + clamp(((f.runtime || 110) - 75) / 110, 0, 1) * 20) + 'px;background:' + palOf(f).a + '" title="' + E(f.title) + '"></i>').join('');
-  const prog = p.total != null ? '<div class="pc-p"><div class="prog-bar"><i style="width:' + (p.total ? Math.round(p.done / p.total * 100) : 0) + '%"></i></div><small>Seen ' + p.done + ' of ' + p.total + (p.left === 0 ? ', all of them' : '') + '</small></div>' : '<button type="button" class="lnk pc-chk" data-act="pcheck" data-id="' + p.id + '">See how much you have seen</button>';
-  return '<article class="pc"><button type="button" class="pc-main" data-act="person" data-id="' + p.id + '" data-tab="' + (kind === 'directors' ? 'directed' : 'acted') + '">' + (p.profile ? '<img src="' + img('profile', p.profile) + '" alt="" loading="lazy">' : '<span class="ph"></span>') +
-    '<span class="pc-t"><b>' + E(p.name) + '</b><small>' + plural(p.films.length, 'film') + ' on your shelf, ' + p.seen + ' seen</small>' + (p.avg ? stars(p.avg, { sm: true, ro: true }) : '') + '</span></button><div class="mini" aria-hidden="true">' + spines + '</div>' + prog + '</article>';
+  const w = kind === 'writers', open = w ? 'data-act="pwriter" data-n="' + E(p.name) + '"' : 'data-act="person" data-id="' + p.id + '" data-tab="' + (kind === 'directors' ? 'directed' : 'acted') + '"';
+  const por = p.profile ? '<img src="' + img('profile', p.profile) + '" alt="" loading="lazy" decoding="async">' : '<span class="ph pw-i" aria-hidden="true">' + E((p.name.match(/\p{L}/u) || ['?'])[0]) + '</span>';
+  const fs = p.films.slice().sort((a, b) => (b.seen ? 1 : 0) - (a.seen ? 1 : 0) || (b.rating || 0) - (a.rating || 0)), shown = fs.slice(0, 6);
+  const strip = shown.map(x => '<i class="pcs' + (x.seen ? '' : ' un') + '" style="background:' + palOf(x).a + '" title="' + E(x.title + (x.year ? ' (' + x.year + ')' : '') + (x.seen ? '' : ', not seen yet')) + '">' + (x.poster ? '<img src="' + img('thumb', x.poster) + '" alt="" loading="lazy" decoding="async">' : '') + '</i>').join('') + (fs.length > 6 ? '<span class="pcs-more">+' + (fs.length - 6) + '</span>' : '');
+  const known = !w && p.total != null, pct = known && p.total ? Math.round(p.done / p.total * 100) : 0, comp = known && p.total >= 2 && p.left === 0;
+  const badge = comp ? '<span class="pc-b g">Complete</span>' : known && p.left > 0 && p.left <= 3 && p.done >= 2 ? '<span class="pc-b">' + p.left + ' to go</span>' : '';
+  const prog = w ? '' : known ? '<div class="pc-p"><div class="prog-bar"><i style="width:' + pct + '%"></i></div><div class="pc-pl"><span><b>' + p.done + '</b> of ' + p.total + ' seen</span><span>' + pct + '%</span></div></div>' : '<button type="button" class="lnk pc-chk" data-act="pcheck" data-id="' + p.id + '">See how much you have seen</button>';
+  return '<article class="pc2' + (comp ? ' done' : '') + '"><button type="button" class="pc-main" ' + open + '>' + por + '<span class="pc-t"><b>' + E(p.name) + '</b><small>' + plural(p.films.length, 'film') + ' on your shelf' + (p.seen ? ', ' + p.seen + ' seen' : '') + '</small>' + (p.avg ? stars(p.avg, { sm: true, ro: true }) : '') + '</span></button>' + badge + '<div class="pcs-row" aria-hidden="true">' + strip + '</div>' + prog + '</article>';
 }
 function pagerHTML(total, per, cur) {
   const pages = Math.max(1, Math.ceil(total / per));
@@ -2982,7 +3007,9 @@ function pagerHTML(total, per, cur) {
 PAGES.people = {
   render() {
     const kind = ['directors', 'actors', 'writers'].includes(S.ui.pp) ? S.ui.pp : 'directors', all = S.ui.ppAll === true || kind === 'directors', sort = S.ui.psort || 'films';
-    let a = peopleAgg(kind); const total = a.length; if (!all) a = a.filter(p => p.films.length >= 2);
+    let a = peopleAgg(kind); const total = a.length, q = norm(S.ui.pq || '');
+    const st = { rep: a.filter(p => p.films.length >= 2).length, comp: a.filter(p => p.total >= 2 && p.left === 0).length, top: a.reduce((m, p) => (!m || p.films.length > m.films.length ? p : m), null) };
+    if (q) a = a.filter(p => norm(p.name).includes(q)); else if (!all) a = a.filter(p => p.films.length >= 2);
     a.sort({ films: (x, y) => y.films.length - x.films.length || y.avg - x.avg, rating: (x, y) => y.avg - x.avg || y.films.length - x.films.length, name: (x, y) => x.name.localeCompare(y.name), left: (x, y) => (x.left ?? 1e9) - (y.left ?? 1e9) || y.films.length - x.films.length }[sort]);
     const PER = 90, pages = Math.max(1, Math.ceil(a.length / PER));
     const page = clamp(Math.round(+S.ui.ppage || 1), 1, pages); S.ui.ppage = page;
@@ -2990,12 +3017,14 @@ PAGES.people = {
     const close = peopleAgg('directors').filter(p => p.left > 0 && p.left <= 3 && p.done >= 2).sort((x, y) => x.left - y.left || y.done - x.done)[0];
     $('#view').innerHTML = '<div class="pagehead"><h1>People</h1><span class="sub">The directors, writers and actors your shelf keeps coming back to.</span></div>' +
       (close && String(S.ui.ppDis) !== String(close.id) ? '<div class="banner"><span>You are ' + plural(close.left, 'film') + ' away from finishing <b>' + E(close.name) + '</b>.</span><span class="sp"></span><button type="button" class="btn sm" data-act="person" data-id="' + close.id + '" data-tab="directed">See what is left</button><button type="button" class="btn sm ghost" data-act="ppdis" data-id="' + close.id + '" aria-label="Hide this message">Hide</button></div>' : '') +
+      (total ? '<ul class="pp-st"><li><b>' + total.toLocaleString() + '</b> ' + (kind === 'directors' ? 'directors' : kind) + '</li><li><b>' + st.rep.toLocaleString() + '</b> with two or more films</li>' + (st.comp ? '<li><b>' + st.comp + '</b> completed</li>' : '') + (st.top && st.top.films.length > 1 ? '<li>Most on your shelf: <b>' + E(st.top.name) + '</b>, ' + st.top.films.length + '</li>' : '') + '</ul>' : '') +
       '<div class="tools"><div class="seg" role="group" aria-label="Kind"><button type="button" data-act="ppk" data-v="directors" class="' + (kind === 'directors' ? 'on' : '') + '">Directors</button><button type="button" data-act="ppk" data-v="actors" class="' + (kind === 'actors' ? 'on' : '') + '">Actors</button><button type="button" data-act="ppk" data-v="writers" class="' + (kind === 'writers' ? 'on' : '') + '">Writers</button></div>' +
       (kind !== 'directors' ? '<button type="button" class="chip' + (S.ui.ppAll ? ' on' : '') + '" data-act="ppall" aria-pressed="' + !!S.ui.ppAll + '">Include ' + kind + ' with one film</button>' : '') + '<span class="sp"></span>' +
+      '<div class="fb-q pp-q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input class="inp" type="search" data-ctl="pq" placeholder="Search people" aria-label="Search people" value="' + E(S.ui.pq || '') + '"></div>' +
       '<label class="fb-grp psw"><span>Sort by</span><select class="sel" data-ctl="psort" aria-label="Sort people">' + PSORTS.map(([k, l]) => '<option value="' + k + '"' + (sort === k ? ' selected' : '') + '>' + l + '</option>').join('') + '</select></label></div>' +
       (a.length ? '<p class="note" style="margin-bottom:14px">Showing ' + ((page - 1) * PER + 1) + '–' + Math.min(page * PER, a.length) + ' of ' + plural(a.length, kind === 'directors' ? 'director' : kind === 'writers' ? 'writer' : 'actor') + (pages > 1 ? ', page ' + page + ' of ' + pages : '') + '.</p>' +
         '<div class="pgrid2">' + slice.map(p => pcard(p, kind)).join('') + '</div>' + pagerHTML(a.length, PER, page) :
-        '<div class="empty"><h3>' + (total ? 'Nobody repeats yet' : 'No ' + kind + ' yet') + '</h3><p>' + (total ? 'Add more films and the people who appear more than once will gather here.' : 'Add films to your shelf and their ' + kind + ' will show up here.') + '</p>' + (total ? '<button class="btn" type="button" data-act="ppall">Include everyone</button>' : '<button class="btn pri" type="button" data-act="find">Find films</button>') + '</div>');
+        '<div class="empty"><h3>' + (q ? 'No match' : total ? 'Nobody repeats yet' : 'No ' + kind + ' yet') + '</h3><p>' + (q ? 'Nobody called “' + E(S.ui.pq) + '” in your ' + kind + '.' : total ? 'Add more films and the people who appear more than once will gather here.' : 'Add films to your shelf and their ' + kind + ' will show up here.') + '</p>' + (q ? '<button class="btn" type="button" data-act="ppqx">Clear search</button>' : total ? '<button class="btn" type="button" data-act="ppall">Include everyone</button>' : '<button class="btn pri" type="button" data-act="find">Find films</button>') + '</div>');
   },
   after() { if (S.ui.pp === 'directors') prefetchPeople(); }
 };
@@ -3022,6 +3051,8 @@ ACT.ppage = a => {
   try { window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); } catch (e) { window.scrollTo(0, 0); }
 };
 CTL.psort = v => { S.ui.psort = v; S.ui.ppage = 1; upd(); };
+CTL.pq = v => { S.ui.pq = v.slice(0, 60); S.ui.ppage = 1; upd(); };
+ACT.ppqx = () => { S.ui.pq = ''; S.ui.ppage = 1; upd(); };
 ACT.pcheck = async a => {
   const id = +a.dataset.id; a.textContent = 'Checking'; a.disabled = true;
   try { const d = await tmdb('/person/' + id, { append_to_response: 'movie_credits' }); S.cache.people[id] = normPerson(d); save(); } catch (e) { toast(errMsg(e)); }
@@ -6490,22 +6521,29 @@ try { boot(); } catch (err) { console.error(err); document.body.insertAdjacentHT
   const sw = PAGES.shelf.render; PAGES.shelf.render = function () {
     sw.apply(this, arguments);
     $$('#view .pgrid').forEach(x => { x.dataset.sz = g(); });
-    const grid = document.querySelector('#view .pgrid');
-    if (grid && innerWidth >= 1000 && !document.querySelector('.pgbar')) grid.insertAdjacentHTML('beforebegin', '<div class="pgbar"><span>Size</span><div class="seg psz" role="group" aria-label="Poster size">' + sizes.map(([k, l]) => '<button type="button" data-act="psz" data-v="' + k + '" class="' + (g() === k ? 'on' : '') + '" aria-pressed="' + (g() === k) + '" aria-label="' + ({ s: 'Small', m: 'Medium', l: 'Large' })[k] + ' posters">' + l + '</button>').join('') + '</div></div>');
-    const t = document.querySelector('.bk-t'), mob = innerWidth < 1000;
+    const t = document.querySelector('.bk-t'), mob = innerWidth < 1000, ph = document.querySelector('#view .pagehead'), fbar = document.querySelector('#view .fbar'), vs = document.querySelector('#view .tools .seg[aria-label="View"]'), mf = fbar && fbar.querySelector('[data-act="moref"]');
+    if (t && ph && t.parentNode !== ph) { const fd = ph.querySelector('[data-act="find"]'); fd ? ph.insertBefore(t, fd) : ph.appendChild(t); }
+    if (fbar && vs) fbar.appendChild(vs);
+    if (fbar && S.ui.view === 'posters' && innerWidth >= 700 && !fbar.querySelector('.psz')) fbar.insertAdjacentHTML('beforeend', '<div class="seg psz" role="group" aria-label="Poster size">' + sizes.map(([k, l]) => '<button type="button" data-act="psz" data-v="' + k + '" class="' + (g() === k ? 'on' : '') + '" aria-pressed="' + (g() === k) + '" aria-label="' + ({ s: 'Small', m: 'Medium', l: 'Large' })[k] + ' posters">' + l + '</button>').join('') + '</div>');
     if (mob) {
-      const ph = document.querySelector('#view .pagehead'), fbar = document.querySelector('#view .fbar'), vs = document.querySelector('#view .tools .seg[aria-label="View"]'), mf = fbar && fbar.querySelector('[data-act="moref"]');
-      if (t && ph && t.parentNode !== ph) ph.appendChild(t);
       const qi = document.querySelector('#view .fb-q input'); if (qi) qi.placeholder = 'Search';
-      if (fbar && vs && mf) fbar.insertBefore(vs, mf);
       if (mf) { const m = /\((\d+)\)/.exec(mf.textContent); if (m) mf.dataset.n = m[1]; mf.setAttribute('aria-label', 'Sort and filter'); }
-    } else if (t && !t.parentNode.classList.contains('stools')) { const w = document.createElement('div'); w.className = 'stools'; t.before(w); w.appendChild(t); }
+    }
   };
   ACT.psz = a => { S.ui.psz = a.dataset.v; upd(); };
   if (!['s', 'm', 'l'].includes(S.ui.psz)) S.ui.psz = 'm';
 })();
 
 try { applySet(); refresh(); } catch (e) { }
+
+/* people: keep typing focus while the list re-renders */
+(function () {
+  const pr = PAGES.people.render; PAGES.people.render = function () {
+    const ae = document.activeElement, keep = ae && ae.dataset && ae.dataset.ctl === 'pq', pos = keep ? ae.selectionStart : 0;
+    pr.apply(this, arguments);
+    if (keep) { const el = document.querySelector('[data-ctl="pq"]'); if (el) { el.focus({ preventScroll: true }); try { el.setSelectionRange(pos, pos); } catch (e) { } } }
+  };
+})();
 </script>
 </body>
 </html>
