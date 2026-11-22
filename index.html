@@ -1313,6 +1313,23 @@ body.bk-mode #view{padding-bottom:120px}@media (max-width:999px){body.bk-mode #v
 .pcs-more{margin-left:10px;font-size:12.5px;color:var(--ink3)}
 .pc2 .pc-p{margin-top:auto}.pc2 .prog-bar{margin-bottom:6px}.pc-pl{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink3)}.pc-pl b{color:var(--ink)}
 @media (max-width:640px){.pgrid2{grid-template-columns:1fr;gap:12px}.pc2{padding:14px;gap:14px}.pc2 .pc-main img,.pc2 .pc-main .ph{width:64px;height:86px}.pc2 .pc-t b{font-size:24px}.pp-q{flex:1 1 100%}.pp-st{gap:4px 16px;font-size:13px}}
+/* ===== Insights: tabs on wide screens ===== */
+.ins-tabs{display:none}
+@media (min-width:761px){
+.ins-tabs{display:flex;gap:2px;margin:18px 0 0;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.ins-tabs button{position:relative;height:44px;padding:0 20px;border:0;background:none;color:var(--ink3);font:500 14px/1 var(--f-u);cursor:pointer;transition:color .15s}
+.ins-tabs button:hover{color:var(--ink)}
+.ins-tabs button.on{color:var(--ink)}
+.ins-tabs button.on::after{content:'';position:absolute;left:14px;right:14px;bottom:-1px;height:2px;border-radius:2px;background:#f0c35c}
+#view[data-itab="overview"] [data-tab]:not([data-tab="overview"]),#view[data-itab="taste"] [data-tab]:not([data-tab="taste"]),#view[data-itab="lists"] [data-tab]:not([data-tab="lists"]),#view[data-itab="explore"] [data-tab]:not([data-tab="explore"]){display:none!important}
+#view[data-itab] .scores{border-top:0;margin-top:22px}
+#view[data-itab] .ins{margin-top:40px}
+#view[data-itab] .ins h2{font-size:24px;margin-bottom:14px}
+#view[data-itab] .ins2{gap:0 72px}
+#view[data-itab] .ins.ins-empty{margin-top:28px;opacity:.7}
+#view[data-itab] .ins.ins-empty h2{font-size:17px;margin-bottom:6px}
+#view[data-itab] .ins.ins-empty .note{margin-top:0}
+}
 .bs-h3{font:500 13px/1.3 var(--f-d);margin:14px 0 6px;color:var(--ink2)}@media (max-width:760px){.bs-r{grid-template-columns:44px repeat(8,minmax(0,1fr));gap:3px}.bs-l{font-size:10px}.bs-c{height:24px;font-size:10px}}
 
 .lp-l{display:grid;gap:2px;max-height:min(52vh,420px);overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:6px}.lp-i{display:flex;gap:12px;align-items:baseline;padding:8px 10px;border:0;border-radius:7px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:default;width:100%}button.lp-i{cursor:pointer}button.lp-i:hover{background:var(--line)}.lp-y{width:40px;flex:none;font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}.lp-n{font-size:14px}
@@ -6547,6 +6564,31 @@ try { applySet(); refresh(); } catch (e) { }
     if (keep) { const el = document.querySelector('[data-ctl="pq"]'); if (el) { el.focus({ preventScroll: true }); try { el.setSelectionRange(pos, pos); } catch (e) { } } }
   };
 })();
+/* ===== Insights: tabs (wide screens only) ===== */
+let insTab = 'overview';
+const INS_TABS = [['overview', 'Overview'], ['taste', 'Taste'], ['lists', 'Lists'], ['explore', 'Explore']];
+const INS_MAP = { 'Your signature': 'overview', 'Watches by month': 'overview', 'Phases of You': 'taste', 'How you rate': 'taste', 'Genres you watch': 'taste', 'Themes you return to': 'taste', 'Languages you watch': 'taste', 'You liked more than the crowd': 'taste', 'You liked less than the crowd': 'taste', 'Your world': 'lists', 'List progress': 'lists', 'Blind spots': 'explore', 'Film chain': 'explore', 'Extremes': 'explore' };
+function insApplyTab() {
+  const v = $('#view'); if (!v || route !== 'insights') return; v.dataset.itab = insTab;
+  const nav = $('#insTabs'); if (nav) nav.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.t === insTab));
+}
+ACT.instab = a => { insTab = a.dataset.t; insApplyTab(); window.scrollTo({ top: 0, behavior: 'auto' }); };
+{
+  const baseTab = PAGES.insights.render;
+  PAGES.insights.render = function () {
+    baseTab.apply(this, arguments); const v = $('#view'); if (!v || $('#insTabs') || !v.querySelector('.scores')) return;
+    [...v.children].forEach(c => {
+      if (c.classList.contains('pagehead') || c.id === 'insNav') return;
+      const h = c.querySelector('h2'), t = c.classList.contains('scores') ? 'overview' : (h && INS_MAP[h.textContent.trim().replace(/, \d{4}$/, '')]) || (h && INS_MAP[h.textContent.trim()]) || 'overview';
+      c.dataset.tab = t;
+      const secs = c.matches('section.ins') ? [c] : [...c.querySelectorAll('section.ins')];
+      secs.forEach(s => { if (!s.querySelector(':scope > :not(h2):not(.note):not(p)') && s.querySelector(':scope > p.note, :scope > .note') && s.children.length <= 3) s.classList.add('ins-empty'); });
+    });
+    const html = '<nav class="ins-tabs" id="insTabs" aria-label="Insights sections">' + INS_TABS.map(x => '<button type="button" data-act="instab" data-t="' + x[0] + '">' + x[1] + '</button>').join('') + '</nav>', head = v.querySelector(':scope > .pagehead');
+    if (head) head.insertAdjacentHTML('afterend', html); else v.insertAdjacentHTML('afterbegin', html);
+    insApplyTab();
+  };
+}
 </script>
 </body>
 </html>
