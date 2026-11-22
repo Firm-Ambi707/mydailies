@@ -6565,14 +6565,14 @@ try { applySet(); refresh(); } catch (e) { }
   };
 })();
 /* ===== Insights: tabs (wide screens only) ===== */
-let insTab = 'overview';
+let insTab = 'overview'; try { const q = localStorage.getItem('dailies.instab'); if (q) insTab = q; } catch (e) { /* ignore */ }
 const INS_TABS = [['overview', 'Overview'], ['taste', 'Taste'], ['lists', 'Lists'], ['explore', 'Explore']];
 const INS_MAP = { 'Your signature': 'overview', 'Watches by month': 'overview', 'Phases of You': 'taste', 'How you rate': 'taste', 'Genres you watch': 'taste', 'Themes you return to': 'taste', 'Languages you watch': 'taste', 'You liked more than the crowd': 'taste', 'You liked less than the crowd': 'taste', 'Your world': 'lists', 'List progress': 'lists', 'Blind spots': 'explore', 'Film chain': 'explore', 'Extremes': 'explore' };
 function insApplyTab() {
   const v = $('#view'); if (!v || route !== 'insights') return; v.dataset.itab = insTab;
   const nav = $('#insTabs'); if (nav) nav.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.t === insTab));
 }
-ACT.instab = a => { insTab = a.dataset.t; insApplyTab(); window.scrollTo({ top: 0, behavior: 'auto' }); };
+ACT.instab = a => { insTab = a.dataset.t; try { localStorage.setItem('dailies.instab', insTab); } catch (e) { /* ignore */ } insApplyTab(); window.scrollTo({ top: 0, behavior: 'auto' }); };
 {
   const baseTab = PAGES.insights.render;
   PAGES.insights.render = function () {
@@ -6589,6 +6589,7 @@ ACT.instab = a => { insTab = a.dataset.t; insApplyTab(); window.scrollTo({ top: 
     insApplyTab();
   };
 }
+try { if (route === 'insights') refresh(); } catch (e) { /* ignore */ }
 </script>
 </body>
 </html>
