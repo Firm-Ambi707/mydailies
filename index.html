@@ -1330,6 +1330,50 @@ body.bk-mode #view{padding-bottom:120px}@media (max-width:999px){body.bk-mode #v
 #view[data-itab] .ins.ins-empty h2{font-size:17px;margin-bottom:6px}
 #view[data-itab] .ins.ins-empty .note{margin-top:0}
 }
+/* ===== Shelf: carousel view ===== */
+.fbar .seg [data-v=carousel]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='8' y='3.5' width='8' height='17' rx='1.5'/%3E%3Crect x='2.5' y='7' width='3.6' height='10' rx='1'/%3E%3Crect x='17.9' y='7' width='3.6' height='10' rx='1'/%3E%3C/svg%3E")}
+#view[data-sv=carousel] .bk-t,#view[data-sv=carousel] .fbar .psz{display:none!important}
+.cv{--cw:clamp(150px,min(23vw,30vh),248px);position:relative;margin:8px -4px 0;padding-bottom:18px;overflow:hidden;user-select:none;-webkit-user-select:none}
+.cv-g{position:absolute;left:0;right:0;top:0;height:calc(var(--cw)*1.7);pointer-events:none;background:radial-gradient(48% 52% at 50% 42%,color-mix(in srgb,var(--a,#888) 30%,transparent),transparent 72%);transition:background .6s}
+.cv-st{position:relative;height:calc(var(--cw)*1.5 + 78px);perspective:1200px;perspective-origin:50% 38%;touch-action:pan-y;cursor:grab;outline:none;margin-top:18px}
+.cv-st.drag{cursor:grabbing}
+.cv-st:focus-visible{box-shadow:0 0 0 2px var(--line2);border-radius:12px}
+.cv-c{position:absolute;left:50%;top:12px;width:var(--cw);aspect-ratio:2/3;margin-left:calc(var(--cw)/-2);padding:0;border:0;border-radius:8px;background:var(--bg3);overflow:visible;cursor:pointer;will-change:transform;backface-visibility:hidden;-webkit-box-reflect:below 5px linear-gradient(transparent 72%,rgba(255,255,255,.14));box-shadow:0 30px 50px -26px rgba(0,0,0,.8)}
+.cv-st.drag .cv-c{transition:none}
+.cv-c .fb{position:absolute;inset:0;display:flex;align-items:flex-end;padding:14px;border-radius:inherit;font:700 clamp(20px,2.2vw,28px)/1 var(--f-d);background:var(--a);color:var(--k);text-align:left}
+.cv-c img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;pointer-events:none;-webkit-user-drag:none}
+.cv-c::before{content:"";position:absolute;inset:0;z-index:3;border-radius:inherit;pointer-events:none;background:linear-gradient(155deg,rgba(255,255,255,.17),rgba(255,255,255,0) 36%,rgba(0,0,0,0) 64%,rgba(0,0,0,.24));box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.cv-c::after{content:"";position:absolute;inset:0;z-index:4;border-radius:inherit;pointer-events:none;background:#000;opacity:var(--d,0)}
+.cv-st.drag .cv-c::after{transition:none}
+.cv-c:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.cv-in{position:relative;text-align:center;max-width:620px;margin:0 auto;padding:0 16px;min-height:150px}
+.cv-in .cv-n{font:500 12px/1 var(--f-u);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.cv-in h3{margin:10px 0 6px;font:700 clamp(26px,4vw,40px)/1.02 var(--f-d);overflow-wrap:anywhere}
+.cv-in .cv-m{color:var(--ink2);font:400 14px/1.4 var(--f-u)}
+.cv-in .cv-s{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:10px;min-height:22px}
+.cv-in .cv-a{display:flex;justify-content:center;gap:8px;margin-top:14px;flex-wrap:wrap}
+.cv-in.sw{animation:cvIn .35s ease}
+@keyframes cvIn{from{opacity:.0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.cv-bar{display:flex;align-items:center;gap:10px;max-width:520px;margin:14px auto 0;padding:0 16px}
+.cv-bar button{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);background:none;color:var(--ink);font-size:18px;line-height:1;cursor:pointer}
+.cv-bar button:disabled{opacity:.3;cursor:default}
+.cv-bar input{flex:1;min-width:0;accent-color:#f0c35c;height:24px;background:none}
+html.rm .cv-c,html.rm .cv-g,html.rm .cv-in.sw{transition:none!important;animation:none!important}
+@media (prefers-reduced-motion:reduce){.cv-c,.cv-g{transition:none!important}.cv-in.sw{animation:none!important}}
+@media (max-width:760px){.cv{--cw:clamp(140px,52vw,230px);margin:4px -16px 0}.cv-in{min-height:140px}}
+.cv-bg{position:absolute;left:-10%;right:-10%;top:-40px;height:calc(var(--cw)*2.1);pointer-events:none;overflow:hidden;-webkit-mask:radial-gradient(ellipse 62% 70% at 50% 38%,#000 20%,transparent 100%);mask:radial-gradient(ellipse 62% 70% at 50% 38%,#000 20%,transparent 100%)}
+.cv-bg i{position:absolute;inset:-12%;background:center 30%/cover no-repeat;filter:blur(46px) saturate(1.25);opacity:0;transform:scale(1.1);animation:cvBg .9s forwards}
+@keyframes cvBg{to{opacity:.3}}
+.cv-y{display:none;position:absolute;left:0;right:0;top:calc(var(--cw)*.28);text-align:center;font:800 clamp(130px,24vw,340px)/.8 var(--f-d);letter-spacing:-.02em;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.16);pointer-events:none;white-space:nowrap;transition:opacity .4s}
+.cv-fl{position:absolute;left:50%;top:calc(var(--cw)*1.5 + 36px);width:calc(var(--cw)*1.5);height:34px;margin-left:calc(var(--cw)*-.75);background:radial-gradient(50% 50% at 50% 50%,color-mix(in srgb,var(--a,#888) 45%,transparent),transparent 72%);filter:blur(10px);pointer-events:none;opacity:.8}
+.cv-i{position:absolute;inset:0;border-radius:inherit;transform:perspective(800px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out}
+.cv-i::after{content:"";position:absolute;inset:0;z-index:5;border-radius:inherit;pointer-events:none;background:radial-gradient(circle at var(--gx,50%) var(--gy,30%),rgba(255,255,255,.3),transparent 55%);opacity:var(--go,0);transition:opacity .3s}
+.cv-c.on{box-shadow:0 0 0 1px rgba(255,255,255,.2),0 44px 80px -30px color-mix(in srgb,var(--a,#000) 70%,#000),0 0 60px -10px color-mix(in srgb,var(--a,#888) 35%,transparent)}
+.cv-in .cv-g2{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:12px}
+.cv-in .cv-g2 span{padding:4px 11px;border-radius:999px;border:1px solid var(--line2);color:var(--ink2);font:500 12px/1 var(--f-u)}
+.cv-in .cv-o{margin:14px auto 0;max-width:520px;color:var(--ink3);font:400 14px/1.55 var(--f-u);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cv-in{min-height:230px}
+@media (max-width:760px){.cv-in .cv-o{-webkit-line-clamp:3}.cv-y{top:calc(var(--cw)*.4)}}
 .bs-h3{font:500 13px/1.3 var(--f-d);margin:14px 0 6px;color:var(--ink2)}@media (max-width:760px){.bs-r{grid-template-columns:44px repeat(8,minmax(0,1fr));gap:3px}.bs-l{font-size:10px}.bs-c{height:24px;font-size:10px}}
 
 .lp-l{display:grid;gap:2px;max-height:min(52vh,420px);overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:6px}.lp-i{display:flex;gap:12px;align-items:baseline;padding:8px 10px;border:0;border-radius:7px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:default;width:100%}button.lp-i{cursor:pointer}button.lp-i:hover{background:var(--line)}.lp-y{width:40px;flex:none;font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}.lp-n{font-size:14px}
@@ -2094,7 +2138,7 @@ PAGES.shelf = {
       (hasSample ? '<div class="banner"><span>These ten films are samples so the shelf isn’t empty.<span class="wide-only"> Rate them, log them or clear them whenever you like.</span></span><span class="sp"></span><button class="btn sm" type="button" data-act="rmsamples">Remove samples</button><button class="btn sm ghost" type="button" data-act="bannerx">Keep them</button></div>' : '') +
       '<div class="tools"><div class="chips dchips">' + chip('all', 'All') + chip('seen', 'Seen') + chip('wish', 'Wishlist') + chip('fav', 'Favourites') + lists + '<button type="button" class="chip" data-act="newlist">New shelf</button>' +
       (u.list ? '<button type="button" class="chip" data-act="explist">Export</button><button type="button" class="chip" data-act="renlist">Rename</button><button type="button" class="chip" data-act="dellist">Delete shelf</button>' : '') + '</div>' + shelfMenuHTML(u, cnt) + '<span class="sp"></span>' +
-      '<div class="seg" role="group" aria-label="View">' + vb('spines', 'Spines') + vb('posters', 'Posters') + vb('list', 'List') + '</div></div>' +
+      '<div class="seg" role="group" aria-label="View">' + vb('spines', 'Spines') + vb('posters', 'Posters') + vb('carousel', 'Carousel') + vb('list', 'List') + '</div></div>' +
       '<div class="fbar' + (u.moref ? ' mf' : '') + '">' +
         '<div class="fb-q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input class="inp" type="search" data-ctl="q" placeholder="Search this shelf" aria-label="Search this shelf" value="' + E(shelfQ) + '"></div>' +
         sel('sort', 'Sort', SORTS.filter(([k]) => k !== 'custom' || u.sort === 'custom' || !matchMedia('(pointer:coarse)').matches).map(([k, l]) => '<option value="' + k + '"' + (u.sort === k ? ' selected' : '') + '>' + l + '</option>').join('')) +
@@ -3225,7 +3269,7 @@ function openSettings() {
     row('Reduce motion', 'Turns off animations. Auto follows your device setting.', so('rm', s.rm, [['auto', 'Auto'], ['on', 'Always']])) +
     row('Poster quality', 'Data saver loads smaller images, which helps on slow or metered connections.', so('dq', s.dq, [['std', 'Standard'], ['low', 'Data saver']])) +
     row('Time format', 'Used for Tonight start and end times.', so('clock', s.clock, [['auto', 'Device'], ['12', '12-hour'], ['24', '24-hour']]));
-  const lib = row('Shelf view', 'What the Shelf opens with.', so('view', u.view, [['spines', 'Spines'], ['posters', 'Posters'], ['list', 'List']])) +
+  const lib = row('Shelf view', 'What the Shelf opens with.', so('view', u.view, [['spines', 'Spines'], ['posters', 'Posters'], ['carousel', 'Carousel'], ['list', 'List']])) +
     row('Poster size', 'Applies to the Posters view.', so('psz', ['s', 'm', 'l'].includes(u.psz) ? u.psz : 'm', [['s', 'Small'], ['m', 'Medium'], ['l', 'Large']])) +
     row('Marking seen adds a diary entry', 'Dated today. Turn off if you would rather log watches yourself.', sw('stog', 'autoLog', s.autoLog, 'Marking seen adds a diary entry')) +
     row('Keyboard shortcuts', 'Single-key shortcuts such as n, g then s, and /. Ctrl K always works.', sw('stog', 'keys', s.keys, 'Keyboard shortcuts') + '<button type="button" class="btn sm" data-act="stkeys">See list</button>') +
@@ -6590,6 +6634,94 @@ ACT.instab = a => { insTab = a.dataset.t; try { localStorage.setItem('dailies.in
   };
 }
 try { if (route === 'insights') refresh(); } catch (e) { /* ignore */ }
+/* ===== Shelf: carousel view (3D coverflow) ===== */
+const CV = { films: [], i: 0, pos: 0, tgt: 0, cw: 200, drag: null, moved: 0, wh: 0, raf: 0, lt: 0, it: 0 };
+const cvClamp = v => Math.max(0, Math.min(CV.films.length - 1, v));
+function cvLayout(c, off, cw) {
+  const a = Math.max(-1, Math.min(1, off)), r = off - a, ab = Math.abs(off);
+  const tx = a * cw * .62 + r * cw * .3, tz = -Math.abs(a) * 150 - Math.abs(r) * 36, ry = -a * 46 - Math.max(-1, Math.min(1, r)) * 4;
+  const s = c.style; s.transform = 'translate3d(' + tx.toFixed(1) + 'px,0,' + tz.toFixed(1) + 'px) rotateY(' + ry.toFixed(1) + 'deg)';
+  s.zIndex = String(200 - Math.round(ab * 10)); s.opacity = ab > 3.2 ? String(Math.max(0, 1 - (ab - 3.2) * .6)) : '1';
+  s.setProperty('--d', Math.min(.7, Math.abs(a) * .38 + Math.abs(r) * .08).toFixed(2));
+  const on = ab < .5; if (on !== c._on) { c._on = on; c.classList.toggle('on', on); c.tabIndex = on ? 0 : -1; }
+}
+function cvCard(f, i) {
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'cv-c'; b.dataset.i = i; b.style.cssText = palStyle(f); b.setAttribute('aria-label', labelOf(f));
+  b.innerHTML = '<span class="cv-i"><span class="fb">' + E(f.title) + '</span>' + (f.poster ? '<img src="' + img('big', f.poster) + '" alt="" draggable="false" decoding="async">' : '') + '</span>'; return b;
+}
+function cvPaint() {
+  const st = $('#cvSt'); if (!st || !CV.films.length) return; const W = CV.cw, ctr = Math.round(CV.pos), lo = Math.max(0, ctr - 6), hi = Math.min(CV.films.length - 1, ctr + 6), have = new Map();
+  [...st.children].forEach(c => { const i = +c.dataset.i; if (i < lo || i > hi) c.remove(); else have.set(i, c); });
+  for (let i = lo; i <= hi; i++) { let c = have.get(i); if (!c) { c = cvCard(CV.films[i], i); st.appendChild(c); } cvLayout(c, i - CV.pos, W); }
+}
+function cvTick(t) {
+  const dt = Math.min(.05, (t - (CV.lt || t)) / 1000 || .016); CV.lt = t;
+  const k = 1 - Math.exp(-dt * (CV.drag && CV.moved > 6 ? 30 : 9)); CV.pos += (CV.tgt - CV.pos) * k;
+  if (Math.abs(CV.tgt - CV.pos) < .0015 && !(CV.drag && CV.moved > 6)) { CV.pos = CV.tgt; cvPaint(); CV.raf = 0; CV.lt = 0; return; }
+  cvPaint(); const near = Math.round(cvClamp(CV.pos)); if (CV.drag && near !== CV.i && !CV.it) CV.it = setTimeout(() => { CV.it = 0; const n2 = Math.round(cvClamp(CV.pos)); if (CV.drag && n2 !== CV.i) { CV.i = n2; cvInfo(); } }, 70);
+  CV.raf = requestAnimationFrame(cvTick);
+}
+function cvRun() { if (!CV.raf) { CV.lt = 0; CV.raf = requestAnimationFrame(cvTick); } }
+function cvInfo() {
+  const f = CV.films[CV.i], box = $('#cvIn'); if (!f || !box) return; const first = f.directors[0];
+  const meta = [f.year, fmtRt(f.runtime), first ? first.name : ''].filter(Boolean).join('  \u00b7  ');
+  const st = f.seen ? (f.rating ? stars(f.rating, { ro: true }) : '<span class="st seen">Seen</span>') : (f.wish ? '<span class="st">Wishlist</span>' : '');
+  box.innerHTML = '<div class="cv-n">' + (CV.i + 1) + ' of ' + CV.films.length + (f.fav ? '  \u00b7  \u2665 Favourite' : '') + '</div><h3>' + E(f.title) + '</h3><div class="cv-m">' + E(meta) + '</div><div class="cv-s">' + st + '</div>' +
+    (f.genres.length ? '<div class="cv-g2">' + f.genres.slice(0, 3).map(g => '<span>' + E(g) + '</span>').join('') + '</div>' : '') + (f.overview ? '<p class="cv-o">' + E(f.overview) + '</p>' : '') + '<div class="cv-a"><button class="btn pri" type="button" data-act="film" data-id="' + f.id + '">Open film</button><button class="btn' + (f.seen ? ' on' : '') + '" type="button" data-act="tg" data-k="seen" data-id="' + f.id + '">' + (f.seen ? 'Seen' : 'Mark seen') + '</button>' + (f.seen ? '' : '<button class="btn' + (f.wish ? ' on' : '') + '" type="button" data-act="tg" data-k="wish" data-id="' + f.id + '">' + (f.wish ? 'On wishlist' : 'Wishlist') + '</button>') + '</div>';
+  box.classList.remove('sw'); void box.offsetWidth; box.classList.add('sw');
+  const cv = $('#cv'); if (cv) cv.style.cssText = cv.style.cssText.replace(/--a:[^;]*;?|--k:[^;]*;?/g, '') + ';' + palStyle(f);
+  const r = $('#cvR'); if (r) r.value = CV.i; const p = $('#cvP'), n = $('#cvN'); if (p) p.disabled = CV.i <= 0; if (n) n.disabled = CV.i >= CV.films.length - 1;
+  const y = $('#cvY'); if (y) y.textContent = f.year || ''; const bgb = $('#cvBg');
+  if (bgb) { const old = [...bgb.children]; if (f.poster) { const n = document.createElement('i'); n.style.backgroundImage = 'url("' + img('big', f.poster) + '")'; bgb.appendChild(n); } old.forEach(o => setTimeout(() => o.remove(), 700)); }
+  S.ui.carid = f.id; save();
+}
+function cvGo(i) { i = Math.round(cvClamp(i)); CV.tgt = i; if (i !== CV.i) { CV.i = i; cvInfo(); } cvRun(); }
+function cvInit() {
+  const st = $('#cvSt'); if (!st) return; const fl = visibleFilms(); CV.films = fl; if (!fl.length) return;
+  let k = fl.findIndex(x => String(x.id) === String(S.ui.carid)); if (k < 0) k = 0; CV.i = k; CV.pos = k; CV.tgt = k;
+  CV.cw = parseFloat(getComputedStyle($('#cv')).getPropertyValue('--cw')) || 200; { const t = document.createElement('div'); t.style.cssText = 'position:absolute;visibility:hidden;width:var(--cw)'; $('#cv').appendChild(t); CV.cw = t.offsetWidth || CV.cw; t.remove(); }
+  cvPaint(); cvInfo();
+  const R = $('#cvR'); R.max = fl.length - 1; R.value = k; R.oninput = () => cvGo(+R.value);
+  $('#cvP').onclick = () => cvGo(CV.i - 1); $('#cvN').onclick = () => cvGo(CV.i + 1);
+  st.onpointerdown = e => { if (e.button > 0) return; CV.drag = { x: e.clientX, p: CV.pos, v: 0, lx: e.clientX, lt: e.timeStamp }; CV.moved = 0; };
+  st.onkeydown = e => { const k2 = { ArrowLeft: -1, ArrowRight: 1 }[e.key]; if (k2) { e.preventDefault(); cvGo(CV.tgt + k2); } else if (e.key === 'Home') { e.preventDefault(); cvGo(0); } else if (e.key === 'End') { e.preventDefault(); cvGo(CV.films.length - 1); } };
+  st.onclick = e => { if (CV.moved > 6) { CV.moved = 0; return; } const c = e.target.closest('.cv-c'); if (!c) return; const i = +c.dataset.i; if (i === CV.i) openFilm(CV.films[i].id); else cvGo(i); };
+  st.onwheel = e => { if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return; e.preventDefault(); CV.tgt = cvClamp(CV.tgt + e.deltaX / (CV.cw * .9)); CV.tgt = Math.max(0, Math.min(CV.films.length - 1, CV.tgt)); clearTimeout(CV.wh); CV.wh = setTimeout(() => cvGo(CV.tgt), 90); cvRun(); const near = Math.round(CV.tgt); if (near !== CV.i) { CV.i = near; cvInfo(); } };
+}
+addEventListener('pointermove', e => {
+  const d = CV.drag; if (!d) return; const dx = e.clientX - d.x; CV.moved = Math.max(CV.moved, Math.abs(dx)); if (CV.moved <= 6) return;
+  const st = $('#cvSt'); if (st && !st.classList.contains('drag')) st.classList.add('drag');
+  const dt = Math.max(1, e.timeStamp - d.lt), inst = (d.lx - e.clientX) / (CV.cw * .45) / dt; d.v = d.v * .7 + inst * .3; d.lx = e.clientX; d.lt = e.timeStamp;
+  let p = d.p - dx / (CV.cw * .45), mx = CV.films.length - 1; if (p < 0) p = p * .35; else if (p > mx) p = mx + (p - mx) * .35; CV.tgt = p; cvRun();
+}, { passive: true });
+const cvUp = () => {
+  const d = CV.drag; CV.drag = null; const st = $('#cvSt'); if (st) st.classList.remove('drag'); if (!d || CV.moved <= 6) return;
+  cvGo(CV.tgt + Math.max(-4, Math.min(4, d.v * 260)));
+};
+addEventListener('pointerup', cvUp);
+document.addEventListener('pointermove', e => {
+  const c = e.target.closest && e.target.closest('.cv-c.on'); const all = document.querySelectorAll('.cv-c.on .cv-i'); if (!c || CV.drag || e.pointerType === 'touch') { all.forEach(i => { i.style.setProperty('--rx', '0deg'); i.style.setProperty('--ry', '0deg'); i.style.setProperty('--go', '0'); }); return; }
+  const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height, i = c.firstElementChild;
+  i.style.setProperty('--ry', ((x - .5) * 14).toFixed(1) + 'deg'); i.style.setProperty('--rx', ((.5 - y) * 14).toFixed(1) + 'deg'); i.style.setProperty('--gx', (x * 100).toFixed(0) + '%'); i.style.setProperty('--gy', (y * 100).toFixed(0) + '%'); i.style.setProperty('--go', '1');
+}, { passive: true });
+addEventListener('pointercancel', () => { CV.drag = null; const st = $('#cvSt'); if (st) st.classList.remove('drag'); });
+document.addEventListener('keydown', e => {
+  if (route !== 'shelf' || S.ui.view !== 'carousel' || !$('#cvSt') || e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+  const k2 = { ArrowLeft: -1, ArrowRight: 1 }[e.key]; if (!k2 || PS.open || !$('#dlg').hidden || !$('#omni').hidden) return;
+  const ae = document.activeElement; if (ae && ae !== document.body && ae !== $('#cvSt') && !(ae.classList && ae.classList.contains('cv-c'))) return;
+  e.preventDefault(); cvGo(CV.tgt + k2);
+});
+{
+  const baseBody = shelfBodyHTML;
+  shelfBodyHTML = function () {
+    if (S.ui.view !== 'carousel' || !S.films.length || !visibleFilms().length) return baseBody.apply(this, arguments);
+    return '<div class="cv" id="cv"><div class="cv-bg" id="cvBg" aria-hidden="true"></div><i class="cv-g" aria-hidden="true"></i><div class="cv-y" id="cvY" aria-hidden="true"></div><i class="cv-fl" aria-hidden="true"></i><div class="cv-st" id="cvSt" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Your shelf as a carousel. Use the arrow keys, swipe or drag."></div><div class="cv-in" id="cvIn" aria-live="polite"></div>' +
+      '<div class="cv-bar"><button type="button" id="cvP" aria-label="Previous film">\u2039</button><input type="range" id="cvR" min="0" max="0" value="0" step="1" aria-label="Scrub through your shelf"><button type="button" id="cvN" aria-label="Next film">\u203a</button></div></div>';
+  };
+  const baseRender = renderShelfBody;
+  renderShelfBody = function () { baseRender.apply(this, arguments); const v = $('#view'); if (v) v.dataset.sv = S.ui.view; if (S.ui.view === 'carousel') { if (document.querySelector('.bk-t.on') && ACT.bkmode) ACT.bkmode(); cvInit(); } };
+}
+try { if (route === 'shelf' && S.ui.view === 'carousel') refresh(); } catch (e) { /* ignore */ }
 </script>
 </body>
 </html>
