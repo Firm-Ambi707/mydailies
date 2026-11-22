@@ -1250,8 +1250,8 @@ body.bk-mode #toasts{bottom:92px}
 .tile.bk-on{outline-offset:2px;border-radius:6px}
 body.bk-mode #view [data-act="film"]{cursor:copy}
 body.bk-mode #view{padding-bottom:120px}@media (max-width:999px){body.bk-mode #view{padding-bottom:200px}.bkbar{left:10px;right:10px;transform:none;max-width:none;bottom:calc(62px + env(safe-area-inset-bottom,0px) + 8px);gap:5px}body.bk-mode #toasts{bottom:150px}.bk-n{flex:1 1 100%;text-align:center;padding:0}.bkbar .btn{flex:1 1 auto;padding:0 10px}}
-.pgrid{--pw:164px;grid-template-columns:repeat(auto-fill,minmax(var(--pw),1fr));gap:36px 22px}
-.pgrid[data-sz=s]{--pw:124px;gap:26px 14px}.pgrid[data-sz=l]{--pw:218px;gap:42px 26px}
+.pgrid{--pw:132px;grid-template-columns:repeat(auto-fill,minmax(var(--pw),1fr));gap:36px 22px}
+.pgrid[data-sz=s]{--pw:104px;gap:22px 12px}.pgrid[data-sz=l]{--pw:180px;gap:38px 22px}
 .tile-po{border-radius:7px;box-shadow:0 0 0 1px rgba(255,255,255,.07),0 2px 5px rgba(0,0,0,.3),0 20px 32px -20px rgba(0,0,0,.75);transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s}
 .tile-po::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;background:linear-gradient(155deg,rgba(255,255,255,.15),rgba(255,255,255,0) 36%,rgba(0,0,0,0) 62%,rgba(0,0,0,.26));box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
 .tile-po:focus-visible{transform:translateY(-6px);outline:2px solid var(--ink);outline-offset:3px}
@@ -1266,7 +1266,7 @@ body.bk-mode #view{padding-bottom:120px}@media (max-width:999px){body.bk-mode #v
 .tile-in span{margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12.5px;letter-spacing:.01em}
 .tile-q{z-index:6;top:10px}.tile-q button{background:rgba(18,18,18,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.16);height:30px}
 .stools{display:inline-flex;gap:8px;align-items:center;margin-left:8px}.stools .psz,.stools .bk-t{margin:0}.psz button{min-width:32px}
-@media (max-width:999px){.stools{display:flex;margin:8px 0 0}.stools .psz{flex:1;display:flex}.stools .psz button{flex:1}.pgrid{--pw:148px;gap:28px 14px}.pgrid[data-sz=s]{--pw:104px;gap:20px 10px}.pgrid[data-sz=l]{--pw:170px;gap:32px 14px}.tile-in b{font-size:17px}.tp{height:20px;padding:0 8px;font-size:11px}}
+@media (max-width:999px){.stools{display:flex;margin:8px 0 0}.stools .psz{flex:1;display:flex}.stools .psz button{flex:1}.pgrid{--pw:118px;gap:24px 12px}.pgrid[data-sz=s]{--pw:92px;gap:20px 10px}.pgrid[data-sz=l]{--pw:170px;gap:32px 14px}.tile-in b{font-size:17px}.tp{height:20px;padding:0 8px;font-size:11px}}
 @media (prefers-reduced-motion:reduce){.tile-po{transition:none}}
 .st-tabs{display:flex;margin:4px 0 16px;width:100%}.st-tabs button{flex:1 1 0;min-width:0}
 .st-p[hidden]{display:none}
@@ -5883,7 +5883,7 @@ function vdModel() {
 
 /* ---- scenes: slow, soft, one idea at a time ---- */
 const vdS = t => { t = clamp(t, 0, 1); return t * t * t * (t * (t * 6 - 15) + 10); };
-const vdOV = .7;
+const vdOV = .55;
 function vdA(c, p, rise, fn) { if (p <= 0) return; const e = vdS(p); c.save(); c.globalAlpha *= e; c.translate(0, (1 - e) * rise); fn(); c.restore(); }
 const VDB = new Map();
 function vdBlurOf(f, w) {
@@ -5920,53 +5920,61 @@ function vdPerfs(c, T) {
   c.fillStyle = 'rgba(255,255,255,.035)'; const off = (T * 12) % 78;
   for (let y = -78 + off; y < VD.H; y += 78) { dlRR(c, 26, y, 16, 32, 5); c.fill(); dlRR(c, VD.W - 42, y, 16, 32, 5); c.fill(); }
 }
+const vdTone = (f, l, s = .5) => { const [h] = rgb2hsl(...rgbOf(palOf(f).a)); return hexOf(h, s, l); };
+function vdFill(c, col) { c.fillStyle = col; c.fillRect(0, 0, VD.W, VD.H); }
+function vdRise(c, p, x, y, w, h, fn) { if (p <= 0) return; const e = vdE3(p); c.save(); c.beginPath(); c.rect(x, y, w, h); c.clip(); c.translate(0, (1 - e) * h * .98); fn(); c.restore(); }
+const VD_ARTS = { crimson: '--art-crimson', night: '--art-night', mono: '--art-mono', ink: '--art-ink', face: '--art-face' };
+function vdArt(c, key, x, y, w, h, a = 1, k = 1) { const im = VDI.get('art:' + key); if (!im || a <= 0) return false; c.save(); c.globalAlpha *= a; c.translate(x + w / 2, y + h / 2); c.scale(k, k); c.translate(-(x + w / 2), -(y + h / 2)); dlCover(c, im, x, y, w, h); c.restore(); return true; }
+function vdArtLoad(key) {
+  return new Promise(res => { const css = getComputedStyle(document.documentElement).getPropertyValue(VD_ARTS[key] || ''), m = /url\(["']?([^"')]+)["']?\)/.exec(css); if (!m) return res(); const im = new Image(); im.onload = () => { VDI.set('art:' + key, im); res(); }; im.onerror = () => res(); im.src = m[1]; });
+}
 function vdScenes(m) {
   const { W, H, M } = VD, AW = W - 2 * M, CX = W / 2, A = VD.AMBER, INK = DLC.ink, INK2 = DLC.ink2, INK3 = DLC.ink3;
   let S_ = [], tint = f => f ? dlAccent(f) : A;
   const fav = (m.tops[0] || (m.first && m.first.f) || m.films[0]);
-  S_.push({ id: 'title', dur: 5, chrome: false, tint: A, urls: fav ? [[fav, 500]] : [], back(c, t, a, T) { if (fav) vdBackdrop(c, fav, 500, a * vdS(vdW(t, .2, 2)), T); }, draw(c, t, sc, T) {
-    vdRing(c, CX, 1000, 400, T, vdS(vdW(t, .2, 2.4)));
-    vdCaps(c, m.all ? 'My film life' : 'My year in film', CX, 830, 26, INK3, vdW(t, .4, 1.7), 'center', .3);
-    vdText(c, m.all ? 'ALL TIME' : String(m.yr), CX, 1080, DLFN.d8, 340, INK, vdW(t, .8, 2.4), 'center', AW, 1);
-    const lw = 150 * vdS(vdW(t, 1.9, 3)); c.fillStyle = A; c.fillRect(CX - lw / 2, 1140, lw, 3);
-    vdA(c, vdW(t, 2.2, 3.4), 16, () => dlT(c, 'A look back at everything I watched.', CX, 1240, DLFN.pi, 44, INK2, 'center', AW));
+  const artK = ['crimson', 'night', 'mono', 'ink'][hash(String(m.yr || 'all')) % 4];
+  S_.push({ id: 'title', dur: 4.8, chrome: false, tint: A, arts: [artK], draw(c, t, sc, T) {
+    vdFill(c, '#0e0e0e'); vdArt(c, artK, 0, 0, W, H, vdS(vdW(t, 0, .8)), 1.12 - .08 * vdW(t, 0, sc.dur));
+    let g = c.createLinearGradient(0, H * .3, 0, H); g.addColorStop(0, 'rgba(10,10,10,0)'); g.addColorStop(.62, 'rgba(10,10,10,.8)'); g.addColorStop(1, 'rgba(10,10,10,.95)'); c.fillStyle = g; c.fillRect(0, H * .3, W, H * .7);
+    g = c.createLinearGradient(0, 0, 0, 300); g.addColorStop(0, 'rgba(10,10,10,.6)'); g.addColorStop(1, 'rgba(10,10,10,0)'); c.fillStyle = g; c.fillRect(0, 0, W, 300);
+    c.save(); c.globalAlpha *= vdS(vdW(t, .3, 1.2)); dlLogo(c, M, 80, .8); dlL(c, 'Dailies', M + 36 * .8 + 14, 104, 22, INK2, 'left', .2); c.restore();
+    vdCaps(c, m.all ? 'MY FILM LIFE' : 'A YEAR IN FILM', M, 1130, 26, A, vdW(t, .5, 1.4), 'left', .34);
+    const big = m.all ? 'ALL TIME' : String(m.yr), z = dlFitText(c, big, DLFN.d8, 400, AW, 10);
+    vdRise(c, vdW(t, .7, 1.7), 0, 1170, W, z * 1.05, () => dlT(c, big, M - 8, 1170 + z * .86, DLFN.d8, z, INK, 'left'));
+    c.fillStyle = A; c.fillRect(M, 1170 + z * 1.05 + 34, AW * vdS(vdW(t, 1.6, 2.6)), 3);
+    vdCaps(c, plural(m.watches, 'film') + '   \u00b7   ' + plural(m.hours, 'hour'), M, 1170 + z * 1.05 + 100, 28, INK2, vdW(t, 2, 3), 'left', .2);
   } });
-  if (m.first) S_.push({ id: 'first', dur: 5.4, chrome: true, tint: tint(m.first.f), urls: [[m.first.f, 780]], back(c, t, a, T) { vdBackdrop(c, m.first.f, 780, a * vdS(vdW(t, 0, 1.6)), T); }, draw(c, t, sc, T) {
-    const pw = 640, ph = 960, x = (W - pw) / 2, y = 290, f = m.first.f, p = vdW(t, .35, 2), k = 1 + .045 * vdW(t, 0, sc.dur), fl = Math.sin(T * .8) * 6;
-    vdCaps(c, m.all ? 'The first one on record' : 'It started with', CX, 230, 26, INK3, vdW(t, .2, 1.3), 'center', .3);
-    c.save(); c.translate(CX, y + ph / 2 + fl); c.scale(k, k); c.translate(-CX, -(y + ph / 2)); vdA(c, p, 36, () => vdPoster(c, f, x, y, pw, ph, { sh: vdW(t, 1.6, 3.4) })); c.restore();
-    vdText(c, f.title.toUpperCase(), CX, 1410, DLFN.d8, 78, INK, vdW(t, 1.3, 2.6), 'center', AW);
-    vdCaps(c, m.first.when + (f.year ? '   ·   ' + f.year : ''), CX, 1474, 22, INK3, vdW(t, 1.9, 2.9), 'center', .22);
-  } });
-  /* numbers: one at a time, each given room */
-  const rows = [{ l: 'I watched', v: m.watches, u: 'films', viz: 'dots', cap: m.films.length !== m.watches ? plural(m.films.length, 'different film') : 'every one a different film' },
-    { l: 'I spent', v: m.hours, u: 'hours in the dark', viz: 'days', cap: m.hours >= 24 ? 'about ' + (m.hours / 24).toFixed(1) + ' full days' : m.mins + ' minutes' }];
-  if (m.rated.length >= 3) rows.push({ l: 'On average I gave', v: m.avg, dec: 1, stars: true, viz: 'stars', u: 'out of 5', cap: plural(m.rated.length, 'film') + ' rated' });
-  else if (m.re > 0) rows.push({ l: 'I went back to', v: m.re, u: 'old favourites', cap: 'watched again' });
-  const BD = 3.2, BO = .6;
-  S_.push({ id: 'numbers', dur: (rows.length - 1) * (BD - BO) + BD, chrome: true, tint: A, draw(c, t) {
+  if (m.first) { const f0 = m.first.f, bgc = vdTone(f0, .13, .4);
+    S_.push({ id: 'first', dur: 4.6, chrome: true, tint: tint(f0), urls: [[f0, 760]], draw(c, t, sc, T) {
+      vdFill(c, bgc); const pw = 760, ph = 1140, y = 230, e = vdIO(vdW(t, .2, 1.1));
+      c.save(); c.beginPath(); c.rect(M, y + ph * (1 - e), pw, ph * e); c.clip(); vdPoster(c, f0, M, y - (1 - e) * 40, pw, ph, { shadow: false, r: 6 }); c.restore();
+      vdCaps(c, m.all ? 'THE FIRST ONE ON RECORD' : 'FIRST WATCH', M, 1450, 24, A, vdW(t, .9, 1.7), 'left', .34);
+      const z = dlFitText(c, f0.title.toUpperCase(), DLFN.d8, 100, AW, 10);
+      vdRise(c, vdW(t, 1.1, 2), 0, 1470, W, z * 1.05, () => dlT(c, f0.title.toUpperCase(), M - 3, 1470 + z * .86, DLFN.d8, z, INK, 'left'));
+      vdCaps(c, m.first.when + (f0.year ? '   \u00b7   ' + f0.year : ''), M, 1470 + z * 1.05 + 56, 24, INK2, vdW(t, 1.8, 2.7), 'left', .2);
+    } }); }
+  const rows = [{ l: 'I WATCHED', v: m.watches, u: 'films', cap: m.films.length !== m.watches ? plural(m.films.length, 'different film') : 'every one a different film', bg: A, ink: '#141414', viz: 'sq' },
+    { l: 'I SPENT', v: m.hours, u: 'hours in the dark', cap: m.hours >= 24 ? 'about ' + (m.hours / 24).toFixed(1) + ' full days' : m.mins + ' minutes', bg: '#ecebe6', ink: '#141414', viz: 'days' }];
+  if (m.rated.length >= 3) rows.push({ l: 'ON AVERAGE I GAVE', v: m.avg, dec: 1, u: 'out of 5', cap: plural(m.rated.length, 'film') + ' rated', bg: '#161616', ink: INK, stars: true });
+  else if (m.re > 0) rows.push({ l: 'I WENT BACK TO', v: m.re, u: 'old favourites', cap: 'watched again', bg: '#161616', ink: INK });
+  const BD = 3.1, BO = .55;
+  S_.push({ id: 'numbers', dur: (rows.length - 1) * (BD - BO) + BD, chrome: false, tint: A, draw(c, t) {
     rows.forEach((r, i) => {
-      const u = t - i * (BD - BO); if (u < 0 || u > BD) return;
-      const a = (i ? vdS(vdW(u, 0, .9)) : 1) * (i < rows.length - 1 ? 1 - vdS(vdW(u, BD - BO, BD)) : 1); if (a <= .002) return;
-      c.save(); c.globalAlpha *= a;
-      vdCaps(c, r.l, CX, 790, 26, INK3, vdW(u, .1, 1), 'center', .3);
-      const p = vdS(vdW(u, .25, 2.1)), val = r.dec ? (r.v * p).toFixed(1) : Math.round(r.v * p).toLocaleString();
-      vdText(c, val, CX, 1110, DLFN.d8, 380, INK, vdW(u, .15, 1.2), 'center', AW, 1);
-      vdCaps(c, r.u, CX, 1176, 26, INK2, vdW(u, .8, 1.7), 'center', .26);
-      const lw = 90 * vdS(vdW(u, 1, 1.9)); c.fillStyle = A; c.fillRect(CX - lw / 2, 1226, lw, 3);
-      vdA(c, vdW(u, 1.3, 2.2), 14, () => dlT(c, r.cap, CX, 1310, DLFN.pi, 42, INK2, 'center', AW));
-      if (r.stars) { c.save(); c.globalAlpha *= vdS(vdW(u, .9, 1.7)); dlStars(c, CX, 1440, 64, r.v * p, A, 'center'); c.restore(); }
-      if (r.viz === 'dots') {
-        const n = Math.min(r.v, 60), cols = Math.min(n, 12), gp = 40, rows = Math.ceil(n / cols);
-        for (let q = 0; q < n; q++) { const rr = Math.floor(q / cols), cc = q % cols, inRow = rr === rows - 1 ? n - cols * (rows - 1) : cols, dp = vdS(vdW(u, 1.1 + q * .035, 1.9 + q * .035)); if (dp <= 0) continue;
-          const dx = CX + (cc - (inRow - 1) / 2) * gp, dy = 1430 + rr * gp + (1 - dp) * 12; c.beginPath(); c.arc(dx, dy, 8.5 * (.6 + .4 * dp), 0, 6.2832); c.fillStyle = q === n - 1 ? A : 'rgba(242,242,242,' + (.55 * dp) + ')'; c.fill(); }
-      }
-      if (r.viz === 'days') {
-        const nD = Math.min(7, Math.max(1, Math.ceil(r.v / 24))), rr = 40, gp = 26, x0 = CX - (nD * 2 * rr + (nD - 1) * gp) / 2 + rr;
-        for (let q = 0; q < nD; q++) { const cx = x0 + q * (2 * rr + gp), cy = 1450, fr = clamp(r.v / 24 - q, 0, 1) * vdS(vdW(u, 1 + q * .18, 2.4 + q * .18)); c.beginPath(); c.arc(cx, cy, rr, 0, 6.2832); c.strokeStyle = 'rgba(255,255,255,.2)'; c.lineWidth = 2; c.stroke();
-          if (fr > 0) { c.beginPath(); c.moveTo(cx, cy); c.arc(cx, cy, rr - 6, -Math.PI / 2, -Math.PI / 2 + fr * 6.2832); c.closePath(); c.fillStyle = 'rgba(242,178,76,.88)'; c.fill(); } }
-        vdA(c, vdW(u, 2, 2.8), 8, () => dlL(c, r.v >= 24 ? 'each circle is one day' : 'one circle is one day', CX, 1560, 18, INK3, 'center', .22));
-      }
+      const u = t - i * (BD - BO); if (u < 0) return; c.save();
+      if (i && u < BO) { const e = vdIO(u / BO); c.beginPath(); c.rect(0, H * (1 - e), W, H * e); c.clip(); }
+      vdFill(c, r.bg); const dim = r.ink === INK ? INK2 : 'rgba(20,20,20,.7)';
+      vdCaps(c, r.l, M, 420, 26, r.ink, vdW(u, .15, .9), 'left', .34);
+      const p = vdE3(vdW(u, .2, 1.7)), val = r.dec ? (r.v * p).toFixed(1) : Math.round(r.v * p).toLocaleString(), z = dlFitText(c, r.dec ? '5.0' : String(Math.round(r.v)).replace(/\d/g, '8'), DLFN.d8, 640, AW, 10);
+      vdRise(c, vdW(u, .1, .9), 0, 470, W, z * 1.05, () => dlT(c, val, M - 10, 470 + z * .86, DLFN.d8, z, r.ink, 'left'));
+      const yU = 470 + z * 1.05 + 70;
+      vdText(c, r.u, M, yU, DLFN.u6, 62, r.ink, vdW(u, .6, 1.4), 'left', AW);
+      vdA(c, vdW(u, 1, 1.9), 12, () => dlT(c, r.cap, M, yU + 70, DLFN.pi, 42, dim, 'left', AW));
+      if (r.stars) { c.save(); c.globalAlpha *= vdS(vdW(u, .9, 1.7)); dlStars(c, M, yU + 190, 70, r.v * p, A, 'left'); c.restore(); }
+      if (r.viz === 'sq') { const n = Math.min(r.v, 60), cols = 12, gp = 14, sz = (AW - gp * (cols - 1)) / cols, y0 = yU + 150;
+        for (let q = 0; q < n; q++) { const rr = Math.floor(q / cols), cc = q % cols, dp = vdE3(vdW(u, 1 + q * .02, 1.5 + q * .02)); if (dp <= 0) continue; c.fillStyle = 'rgba(20,20,20,' + (.85 * dp) + ')'; dlRR(c, M + cc * (sz + gp), y0 + rr * (sz + gp), sz, sz * dp, 3); c.fill(); } }
+      if (r.viz === 'days') { const nD = Math.min(7, Math.max(1, Math.ceil(r.v / 24))), sz = 96, gp = 22, y0 = yU + 170;
+        for (let q = 0; q < nD; q++) { const x = M + q * (sz + gp), fr = clamp(r.v / 24 - q, 0, 1) * vdE3(vdW(u, 1 + q * .15, 1.8 + q * .15)); c.fillStyle = 'rgba(20,20,20,.14)'; dlRR(c, x, y0, sz, sz, 4); c.fill(); c.fillStyle = '#141414'; dlRR(c, x, y0 + sz * (1 - fr), sz, sz * fr, 4); c.fill(); }
+        vdA(c, vdW(u, 1.8, 2.5), 6, () => dlL(c, 'one square is one day', M, y0 + sz + 44, 18, dim, 'left', .22)); }
       c.restore();
     });
   } });
@@ -6001,29 +6009,24 @@ function vdScenes(m) {
     } });
   }
   if (m.tops.length >= (dls().vid.src === 'picks' ? 1 : 3)) {
-    const tp = m.tops, nT = tp.length, per = 2.1, st0 = .4, order = [...tp].reverse(), last = nT - 1;
-    S_.push({ id: 'top', dur: st0 + last * per + 3.8, chrome: true, tint: A, riser: st0 + last * per, urls: tp.map(f => [f, 780]),
-      back(c, t, a, T) { order.forEach((f, k) => { const u = t - (st0 + k * per), al = vdS(vdW(u, .1, 1.1)) * (k < last ? 1 - vdS(vdW(u, per - .6, per + .05)) : 1); vdBackdrop(c, f, 780, al * a, T); }); },
+    const tp = m.tops, nT = tp.length, per = 2.2, order = [...tp].reverse(), last = nT - 1;
+    S_.push({ id: 'top', dur: last * per + 4, chrome: true, tint: A, riser: last * per, urls: tp.map(f => [f, 780]),
       draw(c, t, sc, T) {
-      order.forEach((f, k) => {
-        const u = t - (st0 + k * per), pin = vdS(vdW(u, .15, 1.05)), pout = k < last ? vdS(vdW(u, per - .6, per + .05)) : 0, a = pin * (1 - pout), rank = nT - k;
-        if (a <= .003) return;
-        const dx = (1 - pin) * 36 - pout * 36, tn = tint(f), [r, g, b] = rgbOf(tn), isL = k === last;
-        c.save(); c.globalAlpha *= a;
-        const rg = c.createRadialGradient(CX, 740, 0, CX, 740, 1000); rg.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (isL ? .3 : .2) + ')'); rg.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)'); c.fillStyle = rg; c.fillRect(0, 0, W, H);
-        c.font = DLFN.d8(820); c.fillStyle = 'rgba(255,255,255,.05)'; c.textAlign = 'center'; c.textBaseline = 'alphabetic'; c.fillText(String(rank), CX + dx * .5, 1250);
-        const pw = 620, ph = 930, x = (W - pw) / 2 + dx, y = 280 + Math.sin(T * .8 + k) * 6, kk = 1 + (isL ? .035 : .025) * vdW(u, .2, per + 1.6);
-        c.save(); c.translate(x + pw / 2, y + ph / 2); c.scale(kk, kk); c.translate(-(x + pw / 2), -(y + ph / 2)); vdPoster(c, f, x, y, pw, ph, { sh: vdW(u, .5, 2.2) }); c.restore();
-        dlT(c, f.title.toUpperCase(), CX + dx * .6, 1340, DLFN.d8, 74, INK, 'center', AW);
-        const dr = f.directors && f.directors[0] ? f.directors[0].name : '', meta = [dr, f.year].filter(Boolean).join('   ·   ');
-        if (meta) dlL(c, meta, CX + dx * .6, 1400, 22, INK3, 'center', .22);
-        dlStars(c, CX + dx * .6, 1482, 50, f.rating * vdS(vdW(u, .5, 1.5)), A, 'center');
-        c.restore();
-      });
-      const lu = t - (st0 + last * per), fav = lu > .5, fa = fav ? vdS(vdW(lu, .5, 1.4)) : 1 - vdS(vdW(t, 0, .01));
-      vdCaps(c, m.topsLbl[0], M, 226, 26, INK3, (1 - fa) * vdS(vdW(t, .1, 1)), 'left', .3);
-      vdCaps(c, m.topsLbl[1], M, 226, 26, A, fa * (fav ? 1 : 0), 'left', .3);
-    } });
+        order.forEach((f, k) => {
+          const u = t - k * per; if (u < 0) return; const rank = nT - k, isL = k === last; c.save();
+          if (k && u < .55) { const e = vdIO(u / .55); c.beginPath(); c.rect(W * (1 - e), 0, W * e, H); c.clip(); }
+          vdFill(c, vdTone(f, .2, .5));
+          c.font = DLFN.d8(640); c.fillStyle = 'rgba(255,255,255,.07)'; c.textAlign = 'right'; c.textBaseline = 'alphabetic'; c.fillText(String(rank), W - M + 20, 800);
+          const pw = 660, ph = 990, y = 250, e2 = vdIO(vdW(u, .1, .9)); c.save(); c.beginPath(); c.rect(M, y + ph * (1 - e2), pw, ph * e2 + 40); c.clip(); vdPoster(c, f, M, y - (1 - e2) * 36, pw, ph, { shadow: false, r: 6 }); c.restore();
+          vdCaps(c, (isL ? m.topsLbl[1] : m.topsLbl[0]).toUpperCase() + '   \u00b7   ' + String(rank).padStart(2, '0'), M, 1340, 24, isL ? A : INK3, vdW(u, .6, 1.3), 'left', .3);
+          const tt = f.title.toUpperCase(), z = dlFitText(c, tt, DLFN.d8, 92, AW, 10);
+          vdRise(c, vdW(u, .7, 1.5), 0, 1362, W, z * 1.05, () => dlT(c, tt, M - 3, 1362 + z * .86, DLFN.d8, z, INK, 'left'));
+          const dr = f.directors && f.directors[0] ? f.directors[0].name : '', meta = [dr, f.year].filter(Boolean).join('   \u00b7   ');
+          if (meta) vdCaps(c, meta, M, 1362 + z * 1.05 + 50, 22, INK2, vdW(u, 1, 1.8), 'left', .2);
+          c.save(); c.globalAlpha *= vdS(vdW(u, 1, 1.8)); dlStars(c, M, 1362 + z * 1.05 + 130, 52, f.rating * vdE3(vdW(u, 1, 2)), A, 'left'); c.restore();
+          c.restore();
+        });
+      } });
   }
   if (m.genres) {
     const gs = m.genres, mx = gs[0][1], gf = m.films.filter(f => (f.genres || []).includes(gs[0][0])).sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 4);
@@ -6064,14 +6067,17 @@ function vdScenes(m) {
       vdA(c, vdW(t, 3, 4.2), 14, () => dlT(c, 'One stripe for every watch, as wide as the film is long.', M, 1470, DLFN.pi, 38, INK2, 'left', AW));
     } });
   }
-  S_.push({ id: 'end', dur: 5.2, chrome: false, tint: A, back(c, t, a, T) { if (fav) vdBackdrop(c, fav, 500, a * .8 * vdS(vdW(t, 0, 1.6)), T); }, draw(c, t, sc, T) {
-    vdRing(c, CX, 860, 340, T + 20, vdS(vdW(t, .2, 2)));
-    const p = vdW(t, .3, 1.8); vdA(c, p, 20, () => dlLogo(c, CX - 66, 700, 3.7));
-    vdText(c, 'Dailies', CX, 1040, DLFN.d8, 190, INK, vdW(t, .8, 2.2), 'center', AW);
-    vdCaps(c, m.all ? 'My film life' : 'My ' + m.yr + ' in film', CX, 1114, 24, INK3, vdW(t, 1.5, 2.6), 'center', .3);
-    const lw = 110 * vdS(vdW(t, 1.9, 3)); c.fillStyle = A; c.fillRect(CX - lw / 2, 1170, lw, 3);
-    vdText(c, vdHost(), CX, 1262, DLFN.u6, 40, A, vdW(t, 2.4, 3.6), 'center', AW);
+  S_.push({ id: 'end', dur: 5, chrome: false, tint: A, arts: ['face'], draw(c, t, sc, T) {
+    vdFill(c, '#0e0e0e'); vdArt(c, 'face', 0, 0, W, H, vdS(vdW(t, 0, .8)), 1.1 - .06 * vdW(t, 0, sc.dur)); c.fillStyle = 'rgba(10,10,10,.6)'; c.fillRect(0, 0, W, H);
+    vdA(c, vdW(t, .3, 1.5), 20, () => dlLogo(c, CX - 66, 700, 3.7));
+    vdText(c, 'Dailies', CX, 1040, DLFN.d8, 190, INK, vdW(t, .7, 1.8), 'center', AW);
+    vdCaps(c, m.all ? 'MY FILM LIFE' : 'MY ' + m.yr + ' IN FILM', CX, 1114, 24, INK2, vdW(t, 1.3, 2.3), 'center', .34);
+    const lw = 110 * vdS(vdW(t, 1.7, 2.6)); c.fillStyle = A; c.fillRect(CX - lw / 2, 1170, lw, 3);
+    vdText(c, vdHost(), CX, 1262, DLFN.u6, 40, A, vdW(t, 2.1, 3.1), 'center', AW);
   } });
+  S_.forEach(s => { s.back = null; const dr = s.draw;
+    if (['rhythm', 'wall', 'taste', 'colour'].includes(s.id)) s.draw = (c, t, sc, T) => { vdFill(c, '#121212'); dr(c, t, sc, T); };
+    else if (s.id === 'dir') s.draw = (c, t, sc, T) => { vdFill(c, vdTone(m.dir.fs[0], .14, .4)); dr(c, t, sc, T); }; });
   const ids = S_.map(s => s.id), off = dls().vid.off; S_ = S_.filter(s => s.id === 'title' || s.id === 'end' || !off.includes(s.id));
   let s0 = 0; S_.forEach((s, i) => { s.start = i ? s0 - vdOV : 0; s0 = s.start + s.dur; });
   return { scenes: S_, total: s0, ids };
@@ -6113,26 +6119,22 @@ function vdMakeBgs(K) {
   return out;
 }
 
-/* ---- one frame: a soft colour glow behind, scenes that overlap and dissolve ---- */
+/* ---- one frame: flat colour fields, hard wipes between scenes, nothing floating ---- */
 function vdFrame(c, V, T, fn) {
-  const K = V.K, W = VD.W, H = VD.H; c.setTransform(1, 0, 0, 1, 0, 0); c.drawImage(V.bgs[Math.floor(T * 8) % 3], 0, 0); c.setTransform(K, 0, 0, K, 0, 0);
+  const K = V.K, W = VD.W, H = VD.H; c.setTransform(K, 0, 0, K, 0, 0); c.fillStyle = '#0e0e0e'; c.fillRect(0, 0, W, H);
   T = clamp(T, 0, V.total - .001);
-  const n = V.scenes.length, act = [];
-  V.scenes.forEach((sc, i) => { if (T >= sc.start && T < sc.start + sc.dur) { const t = T - sc.start, ol = i === n - 1 ? 1.4 : vdOV; act.push({ sc, t, a: 1 - vdS(vdW(t, sc.dur - ol, sc.dur)) }); } });
-  vdPerfs(c, T); vdMotes(c, T);
-  act.forEach(({ sc, t, a }) => { if (sc.back) sc.back(c, t, a, T); });
-  const gx = W / 2 + Math.sin(T * .2) * 130, gy = H * .4 + Math.cos(T * .15) * 100;
-  act.forEach(({ sc, t, a }) => {
-    const ia = sc.start === 0 ? 1 : vdS(vdW(t, 0, 1.2)), [r, g, b] = rgbOf(sc.tint || VD.AMBER), rg = c.createRadialGradient(gx, gy, 0, gx, gy, 1200);
-    rg.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (.17 * a * ia) + ')'); rg.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)'); c.fillStyle = rg; c.fillRect(0, 0, W, H);
+  V.scenes.forEach((sc, i) => {
+    if (T < sc.start || T >= sc.start + sc.dur) return; const t = T - sc.start, wp = i > 0 && t < vdOV, e = wp ? vdIO(t / vdOV) : 1;
+    c.save(); if (wp) { c.beginPath(); c.rect(0, H * (1 - e), W, H * e); c.clip(); }
+    sc.draw(c, t, sc, T);
+    if (sc.chrome) {
+      c.save(); c.globalAlpha *= vdS(vdW(t, .4, 1.2)); dlLogo(c, VD.M, 80, .62); dlL(c, 'Dailies', VD.M + 36 * .62 + 12, 97, 20, DLC.ink3, 'left', .2); dlL(c, V.m.all ? 'All time' : String(V.m.yr), VD.W - VD.M, 97, 20, DLC.ink3, 'right', .2);
+      const ch = V.scenes.filter(x => x.chrome), ci = ch.indexOf(sc) + 1; dlL(c, String(ci).padStart(2, '0') + '  /  ' + String(ch.length).padStart(2, '0'), VD.M, 1796, 18, DLC.ink3, 'left', .2); c.restore();
+    }
+    c.restore();
+    if (wp) { c.fillStyle = VD.AMBER; c.fillRect(0, H * (1 - e) - 2, W, 4); }
   });
-  act.forEach(({ sc, t, a }) => {
-    c.save(); c.globalAlpha = a; sc.draw(c, t, sc, T); c.restore();
-    if (sc.chrome) { c.save(); c.globalAlpha = a * vdS(vdW(t, .4, 1.4)); dlLogo(c, VD.M, 80, .62); dlL(c, 'Dailies', VD.M + 36 * .62 + 12, 97, 20, DLC.ink3, 'left', .2); dlL(c, V.m.all ? 'All time' : String(V.m.yr), VD.W - VD.M, 97, 20, DLC.ink3, 'right', .2);
-      const ch = V.scenes.filter(x => x.chrome), ci = ch.indexOf(sc) + 1; dlL(c, String(ci).padStart(2, '0') + '  /  ' + String(ch.length).padStart(2, '0'), VD.M, 1796, 18, DLC.ink3, 'left', .2);
-      c.strokeStyle = 'rgba(255,255,255,.16)'; c.lineWidth = 2; [[44, 44, 1, 1], [VD.W - 44, 44, -1, 1], [44, VD.H - 44, 1, -1], [VD.W - 44, VD.H - 44, -1, -1]].forEach(([qx, qy, sx, sy]) => { c.beginPath(); c.moveTo(qx + 34 * sx, qy); c.lineTo(qx, qy); c.lineTo(qx, qy + 34 * sy); c.stroke(); }); c.restore(); }
-  });
-  const pr = T / V.total; c.fillStyle = 'rgba(255,255,255,.08)'; c.fillRect(VD.M, 1838, VD.W - 2 * VD.M, 2); c.fillStyle = 'rgba(242,178,76,.7)'; c.fillRect(VD.M, 1838, (VD.W - 2 * VD.M) * pr, 2);
+  const pr = T / V.total; c.fillStyle = 'rgba(255,255,255,.1)'; c.fillRect(VD.M, 1838, VD.W - 2 * VD.M, 2); c.fillStyle = VD.AMBER; c.fillRect(VD.M, 1838, (VD.W - 2 * VD.M) * pr, 2);
 }
 
 /* ---- music: a slow warm pad, a few soft bell notes, plenty of room; no beats, no thumps ---- */
@@ -6173,6 +6175,7 @@ function vdMusic(ctx, outs, V, t0) {
 async function vdLoad(V, prog) {
   const urls = new Set(); V.scenes.forEach(s => (s.urls || []).forEach(([f, w]) => { const u = dlPosterURL(f, w); if (u) urls.add(u); }));
   const all = [...urls]; let n = 0; prog(0, all.length);
+  const arts = new Set(); V.scenes.forEach(s => (s.arts || []).forEach(k => arts.add(k))); await Promise.all([...arts].map(vdArtLoad));
   await Promise.all(all.map(u => dlImg(u).then(im => { VDI.set(u, im); prog(++n, all.length); })));
 }
 
