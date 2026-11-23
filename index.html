@@ -1415,10 +1415,6 @@ html.rm .xc.sk .xc-po{animation:none}
 #moreScrim[hidden]{display:none}
 #moreSheet{width:100%;max-width:560px;margin:0 auto;background:var(--bg2);border-radius:20px 20px 0 0;border:1px solid var(--line2);border-bottom:0;padding:10px 12px calc(14px + env(safe-area-inset-bottom,0px));animation:mrU .28s cubic-bezier(.2,.8,.2,1)}
 #moreSheet::before{content:"";display:block;width:38px;height:4px;border-radius:3px;background:var(--line2);margin:0 auto 10px}
-#moreSheet a,#moreSheet button{display:flex;align-items:center;gap:16px;width:100%;height:56px;padding:0 14px;border:0;border-radius:12px;background:none;color:var(--ink);text-decoration:none;font:500 17px/1 var(--f-u);cursor:pointer;text-align:left}
-#moreSheet a:active,#moreSheet button:active,#moreSheet a.on{background:var(--bg3)}
-#moreSheet svg{width:22px;height:22px;color:var(--ink2);flex:none}
-#moreSheet .mr-sep{height:1px;background:var(--line);margin:6px 8px}
 @keyframes mrU{from{transform:translateY(40px);opacity:0}}@keyframes mrF{from{opacity:0}}
 html.rm #moreSheet,html.rm #moreScrim{animation:none}
 @media (min-width:1000px){#moreScrim{display:none!important}}
@@ -1506,6 +1502,20 @@ html.rm .sh,html.rm .sh-scrim{animation:none}
 .x-gen{margin-left:auto}.x-gen .sel{min-width:150px}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .x-sent{height:1px}.x-end{text-align:center;color:var(--ink3);font-size:13.5px;margin:34px 0 10px}
 @media (max-width:760px){.x-gen{margin-left:0;width:100%}.x-gen .sel{width:100%}}
+#moreSheet{padding:10px 16px calc(16px + env(safe-area-inset-bottom,0px))}
+.mr-h{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 14px}.mr-h b{font:700 26px/1 var(--f-d)}
+.mr-x{width:36px;height:36px;border-radius:50%;border:1px solid var(--line2);background:none;color:var(--ink2);cursor:pointer;display:flex;align-items:center;justify-content:center}.mr-x svg{width:16px;height:16px}
+.mr-st{display:grid;grid-template-columns:repeat(3,1fr);margin:0 0 16px;border:1px solid var(--line);border-radius:16px;background:var(--bg)}
+.mr-st div{padding:12px 6px;text-align:center}.mr-st div+div{border-left:1px solid var(--line)}
+.mr-st b{display:block;font:700 24px/1 var(--f-d)}.mr-st span{display:block;margin-top:5px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.mr-g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#moreSheet .mr-t{display:flex;flex-direction:column;align-items:flex-start;gap:12px;width:100%;min-height:118px;padding:14px;border:1px solid var(--line);border-radius:18px;background:var(--bg);color:var(--ink);text-decoration:none;text-align:left;cursor:pointer;font:inherit;transition:transform .15s,border-color .15s}
+#moreSheet .mr-t:active{transform:scale(.97)}
+#moreSheet .mr-t.on{border-color:#f0c35c;background:color-mix(in srgb,#f0c35c 8%,var(--bg))}
+.mr-i{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,#f0c35c 14%,transparent);color:#f0c35c}.mr-i svg{width:21px;height:21px}
+.mr-t b{display:block;font:600 16px/1.15 var(--f-u)}.mr-t small{display:block;margin-top:4px;font-size:12.5px;line-height:1.35;color:var(--ink3)}
+.mr-bk{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding:12px 4px 0;border-top:1px solid var(--line);font-size:13px;color:var(--ink3)}
+#moreSheet .mr-bk button{flex:none;height:34px;padding:0 14px;border:1px solid var(--line2);border-radius:999px;background:none;color:var(--ink);font:500 13px/1 var(--f-u);cursor:pointer}
 .bs-h3{font:500 13px/1.3 var(--f-d);margin:14px 0 6px;color:var(--ink2)}@media (max-width:760px){.bs-r{grid-template-columns:44px repeat(8,minmax(0,1fr));gap:3px}.bs-l{font-size:10px}.bs-c{height:24px;font-size:10px}}
 
 .lp-l{display:grid;gap:2px;max-height:min(52vh,420px);overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:6px}.lp-i{display:flex;gap:12px;align-items:baseline;padding:8px 10px;border:0;border-radius:7px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:default;width:100%}button.lp-i{cursor:pointer}button.lp-i:hover{background:var(--line)}.lp-y{width:40px;flex:none;font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}.lp-n{font-size:14px}
@@ -6855,25 +6865,29 @@ document.addEventListener('keydown', e => {
 }
 try { if (route === 'shelf' && S.ui.view === 'carousel') refresh(); } catch (e) { /* ignore */ }
 /* ===== Explore: a few good charts, endless scroll, one genre filter ===== */
-const EXC = { tab: 'week', genre: '', d: new Map() }, EX_YR = new Date().getFullYear(), EX_MAXP = 40;
-const EX_TABS = [['week', 'Trending'], ['year', 'Best of ' + EX_YR], ['all', 'All time'], ['you', 'For you']];
-const EX_INFO = { week: ['Trending now', 'What people are watching right now'], year: ['Best of ' + EX_YR, 'Released this year, 700+ votes, rated 6.5 or higher'], all: ['The all time greats', '2,000+ votes and rated 7 or higher'], you: ['Picked for you', 'From the films and genres you rate highly, and it keeps going'] };
+const EXC = { tab: 'week', genre: '', d: new Map() }, EX_MAXP = 40, exYr = () => new Date().getFullYear();
+const exTabs = () => [['week', 'Trending'], ['year', 'Best of ' + exYr()], ['all', 'All time'], ['you', 'For you']];
+const exInfo = () => ({ week: ['Trending now', 'What people are watching right now'], year: ['Best of ' + exYr(), 'Released this year. Films with 700+ votes first, then the newer ones'], all: ['The all time greats', '2,000+ votes and rated 7 or higher'], you: ['Picked for you', 'Top rated films in your taste first, and it keeps going'] });
 const EX_GEN = ['Action', 'Adventure', 'Animation', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery', 'Romance', 'Science Fiction', 'Thriller', 'War', 'Western'];
-const exKey = () => EXC.tab + '|' + EXC.genre, exOwn = id => byId(id);
+const exKey = () => EXC.tab + '|' + EXC.genre + (EXC.tab === 'year' ? '|' + exYr() : ''), exOwn = id => byId(id);
 const exIso = (add = 0) => { const d = new Date(Date.now() + add * 864e5); return d.toISOString().slice(0, 10); };
 function exDisc(q) {
   const p = Object.assign({ include_adult: 'false', 'with_runtime.gte': 60, 'primary_release_date.lte': exIso() }, q); if (EXC.genre && GENRE_ID[EXC.genre] && !('with_genres' in q && q.__keep)) p.with_genres = GENRE_ID[EXC.genre]; delete p.__keep; return tmdb('/discover/movie', p);
 }
-function exChartFetch(tab, page) {
+const exTiers = tab => tab === 'year' ? [{ 'vote_count.gte': 700, 'vote_average.gte': 6.5 }, { 'vote_count.gte': 150, 'vote_count.lte': 699, 'vote_average.gte': 6.5 }, { 'vote_count.gte': 20, 'vote_count.lte': 149, 'vote_average.gte': 6 }] : [{}];
+function exChartFetch(tab, page, ti) {
   if (tab === 'week') return exDisc({ sort_by: 'popularity.desc', 'primary_release_date.gte': exIso(-110), 'vote_count.gte': 60, page });
-  if (tab === 'year') return exDisc({ sort_by: 'vote_average.desc', 'primary_release_date.gte': EX_YR + '-01-01', 'vote_count.gte': 700, 'vote_average.gte': 6.5, page });
+  if (tab === 'year') return exDisc(Object.assign({ sort_by: 'vote_average.desc', 'primary_release_date.gte': exYr() + '-01-01', page }, exTiers(tab)[ti || 0]));
   return exDisc({ sort_by: 'vote_average.desc', 'vote_count.gte': 2000, 'vote_average.gte': 7, page });
 }
 function exYouInit() {
-  const loved = S.films.filter(f => f.seen && f.rating >= 4 && isNum(f.id)).sort((a, b) => b.rating - a.rating || b.added - a.added).slice(0, 4), gi = tasteGenreIds(), src = [];
+  const loved = S.films.filter(f => f.seen && f.rating >= 4 && isNum(f.id)).sort((a, b) => b.rating - a.rating || b.added - a.added).slice(0, 4), gi = tasteGenreIds(), src = [], top = (q, max) => src.push({ max: max || EX_MAXP, fetch: p => exDisc(Object.assign({ sort_by: 'vote_average.desc', page: p }, q)) });
+  if (gi.length && !EXC.genre) { const g = { with_genres: gi.join('|'), __keep: 1 }; top(Object.assign({ 'vote_count.gte': 1000, 'vote_average.gte': 7.2 }, g)); }
+  else top({ 'vote_count.gte': 1500, 'vote_average.gte': 7.2 });
   loved.forEach(f => src.push({ max: 3, soft: true, fetch: p => tmdb('/movie/' + f.id + '/recommendations', { page: p }) }));
-  if (gi.length && !EXC.genre) src.push({ max: EX_MAXP, fetch: p => exDisc({ with_genres: gi.join('|'), __keep: 1, sort_by: 'popularity.desc', 'vote_count.gte': 500, 'vote_average.gte': 6.8, page: p }) });
-  src.push({ max: EX_MAXP, fetch: p => exDisc({ sort_by: 'popularity.desc', 'vote_count.gte': 1000, 'vote_average.gte': 7, page: p }) });
+  if (gi.length && !EXC.genre) top({ with_genres: gi.join('|'), __keep: 1, 'vote_count.gte': 300, 'vote_count.lte': 999, 'vote_average.gte': 6.8 });
+  top({ 'vote_count.gte': 2000, 'vote_average.gte': 7 });
+  src.push({ max: EX_MAXP, fetch: p => exDisc({ sort_by: 'popularity.desc', 'vote_count.gte': 500, 'vote_average.gte': 6.5, page: p }) });
   return { src, i: 0, page: 0 };
 }
 const exOk = (b, tab) => b && b.id && b.poster_path && !b.adult && (tab !== 'you' || (!byId(b.id) && (b.vote_count || 0) >= 100 && (b.vote_average || 0) >= 6)) && (!EXC.genre || !b.genre_ids || b.genre_ids.includes(GENRE_ID[EXC.genre]));
@@ -6881,7 +6895,7 @@ async function exLoad(tab, more) {
   const key = exKey(); let e = EXC.d.get(key);
   if (!e) { e = { list: [], page: 0, total: 1, state: 'idle', err: '', at: 0, done: false, fy: null }; EXC.d.set(key, e); }
   if (e.state === 'load') return; if (!more && e.state === 'ok' && Date.now() - e.at < 18e5) return; if (more && e.done) return;
-  if (!more && e.state !== 'idle') Object.assign(e, { list: [], page: 0, total: 1, done: false, fy: null });
+  if (!more && e.state !== 'idle') Object.assign(e, { list: [], page: 0, total: 1, done: false, fy: null, ti: 0 });
   e.state = 'load'; e.err = ''; exPaint();
   try {
     const have = new Set(e.list.map(x => x.id)); let added = 0;
@@ -6895,10 +6909,11 @@ async function exLoad(tab, more) {
       }
       e.done = e.fy.i >= e.fy.src.length;
     } else {
-      for (let guard = 0; guard < 4 && !added && !e.done; guard++) {
-        const r = await exChartFetch(tab, e.page + 1); e.page = r.page || e.page + 1; e.total = Math.min(r.total_pages || 1, EX_MAXP);
+      const tiers = exTiers(tab);
+      for (let guard = 0; guard < 6 && !added && !e.done; guard++) {
+        const ti = e.ti || 0, r = await exChartFetch(tab, e.page + 1, ti); e.page = r.page || e.page + 1; e.total = Math.min(r.total_pages || 1, EX_MAXP);
         (r.results || []).forEach(b => { if (exOk(b, tab) && !have.has(b.id)) { have.add(b.id); remember(b); e.list.push(b); added++; } });
-        if (e.page >= e.total) e.done = true;
+        if (e.page >= e.total || !(r.results || []).length) { if (ti + 1 < tiers.length) { e.ti = ti + 1; e.page = 0; e.total = 1; } else e.done = true; }
       }
     }
     e.state = 'ok'; e.at = Date.now();
@@ -6914,7 +6929,7 @@ function xCard(b) {
     '<div class="xc-t"><b>' + E(b.title || '') + '</b><span>' + E(y) + '</span></div></div>';
 }
 function exLeadHTML(e) {
-  const tab = EXC.tab, info = EX_INFO[tab]; let sub = info[1];
+  const tab = EXC.tab, info = exInfo()[tab]; let sub = info[1];
   if (e.list.length && tab !== 'you') { const n = e.list.filter(b => { const f = exOwn(b.id); return f && f.seen; }).length; sub += '  ·  you have seen ' + n + ' of ' + e.list.length + ' loaded'; }
   return '<div class="x-lead"><div><h2>' + E(info[0] + (EXC.genre ? ': ' + EXC.genre : '')) + '</h2><p>' + E(sub) + '</p></div><label class="x-gen"><span class="sr">Genre</span><select class="sel" data-ctl="exgen" aria-label="Genre">' + ['<option value="">All genres</option>'].concat(EX_GEN.map(g => '<option value="' + E(g) + '"' + (EXC.genre === g ? ' selected' : '') + '>' + E(g) + '</option>')).join('') + '</select></label></div>';
 }
@@ -6938,8 +6953,8 @@ PAGES.explore = {
   render() {
     const v = $('#view'); if (!v) return; const head = '<div class="pagehead"><h1>Explore</h1><span class="sub">What is worth watching</span></div>';
     if (!getKey()) { v.innerHTML = head + '<div class="empty"><h3>Add a TMDB key to explore</h3><p>Explore pulls charts and recommendations from TMDB.</p><button class="btn pri" type="button" data-act="settings">Open Settings</button></div>'; return; }
-    if (!EX_TABS.some(t => t[0] === EXC.tab)) EXC.tab = 'week';
-    v.innerHTML = head + '<nav class="x-tabs" id="exTabs" aria-label="Explore charts">' + EX_TABS.map(t => '<button type="button" data-act="extab" data-t="' + t[0] + '" class="' + (EXC.tab === t[0] ? 'on' : '') + '">' + E(t[1]) + '</button>').join('') + '</nav><div id="exBody"></div>';
+    if (!exTabs().some(t => t[0] === EXC.tab)) EXC.tab = 'week';
+    v.innerHTML = head + '<nav class="x-tabs" id="exTabs" aria-label="Explore charts">' + exTabs().map(t => '<button type="button" data-act="extab" data-t="' + t[0] + '" class="' + (EXC.tab === t[0] ? 'on' : '') + '">' + E(t[1]) + '</button>').join('') + '</nav><div id="exBody"></div>';
     exPaint(); exLoad(EXC.tab, false);
   }
 };
@@ -6951,16 +6966,22 @@ ACT.xwish = a => { const b = mem.pre.get(String(a.dataset.id)); if (!b) return; 
 (function () {
   const btn = $('#tbMore'); if (!btn) return; let sc = null;
   const close = () => { if (sc) { sc.hidden = true; btn.setAttribute('aria-expanded', 'false'); } };
+  const IC = { x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>', set: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>' };
+  const SUB = { people: 'Directors and writers', insights: 'Your taste in numbers', downloads: 'Posters, lists, year video' };
+  const tile = r => { const a = $('#nav a[data-r="' + r + '"]'); return a ? '<a class="mr-t' + (route === r ? ' on' : '') + '" href="#/' + r + '" data-r="' + r + '"><span class="mr-i">' + a.querySelector('svg').outerHTML + '</span><span><b>' + E(a.querySelector('span').textContent) + '</b><small>' + SUB[r] + '</small></span></a>' : ''; };
+  const fill = () => {
+    const yr = new Date().getFullYear(), seen = S.films.filter(f => f.seen).length, thisYr = S.entries.filter(e => String(e.date).startsWith(String(yr))).length;
+    $('#moreSheet').innerHTML = '<div class="mr-h"><b>More</b><button type="button" class="mr-x" id="mrX" aria-label="Close">' + IC.x + '</button></div>' +
+      '<div class="mr-st"><div><b>' + S.films.length + '</b><span>On shelf</span></div><div><b>' + seen + '</b><span>Seen</span></div><div><b>' + thisYr + '</b><span>In ' + yr + '</span></div></div>' +
+      '<div class="mr-g">' + ['people', 'insights', 'downloads'].map(tile).join('') + '<button type="button" class="mr-t" id="mrSet"><span class="mr-i">' + IC.set + '</span><span><b>Settings</b><small>Make it yours</small></span></button></div>' +
+      '<div class="mr-bk"><span>' + E(backupAgo()) + '</span><button type="button" id="mrBk">Back up</button></div>';
+  };
   const open = () => {
     if (!sc) {
-      sc = document.createElement('div'); sc.id = 'moreScrim'; sc.hidden = true;
-      const item = r => { const a = $('#nav a[data-r="' + r + '"]'); return a ? '<a href="#/' + r + '" data-r="' + r + '">' + a.querySelector('svg').outerHTML + '<span>' + E(a.querySelector('span').textContent) + '</span></a>' : ''; };
-      sc.innerHTML = '<div id="moreSheet" role="dialog" aria-modal="true" aria-label="More sections">' + ['people', 'insights', 'downloads'].map(item).join('') + '<div class="mr-sep"></div><button type="button" id="mrSet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg><span>Settings</span></button></div>';
-      document.body.appendChild(sc);
-      sc.addEventListener('click', e => { if (e.target === sc || e.target.closest('#moreSheet a')) close(); const s = e.target.closest('#mrSet'); if (s) { close(); openSettings(); } });
-      renderRail();
+      sc = document.createElement('div'); sc.id = 'moreScrim'; sc.hidden = true; sc.innerHTML = '<div id="moreSheet" role="dialog" aria-modal="true" aria-label="More sections"></div>'; document.body.appendChild(sc);
+      sc.addEventListener('click', e => { if (e.target === sc || e.target.closest('#moreSheet a') || e.target.closest('#mrX')) close(); if (e.target.closest('#mrSet')) { close(); openSettings(); } if (e.target.closest('#mrBk')) exportData(); });
     }
-    sc.hidden = false; btn.setAttribute('aria-expanded', 'true'); const first = sc.querySelector('a'); if (first) first.focus();
+    fill(); sc.hidden = false; btn.setAttribute('aria-expanded', 'true'); const first = sc.querySelector('a'); if (first) first.focus();
   };
   btn.addEventListener('click', () => (sc && !sc.hidden ? close() : open()));
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && sc && !sc.hidden) { e.stopPropagation(); e.preventDefault(); close(); } }, true);
