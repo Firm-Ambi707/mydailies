@@ -1324,7 +1324,7 @@ body.bk-mode #view{padding-bottom:120px}@media (max-width:999px){body.bk-mode #v
 .ins-tabs button:hover{color:var(--ink)}
 .ins-tabs button.on{color:var(--ink)}
 .ins-tabs button.on::after{content:'';position:absolute;left:14px;right:14px;bottom:-1px;height:2px;border-radius:2px;background:#f0c35c}
-#view[data-itab="overview"] [data-tab]:not([data-tab="overview"]),#view[data-itab="taste"] [data-tab]:not([data-tab="taste"]),#view[data-itab="lists"] [data-tab]:not([data-tab="lists"]),#view[data-itab="explore"] [data-tab]:not([data-tab="explore"]){display:none!important}
+#view[data-itab="overview"] [data-tab]:not(button):not(a):not([data-tab="overview"]),#view[data-itab="taste"] [data-tab]:not(button):not(a):not([data-tab="taste"]),#view[data-itab="lists"] [data-tab]:not(button):not(a):not([data-tab="lists"]),#view[data-itab="explore"] [data-tab]:not(button):not(a):not([data-tab="explore"]){display:none!important}
 #view[data-itab] .scores{border-top:0;margin-top:22px}
 #view[data-itab] .ins{margin-top:40px}
 #view[data-itab] .ins h2{font-size:24px;margin-bottom:14px}
@@ -1556,6 +1556,175 @@ body.dock-on .dock{display:flex;flex-direction:column}
 @media (min-width:1000px){.rail .nav{position:relative}.rail .nav a.on::before{display:none}
 .nav-ink{display:block;position:absolute;left:0;bottom:-1px;height:3px;width:0;border-radius:3px 3px 0 0;background:var(--ac);pointer-events:none;transition:transform .5s cubic-bezier(.3,1.25,.4,1),width .5s cubic-bezier(.3,1.25,.4,1),background .35s}
 .nav-ink.nz{transition:none}}
+/* ===== Series ===== */
+.sr-tabs{display:flex;gap:2px;margin:4px 0 24px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}.sr-tabs::-webkit-scrollbar{display:none}
+.sr-tabs button{position:relative;flex:none;height:46px;padding:0 18px;border:0;background:none;color:var(--ink3);font:500 15px/1 var(--f-u);cursor:pointer;transition:color .2s}
+.sr-tabs button.on{color:var(--ink)}.sr-tabs button.on::after{content:"";position:absolute;left:14px;right:14px;bottom:-1px;height:3px;border-radius:3px 3px 0 0;background:#f0c35c}
+.sr-tabs small{margin-left:7px;color:var(--ink3);font-size:12px}
+@media (hover:hover){.sr-tabs button:hover{color:var(--ink)}}
+/* hero */
+.sr-hero{position:relative;min-height:clamp(340px,48vh,470px);border-radius:22px;overflow:hidden;background:linear-gradient(135deg,var(--a,#3a3a3a),var(--b,#1c1c1c));display:flex;align-items:flex-end;isolation:isolate;margin-bottom:38px;color:#fff;animation:srIn .5s ease both}
+.sr-hbg{position:absolute;inset:0;z-index:-2}.sr-hbg img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+.sr-hg{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(8,8,8,.88) 0%,rgba(8,8,8,.6) 40%,rgba(8,8,8,.06) 78%),linear-gradient(0deg,rgba(8,8,8,.8),transparent 60%)}
+.sr-hc{padding:36px 40px 34px;max-width:640px;display:grid;gap:12px;justify-items:start}
+.sr-hk{display:inline-flex;align-items:center;gap:8px;font:600 12px/1 var(--f-u);letter-spacing:.18em;text-transform:uppercase;color:#f0c35c}
+.sr-hk::before{content:"";width:22px;height:2px;background:#f0c35c;border-radius:2px}
+.sr-hc h2{font:800 clamp(40px,5vw,66px)/.92 var(--f-d);letter-spacing:.005em;text-wrap:balance}
+.sr-hm{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:rgba(255,255,255,.78)}.sr-hm b{font-weight:600;color:#fff}
+.sr-ho{font-size:15px;line-height:1.5;color:rgba(255,255,255,.82);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;max-width:540px}
+.sr-hp{display:flex;align-items:center;gap:12px;width:100%;max-width:440px;font-size:13px;color:rgba(255,255,255,.8)}
+.sr-hp i{flex:1;height:4px;border-radius:3px;background:rgba(255,255,255,.22);overflow:hidden}.sr-hp i u{display:block;height:100%;background:#f0c35c;border-radius:3px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.sr-ha{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.sr-ha .btn{height:46px;padding:0 22px;border-radius:999px;font-size:15px;font-weight:600}
+.sr-ha .btn svg{width:18px;height:18px}
+.sr-go{background:#f0c35c;border-color:#f0c35c;color:#1a1204}.sr-gh{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.28);color:#fff;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+@media (hover:hover){.sr-go:hover{filter:brightness(1.07)}.sr-gh:hover{background:rgba(255,255,255,.24)}}
+.sr-hd{position:absolute;right:26px;bottom:26px;display:flex;gap:8px}
+.sr-hd button{width:9px;height:9px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.35);cursor:pointer;transition:width .3s,background .3s}.sr-hd button.on{width:26px;border-radius:5px;background:#f0c35c}
+.sr-hero.empty{min-height:300px;background:linear-gradient(135deg,color-mix(in srgb,#f0c35c 22%,var(--bg2)),var(--bg2))}
+@keyframes srIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* rows */
+.sr-row{margin:0 0 34px;position:relative}
+.sr-rh{display:flex;align-items:baseline;gap:12px;margin:0 0 12px}.sr-rh h2{font:700 26px/1 var(--f-d);letter-spacing:.01em}.sr-rh span{color:var(--ink3);font-size:13px}
+.sr-rh .sp{flex:1}.sr-rh button{border:0;background:none;color:var(--ink2);font:500 13px/1 var(--f-u);cursor:pointer;padding:6px 0}
+.sr-rail{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;padding:4px 2px 10px;margin:0 -2px;overscroll-behavior-x:contain}.sr-rail::-webkit-scrollbar{display:none}
+.sr-rail>*{scroll-snap-align:start;flex:none}
+.sr-ar{position:absolute;top:calc(50% + 4px);z-index:3;width:42px;height:42px;border-radius:50%;border:1px solid var(--line2);background:color-mix(in srgb,var(--bg) 88%,transparent);color:var(--ink);cursor:pointer;display:none;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;transition:opacity .2s}
+.sr-ar svg{width:18px;height:18px}.sr-ar.l{left:-14px}.sr-ar.r{right:-14px}
+@media (hover:hover) and (min-width:1000px){.sr-ar{display:flex}.sr-row:hover .sr-ar{opacity:1}.sr-ar:hover{background:var(--bg3)}}
+/* poster card */
+.sr-p{--w:var(--srpw,150px);position:relative;width:var(--w)}
+.sr-p0{display:block;width:100%;border:0;background:none;padding:0;text-align:left;color:var(--ink);cursor:pointer;font:inherit}
+.sr-pi{position:relative;display:block;aspect-ratio:2/3;border-radius:12px;overflow:hidden;background:linear-gradient(160deg,var(--a,#444),var(--b,#222));box-shadow:0 0 0 1px rgba(255,255,255,.06) inset;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+.sr-pi img,.sr-li img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sr-pi img.bad,.sr-li img.bad{display:none}
+.sr-fb{position:absolute;inset:0;display:flex;align-items:flex-end;padding:12px;font:700 20px/1 var(--f-d);color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.4)}
+@media (hover:hover){.sr-p0:hover .sr-pi{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.45),0 0 0 1px rgba(240,195,92,.5)}}
+.sr-p0:focus-visible .sr-pi{outline:2px solid #f0c35c;outline-offset:2px}
+.sr-pt{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;margin-top:9px;font:600 14px/1.25 var(--f-u)}
+.sr-pm{display:block;margin-top:3px;font-size:12.5px;color:var(--ink3)}
+.sr-rt,.sr-st,.sr-dt{position:absolute;z-index:2;font:600 11.5px/1 var(--f-u);font-style:normal;padding:5px 8px;border-radius:999px;background:rgba(10,10,10,.72);color:#fff;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.sr-rt{top:8px;right:8px}.sr-st{top:8px;left:8px}.sr-st.in{padding:5px 7px}.sr-st svg{width:12px;height:12px;display:block}
+.sr-dt{left:8px;bottom:8px;background:#f0c35c;color:#1a1204}
+.sr-pb{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.22);z-index:2}.sr-pb u{display:block;height:100%;background:#f0c35c}
+.sr-add{position:absolute;top:8px;right:8px;z-index:3;width:34px;height:34px;border-radius:50%;border:0;background:rgba(10,10,10,.72);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:background .15s,transform .15s}
+.sr-add svg{width:16px;height:16px}.sr-add:active{transform:scale(.9)}
+@media (hover:hover){.sr-add:hover{background:#f0c35c;color:#1a1204}}
+/* landscape card */
+.sr-l{position:relative;width:var(--srlw,300px)}
+.sr-lb{display:block;width:100%;border:0;background:none;padding:0;color:#fff;cursor:pointer;text-align:left;font:inherit}
+.sr-li{position:relative;display:block;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,var(--a,#444),var(--b,#222));box-shadow:0 0 0 1px rgba(255,255,255,.06) inset;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+.sr-li::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,8,8,.88),rgba(8,8,8,.1) 62%)}
+@media (hover:hover){.sr-lb:hover .sr-li{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.45),0 0 0 1px rgba(240,195,92,.5)}}
+.sr-lb:focus-visible .sr-li{outline:2px solid #f0c35c;outline-offset:2px}
+.sr-lt{position:absolute;left:14px;right:60px;bottom:16px;z-index:2;display:grid;gap:4px}
+.sr-lt b{font:700 21px/1 var(--f-d);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sr-lt small{font-size:12.5px;color:rgba(255,255,255,.78);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sr-ck{position:absolute;right:12px;bottom:14px;z-index:3;width:40px;height:40px;border-radius:50%;border:0;background:#f0c35c;color:#1a1204;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:transform .15s}
+.sr-ck svg{width:20px;height:20px}.sr-ck:active{transform:scale(.88)}
+@media (hover:hover){.sr-ck:hover{transform:scale(1.08)}}
+.sr-skel{width:var(--srpw,150px);aspect-ratio:2/3;border-radius:12px;background:linear-gradient(100deg,var(--bg2) 30%,var(--bg3) 50%,var(--bg2) 70%);background-size:300% 100%;animation:srSk 1.4s linear infinite}
+@keyframes srSk{to{background-position:-300% 0}}
+.sr-rerr{padding:26px 4px;color:var(--ink3);font-size:14px}.sr-rerr button{margin-left:8px}
+.sr-note{margin:0 0 26px;padding:16px 18px;border:1px solid color-mix(in srgb,#f0c35c 45%,var(--line));border-radius:14px;background:color-mix(in srgb,#f0c35c 7%,var(--bg));font-size:14px;line-height:1.5;color:var(--ink2)}
+.sr-note b{color:var(--ink)}.sr-note code{font:500 12.5px ui-monospace,monospace;background:var(--bg3);padding:2px 6px;border-radius:5px;color:var(--ink)}
+/* library */
+.sr-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 20px}
+.sr-chips{display:flex;gap:8px;flex-wrap:wrap;flex:1 1 100%}
+.sr-chips button{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line2);background:none;color:var(--ink2);font:500 13.5px/1 var(--f-u);cursor:pointer}
+.sr-chips button small{color:var(--ink3);font-size:12px}.sr-chips button.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}.sr-chips button.on small{color:inherit;opacity:.6}
+.sr-q{flex:1 1 220px;min-width:0;height:38px;padding:0 14px;border-radius:var(--r2);border:1px solid var(--line2);background:var(--bg2);color:var(--ink);font:inherit;font-size:14px}
+.sr-bar select{height:38px;max-width:190px}
+.sr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--srpw,150px),1fr));gap:22px 16px}.sr-grid .sr-p{width:auto}
+.sr-end{padding:28px;text-align:center;color:var(--ink3);font-size:13.5px}
+/* schedule */
+.sr-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;margin:0 0 34px}
+.sr-day{min-height:132px;padding:12px 10px;border:1px solid var(--line);border-radius:14px;background:var(--bg);display:flex;flex-direction:column;gap:8px}
+.sr-day.t{border-color:#f0c35c;background:color-mix(in srgb,#f0c35c 7%,var(--bg))}
+.sr-day h3{display:flex;align-items:baseline;justify-content:space-between;font:600 12px/1 var(--f-u);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}.sr-day h3 b{font:700 22px/1 var(--f-d);color:var(--ink);letter-spacing:0}
+.sr-day .m{display:flex;flex-wrap:wrap;gap:6px}
+.sr-mp{width:42px;aspect-ratio:2/3;border:0;padding:0;border-radius:6px;overflow:hidden;position:relative;background:linear-gradient(160deg,var(--a,#444),var(--b,#222));cursor:pointer}.sr-mp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sr-day em{font-style:normal;font-size:12px;color:var(--ink3);margin-top:auto}
+.sr-sec{margin:0 0 34px}.sr-sec>h2{font:700 26px/1 var(--f-d);margin:0 0 4px}.sr-sec>p{color:var(--ink3);font-size:13.5px;margin:0 0 14px}
+.sr-list{display:grid;gap:0}
+.sr-it{display:grid;grid-template-columns:64px 44px minmax(0,1fr) auto;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}.sr-it:last-child{border-bottom:0}
+.sr-it .dd{text-align:center;font:600 11px/1 var(--f-u);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}.sr-it .dd b{display:block;margin-top:3px;font:700 26px/1 var(--f-d);color:var(--ink);letter-spacing:0}
+.sr-it .th{width:44px;aspect-ratio:2/3;border-radius:6px;overflow:hidden;position:relative;background:linear-gradient(160deg,var(--a,#444),var(--b,#222));border:0;padding:0;cursor:pointer}.sr-it .th img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sr-it .tx{min-width:0;text-align:left;border:0;background:none;padding:0;color:var(--ink);cursor:pointer;font:inherit}
+.sr-it .tx b{display:block;font:600 16px/1.2 var(--f-u);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sr-it .tx small{display:block;margin-top:4px;font-size:13px;color:var(--ink3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sr-it .rt{font-size:13px;color:var(--ink2);white-space:nowrap}
+.sr-it .btn{height:34px;padding:0 14px;border-radius:999px}
+/* detail sheet */
+#srd{position:fixed;inset:0;z-index:72;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:24px;animation:mrF .2s ease;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}#srd[hidden]{display:none}
+.srd{position:relative;width:min(960px,100%);max-height:min(900px,100%);background:var(--bg2);border:1px solid var(--line2);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;animation:srUp .32s cubic-bezier(.2,.8,.2,1)}
+@keyframes srUp{from{opacity:0;transform:translateY(24px) scale(.985)}to{opacity:1;transform:none}}
+.srd-x{position:absolute;top:14px;right:14px;z-index:5;width:40px;height:40px;border-radius:50%;border:0;background:rgba(10,10,10,.6);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}.srd-x svg{width:16px;height:16px}
+.srd-b{overflow-y:auto;overscroll-behavior:contain;flex:1}
+.srd-top{position:relative;min-height:290px;display:flex;align-items:flex-end;background:linear-gradient(135deg,var(--a,#444),var(--b,#222));isolation:isolate;color:#fff}
+.srd-top .sr-hbg{z-index:-2}.srd-top::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,var(--bg2) 0%,rgba(20,20,20,.55) 45%,rgba(8,8,8,.25))}
+.srd-th{padding:28px 32px 18px;display:grid;gap:10px;width:100%}
+.srd-th h2{font:800 clamp(36px,4.6vw,56px)/.94 var(--f-d);text-wrap:balance;max-width:720px}
+.srd-meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:rgba(255,255,255,.82)}.srd-meta .pill{padding:3px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.35);font-size:12px;letter-spacing:.04em}
+.srd-in{padding:6px 32px 30px;display:grid;gap:24px}
+.srd-act{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px}
+.srd-act .btn{height:38px}.srd-act .btn.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}.srd-act .btn svg{width:16px;height:16px}
+.srd-act .rc{font-size:24px}
+.srd-pr{display:grid;gap:10px;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:var(--bg)}
+.srd-pr .row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.srd-pr .big{font:700 30px/1 var(--f-d)}.srd-pr .big small{font:500 14px var(--f-u);color:var(--ink3);margin-left:8px}
+.srd-pr .bar{height:6px;border-radius:4px;background:var(--line);overflow:hidden}.srd-pr .bar u{display:block;height:100%;background:#f0c35c;border-radius:4px;transition:width .4s}
+.srd-pr .nx{font-size:14px;color:var(--ink2)}.srd-pr .nx b{color:var(--ink)}
+.srd-ov{font-size:15px;line-height:1.6;color:var(--ink2);max-width:760px}.srd-ov i{display:block;margin-bottom:6px;color:var(--ink);font-style:italic}
+.srd-cr{font-size:13.5px;color:var(--ink3)}
+.srd-ss{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0 6px}.srd-ss::-webkit-scrollbar{display:none}
+.srd-ss button{flex:none;display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 15px;border-radius:999px;border:1px solid var(--line2);background:none;color:var(--ink2);font:500 14px/1 var(--f-u);cursor:pointer}
+.srd-ss button.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}.srd-ss button.dn::after{content:"✓";font-size:12px;color:#f0c35c}.srd-ss button.on.dn::after{color:inherit}
+.srd-sh{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 6px;font-size:13.5px;color:var(--ink3)}.srd-sh .btn{height:32px;padding:0 13px}
+.sr-eps{display:grid}
+.sr-e{border-bottom:1px solid var(--line)}.sr-e:last-child{border-bottom:0}
+.sr-er{display:grid;grid-template-columns:40px minmax(0,1fr);align-items:center;gap:6px}
+.sr-ek{width:40px;height:40px;border-radius:50%;border:0;background:none;color:var(--ink3);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sr-ek span{width:24px;height:24px;border-radius:50%;border:1.8px solid var(--line2);display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s}.sr-ek svg{width:13px;height:13px;opacity:0;color:#1a1204;transition:opacity .15s}
+.sr-e.on .sr-ek span{background:#f0c35c;border-color:#f0c35c}.sr-e.on .sr-ek svg{opacity:1}
+.sr-ek:disabled{cursor:not-allowed;opacity:.4}
+@media (hover:hover){.sr-ek:not(:disabled):hover span{border-color:#f0c35c}}
+.sr-eb{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;width:100%;padding:11px 4px 11px 0;border:0;background:none;color:var(--ink);text-align:left;cursor:pointer;font:inherit}
+.sr-en{min-width:22px;font:700 17px/1 var(--f-d);color:var(--ink3)}
+.sr-et{min-width:0;display:grid;gap:3px}.sr-et b{font:500 15px/1.25 var(--f-u);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sr-et small{font-size:12.5px;color:var(--ink3)}
+.sr-e.on .sr-et b{color:var(--ink3)}
+.sr-es{width:112px;aspect-ratio:16/9;border-radius:8px;overflow:hidden;position:relative;background:var(--bg3)}.sr-es img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sr-e.up .sr-et b{color:var(--ink3)}.sr-e.up .sr-et small{color:#f0c35c}
+.sr-ex{display:none;padding:0 4px 16px 46px;gap:12px;font-size:14px;line-height:1.55;color:var(--ink2)}.sr-e.open .sr-ex{display:grid}
+.sr-ex .btn{justify-self:start;height:32px;padding:0 13px}
+.srd-skel{height:46px;border-radius:10px;margin:6px 0;background:linear-gradient(100deg,var(--bg) 30%,var(--bg3) 50%,var(--bg) 70%);background-size:300% 100%;animation:srSk 1.4s linear infinite}
+.srd-nt{width:100%;min-height:84px;resize:vertical;padding:12px 14px;border-radius:12px;border:1px solid var(--line2);background:var(--bg);color:var(--ink);font:inherit;font-size:14.5px;line-height:1.5}
+.srd-ft{display:flex;flex-wrap:wrap;gap:10px;padding-top:6px}
+/* add dialog */
+.sr-res{display:grid;margin:14px 0 6px;max-height:min(52vh,430px);overflow-y:auto}
+.sr-rr{display:grid;grid-template-columns:46px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.sr-rr .th{width:46px;aspect-ratio:2/3;border-radius:6px;overflow:hidden;position:relative;background:var(--bg3)}.sr-rr .th img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sr-rr b{display:block;font:600 15px/1.25 var(--f-u)}.sr-rr small{display:block;margin-top:3px;font-size:12.5px;color:var(--ink3);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.sr-rr .a{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.sr-rr .btn{height:32px;padding:0 12px}
+.sr-hint{padding:18px 2px;color:var(--ink3);font-size:14px}
+.sr-fm{display:grid;gap:12px;margin-top:12px}.sr-fm label{display:grid;gap:6px;font-size:13px;color:var(--ink3)}.sr-fm input,.sr-fm select{height:40px;padding:0 12px;border-radius:var(--r2);border:1px solid var(--line2);background:var(--bg);color:var(--ink);font:inherit;font-size:14.5px}
+@media (max-width:1100px){.sr-week{grid-template-columns:repeat(7,minmax(112px,1fr));overflow-x:auto}}
+@media (max-width:760px){
+.sr-hero{min-height:420px;border-radius:18px;margin-bottom:28px}.sr-hc{padding:24px 20px 44px}.sr-hg{background:linear-gradient(0deg,rgba(8,8,8,.92) 8%,rgba(8,8,8,.4) 60%,rgba(8,8,8,.1))}
+.sr-hc h2{font-size:42px}.sr-ho{-webkit-line-clamp:2;font-size:14px}.sr-hd{right:50%;transform:translateX(50%);bottom:10px}.sr-ha{margin-bottom:14px}.sr-ha .btn{height:44px;padding:0 18px}
+.sr-row{margin-bottom:28px}.sr-rh h2{font-size:23px}.sr-p{--w:var(--srpw,118px)}.sr-l{width:var(--srlw,248px)}.sr-skel{width:var(--srpw,118px)}
+.sr-grid{--srpw:104px;gap:18px 12px}.sr-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.sr-tabs{margin-bottom:18px}.sr-tabs button{padding:0 14px}
+.sr-bar select{max-width:none;flex:1 1 40%}
+.sr-it{grid-template-columns:54px 38px minmax(0,1fr);row-gap:8px}.sr-it .th{width:38px}.sr-it .btn,.sr-it .rt{grid-column:3;justify-self:start}
+.sr-week{grid-template-columns:repeat(7,112px)}
+#srd{padding:0;align-items:flex-end}.srd{width:100%;max-height:96dvh;height:96dvh;border-radius:22px 22px 0 0;border-bottom:0}
+.srd-top{min-height:230px}.srd-th{padding:20px 18px 12px}.srd-in{padding:4px 18px 28px}.srd-th h2{font-size:38px}
+.sr-es{display:none}.sr-ex{padding-left:6px}
+.sr-rr{grid-template-columns:42px minmax(0,1fr)}.sr-rr .a{grid-column:2;justify-content:flex-start}
+}
+html.rm .sr-hero,html.rm .srd,html.rm #srd{animation:none}html.rm .sr-skel,html.rm .srd-skel{animation:none}
+#moreSheet .mr-g #mrSet{grid-column:1/-1;min-height:0;flex-direction:row;align-items:center}
+.sr-hero.na{animation:none}
+@media (min-width:1000px) and (max-width:1279px){.rail .nav a{padding:0 8px;font-size:18px}.rail .brandrow{margin-right:10px}.rail .rail-foot .btn.wide{padding:0 12px}.rail .omni-btn{margin-left:auto}}
 </style></head>
 <body>
 <a class="skip" href="#view">Skip to content</a>
@@ -1573,6 +1742,7 @@ body.dock-on .dock{display:flex;flex-direction:column}
   </button>
   <nav class="nav" id="nav" aria-label="Sections">
     <a href="#/shelf" data-r="shelf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="4" y="5" width="4" height="15" rx="1"/><rect x="10" y="3" width="4" height="17" rx="1"/><path d="m16 7 4 1-3 12-4-1z"/></svg><span>Shelf</span><small id="nShelf"></small></a>
+    <a href="#/series" data-r="series"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span>Series</span></a>
     <a href="#/tonight" data-r="tonight"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><span>Tonight</span></a>
     <a href="#/explore" data-r="explore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.6 8.4-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg><span>Explore</span></a>
     <a href="#/diary" data-r="diary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg><span>Diary</span><small id="nDiary"></small></a>
@@ -1603,8 +1773,8 @@ body.dock-on .dock{display:flex;flex-direction:column}
 
 <nav class="tabbar" id="tabbar" aria-label="Sections">
   <a href="#/shelf" data-r="shelf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="4" y="5" width="4" height="15" rx="1"/><rect x="10" y="3" width="4" height="17" rx="1"/><path d="m16 7 4 1-3 12-4-1z"/></svg>Shelf</a>
+  <a href="#/series" data-r="series"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Series</a>
   <a href="#/tonight" data-r="tonight"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>Tonight</a>
-  <a href="#/explore" data-r="explore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.6 8.4-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg>Explore</a>
   <a href="#/diary" data-r="diary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>Diary</a>
   <button type="button" class="tb-more" id="tbMore" aria-label="More sections" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </nav>
@@ -1678,10 +1848,10 @@ const plural = (n, a, b) => n + ' ' + (n === 1 ? a : (b || a + 's'));
 let S = null, saveT = 0, ver = 0;
 function blank() {
   return {
-    v: 1, films: [], entries: [], lists: [], progs: [], cache: { people: {} },
+    v: 1, films: [], entries: [], lists: [], progs: [], series: [], slog: [], cache: { people: {} },
     set: { theme: 'dark', region: 'US', key: '', tint: true, seeded: false },
     ui: { view: 'spines', group: 'none', sort: 'added', filter: 'all', list: '', genre: '', decade: '', director: '', year: new Date().getFullYear(), moref: false, ppage: 1,
-      tn: { mins: 150, mood: [], mode: 'single', src: 'wish', start: '20:30', seed: 0 }, pp: 'directors', bannerOff: false }
+      tn: { mins: 150, mood: [], mode: 'single', src: 'wish', start: '20:30', seed: 0 }, srtab: 'home', srf: 'all', srs: 'active', srg: '', pp: 'directors', bannerOff: false }
   };
 }
 function load() {
@@ -1694,7 +1864,8 @@ function load() {
       S.ui = Object.assign(b.ui, o.ui || {});
       S.ui.tn = Object.assign(b.ui.tn, (o.ui || {}).tn || {});
       if (!S.cache || !S.cache.people) S.cache = { people: {} };
-      ['films', 'entries', 'lists', 'progs'].forEach(k => { if (!Array.isArray(S[k])) S[k] = []; });
+      ['films', 'entries', 'lists', 'progs', 'series', 'slog'].forEach(k => { if (!Array.isArray(S[k])) S[k] = []; });
+      S.series = S.series.map(normSeries).filter(Boolean); S.slog = S.slog.filter(l => l && l.sid);
       return true;
     }
   } catch (e) { /* corrupt or blocked storage: start fresh */ }
@@ -1882,7 +2053,7 @@ const guessOf = f => f.seen && f.rating > 0 ? f.rating : (predict(f) || {}).scor
 /* ===== Dailies: data, mutations, UI primitives ===== */
 const ACT = {};
 const PAGES = {};
-const ROUTES = ['shelf', 'tonight', 'explore', 'diary', 'people', 'insights', 'downloads'];
+const ROUTES = ['shelf', 'series', 'tonight', 'explore', 'diary', 'people', 'insights', 'downloads'];
 let route = 'shelf';
 
 const SEEDS = [
@@ -2133,7 +2304,7 @@ function askConfirm(msg, { yes = 'Confirm', danger = false } = {}) {
 }
 let dlgPrev = null, dlgOnClose = null;
 let histN = 0, histSkip = 0, histT = 0;
-const layerN = () => (!$('#dlg').hidden ? 1 : 0) + (!$('#omni').hidden ? 1 : 0) + (typeof PS !== 'undefined' && PS.open ? PS.stack.length : 0);
+const layerN = () => (!$('#dlg').hidden ? 1 : 0) + (!$('#omni').hidden ? 1 : 0) + (typeof PS !== 'undefined' && PS.open ? PS.stack.length : 0) + (typeof SRD !== 'undefined' && SRD.open ? 1 : 0);
 function syncHist() {
   clearTimeout(histT);
   histT = setTimeout(() => {
@@ -2146,10 +2317,10 @@ window.addEventListener('popstate', () => {
   if (histSkip > 0) { histSkip--; return; }
   if (histN > 0) histN--;
   if (!$('#cf').hidden) { const b = $('#cfNo'); if (b) b.click(); return; }
-  if (!$('#dlg').hidden) closeDlg(); else if (!$('#omni').hidden) closeOmni(); else if (PS.open) backView();
+  if (!$('#dlg').hidden) closeDlg(); else if (!$('#omni').hidden) closeOmni(); else if (PS.open) backView(); else if (typeof SRD !== 'undefined' && SRD.open) srdClose();
 });
 function syncLock() {
-  syncHist(); document.body.classList.toggle('noscroll', !$('#dlg').hidden || !$('#omni').hidden || (typeof panelOpen === 'function' && panelOpen())); }
+  syncHist(); document.body.classList.toggle('noscroll', !$('#dlg').hidden || !$('#omni').hidden || (typeof panelOpen === 'function' && panelOpen()) || (typeof SRD !== 'undefined' && SRD.open)); }
 function openDlg(html, { wide = false, label = 'Dialog', onClose } = {}) {
   const bd = $('#dlg'), box = $('#dlgBox');
   box.className = 'dlg' + (wide ? ' wide' : ''); box.setAttribute('aria-label', label); box.innerHTML = html;
@@ -2393,7 +2564,7 @@ function dkDeck() {
   add(last, 'Last watched');
   shuf(S.films.filter(f => f.fav)).slice(0, 4).forEach(f => add(f, '♥ Favourite'));
   shuf(S.films.filter(f => f.seen && f.rating >= 4.5 && !f.fav)).slice(0, 2).forEach(f => add(f, 'Top rated'));
-  const next = S.films.filter(f => f.wish && !f.seen).map(f => ({ f, s: predict(f).score })).sort((a, b) => b.s - a.s).slice(0, 2);
+  const next = S.films.filter(f => f.wish && !f.seen).map(f => ({ f, s: (predict(f) || {}).score || 0 })).sort((a, b) => b.s - a.s).slice(0, 2);
   next.forEach(x => add(x.f, 'Next up'));
   const cur = dk.deck[dk.i], ids = out.map(s => s.f.id).join();
   dk.deck = out.slice(0, 8);
@@ -3508,7 +3679,7 @@ ACT.testkey = async () => {
   catch (e) { S.set.key = old; m.textContent = errMsg(e); }
 };
 function exportData() {
-  const o = { app: 'dailies', v: 1, at: new Date().toISOString(), films: S.films, entries: S.entries, lists: S.lists, progs: S.progs, ui: S.ui, set: { theme: S.set.theme, region: S.set.region, tint: S.set.tint, rm: S.set.rm, dq: S.set.dq, clock: S.set.clock, keys: S.set.keys, autoLog: S.set.autoLog, bk: S.set.bk } };
+  const o = { app: 'dailies', v: 1, at: new Date().toISOString(), films: S.films, entries: S.entries, lists: S.lists, progs: S.progs, series: S.series, slog: S.slog, ui: S.ui, set: { theme: S.set.theme, region: S.set.region, tint: S.set.tint, rm: S.set.rm, dq: S.set.dq, clock: S.set.clock, keys: S.set.keys, autoLog: S.set.autoLog, bk: S.set.bk } };
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(o, null, 1)], { type: 'application/json' })); a.download = 'dailies-' + today() + '.json';
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 3000); S.set.lastBackup = Date.now(); S.set.nudgeAt = Date.now() + 21 * 864e5; save(); toast('Library exported');
 }
@@ -3585,10 +3756,10 @@ async function importJSON(file) {
     const mode = await askImportMode('This file', films.length); if (!mode) return;
     if (mode === 'keep') {
       const r = mergeLibrary(films, ents, (o.lists || []).filter(l => l && l.id && l.name).map(l => ({ id: String(l.id), name: String(l.name) })), (o.progs || []).filter(p => p && Array.isArray(p.films)));
-      closeDlg(); commit(); hydrate(); ensurePals(); toast('Added ' + plural(r.added, 'new film') + (r.merged ? ', merged ' + r.merged + ' you already had' : '') + '. No duplicates.', { ms: 5000 }); return;
+      srImport(o, 'keep'); closeDlg(); commit(); hydrate(); ensurePals(); toast('Added ' + plural(r.added, 'new film') + (r.merged ? ', merged ' + r.merged + ' you already had' : '') + '. No duplicates.', { ms: 5000 }); return;
     }
     S.films = films; S.entries = ents; S.lists = (o.lists || []).filter(l => l && l.id && l.name).map(l => ({ id: String(l.id), name: String(l.name) }));
-    S.progs = (o.progs || []).filter(p => p && Array.isArray(p.films)); S.set.seeded = true;
+    S.progs = (o.progs || []).filter(p => p && Array.isArray(p.films)); S.set.seeded = true; srImport(o, 'replace');
     if (o.ui && typeof o.ui === 'object') Object.assign(S.ui, { view: o.ui.view, group: o.ui.group, sort: o.ui.sort }, {});
     ['view', 'group', 'sort'].forEach(k => { if (!S.ui[k]) S.ui[k] = blank().ui[k]; });
     if (o.set) { if (['dark', 'light', 'auto'].includes(o.set.theme)) S.set.theme = o.set.theme; if (o.set.region) S.set.region = String(o.set.region).slice(0, 2).toUpperCase(); ['rm', 'dq', 'clock', 'keys', 'autoLog', 'bk'].forEach(k => { if (o.set[k] !== undefined) S.set[k] = o.set[k]; }); applySet(); applyTheme(); }
@@ -6031,7 +6202,7 @@ document.addEventListener('change', e => { const c = e.target.dataset && e.targe
 document.addEventListener('error', e => { if (e.target && e.target.tagName === 'IMG') e.target.classList.add('bad'); }, true);
 document.addEventListener('keydown', e => {
   if (e.key !== 'Tab') return;
-  const layer = [$('#cf'), $('#dlg'), $('#omni'), $('#panel')].find(x => x && !x.hidden); if (!layer) return;
+  const layer = [$('#cf'), $('#dlg'), $('#omni'), $('#panel'), $('#srd')].find(x => x && !x.hidden); if (!layer) return;
   const its = $$('a[href],button:not([disabled]),input:not([type=hidden]),select,textarea,[tabindex]:not([tabindex="-1"])', layer).filter(x => x.offsetParent !== null);
   if (!its.length) return;
   const first = its[0], last = its[its.length - 1], ae = document.activeElement;
@@ -6652,7 +6823,7 @@ ACT.wlcgo = () => { closeDlg(); setTimeout(() => { try { openOmni('films'); } ca
 ACT.wlcimport = () => { closeDlg(); setTimeout(() => openSettings(), 120); };
 ACT.wlcabout = () => { closeDlg(); setTimeout(() => aboutDlg(), 120); };
 function shortcutsDlg() {
-  const rows = [['/ or Ctrl K', 'Find a film, director, actor or command'], ['n', 'Log a watch'], ['← or →', 'Previous or next film while a film is open'], ['Select (Shelf)', 'Pick many films, then mark, list or remove them at once'], ['g then s', 'Go to Shelf'], ['g then t', 'Go to Tonight'], ['g then e', 'Go to Explore'], ['g then d', 'Go to Diary'], ['g then p', 'Go to People'], ['g then i', 'Go to Insights'], ['g then w', 'Go to Downloadables'], ['Esc', 'Close whatever is open'], ['?', 'Show this list']];
+  const rows = [['/ or Ctrl K', 'Find a film, director, actor or command'], ['n', 'Log a watch'], ['← or →', 'Previous or next film while a film is open'], ['Select (Shelf)', 'Pick many films, then mark, list or remove them at once'], ['g then s', 'Go to Shelf'], ['g then v', 'Go to Series'], ['g then t', 'Go to Tonight'], ['g then e', 'Go to Explore'], ['g then d', 'Go to Diary'], ['g then p', 'Go to People'], ['g then i', 'Go to Insights'], ['g then w', 'Go to Downloadables'], ['Esc', 'Close whatever is open'], ['?', 'Show this list']];
   openDlg('<h2>Keyboard shortcuts</h2><table class="keys">' + rows.map(r => '<tr><td><kbd>' + E(r[0]) + '</kbd></td><td>' + E(r[1]) + '</td></tr>').join('') + '</table><div class="acts"><button class="btn pri" type="button" data-act="dlgx">Done</button></div>', { label: 'Keyboard shortcuts' });
 }
 document.addEventListener('keydown', e => {
@@ -6667,7 +6838,7 @@ document.addEventListener('keydown', e => {
   if (typing || e.metaKey || e.ctrlKey || e.altKey || S.set.keys === false) return;
   if (e.key === '/') { e.preventDefault(); if (typeof openOmni === 'function') openOmni(); return; }
   if (e.key === '?') { shortcutsDlg(); return; }
-  if (gPending) { gPending = false; const r = { s: 'shelf', t: 'tonight', e: 'explore', d: 'diary', p: 'people', i: 'insights', w: 'downloads' }[e.key]; if (r) go(r); return; }
+  if (gPending) { gPending = false; const r = { s: 'shelf', v: 'series', t: 'tonight', e: 'explore', d: 'diary', p: 'people', i: 'insights', w: 'downloads' }[e.key]; if (r) go(r); return; }
   if (e.key === 'g') { gPending = true; setTimeout(() => { gPending = false; }, 900); return; }
   if (e.key === 'n' && typeof openLog === 'function') { e.preventDefault(); openLog(); }
 });
@@ -7019,13 +7190,13 @@ ACT.xwish = a => { const b = mem.pre.get(String(a.dataset.id)); if (!b) return; 
   const btn = $('#tbMore'); if (!btn) return; let sc = null;
   const close = () => { if (sc) { sc.hidden = true; btn.setAttribute('aria-expanded', 'false'); } };
   const IC = { x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>', set: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>' };
-  const SUB = { people: 'Directors and writers', insights: 'Your taste in numbers', downloads: 'Posters, lists, year video' };
+  const SUB = { explore: 'Charts and picks', people: 'Directors and writers', insights: 'Your taste in numbers', downloads: 'Posters, lists, year video' };
   const tile = r => { const a = $('#nav a[data-r="' + r + '"]'); return a ? '<a class="mr-t' + (route === r ? ' on' : '') + '" href="#/' + r + '" data-r="' + r + '"><span class="mr-i">' + a.querySelector('svg').outerHTML + '</span><span><b>' + E(a.querySelector('span').textContent) + '</b><small>' + SUB[r] + '</small></span></a>' : ''; };
   const fill = () => {
     const yr = new Date().getFullYear(), seen = S.films.filter(f => f.seen).length, thisYr = S.entries.filter(e => String(e.date).startsWith(String(yr))).length;
     $('#moreSheet').innerHTML = '<div class="mr-h"><b>More</b><button type="button" class="mr-x" id="mrX" aria-label="Close">' + IC.x + '</button></div>' +
       '<div class="mr-st"><div><b>' + S.films.length + '</b><span>On shelf</span></div><div><b>' + seen + '</b><span>Seen</span></div><div><b>' + thisYr + '</b><span>In ' + yr + '</span></div></div>' +
-      '<div class="mr-g">' + ['people', 'insights', 'downloads'].map(tile).join('') + '<button type="button" class="mr-t" id="mrSet"><span class="mr-i">' + IC.set + '</span><span><b>Settings</b><small>Make it yours</small></span></button></div>' +
+      '<div class="mr-g">' + ['explore', 'people', 'insights', 'downloads'].map(tile).join('') + '<button type="button" class="mr-t" id="mrSet"><span class="mr-i">' + IC.set + '</span><span><b>Settings</b><small>Make it yours</small></span></button></div>' +
       '<div class="mr-bk"><span>' + E(backupAgo()) + '</span><button type="button" id="mrBk">Back up</button></div>';
   };
   const open = () => {
@@ -7038,7 +7209,7 @@ ACT.xwish = a => { const b = mem.pre.get(String(a.dataset.id)); if (!b) return; 
   btn.addEventListener('click', () => (sc && !sc.hidden ? close() : open()));
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && sc && !sc.hidden) { e.stopPropagation(); e.preventDefault(); close(); } }, true);
   addEventListener('hashchange', close);
-  const rr = renderRail; renderRail = function () { rr.apply(this, arguments); btn.classList.toggle('on', ['people', 'insights', 'downloads'].includes(route)); };
+  const rr = renderRail; renderRail = function () { rr.apply(this, arguments); btn.classList.toggle('on', ['explore', 'people', 'insights', 'downloads'].includes(route)); };
   renderRail();
 })();
 /* ===== Tonight 2.0: the pick first, the tuning second ===== */
@@ -7156,6 +7327,507 @@ TN_WIDE.addEventListener('change', () => { if (route === 'tonight') refresh({ no
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { ink.classList.add('nz'); place(); });
   place();
 })();
+
+/* ===== Series: data, progress, TMDB ===== */
+const SR = { rows: new Map(), defs: new Map(), pre: new Map(), sn: new Map(), sync: new Set(), fail: new Map(), blocked: 0, hero: 0, q: '', dt: 'pop', dg: '', dis: new Map(), obs: null, dobs: null };
+const SR_GEN = { 10759: 'Action & Adventure', 16: 'Animation', 35: 'Comedy', 80: 'Crime', 99: 'Documentary', 18: 'Drama', 10751: 'Family', 10762: 'Kids', 9648: 'Mystery', 10763: 'News', 10764: 'Reality', 10765: 'Sci-Fi & Fantasy', 10766: 'Soap', 10767: 'Talk', 10768: 'War & Politics', 37: 'Western' };
+const SR_GID = Object.fromEntries(Object.entries(SR_GEN).map(([k, v]) => [v, +k]));
+const SR_PH = { watch: 'Watching', caught: 'Caught up', plan: 'Watchlist', done: 'Finished', drop: 'Dropped' };
+const SR_IC = {
+  chk: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+  l: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg>',
+  r: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg>',
+  heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.3 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg>'
+};
+const srBy = id => S.series.find(s => String(s.id) === String(id));
+const srByTv = tv => S.series.find(s => s.tv && +s.tv === +tv);
+function srNew(o) {
+  return Object.assign({ id: 't' + (o && o.tv || uid()), tv: 0, name: 'Untitled', year: 0, first: '', tm: '', poster: '', backdrop: '', overview: '', tagline: '', genres: [], net: '', rt: 0, vote: 0, lang: '', by: '',
+    seasons: [], nxt: null, lastEp: null, sync: 0, st: 'plan', fav: false, rating: 0, note: '', w: {}, lw: '', lwt: 0, added: Date.now(), manual: false }, o);
+}
+function normSeries(x) {
+  if (!x || x.id == null || !x.name) return null;
+  const s = v => String(v ?? ''), n = v => +v || 0, a = v => Array.isArray(v) ? v : [], ep = e => e && n(e.s) > 0 && n(e.e) > 0 ? { s: n(e.s), e: n(e.e), date: /^\d{4}-\d{2}-\d{2}$/.test(s(e.date)) ? s(e.date) : '', name: s(e.name) } : null;
+  const w = {}; if (x.w && typeof x.w === 'object') for (const k of Object.keys(x.w)) { const arr = [...new Set(a(x.w[k]).map(n).filter(v => v > 0 && v < 5000))].sort((p, q) => p - q); if (arr.length && n(k) > 0) w[n(k)] = arr; }
+  return srNew({ id: s(x.id), tv: n(x.tv), name: s(x.name), year: n(x.year), first: s(x.first), tm: s(x.tm), poster: s(x.poster), backdrop: s(x.backdrop), overview: s(x.overview), tagline: s(x.tagline), genres: a(x.genres).map(s), net: s(x.net), rt: n(x.rt), vote: n(x.vote), lang: s(x.lang), by: s(x.by),
+    seasons: a(x.seasons).map(q => ({ n: n(q.n), c: n(q.c), air: /^\d{4}-\d{2}-\d{2}$/.test(s(q.air)) ? s(q.air) : '' })).filter(q => q.n > 0 && q.c > 0), nxt: ep(x.nxt), lastEp: ep(x.lastEp), sync: n(x.sync),
+    st: ['plan', 'watch', 'drop'].includes(x.st) ? x.st : 'plan', fav: !!x.fav, rating: clamp(Math.round(n(x.rating) * 2) / 2, 0, 5), note: s(x.note), w, lw: s(x.lw), lwt: n(x.lwt), added: n(x.added) || Date.now(), manual: !!x.manual });
+}
+const srSeasons = sr => sr.seasons.filter(s => s.n >= 1 && s.c > 0).sort((a, b) => a.n - b.n);
+function srAiredIn(sr, s) {
+  const t = today(), n = sr.nxt;
+  if (n && (!n.date || n.date > t)) { if (s.n > n.s) return 0; if (s.n === n.s) return Math.max(0, n.e - 1); }
+  if (s.air && s.air > t) return 0;
+  return s.c;
+}
+function srStats(sr) {
+  let total = 0, aired = 0, seen = 0; const ss = srSeasons(sr);
+  for (const s of ss) { total += s.c; const a = srAiredIn(sr, s); aired += a; for (const e of (sr.w[s.n] || [])) if (e <= s.c) seen++; }
+  return { total, aired, seen, ss };
+}
+const srEnded = sr => sr.manual || sr.tm === 'Ended' || sr.tm === 'Canceled';
+function srPhase(sr) {
+  if (sr.st === 'drop') return 'drop';
+  const k = srStats(sr);
+  if (!k.seen) return sr.st === 'watch' ? 'watch' : 'plan';
+  if (k.aired > 0 && k.seen >= k.aired) return srEnded(sr) && k.seen >= k.total ? 'done' : 'caught';
+  return 'watch';
+}
+function srNext(sr) {
+  for (const s of srSeasons(sr)) { const a = srAiredIn(sr, s), w = new Set(sr.w[s.n] || []); for (let e = 1; e <= a; e++) if (!w.has(e)) return { s: s.n, e }; }
+  return null;
+}
+const srEpCode = (s, e) => 'S' + s + ' · E' + e;
+function srEnsure(sr) { if (!S.series.includes(sr)) { S.series.push(sr); sr.added = Date.now(); } return sr; }
+function srLog(sr, s, e, n) { S.slog.push({ sid: sr.id, s, e, n, date: today(), ts: Date.now() }); if (S.slog.length > 1500) S.slog.splice(0, S.slog.length - 1500); sr.lw = today(); sr.lwt = Date.now(); }
+function srSet(sr, s, e, on) {
+  srEnsure(sr); const a = sr.w[s] || (sr.w[s] = []), i = a.indexOf(e);
+  if (on && i < 0) { a.push(e); a.sort((x, y) => x - y); srLog(sr, s, e, 1); sr.st = 'watch'; }
+  else if (!on && i >= 0) { a.splice(i, 1); if (!a.length) delete sr.w[s]; for (let j = S.slog.length - 1; j >= 0; j--) { const l = S.slog[j]; if (l.sid === sr.id && l.s === s && l.e === e && l.n === 1) { S.slog.splice(j, 1); break; } } }
+}
+function srSeasonAll(sr, sn, on) {
+  srEnsure(sr); const s = srSeasons(sr).find(x => x.n === sn); if (!s) return;
+  if (on) { const have = new Set(sr.w[sn] || []), a = srAiredIn(sr, s); let add = 0; for (let e = 1; e <= a; e++) if (!have.has(e)) { have.add(e); add++; } if (add) { sr.w[sn] = [...have].sort((x, y) => x - y); srLog(sr, sn, a, add); sr.st = 'watch'; } }
+  else { delete sr.w[sn]; }
+}
+function srUpTo(sr, sn, en) {
+  srEnsure(sr); let add = 0;
+  for (const s of srSeasons(sr)) { if (s.n > sn) break; const a = srAiredIn(sr, s), last = s.n === sn ? Math.min(en, a) : a, have = new Set(sr.w[s.n] || []); let ch = false; for (let e = 1; e <= last; e++) if (!have.has(e)) { have.add(e); add++; ch = true; } if (ch) sr.w[s.n] = [...have].sort((x, y) => x - y); }
+  if (add) { srLog(sr, sn, en, add); sr.st = 'watch'; }
+}
+function srDo(sr, fn, msg) {
+  const snap = { w: JSON.parse(JSON.stringify(sr.w)), st: sr.st, lw: sr.lw, lwt: sr.lwt, len: S.slog.length, inlib: S.series.includes(sr) };
+  fn(); const added = S.slog.slice(snap.len); srAfter();
+  if (msg) toast(msg, { label: 'Undo', fn: () => { sr.w = snap.w; sr.st = snap.st; sr.lw = snap.lw; sr.lwt = snap.lwt; S.slog = S.slog.filter(l => !added.includes(l)); if (!snap.inlib) S.series = S.series.filter(x => x !== sr); srAfter(); } });
+}
+function srAfter() { bump(); save(); if (route === 'series') refresh(); else if (typeof renderRail === 'function') renderRail(); if (typeof srdPaint === 'function') srdPaint(); }
+/* TMDB */
+const srSrc = (p, k) => !p ? '' : /^https?:/.test(p) ? p : IMGB + (S.set && S.set.dq === 'low' ? { poster: 'w185', land: 'w500', hero: 'w780', thumb: 'w92', still: 'w185' } : { poster: 'w342', land: 'w780', hero: 'w1280', thumb: 'w154', still: 'w300' })[k] + p;
+function srBlock(e) { if (e && (e.status === 403 || e.status === 404 || e.status === 401 || e instanceof TypeError)) SR.blocked = e.status || 1; }
+function srFromBrief(b) {
+  return srNew({ tv: b.id, name: b.name || b.original_name || '', year: +(b.first_air_date || '').slice(0, 4) || 0, first: b.first_air_date || '', poster: b.poster_path || '', backdrop: b.backdrop_path || '', overview: b.overview || '', vote: b.vote_average || 0, lang: b.original_language || '', genres: (b.genre_ids || []).map(i => SR_GEN[i]).filter(Boolean) });
+}
+function srApply(sr, d) {
+  const ep = e => e && e.season_number > 0 && e.episode_number > 0 ? { s: e.season_number, e: e.episode_number, date: e.air_date || '', name: e.name || '' } : null;
+  if (d.name) sr.name = d.name; sr.first = d.first_air_date || sr.first; sr.year = +(sr.first || '').slice(0, 4) || sr.year; sr.tm = d.status || sr.tm;
+  if (d.poster_path) sr.poster = d.poster_path; if (d.backdrop_path) sr.backdrop = d.backdrop_path; if (d.overview) sr.overview = d.overview; sr.tagline = d.tagline || '';
+  if (Array.isArray(d.genres) && d.genres.length) sr.genres = d.genres.map(g => g.name);
+  if (Array.isArray(d.networks) && d.networks[0]) sr.net = d.networks[0].name || ''; sr.rt = (d.episode_run_time && d.episode_run_time[0]) || (d.last_episode_to_air && d.last_episode_to_air.runtime) || sr.rt || 0;
+  if (d.vote_average != null) sr.vote = d.vote_average; if (d.original_language) sr.lang = d.original_language;
+  if (Array.isArray(d.created_by)) sr.by = d.created_by.map(x => x.name).slice(0, 3).join(', ');
+  if (Array.isArray(d.seasons)) sr.seasons = d.seasons.filter(x => x.season_number >= 1 && (x.episode_count || 0) > 0).map(x => ({ n: x.season_number, c: x.episode_count, air: x.air_date || '' }));
+  sr.nxt = ep(d.next_episode_to_air); sr.lastEp = ep(d.last_episode_to_air); sr.sync = Date.now();
+}
+async function srSync(sr) {
+  if (!sr.tv || sr.manual || SR.sync.has(sr.id)) return false; SR.sync.add(sr.id);
+  try { applyOK(await tmdb('/tv/' + sr.tv)); return true; } catch (e) { SR.fail.set(sr.id, Date.now()); srBlock(e); return false; } finally { SR.sync.delete(sr.id); }
+  function applyOK(d) { srApply(sr, d); SR.fail.delete(sr.id); }
+}
+function srNeedsSync(sr) {
+  if (!sr.tv || sr.manual || SR.sync.has(sr.id)) return false;
+  const f = SR.fail.get(sr.id); if (f && Date.now() - f < 30 * 60e3) return false;
+  const age = Date.now() - (sr.sync || 0);
+  if (!sr.sync || !sr.seasons.length) return true;
+  if (!srEnded(sr) && age > 12 * 3600e3) return true;
+  if (sr.nxt && sr.nxt.date && sr.nxt.date <= today() && age > 3600e3) return true;
+  return false;
+}
+let srSyncing = false;
+async function srAutoSync() {
+  if (srSyncing) return; const todo = S.series.filter(srNeedsSync).slice(0, 14); if (!todo.length) return; srSyncing = true; let n = 0;
+  const worker = async () => { for (let sr; (sr = todo.shift());) { if (await srSync(sr)) n++; } };
+  try { await Promise.all([worker(), worker(), worker()]); } finally { srSyncing = false; }
+  if (n) { bump(); save(); if (route === 'series') { const sy = window.scrollY; refresh(); window.scrollTo({ top: sy, behavior: 'instant' }); } if (typeof srdPaint === 'function') srdPaint(); }
+}
+function srEps(sr, n) {
+  const k = sr.tv + ':' + n, c = SR.sn.get(k); if (c) return c.p || Promise.resolve(c.d);
+  const p = tmdb('/tv/' + sr.tv + '/season/' + n).then(d => { const eps = (d.episodes || []).map(x => ({ e: x.episode_number, name: x.name || '', air: x.air_date || '', rt: x.runtime || 0, ov: x.overview || '', still: x.still_path || '' })); SR.sn.set(k, { d: eps }); return eps; }).catch(e => { SR.sn.delete(k); throw e; });
+  SR.sn.set(k, { p }); return p;
+}
+const srEpInfo = (sr, s, e) => { const v = SR.sn.get(sr.tv + ':' + s); return v && v.d ? v.d.find(x => x.e === e) || null : null; };
+function srWarm(sr, s, cb) { if (!sr.tv || sr.manual || SR.sn.has(sr.tv + ':' + s)) return; srEps(sr, s).then(() => cb && cb()).catch(() => {}); }
+/* taste */
+function srTaste() {
+  const m = new Map();
+  for (const sr of S.series) { const ph = srPhase(sr); if (ph === 'plan' || ph === 'drop') continue; const wgt = sr.rating >= 4 ? 3 : sr.rating >= 3 || !sr.rating ? 1.5 : .3; for (const g of sr.genres) if (SR_GID[g]) m.set(g, (m.get(g) || 0) + wgt); }
+  return [...m].sort((a, b) => b[1] - a[1]).map(([n, v]) => [n, SR_GID[n], v]);
+}
+function srRecSeed() { return S.series.filter(s => s.tv && (s.rating >= 4 || (s.fav && s.seen !== false)) && srPhase(s) !== 'plan').sort((a, b) => b.rating - a.rating || b.lwt - a.lwt)[0] || null; }
+/* add flows */
+function srAdd(b, st) {
+  SR.pre.set(b.id, b); let sr = srByTv(b.id);
+  if (sr) { if (st === 'watch' && (sr.st === 'plan' || sr.st === 'drop')) sr.st = 'watch'; srAfter(); toast(sr.name + ' is in your library'); return sr; }
+  sr = srFromBrief(b); sr.st = st; S.series.push(sr); srAfter(); toast('Added ' + sr.name + (st === 'watch' ? ' to Watching' : ' to your watchlist'));
+  srSync(sr).then(() => srAfter()); return sr;
+}
+/* ===== Series: page ===== */
+const srDisc = async q => { try { return await tmdb('/discover/tv', q); } catch (e) { srBlock(e); throw e; } };
+const srPS = o => { const p = palOf({ id: o.id, title: o.name, year: o.year }); return '--a:' + p.a + ';--b:' + p.b; };
+const srDayLbl = iso => { const t = today(); if (iso === t) return 'Today'; if (iso === addDays(t, 1)) return 'Tomorrow'; const d = Math.round((new Date(iso + 'T12:00:00') - new Date(t + 'T12:00:00')) / 864e5); if (d > 1 && d < 7) return new Date(iso + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'long' }); return fmtDate(iso, 'short'); };
+const srIn = iso => { const d = Math.round((new Date(iso + 'T12:00:00') - new Date(today() + 'T12:00:00')) / 864e5); return d <= 0 ? 'Today' : d === 1 ? 'Tomorrow' : 'in ' + d + ' days'; };
+const srImgTag = (p, k) => p ? '<img src="' + E(srSrc(p, k)) + '" alt="" loading="lazy" decoding="async">' : '';
+function srMeta(sr, ph) {
+  if (ph === 'watch') { const n = srNext(sr); return n ? srEpCode(n.s, n.e) : 'Watching'; }
+  if (ph === 'caught') return sr.nxt && sr.nxt.date && sr.nxt.date >= today() ? 'Back ' + srDayLbl(sr.nxt.date).toLowerCase() : 'Waiting for more';
+  if (ph === 'plan') { const n = srSeasons(sr).length; return n ? plural(n, 'season') : (sr.year || ''); }
+  if (ph === 'done') return sr.year || 'Finished';
+  return sr.year || '';
+}
+function srPoster(sr, o = {}) {
+  const k = srStats(sr), ph = srPhase(sr), pc = k.aired ? clamp(k.seen / k.aired, 0, 1) : 0, id = E(sr.id);
+  return '<div class="sr-p"><button type="button" class="sr-p0" data-act="sropen" data-id="' + id + '"><span class="sr-pi" style="' + srPS(sr) + '"><b class="sr-fb">' + E(sr.name) + '</b>' + srImgTag(sr.poster, 'poster') +
+    (o.status ? '<i class="sr-st">' + SR_PH[ph] + '</i>' : '') + (sr.rating ? '<i class="sr-rt">★ ' + sr.rating + '</i>' : '') + (o.date ? '<i class="sr-dt">' + E(srDayLbl(o.date)) + '</i>' : '') +
+    ((ph === 'watch' || ph === 'caught') && pc > 0 ? '<i class="sr-pb"><u style="width:' + Math.round(pc * 100) + '%"></u></i>' : '') + '</span><span class="sr-pt">' + E(sr.name) + '</span><span class="sr-pm">' + E(String(o.meta != null ? o.meta : srMeta(sr, ph))) + '</span></button></div>';
+}
+function srLand(sr) {
+  const k = srStats(sr), n = srNext(sr), pc = k.aired ? clamp(k.seen / k.aired, 0, 1) : 0, left = k.aired - k.seen;
+  return '<div class="sr-l"><button type="button" class="sr-lb" data-act="sropen" data-id="' + E(sr.id) + '"><span class="sr-li" style="' + srPS(sr) + '"><b class="sr-fb">' + E(sr.name) + '</b>' + srImgTag(sr.backdrop || sr.poster, 'land') +
+    '<span class="sr-lt"><b>' + E(sr.name) + '</b><small>' + (n ? srEpCode(n.s, n.e) + ' · ' : '') + (left > 0 ? left + ' to go' : 'Up to date') + '</small></span><i class="sr-pb"><u style="width:' + Math.round(pc * 100) + '%"></u></i></span></button>' +
+    (n ? '<button type="button" class="sr-ck" data-act="srnext" data-id="' + E(sr.id) + '" aria-label="Mark ' + srEpCode(n.s, n.e) + ' watched" title="Mark ' + srEpCode(n.s, n.e) + ' watched">' + SR_IC.chk + '</button>' : '') + '</div>';
+}
+function srBrief(b) {
+  const inl = srByTv(b.id), yr = (b.first_air_date || '').slice(0, 4), t = { id: 't' + b.id, name: b.name || '', year: +yr || 0 };
+  return '<div class="sr-p"><button type="button" class="sr-p0" data-act="sropen" data-tv="' + b.id + '"><span class="sr-pi" style="' + srPS(t) + '"><b class="sr-fb">' + E(b.name) + '</b>' + srImgTag(b.poster_path, 'poster') +
+    (inl ? '<i class="sr-st in" aria-label="In your library">' + SR_IC.chk + '</i>' : '') + (b.vote_average ? '<i class="sr-rt" style="top:auto;right:auto;left:8px;bottom:8px">★ ' + b.vote_average.toFixed(1) + '</i>' : '') + '</span><span class="sr-pt">' + E(b.name) + '</span><span class="sr-pm">' + E(yr) + '</span></button>' +
+    (inl ? '' : '<button type="button" class="sr-add" data-act="sraddto" data-tv="' + b.id + '" data-st="plan" aria-label="Add ' + E(b.name) + ' to watchlist" title="Add to watchlist">' + SR_IC.plus + '</button>') + '</div>';
+}
+function srRow(k, title, sub, cards, o = {}) {
+  return '<section class="sr-row" data-k="' + E(k) + '"' + (o.lazy ? ' data-lazy="1"' : '') + '><div class="sr-rh"><h2>' + E(title) + '</h2>' + (sub ? '<span>' + E(sub) + '</span>' : '') + '<i class="sp"></i>' + (o.all ? '<button type="button" data-act="srall" data-f="' + o.all + '">See all</button>' : '') + '</div>' +
+    '<button type="button" class="sr-ar l" data-act="srsc" data-d="-1" aria-label="Scroll left" tabindex="-1">' + SR_IC.l + '</button><div class="sr-rail">' + cards + '</div><button type="button" class="sr-ar r" data-act="srsc" data-d="1" aria-label="Scroll right" tabindex="-1">' + SR_IC.r + '</button></section>';
+}
+const srSkels = n => '<i class="sr-skel"></i>'.repeat(n);
+function srNote() { return '<div class="sr-note"><b>TV data is not reachable.</b> Your TMDB Worker may only allow movie requests. Allow <code>/tv/*</code>, <code>/search/tv</code> and <code>/discover/tv</code> in it, then reload. Until then you can still add series by hand.</div>'; }
+/* hero */
+function srHeroList() {
+  const L = [], used = new Set(), t = today(), lib = S.series, ph = new Map(lib.map(s => [s.id, srPhase(s)]));
+  const put = (sr, kind) => { if (!used.has(sr.id) && L.length < 5) { used.add(sr.id); L.push({ sr, kind }); } };
+  lib.filter(s => ph.get(s.id) === 'watch' && srNext(s)).sort((a, b) => b.lwt - a.lwt || b.added - a.added).slice(0, 3).forEach(s => put(s, 'cont'));
+  lib.filter(s => ph.get(s.id) !== 'drop' && ph.get(s.id) !== 'done' && s.nxt && s.nxt.date && s.nxt.date >= t && s.nxt.date <= addDays(t, 14)).sort((a, b) => a.nxt.date.localeCompare(b.nxt.date)).slice(0, 2).forEach(s => put(s, 'soon'));
+  lib.filter(s => ph.get(s.id) === 'plan').sort((a, b) => b.added - a.added).slice(0, 2).forEach(s => put(s, 'plan'));
+  if (!L.length) { const pop = SR.rows.get('pop'); if (pop && pop.items) pop.items.slice(0, 4).forEach(b => L.push({ sr: srFromBrief(b), b, kind: 'disc' })); }
+  return L;
+}
+function srHeroHTML() {
+  const L = srHeroList(); if (!L.length) {
+    return '<section class="sr-hero empty" id="srHero"><div class="sr-hc"><span class="sr-hk">Series</span><h2>Every show, one place</h2><p class="sr-ho">Track the episode you are on, see what airs this week and find what to watch next. Add your first series to begin.</p><div class="sr-ha"><button type="button" class="btn sr-go" data-act="sradd">' + SR_IC.plus + 'Add a series</button></div></div></section>';
+  }
+  SR.hero = clamp(SR.hero, 0, L.length - 1); const { sr, kind, b } = L[SR.hero], k = srStats(sr), nx = srNext(sr), id = E(sr.id);
+  const tvA = b ? ' data-tv="' + b.id + '"' : ' data-id="' + id + '"';
+  const kick = { cont: 'Continue watching', soon: 'Back soon', plan: 'On your watchlist', disc: 'Popular right now' }[kind];
+  const seasons = srSeasons(sr).length, meta = [sr.year, seasons ? plural(seasons, 'season') : '', sr.net, sr.vote ? '★ ' + sr.vote.toFixed(1) : ''].filter(Boolean).map(x => '<span>' + E(x) + '</span>').join('');
+  let prog = '', btns = '';
+  if (kind === 'cont' && nx) {
+    srWarm(sr, nx.s, srPaintHero); const info = srEpInfo(sr, nx.s, nx.e), pc = k.aired ? Math.round(k.seen / k.aired * 100) : 0;
+    prog = '<div class="sr-hp"><i><u style="width:' + pc + '%"></u></i><span>' + srEpCode(nx.s, nx.e) + (info && info.name ? ' · ' + E(info.name) : '') + ' · ' + k.seen + ' of ' + k.aired + '</span></div>';
+    btns = '<button type="button" class="btn sr-go" data-act="srnext" data-id="' + id + '">' + SR_IC.chk + 'Watched ' + srEpCode(nx.s, nx.e) + '</button><button type="button" class="btn sr-gh" data-act="sropen" data-id="' + id + '">Details</button>';
+  } else if (kind === 'soon') {
+    prog = '<div class="sr-hp"><span>' + E(srEpCode(sr.nxt.s, sr.nxt.e)) + ' airs ' + E(srDayLbl(sr.nxt.date).toLowerCase()) + '</span></div>';
+    btns = '<button type="button" class="btn sr-go" data-act="sropen" data-id="' + id + '">Details</button>';
+  } else if (kind === 'plan') {
+    btns = (nx ? '<button type="button" class="btn sr-go" data-act="srnext" data-id="' + id + '">' + SR_IC.chk + 'Start ' + srEpCode(nx.s, nx.e) + '</button>' : '') + '<button type="button" class="btn ' + (nx ? 'sr-gh' : 'sr-go') + '" data-act="sropen" data-id="' + id + '">Details</button>';
+  } else {
+    btns = '<button type="button" class="btn sr-go" data-act="sraddto" data-tv="' + b.id + '" data-st="plan">' + SR_IC.plus + 'Add to watchlist</button><button type="button" class="btn sr-gh" data-act="sropen"' + tvA + '>Details</button>';
+  }
+  const dots = L.length > 1 ? '<div class="sr-hd" role="group" aria-label="Featured series">' + L.map((_, i) => '<button type="button" data-act="srhero" data-i="' + i + '" class="' + (i === SR.hero ? 'on' : '') + '" aria-label="Show ' + (i + 1) + ' of ' + L.length + '"></button>').join('') + '</div>' : '';
+  return '<section class="sr-hero" id="srHero" style="' + srPS(sr) + '"><div class="sr-hbg">' + srImgTag(sr.backdrop || sr.poster, 'hero') + '</div><div class="sr-hg"></div><div class="sr-hc"><span class="sr-hk">' + kick + '</span><h2>' + E(sr.name) + '</h2><div class="sr-hm">' + meta + '</div>' +
+    (sr.overview ? '<p class="sr-ho">' + E(sr.overview) + '</p>' : '') + prog + '<div class="sr-ha">' + btns + '</div></div>' + dots + '</section>';
+}
+function srPaintHero() { const el = $('#srHero'); if (!el || route !== 'series' || (S.ui.srtab || 'home') !== 'home') return; el.outerHTML = srHeroHTML().replace('class="sr-hero', 'class="sr-hero na'); }
+/* rows */
+function srDefs() {
+  const y = new Date().getFullYear(), L = [];
+  L.push({ k: 'pop', t: 'Popular right now', s: 'On air this fortnight', q: { sort_by: 'popularity.desc', 'air_date.gte': addDays(today(), -10), 'vote_count.gte': 30 } });
+  const rec = srRecSeed(); if (rec) L.push({ k: 'rec:' + rec.tv, t: 'Because you liked ' + rec.name, path: '/tv/' + rec.tv + '/recommendations' });
+  const tg = srTaste()[0]; if (tg) L.push({ k: 'gen:' + tg[1], t: 'More ' + tg[0], s: 'Your most-watched genre', q: { sort_by: 'popularity.desc', with_genres: tg[1], 'vote_count.gte': 200 } });
+  L.push({ k: 'top', t: 'Critically acclaimed', s: 'Highest rated, loved by many', q: { sort_by: 'vote_average.desc', 'vote_count.gte': 1000 } });
+  L.push({ k: 'new', t: 'New in ' + y, s: 'Fresh this year', q: { sort_by: 'popularity.desc', 'first_air_date.gte': y + '-01-01', 'vote_count.gte': 60 } });
+  return L;
+}
+function srRowCards(k) {
+  const r = SR.rows.get(k); if (!r || r.state === 'load') return srSkels(8);
+  if (r.state === 'err') return '<div class="sr-rerr">' + E(r.msg || 'Could not load.') + '<button type="button" class="btn sm" data-act="srretry" data-k="' + E(k) + '">Try again</button></div>';
+  return r.items.map(srBrief).join('');
+}
+async function srLoadRow(def) {
+  let r = SR.rows.get(def.k); if (r && (r.state === 'load' || r.state === 'ok')) return;
+  r = { state: 'load', items: [] }; SR.rows.set(def.k, r);
+  try { const d = def.path ? await tmdb(def.path) : await srDisc(def.q); r.items = (d.results || []).filter(b => b.poster_path).slice(0, 20); r.items.forEach(b => SR.pre.set(b.id, b)); r.state = 'ok'; }
+  catch (e) { srBlock(e); r.state = 'err'; r.msg = errMsg(e); }
+  srPaintRow(def.k); if (def.k === 'pop') srPaintHero();
+  if (SR.blocked && route === 'series' && !$('.sr-note')) { const b = $('#srBody'); if (b) b.insertAdjacentHTML('afterbegin', srNote()); }
+}
+function srPaintRow(k) {
+  const row = [...$$('.sr-row')].find(x => x.dataset.k === k); if (!row) return; const r = SR.rows.get(k);
+  if (r && r.state === 'ok' && !r.items.length) { row.remove(); return; }
+  const rail = $('.sr-rail', row); if (rail) rail.innerHTML = srRowCards(k);
+}
+function srObserve() {
+  if (SR.obs) SR.obs.disconnect();
+  SR.obs = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { SR.obs.unobserve(en.target); const d = SR.defs.get(en.target.dataset.k); if (d) srLoadRow(d); } }), { rootMargin: '600px 0px' });
+  $$('.sr-row[data-lazy]').forEach(el => { const r = SR.rows.get(el.dataset.k); if (!r || r.state === 'err' || r.state === 'idle') SR.obs.observe(el); });
+  if (SR.dobs) SR.dobs.disconnect(); const sent = $('#srSent');
+  if (sent) { SR.dobs = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) srDisLoad(); }, { rootMargin: '700px 0px' }); SR.dobs.observe(sent); }
+}
+/* tabs: home */
+function srHomeHTML() {
+  const lib = S.series, t = today(), ph = new Map(lib.map(s => [s.id, srPhase(s)])), by = p => lib.filter(s => ph.get(s.id) === p);
+  let h = SR.blocked ? srNote() : ''; h += srHeroHTML();
+  const cont = by('watch').filter(s => srNext(s)).sort((a, b) => b.lwt - a.lwt || b.added - a.added);
+  const soon = lib.filter(s => ph.get(s.id) !== 'drop' && ph.get(s.id) !== 'done' && s.nxt && s.nxt.date && s.nxt.date >= t).sort((a, b) => a.nxt.date.localeCompare(b.nxt.date));
+  const caught = by('caught').filter(s => !soon.includes(s)).sort((a, b) => b.lwt - a.lwt);
+  if (cont.length) h += srRow('cont', 'Continue watching', cont.length + ' in progress', cont.map(srLand).join(''), { all: 'watch' });
+  if (soon.length) h += srRow('soon', 'Coming up', 'New episodes on the way', soon.map(s => srPoster(s, { date: s.nxt.date, meta: srEpCode(s.nxt.s, s.nxt.e) })).join(''), { all: 'caught' });
+  const plan = by('plan').sort((a, b) => b.added - a.added); if (plan.length) h += srRow('plan', 'Your watchlist', plural(plan.length, 'series', 'series'), plan.map(s => srPoster(s)).join(''), { all: 'plan' });
+  if (caught.length) h += srRow('caught', 'Caught up', 'Waiting for new episodes', caught.map(s => srPoster(s)).join(''), { all: 'caught' });
+  const fav = lib.filter(s => s.fav).sort((a, b) => b.rating - a.rating); if (fav.length) h += srRow('fav', 'Favourites', '', fav.map(s => srPoster(s)).join(''), { all: 'fav' });
+  const done = by('done').sort((a, b) => b.lwt - a.lwt); if (done.length) h += srRow('done', 'Finished', plural(done.length, 'series', 'series'), done.map(s => srPoster(s)).join(''), { all: 'done' });
+  SR.defs.clear(); srDefs().forEach(d => { SR.defs.set(d.k, d); const r = SR.rows.get(d.k); if (!(r && r.state === 'ok' && !r.items.length)) h += srRow(d.k, d.t, d.s || '', srRowCards(d.k), { lazy: 1 }); });
+  return h;
+}
+/* tabs: library */
+const SR_SORTS = [['active', 'Recently watched'], ['added', 'Recently added'], ['title', 'Title'], ['rating', 'Your rating'], ['year', 'Newest first'], ['progress', 'Progress'], ['next', 'Next episode']];
+function srLibList() {
+  const f = S.ui.srf || 'all', g = S.ui.srg || '', q = norm(SR.q), k = S.ui.srs || 'active';
+  const pr = s => { const x = srStats(s); return x.aired ? x.seen / x.aired : 0; };
+  let a = S.series.map(sr => ({ sr, ph: srPhase(sr) })).filter(({ sr, ph }) => (f === 'all' || ph === f || (f === 'fav' && sr.fav)) && (!g || sr.genres.includes(g)) && (!q || norm(sr.name).includes(q)));
+  const cmp = { active: (x, y) => y.sr.lwt - x.sr.lwt || y.sr.added - x.sr.added, added: (x, y) => y.sr.added - x.sr.added, title: (x, y) => norm(x.sr.name).localeCompare(norm(y.sr.name)), rating: (x, y) => y.sr.rating - x.sr.rating || norm(x.sr.name).localeCompare(norm(y.sr.name)),
+    year: (x, y) => y.sr.year - x.sr.year, progress: (x, y) => pr(y.sr) - pr(x.sr), next: (x, y) => ((x.sr.nxt && x.sr.nxt.date) || '9999').localeCompare((y.sr.nxt && y.sr.nxt.date) || '9999') }[k];
+  return a.sort(cmp);
+}
+function srLibGridHTML() {
+  const a = srLibList(); if (!S.series.length) return '<div class="empty"><h3>No series yet</h3><p>Search for a show and add it to your watchlist or mark it as watching.</p><button class="btn pri" type="button" data-act="sradd">Add a series</button></div>';
+  if (!a.length) return '<div class="empty"><h3>Nothing here</h3><p>No series match these filters.</p></div>';
+  return '<div class="sr-grid">' + a.map(({ sr }) => srPoster(sr, { status: (S.ui.srf || 'all') === 'all' })).join('') + '</div>';
+}
+function srLibGrid() { const el = $('#srGrid'); if (el) el.innerHTML = srLibGridHTML(); }
+function srLibHTML() {
+  const f = S.ui.srf || 'all', g = S.ui.srg || '', ph = S.series.map(srPhase), cnt = p => ph.filter(x => x === p).length;
+  const chips = [['all', 'All', S.series.length], ['watch', 'Watching', cnt('watch')], ['caught', 'Caught up', cnt('caught')], ['plan', 'Watchlist', cnt('plan')], ['done', 'Finished', cnt('done')], ['drop', 'Dropped', cnt('drop')], ['fav', 'Favourites', S.series.filter(s => s.fav).length]];
+  const gens = [...new Set(S.series.flatMap(s => s.genres))].sort();
+  return '<div class="sr-bar"><div class="sr-chips" role="group" aria-label="Filter by status">' + chips.map(c => '<button type="button" data-act="srf" data-f="' + c[0] + '" class="' + (f === c[0] ? 'on' : '') + '">' + c[1] + ' <small>' + c[2] + '</small></button>').join('') + '</div>' +
+    '<input class="sr-q" type="search" placeholder="Search your series" aria-label="Search your series" value="' + E(SR.q) + '" data-ctl="srq">' +
+    '<select data-ctl="srgen" aria-label="Genre"><option value="">All genres</option>' + gens.map(x => '<option' + (x === g ? ' selected' : '') + '>' + E(x) + '</option>').join('') + '</select>' +
+    '<select data-ctl="srsort" aria-label="Sort">' + SR_SORTS.map(s => '<option value="' + s[0] + '"' + ((S.ui.srs || 'active') === s[0] ? ' selected' : '') + '>' + s[1] + '</option>').join('') + '</select></div><div id="srGrid">' + srLibGridHTML() + '</div>';
+}
+/* tabs: schedule */
+function srSchHTML() {
+  const t = today(), lib = S.series.filter(s => s.st !== 'drop'), days = [...Array(7)].map((_, i) => addDays(t, i));
+  const up = lib.filter(s => s.nxt && s.nxt.date && s.nxt.date >= t).sort((a, b) => a.nxt.date.localeCompare(b.nxt.date) || a.name.localeCompare(b.name));
+  if (!S.series.length) return '<div class="empty"><h3>Nothing to schedule</h3><p>Add a few series and this page shows when their next episodes land.</p><button class="btn pri" type="button" data-act="sradd">Add a series</button></div>';
+  const mini = s => '<button type="button" class="sr-mp" style="' + srPS(s) + '" data-act="sropen" data-id="' + E(s.id) + '" title="' + E(s.name + ' · ' + srEpCode(s.nxt.s, s.nxt.e)) + '" aria-label="' + E(s.name) + '">' + srImgTag(s.poster, 'thumb') + '</button>';
+  let h = '<div class="sr-week">' + days.map(d => { const it = up.filter(s => s.nxt.date === d), dt = new Date(d + 'T12:00:00'); return '<div class="sr-day' + (d === t ? ' t' : '') + '"><h3>' + dt.toLocaleDateString(undefined, { weekday: 'short' }) + '<b>' + dt.getDate() + '</b></h3>' + (it.length ? '<div class="m">' + it.map(mini).join('') + '</div>' : '<em>Nothing airs</em>') + '</div>'; }).join('') + '</div>';
+  const wait = lib.filter(s => srPhase(s) === 'watch').map(s => ({ s, k: srStats(s), n: srNext(s) })).filter(x => x.n).sort((a, b) => b.s.lwt - a.s.lwt);
+  const row = (s, dd, title, sub, right) => '<div class="sr-it" style="' + srPS(s) + '"><div class="dd">' + dd + '</div><button type="button" class="th" data-act="sropen" data-id="' + E(s.id) + '" aria-label="Open ' + E(s.name) + '">' + srImgTag(s.poster, 'thumb') + '</button><button type="button" class="tx" data-act="sropen" data-id="' + E(s.id) + '"><b>' + E(title) + '</b><small>' + E(sub) + '</small></button>' + right + '</div>';
+  if (wait.length) h += '<section class="sr-sec"><h2>Waiting for you</h2><p>Episodes that have aired and you have not seen yet.</p><div class="sr-list">' + wait.map(({ s, k, n }) => row(s, 'New<b>' + (k.aired - k.seen) + '</b>', s.name, 'Next is ' + srEpCode(n.s, n.e), '<button type="button" class="btn" data-act="srnext" data-id="' + E(s.id) + '">' + SR_IC.chk.replace('<svg', '<svg width="15" height="15"') + 'Watched</button>')).join('') + '</div></section>';
+  if (up.length) h += '<section class="sr-sec"><h2>Coming up</h2><p>The next episode of each series you follow.</p><div class="sr-list">' + up.map(s => { const dt = new Date(s.nxt.date + 'T12:00:00'); return row(s, dt.toLocaleDateString(undefined, { weekday: 'short' }) + '<b>' + dt.getDate() + '</b>', s.name, srEpCode(s.nxt.s, s.nxt.e) + (s.nxt.name ? ' · ' + s.nxt.name : ''), '<span class="rt">' + srIn(s.nxt.date) + '</span>'); }).join('') + '</div></section>';
+  const rec = lib.filter(s => s.lastEp && s.lastEp.date && s.lastEp.date <= t && s.lastEp.date >= addDays(t, -14)).sort((a, b) => b.lastEp.date.localeCompare(a.lastEp.date));
+  if (rec.length) h += '<section class="sr-sec"><h2>Aired recently</h2><p>The last two weeks.</p><div class="sr-list">' + rec.map(s => { const e = s.lastEp, w = (s.w[e.s] || []).includes(e.e); return row(s, new Date(e.date + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'short' }) + '<b>' + new Date(e.date + 'T12:00:00').getDate() + '</b>', s.name, srEpCode(e.s, e.e) + (e.name ? ' · ' + e.name : ''), w ? '<span class="rt">Watched</span>' : '<button type="button" class="btn" data-act="srmk" data-id="' + E(s.id) + '" data-s="' + e.s + '" data-e="' + e.e + '">' + SR_IC.chk.replace('<svg', '<svg width="15" height="15"') + 'Watched</button>'); }).join('') + '</div></section>'; 
+  const tba = lib.filter(s => s.tm === 'Returning Series' && !(s.nxt && s.nxt.date) && srPhase(s) !== 'plan');
+  if (tba.length) h += '<section class="sr-sec"><h2>Returning, date to be announced</h2><p>These are coming back but have no date yet.</p><div class="sr-rail">' + tba.map(s => srPoster(s, { meta: 'Date not announced' })).join('') + '</div></section>';
+  if (!wait.length && !up.length && !rec.length && !tba.length) h += '<div class="empty"><h3>All quiet</h3><p>No upcoming episodes for the series you follow right now.</p></div>';
+  return h;
+}
+/* tabs: discover */
+const SR_DT = [['pop', 'Popular'], ['top', 'Top rated'], ['new', 'New this year'], ['you', 'For you']];
+const srDisKey = () => SR.dt + '|' + SR.dg;
+function srDisParams(page) {
+  const y = new Date().getFullYear(), q = { page };
+  if (SR.dt === 'pop') { q.sort_by = 'popularity.desc'; q['air_date.gte'] = addDays(today(), -30); q['vote_count.gte'] = 40; }
+  else if (SR.dt === 'top') { q.sort_by = 'vote_average.desc'; q['vote_count.gte'] = 1000; }
+  else if (SR.dt === 'new') { q.sort_by = 'popularity.desc'; q['first_air_date.gte'] = y + '-01-01'; q['vote_count.gte'] = 60; }
+  else { const tg = srTaste().slice(0, 3); q.sort_by = 'vote_average.desc'; q['vote_count.gte'] = 300; if (tg.length) q.with_genres = tg.map(x => x[1]).join('|'); }
+  if (SR.dg) q.with_genres = SR.dg; return q;
+}
+async function srDisLoad() {
+  if (route !== 'series' || (S.ui.srtab || 'home') !== 'dis') return;
+  const key = srDisKey(); let c = SR.dis.get(key); if (!c) { c = { items: [], ids: new Set(), page: 0, end: false, state: 'idle', err: '' }; SR.dis.set(key, c); }
+  if (c.state === 'load' || c.end) return; c.state = 'load'; srDisPaint();
+  try {
+    const d = await srDisc(srDisParams(c.page + 1)); const fresh = (d.results || []).filter(b => b.poster_path && !c.ids.has(b.id)); fresh.forEach(b => { c.ids.add(b.id); c.items.push(b); SR.pre.set(b.id, b); });
+    c.page = d.page || c.page + 1; if (c.page >= Math.min(d.total_pages || 1, 10)) c.end = true; c.state = 'ok'; c.err = '';
+  } catch (e) { srBlock(e); c.state = 'err'; c.err = errMsg(e); }
+  if (key === srDisKey()) srDisPaint();
+  const sent = $('#srSent'); if (sent && c.state === 'ok' && !c.end && sent.getBoundingClientRect().top < innerHeight + 500) setTimeout(srDisLoad, 60);
+}
+function srDisPaint() {
+  const el = $('#srDis'); if (!el) return; const c = SR.dis.get(srDisKey()) || { items: [], state: 'load' };
+  const you = SR.dt === 'you' && !srTaste().length ? '<p class="sr-hint">Rate and watch a few series and this tab learns your taste. Until then it shows what viewers love most.</p>' : '';
+  el.innerHTML = you + (c.items.length ? '<div class="sr-grid">' + c.items.map(srBrief).join('') + '</div>' : '') +
+    (c.state === 'load' ? '<div class="sr-grid" style="margin-top:' + (c.items.length ? 22 : 0) + 'px">' + srSkels(c.items.length ? 6 : 12) + '</div>' : '') +
+    (c.state === 'err' ? '<div class="sr-rerr">' + E(c.err) + '<button type="button" class="btn sm" data-act="srdretry">Try again</button></div>' : '') +
+    (c.end && c.items.length ? '<div class="sr-end">That is everything for this chart.</div>' : '') + (c.state === 'ok' && !c.items.length ? '<div class="empty"><h3>Nothing found</h3><p>Try another genre.</p></div>' : '');
+}
+function srDisHTML() {
+  return (SR.blocked ? srNote() : '') + '<div class="sr-bar"><div class="sr-chips" role="group" aria-label="Chart">' + SR_DT.map(c => '<button type="button" data-act="srdt" data-t="' + c[0] + '" class="' + (SR.dt === c[0] ? 'on' : '') + '">' + c[1] + '</button>').join('') + '</div>' +
+    '<select data-ctl="srdg" aria-label="Genre"><option value="">All genres</option>' + Object.entries(SR_GEN).sort((a, b) => a[1].localeCompare(b[1])).map(([id, n]) => '<option value="' + id + '"' + (String(SR.dg) === id ? ' selected' : '') + '>' + E(n) + '</option>').join('') + '</select></div><div id="srDis"></div><div id="srSent" style="height:2px"></div>';
+}
+/* page */
+const SR_TABS = [['home', 'Home'], ['lib', 'Library'], ['sch', 'Schedule'], ['dis', 'Discover']];
+PAGES.series = {
+  render() {
+    const v = $('#view'); if (!v) return; if (!SR_TABS.some(t => t[0] === S.ui.srtab)) S.ui.srtab = 'home'; const tab = S.ui.srtab;
+    const rs = $$('.sr-rail', v).map(r => r.scrollLeft), ids = $$('.sr-row', v).map(r => r.dataset.k);
+    const eps = S.series.reduce((n, s) => n + srStats(s).seen, 0);
+    const head = '<div class="pagehead"><h1>Series</h1><span class="sub">' + (S.series.length ? plural(S.series.length, 'series', 'series') + ', ' + plural(eps, 'episode') + ' watched' : 'Your shows, episode by episode') + '</span><span class="sp"></span><button class="btn pri" type="button" data-act="sradd">Add series</button></div>';
+    const tabs = '<nav class="sr-tabs" id="srTabs" aria-label="Series sections">' + SR_TABS.map(t => '<button type="button" data-act="srtab" data-t="' + t[0] + '" class="' + (tab === t[0] ? 'on' : '') + '">' + t[1] + (t[0] === 'lib' && S.series.length ? '<small>' + S.series.length + '</small>' : '') + '</button>').join('') + '</nav>';
+    const body = tab === 'lib' ? srLibHTML() : tab === 'sch' ? srSchHTML() : tab === 'dis' ? srDisHTML() : srHomeHTML();
+    v.innerHTML = head + tabs + '<div id="srBody">' + body + '</div>';
+    $$('.sr-row', v).forEach(r => { const i = ids.indexOf(r.dataset.k); if (i >= 0 && rs[i]) $('.sr-rail', r).scrollLeft = rs[i]; });
+    if (tab === 'dis') srDisPaint();
+  },
+  after() { srObserve(); srAutoSync(); if ((S.ui.srtab || 'home') === 'dis') srDisLoad(); }
+};
+ACT.srtab = a => { S.ui.srtab = a.dataset.t; save(); refresh(); window.scrollTo(0, 0); };
+ACT.srall = a => { S.ui.srf = a.dataset.f; S.ui.srtab = 'lib'; SR.q = ''; save(); refresh(); window.scrollTo(0, 0); };
+ACT.srf = a => { S.ui.srf = a.dataset.f; save(); refresh(); };
+ACT.srsc = a => { const rail = $('.sr-rail', a.parentElement); if (rail) rail.scrollBy({ left: (+a.dataset.d) * rail.clientWidth * .85, behavior: 'smooth' }); };
+ACT.srhero = a => { SR.hero = +a.dataset.i; srPaintHero(); };
+ACT.srretry = a => { const r = SR.rows.get(a.dataset.k); if (r) r.state = 'idle'; SR.rows.delete(a.dataset.k); const d = SR.defs.get(a.dataset.k); srPaintRow(a.dataset.k); if (d) srLoadRow(d); };
+ACT.srdt = a => { SR.dt = a.dataset.t; refresh(); };
+ACT.srdretry = () => { const c = SR.dis.get(srDisKey()); if (c) c.state = 'idle'; srDisLoad(); };
+CTL.srq = v => { SR.q = v; srLibGrid(); };
+CTL.srgen = v => { S.ui.srg = v; save(); srLibGrid(); };
+CTL.srsort = v => { S.ui.srs = v; save(); srLibGrid(); };
+CTL.srdg = v => { SR.dg = v; refresh(); };
+/* ===== Series: detail sheet, add dialog, actions ===== */
+const SRD = { open: false, sr: null, season: 1, ex: new Set(), prev: null };
+const srHas = (sr, s, e) => (sr.w[s] || []).includes(e);
+function srDefaultSeason(sr) { const n = srNext(sr), ss = srSeasons(sr); return n ? n.s : (ss.length ? ss[ss.length - 1].n : 1); }
+function srdEl() {
+  let el = $('#srd'); if (el) return el;
+  el = document.createElement('div'); el.id = 'srd'; el.hidden = true; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', 'Series details'); el.innerHTML = '<div class="srd" id="srdBox"></div>';
+  el.addEventListener('click', e => { if (e.target === el) srdClose(); }); document.body.appendChild(el); return el;
+}
+function srdOpen(sr) {
+  SRD.sr = sr; SRD.open = true; SRD.season = srDefaultSeason(sr); SRD.ex.clear(); SRD.prev = document.activeElement;
+  const el = srdEl(); el.hidden = false; srdPaint(true); syncLock();
+  const x = $('.srd-x', el); if (x) x.focus();
+  if (sr.tv && !sr.manual && (srNeedsSync(sr) || !sr.seasons.length)) srSync(sr).then(ok => { if (!SRD.open || SRD.sr !== sr) return; if (ok) { SRD.season = srDefaultSeason(sr); if (S.series.includes(sr)) srAfter(); else srdPaint(); } });
+}
+function srdClose() {
+  if (!SRD.open) return; SRD.open = false; const el = $('#srd'); if (el) { el.hidden = true; $('#srdBox').innerHTML = ''; }
+  syncLock(); if (SRD.prev && SRD.prev.focus && document.contains(SRD.prev)) SRD.prev.focus(); SRD.sr = null;
+}
+function srdEpsHTML(sr, season, ss) {
+  const s = ss.find(x => x.n === season); if (!s) return '<p class="sr-hint">No episode information yet.</p>';
+  const aired = srAiredIn(sr, s), cache = SR.sn.get(sr.tv + ':' + season), meta = cache && cache.d ? cache.d : null, t = today();
+  if (sr.tv && !sr.manual && !SR.sn.has(sr.tv + ':' + season)) srEps(sr, season).then(() => { if (SRD.open && SRD.sr === sr) srdPaint(); }).catch(() => {});
+  const list = meta && meta.length ? meta : Array.from({ length: s.c }, (_, i) => ({ e: i + 1, name: '', air: '', rt: 0, ov: '', still: '' }));
+  return '<div class="sr-eps">' + list.map(ep => {
+    const on = srHas(sr, season, ep.e), up = ep.e > aired || (ep.air && ep.air > t), key = season + ':' + ep.e, open = SRD.ex.has(key);
+    const sub = [up && ep.air ? 'Airs ' + srDayLbl(ep.air) : ep.air ? fmtDate(ep.air, 'short') : '', ep.rt ? ep.rt + ' min' : ''].filter(Boolean).join(' · ');
+    return '<div class="sr-e' + (on ? ' on' : '') + (up ? ' up' : '') + (open ? ' open' : '') + '"><div class="sr-er"><button type="button" class="sr-ek" data-act="srep" data-s="' + season + '" data-e="' + ep.e + '"' + (up ? ' disabled' : '') + ' aria-pressed="' + on + '" aria-label="' + (on ? 'Unmark' : 'Mark') + ' episode ' + ep.e + ' watched"><span>' + SR_IC.chk + '</span></button>' +
+      '<button type="button" class="sr-eb" data-act="srex" data-s="' + season + '" data-e="' + ep.e + '" aria-expanded="' + open + '"><span class="sr-en">' + ep.e + '</span><span class="sr-et"><b>' + E(ep.name || 'Episode ' + ep.e) + '</b>' + (sub ? '<small>' + E(sub) + '</small>' : '') + '</span>' + (ep.still ? '<span class="sr-es">' + srImgTag(ep.still, 'still') + '</span>' : '<span></span>') + '</button></div>' +
+      '<div class="sr-ex">' + (ep.ov ? '<p>' + E(ep.ov) + '</p>' : '<p>No summary yet.</p>') + (up ? '' : '<button type="button" class="btn sm" data-act="srupto" data-s="' + season + '" data-e="' + ep.e + '">Mark everything up to here</button>') + '</div></div>';
+  }).join('') + '</div>';
+}
+function srdHTML() {
+  const sr = SRD.sr, k = srStats(sr), ph = srPhase(sr), inl = S.series.includes(sr), nx = srNext(sr), ss = k.ss;
+  if (!ss.some(x => x.n === SRD.season)) SRD.season = srDefaultSeason(sr);
+  const season = SRD.season, sObj = ss.find(x => x.n === season), sAir = sObj ? srAiredIn(sr, sObj) : 0, sSeen = sObj ? (sr.w[season] || []).filter(e => e <= sObj.c).length : 0;
+  const TM = { 'Returning Series': 'Returning', Ended: 'Ended', Canceled: 'Canceled', 'In Production': 'In production', Planned: 'Planned', Pilot: 'Pilot' };
+  const meta = [sr.tm || sr.manual ? '<span class="pill">' + E(sr.manual ? 'Added by hand' : TM[sr.tm] || sr.tm) + '</span>' : '', sr.year, ss.length ? plural(ss.length, 'season') + ', ' + plural(k.total, 'episode') : '', sr.net, sr.rt ? sr.rt + ' min' : '', sr.vote ? '★ ' + sr.vote.toFixed(1) : ''].filter(Boolean).map(x => String(x).startsWith('<') ? x : '<span>' + E(x) + '</span>').join('');
+  const cur = !inl ? '' : sr.st === 'drop' ? 'drop' : ph === 'plan' ? 'plan' : 'watch';
+  const seg = (v, l, dis) => '<button type="button" data-act="srdst" data-st="' + v + '" class="' + (cur === v ? 'on' : '') + '"' + (dis ? ' disabled' : '') + '>' + l + '</button>';
+  let act;
+  if (!inl) act = '<button type="button" class="btn pri" data-act="srdst" data-st="plan">' + SR_IC.plus.replace('<svg', '<svg width="16" height="16"') + 'Add to watchlist</button><button type="button" class="btn" data-act="srdst" data-st="watch">Start watching</button>';
+  else act = '<div class="seg" role="group" aria-label="Status">' + seg('plan', 'Watchlist', k.seen > 0) + seg('watch', 'Watching') + seg('drop', 'Dropped') + '</div><button type="button" class="btn' + (sr.fav ? ' on' : '') + '" data-act="srfav" aria-pressed="' + !!sr.fav + '">' + SR_IC.heart + 'Favourite</button><span data-srate="1">' + stars(sr.rating || 0, { sm: false }) + '</span>';
+  let prog = '';
+  if (ss.length) {
+    const pc = k.aired ? Math.round(k.seen / k.aired * 100) : 0; let line;
+    if (ph === 'done') line = '<span class="nx"><b>Finished.</b> You have seen every episode.</span>';
+    else if (nx) { const info = srEpInfo(sr, nx.s, nx.e); line = '<span class="nx">' + (k.seen ? 'Next up' : 'Start with') + ' <b>' + srEpCode(nx.s, nx.e) + (info && info.name ? ' · ' + E(info.name) : '') + '</b></span><button type="button" class="btn pri" data-act="srdnext">' + SR_IC.chk.replace('<svg', '<svg width="16" height="16"') + 'Mark ' + srEpCode(nx.s, nx.e) + ' watched</button>'; }
+    else line = '<span class="nx"><b>You are caught up.</b>' + (sr.nxt && sr.nxt.date ? ' ' + E(srEpCode(sr.nxt.s, sr.nxt.e)) + ' airs ' + E(srDayLbl(sr.nxt.date).toLowerCase()) + '.' : ' Nothing new is scheduled yet.') + '</span>';
+    prog = '<div class="srd-pr"><div class="row"><span class="big">' + k.seen + '<small>of ' + k.aired + ' aired episodes</small></span><span class="big">' + pc + '%</span></div><div class="bar"><u style="width:' + pc + '%"></u></div><div class="row">' + line + '</div></div>';
+  }
+  const seasons = ss.length ? '<div><div class="srd-ss" role="group" aria-label="Seasons">' + ss.map(s => { const a = srAiredIn(sr, s), w = (sr.w[s.n] || []).filter(e => e <= s.c).length; return '<button type="button" data-act="srseason" data-n="' + s.n + '" class="' + (s.n === season ? 'on' : '') + (a > 0 && w >= a ? ' dn' : '') + '">Season ' + s.n + '</button>'; }).join('') + '</div>' +
+    '<div class="srd-sh"><span>' + sSeen + ' of ' + sAir + ' watched' + (sObj && sAir < sObj.c ? ' · ' + (sObj.c - sAir) + ' not aired yet' : '') + '</span>' + (sAir ? '<button type="button" class="btn sm" data-act="srsall" data-n="' + season + '">' + (sSeen >= sAir ? 'Unmark season' : 'Mark season watched') + '</button>' : '') + '</div>' + srdEpsHTML(sr, season, ss) + '</div>'
+    : '<p class="sr-hint">' + (sr.tv ? 'Loading episodes. If this stays empty, TV data may be blocked for your Worker.' : 'No episode counts were added for this series.') + '</p>';
+  return '<button type="button" class="srd-x" data-act="srdx" aria-label="Close">' + SR_IC.x + '</button><div class="srd-b"><div class="srd-top" style="' + srPS(sr) + '"><div class="sr-hbg">' + srImgTag(sr.backdrop || sr.poster, 'hero') + '</div><div class="srd-th"><h2>' + E(sr.name) + '</h2><div class="srd-meta">' + meta + '</div></div></div>' +
+    '<div class="srd-in"><div class="srd-act">' + act + '</div>' + prog + ((sr.tagline || sr.overview) ? '<div class="srd-ov">' + (sr.tagline ? '<i>' + E(sr.tagline) + '</i>' : '') + E(sr.overview) + '</div>' : '') +
+    ((sr.by || sr.genres.length) ? '<div class="srd-cr">' + [sr.by ? 'Created by ' + sr.by : '', sr.genres.join(', ')].filter(Boolean).map(E).join(' · ') + '</div>' : '') + seasons +
+    (inl ? '<label class="srd-cr" for="srNote">Your notes</label><textarea id="srNote" class="srd-nt" data-ctl="srnote" placeholder="What did you think? Where did you leave off?">' + E(sr.note) + '</textarea>' : '') +
+    '<div class="srd-ft">' + (sr.tv && !sr.manual ? '<button type="button" class="btn" data-act="srrefresh">Refresh from TMDB</button>' : '') + (inl ? '<button type="button" class="btn danger" data-act="srdel">Remove from library</button>' : '') + '</div></div></div>';
+}
+function srdPaint(first) {
+  if (!SRD.open || !SRD.sr) return; const box = $('#srdBox'); if (!box) return; const b = $('.srd-b', box), top = b ? b.scrollTop : 0, hadX = box.querySelector('.srd-x') && document.activeElement === box.querySelector('.srd-x');
+  box.innerHTML = srdHTML(); const nb = $('.srd-b', box); if (nb && !first) nb.scrollTop = top; if (hadX) $('.srd-x', box).focus();
+}
+ACT.sropen = a => {
+  let sr = a.dataset.id ? srBy(a.dataset.id) : null;
+  if (!sr && a.dataset.tv) { sr = srByTv(a.dataset.tv); if (!sr) { const b = SR.pre.get(+a.dataset.tv); if (!b) return; sr = srFromBrief(b); } }
+  if (sr) srdOpen(sr);
+};
+ACT.srdx = () => srdClose();
+ACT.srdst = a => {
+  const sr = SRD.sr; if (!sr) return; const st = a.dataset.st, was = S.series.includes(sr); srEnsure(sr); sr.st = st;
+  if (!was) toast('Added ' + sr.name + (st === 'watch' ? ' to Watching' : ' to your watchlist')); srAfter();
+};
+ACT.srfav = () => { const sr = SRD.sr; if (!sr) return; sr.fav = !sr.fav; srAfter(); };
+ACT.srseason = a => { SRD.season = +a.dataset.n; srdPaint(); };
+ACT.srex = a => { const k = a.dataset.s + ':' + a.dataset.e; if (SRD.ex.has(k)) SRD.ex.delete(k); else SRD.ex.add(k); srdPaint(); };
+ACT.srep = a => { const sr = SRD.sr; if (!sr) return; const s = +a.dataset.s, e = +a.dataset.e, on = !srHas(sr, s, e); srDo(sr, () => srSet(sr, s, e, on)); };
+ACT.srupto = a => { const sr = SRD.sr; if (!sr) return; const s = +a.dataset.s, e = +a.dataset.e; srDo(sr, () => srUpTo(sr, s, e), 'Marked everything up to ' + srEpCode(s, e)); };
+ACT.srsall = a => { const sr = SRD.sr; if (!sr) return; const n = +a.dataset.n, s = srSeasons(sr).find(x => x.n === n); if (!s) return; const a0 = srAiredIn(sr, s), seen = (sr.w[n] || []).filter(e => e <= s.c).length, on = seen < a0; srDo(sr, () => srSeasonAll(sr, n, on), on ? 'Marked season ' + n + ' watched' : 'Season ' + n + ' unmarked'); };
+function srMarkNext(sr) { const nx = srNext(sr); if (!nx) return; srWarm(sr, nx.s); const info = srEpInfo(sr, nx.s, nx.e); srDo(sr, () => srSet(sr, nx.s, nx.e, true), 'Marked ' + srEpCode(nx.s, nx.e) + (info && info.name ? ' · ' + info.name : '')); }
+ACT.srnext = a => { const sr = srBy(a.dataset.id); if (sr) srMarkNext(sr); };
+ACT.srdnext = () => { if (SRD.sr) srMarkNext(SRD.sr); };
+ACT.srmk = a => { const sr = srBy(a.dataset.id); if (!sr) return; const s = +a.dataset.s, e = +a.dataset.e; srDo(sr, () => srSet(sr, s, e, true), 'Marked ' + srEpCode(s, e)); };
+ACT.srdel = async () => { const sr = SRD.sr; if (!sr || !await askConfirm('Remove "' + sr.name + '" and your progress on it?', { yes: 'Remove', danger: true })) return; S.series = S.series.filter(x => x !== sr); S.slog = S.slog.filter(l => l.sid !== sr.id); srdClose(); srAfter(); toast('Removed ' + sr.name); };
+ACT.srrefresh = async a => { const sr = SRD.sr; if (!sr) return; a.disabled = true; a.textContent = 'Refreshing'; SR.sn.forEach((v, k) => { if (k.startsWith(sr.tv + ':')) SR.sn.delete(k); }); const ok = await srSync(sr); toast(ok ? 'Updated from TMDB' : 'Could not reach TMDB'); if (S.series.includes(sr)) srAfter(); else srdPaint(); };
+CTL.srnote = v => { if (SRD.sr && S.series.includes(SRD.sr)) { SRD.sr.note = v; save(); } };
+ACT.sraddto = a => { const b = SR.pre.get(+a.dataset.tv); if (b) srAdd(b, a.dataset.st); };
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-srate] button[data-v]'); if (!b || !SRD.sr) return; const v = +b.dataset.v, sr = SRD.sr; sr.rating = sr.rating === v ? 0 : v; srAfter();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && SRD.open && $('#cf').hidden && $('#dlg').hidden) { e.stopPropagation(); e.preventDefault(); srdClose(); } }, true);
+addEventListener('hashchange', srdClose);
+/* add dialog */
+let srQT = 0, srQn = 0;
+function srResRow(b) {
+  const inl = srByTv(b.id), yr = (b.first_air_date || '').slice(0, 4);
+  return '<div class="sr-rr"><div class="th">' + srImgTag(b.poster_path, 'thumb') + '</div><div><b>' + E(b.name) + (yr ? ' <span style="font-weight:400;color:var(--ink3)">' + yr + '</span>' : '') + '</b><small>' + E(b.overview || 'No summary yet.') + '</small></div><div class="a">' +
+    (inl ? '<button type="button" class="btn" data-act="srqopen" data-tv="' + b.id + '">Open</button>' : '<button type="button" class="btn" data-act="srq3" data-tv="' + b.id + '" data-st="plan">Watchlist</button><button type="button" class="btn pri" data-act="srq3" data-tv="' + b.id + '" data-st="watch">Watching</button>') + '</div></div>';
+}
+async function srSearch(q) {
+  const el = $('#srRes'); if (!el) return; q = q.trim(); if (q.length < 2) { el.innerHTML = '<p class="sr-hint">Type a series title to search TMDB.</p>'; return; }
+  const n = ++srQn; el.innerHTML = '<p class="sr-hint">Searching</p>';
+  try { const d = await tmdb('/search/tv', { query: q }); if (n !== srQn || !$('#srRes')) return; const res = (d.results || []).slice(0, 8); res.forEach(b => SR.pre.set(b.id, b)); el.innerHTML = res.length ? res.map(srResRow).join('') : '<p class="sr-hint">No series found. Try another spelling, or add it by hand below.</p>'; }
+  catch (e) { if (n !== srQn || !$('#srRes')) return; srBlock(e); el.innerHTML = '<p class="sr-hint">' + E(errMsg(e)) + (SR.blocked ? ' Your Worker may be blocking TV search. You can add the series by hand below.' : '') + '</p>'; }
+}
+CTL.srsearch = v => { clearTimeout(srQT); srQT = setTimeout(() => srSearch(v), 320); };
+function srAddDlg() {
+  openDlg('<h2>Add a series</h2><input id="srQ" class="sr-q" style="width:100%;margin-top:12px;height:44px" type="search" placeholder="Search for a series" aria-label="Search for a series" autocomplete="off" data-ctl="srsearch" autofocus><div id="srRes" class="sr-res"><p class="sr-hint">Type a series title to search TMDB.</p></div>' +
+    '<div class="acts" style="justify-content:space-between"><button type="button" class="btn" data-act="srman">Add one by hand</button><button type="button" class="btn pri" data-act="dlgx">Done</button></div>', { wide: true, label: 'Add a series' });
+}
+ACT.sradd = () => srAddDlg();
+ACT.srq3 = a => { const b = SR.pre.get(+a.dataset.tv); if (!b) return; srAdd(b, a.dataset.st); const box = a.closest('.a'); if (box) box.innerHTML = '<button type="button" class="btn" data-act="srqopen" data-tv="' + b.id + '">Open</button>'; };
+ACT.srqopen = a => { closeDlg(); const sr = srByTv(a.dataset.tv); if (sr) srdOpen(sr); };
+ACT.srman = () => {
+  openDlg('<h2>Add by hand</h2><p class="note">Use this when a series cannot be found. Give the number of episodes in each season, for example <b>10, 8, 8</b>.</p><div class="sr-fm"><label>Title<input id="smN" type="text" autocomplete="off" autofocus></label><label>Year (optional)<input id="smY" type="text" inputmode="numeric" maxlength="4"></label>' +
+    '<label>Episodes per season<input id="smE" type="text" placeholder="10, 8, 8" autocomplete="off"></label><label>Status<select id="smS"><option value="plan">Watchlist</option><option value="watch">Watching</option></select></label></div><p class="note" id="smM" style="min-height:20px;margin-top:10px"></p><div class="acts"><button type="button" class="btn" data-act="sradd">Back to search</button><button type="button" class="btn pri" data-act="srmsave">Add series</button></div>', { label: 'Add by hand' });
+};
+ACT.srmsave = () => {
+  const name = $('#smN').value.trim(), yr = +$('#smY').value || 0, eps = ($('#smE').value.match(/\d+/g) || []).map(Number).filter(n => n > 0 && n <= 500).slice(0, 40), m = $('#smM');
+  if (!name) { m.textContent = 'Give it a title.'; return; } if (!eps.length) { m.textContent = 'Add how many episodes each season has, like 10, 8, 8.'; return; }
+  const sr = srNew({ id: 'tm' + uid(), manual: true, name, year: yr, seasons: eps.map((c, i) => ({ n: i + 1, c, air: '' })), st: $('#smS').value }); S.series.push(sr); closeDlg(); srAfter(); toast('Added ' + name);
+};
+
+function srImport(o, mode) {
+  const inc = (Array.isArray(o.series) ? o.series : []).map(normSeries).filter(Boolean);
+  if (mode === 'replace') { S.series = inc; S.slog = (Array.isArray(o.slog) ? o.slog : []).filter(l => l && l.sid).slice(-1500); return; }
+  const have = new Map(S.series.map(s => [String(s.id), s]));
+  for (const x of inc) {
+    const m = have.get(String(x.id)); if (!m) { S.series.push(x); have.set(String(x.id), x); continue; }
+    for (const k of Object.keys(x.w)) m.w[k] = [...new Set([...(m.w[k] || []), ...x.w[k]])].sort((p, q) => p - q);
+    if (!m.rating) m.rating = x.rating; m.fav = m.fav || x.fav; if (!m.note) m.note = x.note; if (m.st === 'plan' && x.st !== 'plan') m.st = x.st; m.lwt = Math.max(m.lwt, x.lwt);
+  }
+  const ids = new Set(S.slog.map(l => l.sid + '|' + l.ts));
+  (Array.isArray(o.slog) ? o.slog : []).forEach(l => { if (l && l.sid && !ids.has(l.sid + '|' + l.ts)) S.slog.push({ sid: String(l.sid), s: +l.s || 0, e: +l.e || 0, n: +l.n || 1, date: String(l.date || ''), ts: +l.ts || 0 }); });
+  S.slog.sort((p, q) => p.ts - q.ts); if (S.slog.length > 1500) S.slog.splice(0, S.slog.length - 1500);
+}
 </script>
 </body>
 </html>
