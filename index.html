@@ -1664,7 +1664,7 @@ body.dock-on .dock{display:flex;flex-direction:column}
 .srd-th{padding:28px 32px 18px;display:grid;gap:10px;width:100%}
 .srd-th h2{font:800 clamp(36px,4.6vw,56px)/.94 var(--f-d);text-wrap:balance;max-width:720px}
 .srd-meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:rgba(255,255,255,.82)}.srd-meta .pill{padding:3px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.35);font-size:12px;letter-spacing:.04em}
-.srd-in{padding:6px 32px 30px;display:grid;gap:24px}
+.srd-in{padding:6px 32px 30px;display:grid;gap:24px;grid-template-columns:minmax(0,1fr)}.srd-in>*{min-width:0}
 .srd-act{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px}
 .srd-act .btn{height:38px}.srd-act .btn.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}.srd-act .btn svg{width:16px;height:16px}
 .srd-act .rc{font-size:24px}
@@ -1725,6 +1725,18 @@ html.rm .sr-hero,html.rm .srd,html.rm #srd{animation:none}html.rm .sr-skel,html.
 #moreSheet .mr-g #mrSet{grid-column:1/-1;min-height:0;flex-direction:row;align-items:center}
 .sr-hero.na{animation:none}
 @media (min-width:1000px) and (max-width:1279px){.rail .nav a{padding:0 8px;font-size:18px}.rail .brandrow{margin-right:10px}.rail .rail-foot .btn.wide{padding:0 12px}.rail .omni-btn{margin-left:auto}}
+.srd-h{font:700 22px/1 var(--f-d);margin:0 0 12px}
+.sr-sbig{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 22px}
+.sr-sb{padding:18px;border:1px solid var(--line);border-radius:16px;background:var(--bg)}.sr-sb b{display:block;font:700 40px/1 var(--f-d)}.sr-sb span{display:block;margin-top:9px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}.sr-sb small{display:block;margin-top:4px;color:var(--ink3);font-size:12.5px}
+.sr-sg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0 0 32px}
+.sr-sc{padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--bg);min-width:0}.sr-sc.w{grid-column:1/-1}
+.sr-sc h3{font:700 22px/1 var(--f-d);margin:0 0 5px}.sr-sc>p{margin:0 0 16px;color:var(--ink3);font-size:13px}
+.sr-bars{display:grid;gap:11px}.sr-br{display:grid;grid-template-columns:minmax(78px,128px) 1fr 40px;gap:12px;align-items:center;font-size:13.5px}.sr-br span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sr-br i{height:8px;border-radius:5px;background:var(--line);overflow:hidden}.sr-br u{display:block;height:100%;border-radius:5px;background:#f0c35c}.sr-br em{font-style:normal;color:var(--ink3);text-align:right;font-variant-numeric:tabular-nums}
+.sr-seg{display:flex;height:14px;border-radius:8px;overflow:hidden;gap:2px;margin:6px 0 16px}.sr-seg i{display:block;min-width:5px}
+.sr-lg{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--ink2)}.sr-lg span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--c);margin-right:7px}
+.sr-act{display:flex;align-items:flex-end;gap:8px;height:170px}.sr-act div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px;height:100%;min-width:0}.sr-act i{display:block;width:100%;max-width:38px;border-radius:6px 6px 2px 2px;background:#f0c35c}.sr-act small{font-size:11px;color:var(--ink3)}.sr-act em{font-style:normal;font-size:11px;color:var(--ink2);min-height:13px}
+.sr-streak{display:flex;gap:34px;flex-wrap:wrap;margin-top:6px}.sr-streak b{font:700 36px/1 var(--f-d)}.sr-streak span{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-top:6px}
+@media (max-width:760px){.sr-sg{grid-template-columns:1fr}.sr-sbig{grid-template-columns:repeat(2,1fr)}.sr-sb b{font-size:34px}.sr-act{gap:4px}}
 </style></head>
 <body>
 <a class="skip" href="#view">Skip to content</a>
@@ -7345,14 +7357,14 @@ const srBy = id => S.series.find(s => String(s.id) === String(id));
 const srByTv = tv => S.series.find(s => s.tv && +s.tv === +tv);
 function srNew(o) {
   return Object.assign({ id: 't' + (o && o.tv || uid()), tv: 0, name: 'Untitled', year: 0, first: '', tm: '', poster: '', backdrop: '', overview: '', tagline: '', genres: [], net: '', rt: 0, vote: 0, lang: '', by: '',
-    seasons: [], nxt: null, lastEp: null, sync: 0, st: 'plan', fav: false, rating: 0, note: '', w: {}, lw: '', lwt: 0, added: Date.now(), manual: false }, o);
+    seasons: [], nxt: null, lastEp: null, sync: 0, cast: [], cx: 0, st: 'plan', fav: false, rating: 0, note: '', w: {}, lw: '', lwt: 0, added: Date.now(), manual: false }, o);
 }
 function normSeries(x) {
   if (!x || x.id == null || !x.name) return null;
   const s = v => String(v ?? ''), n = v => +v || 0, a = v => Array.isArray(v) ? v : [], ep = e => e && n(e.s) > 0 && n(e.e) > 0 ? { s: n(e.s), e: n(e.e), date: /^\d{4}-\d{2}-\d{2}$/.test(s(e.date)) ? s(e.date) : '', name: s(e.name) } : null;
   const w = {}; if (x.w && typeof x.w === 'object') for (const k of Object.keys(x.w)) { const arr = [...new Set(a(x.w[k]).map(n).filter(v => v > 0 && v < 5000))].sort((p, q) => p - q); if (arr.length && n(k) > 0) w[n(k)] = arr; }
   return srNew({ id: s(x.id), tv: n(x.tv), name: s(x.name), year: n(x.year), first: s(x.first), tm: s(x.tm), poster: s(x.poster), backdrop: s(x.backdrop), overview: s(x.overview), tagline: s(x.tagline), genres: a(x.genres).map(s), net: s(x.net), rt: n(x.rt), vote: n(x.vote), lang: s(x.lang), by: s(x.by),
-    seasons: a(x.seasons).map(q => ({ n: n(q.n), c: n(q.c), air: /^\d{4}-\d{2}-\d{2}$/.test(s(q.air)) ? s(q.air) : '' })).filter(q => q.n > 0 && q.c > 0), nxt: ep(x.nxt), lastEp: ep(x.lastEp), sync: n(x.sync),
+    seasons: a(x.seasons).map(q => ({ n: n(q.n), c: n(q.c), air: /^\d{4}-\d{2}-\d{2}$/.test(s(q.air)) ? s(q.air) : '' })).filter(q => q.n > 0 && q.c > 0), nxt: ep(x.nxt), lastEp: ep(x.lastEp), sync: n(x.sync), cx: x.cx ? 1 : 0, cast: a(x.cast).slice(0, 14).map(c => ({ id: n(c.id), name: s(c.name), profile: s(c.profile), character: s(c.character), ep: n(c.ep) })).filter(c => c.name),
     st: ['plan', 'watch', 'drop'].includes(x.st) ? x.st : 'plan', fav: !!x.fav, rating: clamp(Math.round(n(x.rating) * 2) / 2, 0, 5), note: s(x.note), w, lw: s(x.lw), lwt: n(x.lwt), added: n(x.added) || Date.now(), manual: !!x.manual });
 }
 const srSeasons = sr => sr.seasons.filter(s => s.n >= 1 && s.c > 0).sort((a, b) => a.n - b.n);
@@ -7419,17 +7431,20 @@ function srApply(sr, d) {
   if (Array.isArray(d.created_by)) sr.by = d.created_by.map(x => x.name).slice(0, 3).join(', ');
   if (Array.isArray(d.seasons)) sr.seasons = d.seasons.filter(x => x.season_number >= 1 && (x.episode_count || 0) > 0).map(x => ({ n: x.season_number, c: x.episode_count, air: x.air_date || '' }));
   sr.nxt = ep(d.next_episode_to_air); sr.lastEp = ep(d.last_episode_to_air); sr.sync = Date.now();
+  const cr = (d.aggregate_credits && d.aggregate_credits.cast) || (d.credits && d.credits.cast);
+  if (Array.isArray(cr)) sr.cast = cr.slice(0, 14).map(c => ({ id: c.id || 0, name: c.name || '', profile: c.profile_path || '', character: (c.roles && c.roles[0] && c.roles[0].character) || c.character || '', ep: c.total_episode_count || 0 })).filter(c => c.name);
+  sr.cx = 1;
 }
 async function srSync(sr) {
   if (!sr.tv || sr.manual || SR.sync.has(sr.id)) return false; SR.sync.add(sr.id);
-  try { applyOK(await tmdb('/tv/' + sr.tv)); return true; } catch (e) { SR.fail.set(sr.id, Date.now()); srBlock(e); return false; } finally { SR.sync.delete(sr.id); }
+  try { applyOK(await tmdb('/tv/' + sr.tv, { append_to_response: 'aggregate_credits' })); return true; } catch (e) { SR.fail.set(sr.id, Date.now()); srBlock(e); return false; } finally { SR.sync.delete(sr.id); }
   function applyOK(d) { srApply(sr, d); SR.fail.delete(sr.id); }
 }
 function srNeedsSync(sr) {
   if (!sr.tv || sr.manual || SR.sync.has(sr.id)) return false;
   const f = SR.fail.get(sr.id); if (f && Date.now() - f < 30 * 60e3) return false;
   const age = Date.now() - (sr.sync || 0);
-  if (!sr.sync || !sr.seasons.length) return true;
+  if (!sr.sync || !sr.seasons.length || !sr.cx) return true;
   if (!srEnded(sr) && age > 12 * 3600e3) return true;
   if (sr.nxt && sr.nxt.date && sr.nxt.date <= today() && age > 3600e3) return true;
   return false;
@@ -7664,7 +7679,7 @@ function srDisHTML() {
     '<select data-ctl="srdg" aria-label="Genre"><option value="">All genres</option>' + Object.entries(SR_GEN).sort((a, b) => a[1].localeCompare(b[1])).map(([id, n]) => '<option value="' + id + '"' + (String(SR.dg) === id ? ' selected' : '') + '>' + E(n) + '</option>').join('') + '</select></div><div id="srDis"></div><div id="srSent" style="height:2px"></div>';
 }
 /* page */
-const SR_TABS = [['home', 'Home'], ['lib', 'Library'], ['sch', 'Schedule'], ['dis', 'Discover']];
+const SR_TABS = [['home', 'Home'], ['lib', 'Library'], ['sch', 'Schedule'], ['dis', 'Discover'], ['stats', 'Stats']];
 PAGES.series = {
   render() {
     const v = $('#view'); if (!v) return; if (!SR_TABS.some(t => t[0] === S.ui.srtab)) S.ui.srtab = 'home'; const tab = S.ui.srtab;
@@ -7672,7 +7687,7 @@ PAGES.series = {
     const eps = S.series.reduce((n, s) => n + srStats(s).seen, 0);
     const head = '<div class="pagehead"><h1>Series</h1><span class="sub">' + (S.series.length ? plural(S.series.length, 'series', 'series') + ', ' + plural(eps, 'episode') + ' watched' : 'Your shows, episode by episode') + '</span><span class="sp"></span><button class="btn pri" type="button" data-act="sradd">Add series</button></div>';
     const tabs = '<nav class="sr-tabs" id="srTabs" aria-label="Series sections">' + SR_TABS.map(t => '<button type="button" data-act="srtab" data-t="' + t[0] + '" class="' + (tab === t[0] ? 'on' : '') + '">' + t[1] + (t[0] === 'lib' && S.series.length ? '<small>' + S.series.length + '</small>' : '') + '</button>').join('') + '</nav>';
-    const body = tab === 'lib' ? srLibHTML() : tab === 'sch' ? srSchHTML() : tab === 'dis' ? srDisHTML() : srHomeHTML();
+    const body = tab === 'lib' ? srLibHTML() : tab === 'sch' ? srSchHTML() : tab === 'dis' ? srDisHTML() : tab === 'stats' ? srStatsHTML() : srHomeHTML();
     v.innerHTML = head + tabs + '<div id="srBody">' + body + '</div>';
     $$('.sr-row', v).forEach(r => { const i = ids.indexOf(r.dataset.k); if (i >= 0 && rs[i]) $('.sr-rail', r).scrollLeft = rs[i]; });
     if (tab === 'dis') srDisPaint();
@@ -7747,7 +7762,8 @@ function srdHTML() {
     : '<p class="sr-hint">' + (sr.tv ? 'Loading episodes. If this stays empty, TV data may be blocked for your Worker.' : 'No episode counts were added for this series.') + '</p>';
   return '<button type="button" class="srd-x" data-act="srdx" aria-label="Close">' + SR_IC.x + '</button><div class="srd-b"><div class="srd-top" style="' + srPS(sr) + '"><div class="sr-hbg">' + srImgTag(sr.backdrop || sr.poster, 'hero') + '</div><div class="srd-th"><h2>' + E(sr.name) + '</h2><div class="srd-meta">' + meta + '</div></div></div>' +
     '<div class="srd-in"><div class="srd-act">' + act + '</div>' + prog + ((sr.tagline || sr.overview) ? '<div class="srd-ov">' + (sr.tagline ? '<i>' + E(sr.tagline) + '</i>' : '') + E(sr.overview) + '</div>' : '') +
-    ((sr.by || sr.genres.length) ? '<div class="srd-cr">' + [sr.by ? 'Created by ' + sr.by : '', sr.genres.join(', ')].filter(Boolean).map(E).join(' · ') + '</div>' : '') + seasons +
+    ((sr.by || sr.genres.length) ? '<div class="srd-cr">' + [sr.by ? 'Created by ' + sr.by : '', sr.genres.join(', ')].filter(Boolean).map(E).join(' · ') + '</div>' : '') +
+    (sr.cast.length ? '<section><h3 class="srd-h">Cast</h3><div class="cast">' + sr.cast.slice(0, 14).map(c => '<button type="button" class="cp" data-act="srperson" data-id="' + c.id + '">' + (c.profile ? '<img src="' + E(srSrc(c.profile, 'thumb')) + '" alt="" loading="lazy">' : '<span class="ph"></span>') + '<b>' + E(c.name) + '</b><small>' + E(c.character || (c.ep ? plural(c.ep, 'episode') : '')) + '</small></button>').join('') + '</div></section>' : '') + seasons +
     (inl ? '<label class="srd-cr" for="srNote">Your notes</label><textarea id="srNote" class="srd-nt" data-ctl="srnote" placeholder="What did you think? Where did you leave off?">' + E(sr.note) + '</textarea>' : '') +
     '<div class="srd-ft">' + (sr.tv && !sr.manual ? '<button type="button" class="btn" data-act="srrefresh">Refresh from TMDB</button>' : '') + (inl ? '<button type="button" class="btn danger" data-act="srdel">Remove from library</button>' : '') + '</div></div></div>';
 }
@@ -7828,6 +7844,55 @@ function srImport(o, mode) {
   (Array.isArray(o.slog) ? o.slog : []).forEach(l => { if (l && l.sid && !ids.has(l.sid + '|' + l.ts)) S.slog.push({ sid: String(l.sid), s: +l.s || 0, e: +l.e || 0, n: +l.n || 1, date: String(l.date || ''), ts: +l.ts || 0 }); });
   S.slog.sort((p, q) => p.ts - q.ts); if (S.slog.length > 1500) S.slog.splice(0, S.slog.length - 1500);
 }
+
+/* ===== Series: stats ===== */
+const SR_PHC = { watch: '#f0c35c', caught: '#7fb7a4', done: '#9fa8ff', plan: '#8b8b92', drop: '#d9776b' };
+function srHrs(min) { const h = min / 60; return h >= 100 ? Math.round(h) + ' h' : h >= 10 ? h.toFixed(0) + ' h' : h.toFixed(1) + ' h'; }
+function srStatsHTML() {
+  const lib = S.series, rows = lib.map(sr => ({ sr, k: srStats(sr), ph: srPhase(sr) }));
+  if (!lib.length) return '<div class="empty"><h3>No stats yet</h3><p>Add a few series and tick some episodes. Time watched, genres, streaks and favourite actors appear here.</p><button class="btn pri" type="button" data-act="sradd">Add a series</button></div>';
+  const eps = rows.reduce((n, r) => n + r.k.seen, 0), mins = rows.reduce((n, r) => n + r.k.seen * (r.sr.rt || 45), 0), rated = lib.filter(s => s.rating > 0), avg = rated.length ? rated.reduce((n, s) => n + s.rating, 0) / rated.length : 0;
+  const cnt = p => rows.filter(r => r.ph === p).length;
+  const big = [['Series', lib.length, plural(cnt('watch') + cnt('caught'), 'one') + ' in progress'], ['Episodes watched', eps, rows.filter(r => r.k.seen).length + ' series started'], ['Time watched', srHrs(mins), mins ? '≈ ' + (mins / 60 / 24).toFixed(1) + ' days' : 'nothing yet'], ['Finished', cnt('done'), cnt('drop') ? cnt('drop') + ' dropped' : 'none dropped'], ['Average rating', avg ? '★ ' + avg.toFixed(2) : '–', rated.length ? 'from ' + plural(rated.length, 'rating') : 'rate a series']];
+  let h = '<div class="sr-sbig">' + big.map(b => '<div class="sr-sb"><b>' + E(String(b[1])) + '</b><span>' + b[0] + '</span><small>' + E(b[2]) + '</small></div>').join('') + '</div><div class="sr-sg">';
+  /* status */
+  const order = ['watch', 'caught', 'done', 'plan', 'drop'];
+  h += '<section class="sr-sc"><h3>Where everything stands</h3><p>' + plural(lib.length, 'series', 'series') + ' by status</p><div class="sr-seg" role="img" aria-label="Status split">' + order.filter(p => cnt(p)).map(p => '<i style="flex:' + cnt(p) + ';background:' + SR_PHC[p] + '" title="' + SR_PH[p] + ': ' + cnt(p) + '"></i>').join('') + '</div><div class="sr-lg">' + order.filter(p => cnt(p)).map(p => '<span style="--c:' + SR_PHC[p] + '">' + SR_PH[p] + ' ' + cnt(p) + '</span>').join('') + '</div></section>';
+  /* streak + activity */
+  const days = new Set(S.slog.map(l => l.date).filter(Boolean)), t = today();
+  let cur = 0, d = days.has(t) ? t : addDays(t, -1); while (days.has(d)) { cur++; d = addDays(d, -1); }
+  const sorted = [...days].sort(); let best = 0, run = 0, prev = '';
+  for (const x of sorted) { run = prev && addDays(prev, 1) === x ? run + 1 : 1; best = Math.max(best, run); prev = x; }
+  const last30 = S.slog.filter(l => l.date >= addDays(t, -29)).reduce((n, l) => n + (l.n || 1), 0);
+  h += '<section class="sr-sc"><h3>Watch streak</h3><p>Days in a row with at least one episode</p><div class="sr-streak"><div><b>' + cur + '</b><span>Current</span></div><div><b>' + best + '</b><span>Longest</span></div><div><b>' + last30 + '</b><span>Episodes, 30 days</span></div></div></section>';
+  const now = new Date(), months = [...Array(12)].map((_, i) => { const m = new Date(now.getFullYear(), now.getMonth() - 11 + i, 1); return { k: m.getFullYear() + '-' + pad(m.getMonth() + 1), l: m.toLocaleDateString(undefined, { month: 'short' }), full: m.toLocaleDateString(undefined, { month: 'long', year: 'numeric' }), n: 0 }; });
+  S.slog.forEach(l => { const m = months.find(x => x.k === String(l.date).slice(0, 7)); if (m) m.n += l.n || 1; });
+  const mx = Math.max(1, ...months.map(m => m.n));
+  h += '<section class="sr-sc w"><h3>Episodes per month</h3><p>' + (S.slog.length ? 'The last twelve months' : 'History starts the day you first tick an episode.') + '</p><div class="sr-act">' + months.map(m => '<div title="' + E(m.full) + ': ' + m.n + ' episodes"><em>' + (m.n || '') + '</em><i style="height:' + Math.max(3, Math.round(m.n / mx * 100)) + '%;' + (m.n ? '' : 'opacity:.25') + '"></i><small>' + m.l + '</small></div>').join('') + '</div></section>';
+  /* bars helper */
+  const bars = (items, fmt) => { const top = Math.max(1, ...items.map(i => i[1])); return '<div class="sr-bars">' + items.map(i => '<div class="sr-br"><span>' + E(i[0]) + '</span><i><u style="width:' + Math.round(i[1] / top * 100) + '%"></u></i><em>' + (fmt ? fmt(i[1]) : i[1]) + '</em></div>').join('') + '</div>'; };
+  const gm = new Map(); rows.forEach(r => { if (r.k.seen) r.sr.genres.forEach(g => gm.set(g, (gm.get(g) || 0) + r.k.seen)); });
+  const gen = [...gm].sort((a, b) => b[1] - a[1]).slice(0, 8);
+  h += '<section class="sr-sc"><h3>Genres you watch</h3><p>Counted in episodes</p>' + (gen.length ? bars(gen) : '<p class="sr-hint">Tick some episodes first.</p>') + '</section>';
+  const rb = [5, 4, 3, 2, 1].map(n => [n + (n === 1 ? ' star' : ' stars'), rated.filter(s => Math.ceil(s.rating) === n).length]);
+  h += '<section class="sr-sc"><h3>How you rate</h3><p>' + (rated.length ? plural(rated.length, 'series', 'series') + ' rated' : 'Rate a series to fill this in') + '</p>' + bars(rb) + '</section>';
+  const nm = new Map(); lib.forEach(s => { if (s.net) nm.set(s.net, (nm.get(s.net) || 0) + 1); });
+  const net = [...nm].sort((a, b) => b[1] - a[1]).slice(0, 6);
+  h += '<section class="sr-sc"><h3>Where they air</h3><p>Networks and platforms</p>' + (net.length ? bars(net) : '<p class="sr-hint">Network info appears once series sync with TMDB.</p>') + '</section>';
+  const dm = new Map(); lib.forEach(s => { if (s.year) { const k = Math.floor(s.year / 10) * 10 + 's'; dm.set(k, (dm.get(k) || 0) + 1); } });
+  const dec = [...dm].sort((a, b) => a[0].localeCompare(b[0]));
+  h += '<section class="sr-sc"><h3>When they began</h3><p>By decade of the first episode</p>' + (dec.length ? bars(dec) : '<p class="sr-hint">Nothing yet.</p>') + '</section></div>';
+  /* actors */
+  const am = new Map();
+  rows.forEach(r => { if (!r.k.seen) return; r.sr.cast.forEach(c => { if (!c.id) return; const e = am.get(c.id) || { c, eps: 0, n: 0 }; e.eps += Math.min(c.ep || r.k.seen, r.k.seen); e.n++; am.set(c.id, e); }); });
+  const act = [...am.values()].sort((a, b) => b.eps - a.eps || b.n - a.n).slice(0, 14);
+  if (act.length) h += '<section class="sr-sec"><h2>Actors you watch most</h2><p>Across the series you have watched, by episodes seen.</p><div class="cast">' + act.map(a => '<button type="button" class="cp" data-act="srperson" data-id="' + a.c.id + '">' + (a.c.profile ? '<img src="' + E(srSrc(a.c.profile, 'thumb')) + '" alt="" loading="lazy">' : '<span class="ph"></span>') + '<b>' + E(a.c.name) + '</b><small>' + plural(a.eps, 'episode') + (a.n > 1 ? ' · ' + a.n + ' series' : '') + '</small></button>').join('') + '</div></section>';
+  else if (lib.some(s => s.tv)) h += '<section class="sr-sec"><h2>Actors you watch most</h2><p>Cast appears after your series sync with TMDB. Open Series again in a moment.</p></section>';
+  const top = rows.filter(r => r.sr.rating >= 4.5).sort((a, b) => b.sr.rating - a.sr.rating).slice(0, 12);
+  if (top.length) h += '<section class="sr-sec"><h2>Your best-rated</h2><p>Five and four-and-a-half stars.</p><div class="sr-rail">' + top.map(r => srPoster(r.sr)).join('') + '</div></section>';
+  return h;
+}
+ACT.srperson = a => { srdClose(); openPerson(a.dataset.id, 'acted'); };
 </script>
 </body>
 </html>
