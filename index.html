@@ -1737,6 +1737,12 @@ html.rm .sr-hero,html.rm .srd,html.rm #srd{animation:none}html.rm .sr-skel,html.
 .sr-act{display:flex;align-items:flex-end;gap:8px;height:170px}.sr-act div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px;height:100%;min-width:0}.sr-act i{display:block;width:100%;max-width:38px;border-radius:6px 6px 2px 2px;background:#f0c35c}.sr-act small{font-size:11px;color:var(--ink3)}.sr-act em{font-style:normal;font-size:11px;color:var(--ink2);min-height:13px}
 .sr-streak{display:flex;gap:34px;flex-wrap:wrap;margin-top:6px}.sr-streak b{font:700 36px/1 var(--f-d)}.sr-streak span{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-top:6px}
 @media (max-width:760px){.sr-sg{grid-template-columns:1fr}.sr-sbig{grid-template-columns:repeat(2,1fr)}.sr-sb b{font-size:34px}.sr-act{gap:4px}}
+.sr-mo{display:flex;gap:14px;flex:none}
+.sr-row.at-s .sr-ar.l,.sr-row.at-e .sr-ar.r{opacity:0!important;pointer-events:none}
+@media (hover:hover){.sr-rail{scroll-snap-type:none}}
+.srd-wh{margin:14px 0 4px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}.srd-wh>span{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}.srd-wh .sr-chips{flex:none}.srd-wh small{flex:1 1 100%;color:var(--ink3);font-size:12.5px;line-height:1.45}
+.srd-wd{display:inline-flex}.srd-wd input{height:30px;border-radius:999px;border:1px solid var(--line2);background:transparent;color:var(--ink);padding:0 10px;font:inherit;font-size:12.5px;color-scheme:dark light}.srd-wd.on input{border-color:var(--ink)}
+.srd-ask{position:sticky;bottom:12px;z-index:5;margin-top:14px;padding:14px 16px;border-radius:16px;background:var(--bg3);border:1px solid var(--line2);box-shadow:0 10px 34px rgba(0,0,0,.45);display:flex;flex-direction:column;gap:8px}.srd-ask b{font-size:15px}.srd-ask>span{font-size:12.5px;color:var(--ink3)}.srd-ask .sr-chips{flex:none}.srd-ask .x{margin-left:auto;border-color:transparent}
 </style></head>
 <body>
 <a class="skip" href="#view">Skip to content</a>
@@ -1880,7 +1886,7 @@ function load() {
       S.series = S.series.map(normSeries).filter(Boolean); S.slog = S.slog.filter(l => l && l.sid);
       return true;
     }
-  } catch (e) { /* corrupt or blocked storage: start fresh */ }
+  } catch (e) { console.error('load failed', e); }
   S = blank(); return false;
 }
 function saveNow() { clearTimeout(saveT); try { localStorage.setItem(LSK, JSON.stringify(S)); } catch (e) { /* quota or private mode */ } }
@@ -7100,7 +7106,7 @@ document.addEventListener('keydown', e => {
 }
 try { if (route === 'shelf' && S.ui.view === 'carousel') refresh(); } catch (e) { /* ignore */ }
 /* ===== Explore: a few good charts, endless scroll, one genre filter ===== */
-const EXC = { tab: 'week', genre: '', d: new Map() }, EX_MAXP = 40, exYr = () => new Date().getFullYear();
+const EXC = { tab: 'week', genre: '', d: new Map() }, EX_MAXP = 500, exYr = () => new Date().getFullYear();
 const exTabs = () => [['week', 'Trending'], ['year', 'Best of ' + exYr()], ['all', 'All time'], ['you', 'For you']];
 const exInfo = () => ({ week: ['Trending now', 'What people are watching right now'], year: ['Best of ' + exYr(), 'Released this year. Films with 700+ votes first, then the newer ones'], all: ['The all time greats', '2,000+ votes and rated 7 or higher'], you: ['Picked for you', 'Top rated films in your taste first, and it keeps going'] });
 const EX_GEN = ['Action', 'Adventure', 'Animation', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery', 'Romance', 'Science Fiction', 'Thriller', 'War', 'Western'];
@@ -7174,7 +7180,7 @@ function exBodyHTML() {
   if (e.state === 'ok' && !e.list.length) return h + '<div class="empty"><h3>Nothing matches</h3><p>No film fits these rules' + (EXC.genre ? ' in ' + E(EXC.genre) : '') + '. Try another genre.</p></div>';
   h += '<div class="xchart">' + e.list.map(xCard).join('') + (e.state === 'load' || e.state === 'idle' ? xSk(e.list.length ? 6 : 12) : '') + '</div>';
   if (e.state === 'ok' && !e.done) h += '<div id="exSent" class="x-sent" aria-hidden="true"></div>';
-  else if (e.state === 'ok' && e.list.length > 20) h += '<p class="x-end">That is everything for now.</p>';
+  else if (e.state === 'ok' && e.list.length > 20) h += '<p class="x-end">You have reached the end of this chart.</p>';
   return h;
 }
 let exIO = null;
@@ -7393,7 +7399,12 @@ function srNext(sr) {
 }
 const srEpCode = (s, e) => 'S' + s + ' · E' + e;
 function srEnsure(sr) { if (!S.series.includes(sr)) { S.series.push(sr); sr.added = Date.now(); } return sr; }
-function srLog(sr, s, e, n) { S.slog.push({ sid: sr.id, s, e, n, date: today(), ts: Date.now() }); if (S.slog.length > 1500) S.slog.splice(0, S.slog.length - 1500); sr.lw = today(); sr.lwt = Date.now(); }
+/* a tick is dated today unless you say otherwise; catching up on several episodes at once stays undated so old viewing never lands on today */
+function srLog(sr, s, e, n) {
+  const w = SRD.once !== undefined ? SRD.once : SRD.when, date = w == null ? (n > 1 ? '' : today()) : w;
+  S.slog.push({ sid: sr.id, s, e, n, date, ts: Date.now() }); if (S.slog.length > 1500) S.slog.splice(0, S.slog.length - 1500);
+  if (date && date > (sr.lw || '')) sr.lw = date; sr.lwt = Date.now();
+}
 function srSet(sr, s, e, on) {
   srEnsure(sr); const a = sr.w[s] || (sr.w[s] = []), i = a.indexOf(e);
   if (on && i < 0) { a.push(e); a.sort((x, y) => x - y); srLog(sr, s, e, 1); sr.st = 'watch'; }
@@ -7568,7 +7579,7 @@ function srRowCards(k) {
 async function srLoadRow(def) {
   let r = SR.rows.get(def.k); if (r && (r.state === 'load' || r.state === 'ok')) return;
   r = { state: 'load', items: [] }; SR.rows.set(def.k, r);
-  try { const d = def.path ? await tmdb(def.path) : await srDisc(def.q); r.items = (d.results || []).filter(b => b.poster_path).slice(0, 20); r.items.forEach(b => SR.pre.set(b.id, b)); r.state = 'ok'; }
+  try { const d = def.path ? await tmdb(def.path) : await srDisc(def.q); r.items = (d.results || []).filter(b => b.poster_path); r.items.forEach(b => SR.pre.set(b.id, b)); r.page = d.page || 1; r.tp = Math.min(d.total_pages || 1, 500); r.def = def; r.state = 'ok'; }
   catch (e) { srBlock(e); r.state = 'err'; r.msg = errMsg(e); }
   srPaintRow(def.k); if (def.k === 'pop') srPaintHero();
   if (SR.blocked && route === 'series' && !$('.sr-note')) { const b = $('#srBody'); if (b) b.insertAdjacentHTML('afterbegin', srNote()); }
@@ -7661,7 +7672,7 @@ async function srDisLoad() {
   if (c.state === 'load' || c.end) return; c.state = 'load'; srDisPaint();
   try {
     const d = await srDisc(srDisParams(c.page + 1)); const fresh = (d.results || []).filter(b => b.poster_path && !c.ids.has(b.id)); fresh.forEach(b => { c.ids.add(b.id); c.items.push(b); SR.pre.set(b.id, b); });
-    c.page = d.page || c.page + 1; if (c.page >= Math.min(d.total_pages || 1, 10)) c.end = true; c.state = 'ok'; c.err = '';
+    c.page = d.page || c.page + 1; if (c.page >= Math.min(d.total_pages || 1, 500) || !(d.results || []).length) c.end = true; c.state = 'ok'; c.err = '';
   } catch (e) { srBlock(e); c.state = 'err'; c.err = errMsg(e); }
   if (key === srDisKey()) srDisPaint();
   const sent = $('#srSent'); if (sent && c.state === 'ok' && !c.end && sent.getBoundingClientRect().top < innerHeight + 500) setTimeout(srDisLoad, 60);
@@ -7672,7 +7683,7 @@ function srDisPaint() {
   el.innerHTML = you + (c.items.length ? '<div class="sr-grid">' + c.items.map(srBrief).join('') + '</div>' : '') +
     (c.state === 'load' ? '<div class="sr-grid" style="margin-top:' + (c.items.length ? 22 : 0) + 'px">' + srSkels(c.items.length ? 6 : 12) + '</div>' : '') +
     (c.state === 'err' ? '<div class="sr-rerr">' + E(c.err) + '<button type="button" class="btn sm" data-act="srdretry">Try again</button></div>' : '') +
-    (c.end && c.items.length ? '<div class="sr-end">That is everything for this chart.</div>' : '') + (c.state === 'ok' && !c.items.length ? '<div class="empty"><h3>Nothing found</h3><p>Try another genre.</p></div>' : '');
+    (c.end && c.items.length ? '<div class="sr-end">You have reached the end of this chart.</div>' : '') + (c.state === 'ok' && !c.items.length ? '<div class="empty"><h3>Nothing found</h3><p>Try another genre.</p></div>' : '');
 }
 function srDisHTML() {
   return (SR.blocked ? srNote() : '') + '<div class="sr-bar"><div class="sr-chips" role="group" aria-label="Chart">' + SR_DT.map(c => '<button type="button" data-act="srdt" data-t="' + c[0] + '" class="' + (SR.dt === c[0] ? 'on' : '') + '">' + c[1] + '</button>').join('') + '</div>' +
@@ -7697,7 +7708,32 @@ PAGES.series = {
 ACT.srtab = a => { S.ui.srtab = a.dataset.t; save(); refresh(); window.scrollTo(0, 0); };
 ACT.srall = a => { S.ui.srf = a.dataset.f; S.ui.srtab = 'lib'; SR.q = ''; save(); refresh(); window.scrollTo(0, 0); };
 ACT.srf = a => { S.ui.srf = a.dataset.f; save(); refresh(); };
-ACT.srsc = a => { const rail = $('.sr-rail', a.parentElement); if (rail) rail.scrollBy({ left: (+a.dataset.d) * rail.clientWidth * .85, behavior: 'smooth' }); };
+ACT.srsc = a => {
+  const rail = $('.sr-rail', a.parentElement); if (!rail) return;
+  const max = rail.scrollWidth - rail.clientWidth, to = clamp(Math.round(rail.scrollLeft + (+a.dataset.d) * rail.clientWidth * .85), 0, max);
+  rail.scrollTo({ left: to, behavior: 'smooth' }); srRailMore(rail); setTimeout(() => srArrows(rail), 450);
+};
+function srArrows(rail) {
+  const row = rail.closest('.sr-row'); if (!row) return; const max = rail.scrollWidth - rail.clientWidth, r = SR.rows.get(row.dataset.k), more = r && r.page && r.page < r.tp;
+  row.classList.toggle('at-s', rail.scrollLeft < 8); row.classList.toggle('at-e', max < 8 || (rail.scrollLeft > max - 8 && !more && !(r && r.more)));
+}
+async function srRailMore(rail) {
+  const row = rail.closest('.sr-row'); if (!row) return; const k = row.dataset.k, r = SR.rows.get(k);
+  if (!r || r.state !== 'ok' || r.more || !r.def || !(r.page < r.tp)) return;
+  if (rail.scrollWidth - rail.clientWidth - rail.scrollLeft > rail.clientWidth * 1.5) return;
+  r.more = true; rail.insertAdjacentHTML('beforeend', '<span class="sr-mo">' + srSkels(3) + '</span>');
+  try {
+    const def = r.def, d = def.path ? await tmdb(def.path, { page: r.page + 1 }) : await srDisc(Object.assign({}, def.q, { page: r.page + 1 }));
+    const have = new Set(r.items.map(b => b.id)), fresh = (d.results || []).filter(b => b.poster_path && !have.has(b.id));
+    fresh.forEach(b => { SR.pre.set(b.id, b); r.items.push(b); }); r.page = d.page || r.page + 1; r.tp = Math.min(d.total_pages || r.tp, 500);
+    if (!(d.results || []).length) r.tp = r.page;
+    $$('.sr-mo', rail).forEach(x => x.remove()); rail.insertAdjacentHTML('beforeend', fresh.map(srBrief).join(''));
+  } catch (e) { $$('.sr-mo', rail).forEach(x => x.remove()); r.tp = r.page; }
+  r.more = false; srArrows(rail);
+  if (!(r.page < r.tp)) return; if (rail.scrollWidth <= rail.clientWidth * 1.6) srRailMore(rail);
+}
+document.addEventListener('scroll', e => { const t = e.target; if (t && t.classList && t.classList.contains('sr-rail')) { srArrows(t); srRailMore(t); } }, true);
+document.addEventListener('mouseover', e => { const r = e.target.closest && e.target.closest('.sr-row'); if (r) { const rail = $('.sr-rail', r); if (rail) srArrows(rail); } });
 ACT.srhero = a => { SR.hero = +a.dataset.i; srPaintHero(); };
 ACT.srretry = a => { const r = SR.rows.get(a.dataset.k); if (r) r.state = 'idle'; SR.rows.delete(a.dataset.k); const d = SR.defs.get(a.dataset.k); srPaintRow(a.dataset.k); if (d) srLoadRow(d); };
 ACT.srdt = a => { SR.dt = a.dataset.t; refresh(); };
@@ -7707,7 +7743,7 @@ CTL.srgen = v => { S.ui.srg = v; save(); srLibGrid(); };
 CTL.srsort = v => { S.ui.srs = v; save(); srLibGrid(); };
 CTL.srdg = v => { SR.dg = v; refresh(); };
 /* ===== Series: detail sheet, add dialog, actions ===== */
-const SRD = { open: false, sr: null, season: 1, ex: new Set(), prev: null };
+const SRD = { open: false, sr: null, season: 1, ex: new Set(), prev: null, when: null, once: undefined, ask: null };
 const srHas = (sr, s, e) => (sr.w[s] || []).includes(e);
 function srDefaultSeason(sr) { const n = srNext(sr), ss = srSeasons(sr); return n ? n.s : (ss.length ? ss[ss.length - 1].n : 1); }
 function srdEl() {
@@ -7716,7 +7752,7 @@ function srdEl() {
   el.addEventListener('click', e => { if (e.target === el) srdClose(); }); document.body.appendChild(el); return el;
 }
 function srdOpen(sr) {
-  SRD.sr = sr; SRD.open = true; SRD.season = srDefaultSeason(sr); SRD.ex.clear(); SRD.prev = document.activeElement;
+  SRD.sr = sr; SRD.open = true; SRD.when = null; SRD.ask = null; SRD.once = undefined; SRD.season = srDefaultSeason(sr); SRD.ex.clear(); SRD.prev = document.activeElement;
   const el = srdEl(); el.hidden = false; srdPaint(true); syncLock();
   const x = $('.srd-x', el); if (x) x.focus();
   if (sr.tv && !sr.manual && (srNeedsSync(sr) || !sr.seasons.length)) srSync(sr).then(ok => { if (!SRD.open || SRD.sr !== sr) return; if (ok) { SRD.season = srDefaultSeason(sr); if (S.series.includes(sr)) srAfter(); else srdPaint(); } });
@@ -7737,6 +7773,29 @@ function srdEpsHTML(sr, season, ss) {
       '<button type="button" class="sr-eb" data-act="srex" data-s="' + season + '" data-e="' + ep.e + '" aria-expanded="' + open + '"><span class="sr-en">' + ep.e + '</span><span class="sr-et"><b>' + E(ep.name || 'Episode ' + ep.e) + '</b>' + (sub ? '<small>' + E(sub) + '</small>' : '') + '</span>' + (ep.still ? '<span class="sr-es">' + srImgTag(ep.still, 'still') + '</span>' : '<span></span>') + '</button></div>' +
       '<div class="sr-ex">' + (ep.ov ? '<p>' + E(ep.ov) + '</p>' : '<p>No summary yet.</p>') + (up ? '' : '<button type="button" class="btn sm" data-act="srupto" data-s="' + season + '" data-e="' + ep.e + '">Mark everything up to here</button>') + '</div></div>';
   }).join('') + '</div>';
+}
+/* marking many episodes at once: ask when you watched them (unless you already picked a date above) */
+function srdAskHTML() {
+  const q = SRD.ask; if (!q) return '';
+  return '<div class="srd-ask" role="group" aria-label="When did you watch these episodes"><b>' + E(q.title) + '</b><span>When did you watch them?</span><div class="sr-chips">' +
+    '<button type="button" data-act="srask" data-w="today">Today</button><button type="button" data-act="srask" data-w="early">Long ago</button>' +
+    '<label class="srd-wd"><input type="date" max="' + today() + '" id="srAskD" data-ctl="sraskd" aria-label="Pick the date"></label>' +
+    '<button type="button" data-act="srask" data-w="cancel" class="x">Cancel</button></div></div>';
+}
+function srdBulk(title, msg, fn) {
+  if (SRD.when != null) { srDo(SRD.sr, fn, msg); return; }
+  SRD.ask = { title, msg, fn }; srdPaint(); const el = $('.srd-ask'); if (el) el.scrollIntoView({ block: 'nearest' });
+}
+function srdAskGo(w) {
+  const q = SRD.ask, sr = SRD.sr; SRD.ask = null; if (!q || !sr) { srdPaint(); return; }
+  SRD.once = w; try { srDo(sr, q.fn, q.msg); } finally { SRD.once = undefined; } srdPaint();
+}
+function srdWhenHTML() {
+  const w = SRD.when, mode = w == null ? 'auto' : w === '' ? 'early' : w === today() ? 'today' : 'date';
+  return '<div class="srd-wh"><span>Watched</span><div class="sr-chips" role="group" aria-label="When did you watch">' +
+    [['auto', 'Auto'], ['today', 'Today'], ['early', 'Long ago']].map(c => '<button type="button" data-act="srwhen" data-w="' + c[0] + '" class="' + (mode === c[0] ? 'on' : '') + '">' + c[1] + '</button>').join('') +
+    '<label class="srd-wd' + (mode === 'date' ? ' on' : '') + '"><input type="date" max="' + today() + '" value="' + (mode === 'date' ? E(w) : '') + '" data-ctl="srwdate" aria-label="Pick the date you watched"></label></div>' +
+    '<small>' + (mode === 'auto' ? 'One episode is logged as today. Marking many at once asks you when you watched them.' : mode === 'today' ? 'Everything you tick is logged as today.' : mode === 'early' ? 'Ticks count towards your totals but not any date in your stats.' : 'Ticks are logged on ' + E(fmtDate(w)) + '.') + '</small></div>';
 }
 function srdHTML() {
   const sr = SRD.sr, k = srStats(sr), ph = srPhase(sr), inl = S.series.includes(sr), nx = srNext(sr), ss = k.ss;
@@ -7761,11 +7820,11 @@ function srdHTML() {
     '<div class="srd-sh"><span>' + sSeen + ' of ' + sAir + ' watched' + (sObj && sAir < sObj.c ? ' · ' + (sObj.c - sAir) + ' not aired yet' : '') + '</span>' + (sAir ? '<button type="button" class="btn sm" data-act="srsall" data-n="' + season + '">' + (sSeen >= sAir ? 'Unmark season' : 'Mark season watched') + '</button>' : '') + '</div>' + srdEpsHTML(sr, season, ss) + '</div>'
     : '<p class="sr-hint">' + (sr.tv ? 'Loading episodes. If this stays empty, TV data may be blocked for your Worker.' : 'No episode counts were added for this series.') + '</p>';
   return '<button type="button" class="srd-x" data-act="srdx" aria-label="Close">' + SR_IC.x + '</button><div class="srd-b"><div class="srd-top" style="' + srPS(sr) + '"><div class="sr-hbg">' + srImgTag(sr.backdrop || sr.poster, 'hero') + '</div><div class="srd-th"><h2>' + E(sr.name) + '</h2><div class="srd-meta">' + meta + '</div></div></div>' +
-    '<div class="srd-in"><div class="srd-act">' + act + '</div>' + prog + ((sr.tagline || sr.overview) ? '<div class="srd-ov">' + (sr.tagline ? '<i>' + E(sr.tagline) + '</i>' : '') + E(sr.overview) + '</div>' : '') +
+    '<div class="srd-in"><div class="srd-act">' + act + '</div>' + prog + (ss.length ? srdWhenHTML() : '') + ((sr.tagline || sr.overview) ? '<div class="srd-ov">' + (sr.tagline ? '<i>' + E(sr.tagline) + '</i>' : '') + E(sr.overview) + '</div>' : '') +
     ((sr.by || sr.genres.length) ? '<div class="srd-cr">' + [sr.by ? 'Created by ' + sr.by : '', sr.genres.join(', ')].filter(Boolean).map(E).join(' · ') + '</div>' : '') +
     (sr.cast.length ? '<section><h3 class="srd-h">Cast</h3><div class="cast">' + sr.cast.slice(0, 14).map(c => '<button type="button" class="cp" data-act="srperson" data-id="' + c.id + '">' + (c.profile ? '<img src="' + E(srSrc(c.profile, 'thumb')) + '" alt="" loading="lazy">' : '<span class="ph"></span>') + '<b>' + E(c.name) + '</b><small>' + E(c.character || (c.ep ? plural(c.ep, 'episode') : '')) + '</small></button>').join('') + '</div></section>' : '') + seasons +
     (inl ? '<label class="srd-cr" for="srNote">Your notes</label><textarea id="srNote" class="srd-nt" data-ctl="srnote" placeholder="What did you think? Where did you leave off?">' + E(sr.note) + '</textarea>' : '') +
-    '<div class="srd-ft">' + (sr.tv && !sr.manual ? '<button type="button" class="btn" data-act="srrefresh">Refresh from TMDB</button>' : '') + (inl ? '<button type="button" class="btn danger" data-act="srdel">Remove from library</button>' : '') + '</div></div></div>';
+    '<div class="srd-ft">' + (sr.tv && !sr.manual ? '<button type="button" class="btn" data-act="srrefresh">Refresh from TMDB</button>' : '') + (inl ? '<button type="button" class="btn danger" data-act="srdel">Remove from library</button>' : '') + '</div>' + srdAskHTML() + '</div></div>';
 }
 function srdPaint(first) {
   if (!SRD.open || !SRD.sr) return; const box = $('#srdBox'); if (!box) return; const b = $('.srd-b', box), top = b ? b.scrollTop : 0, hadX = box.querySelector('.srd-x') && document.activeElement === box.querySelector('.srd-x');
@@ -7785,14 +7844,18 @@ ACT.srfav = () => { const sr = SRD.sr; if (!sr) return; sr.fav = !sr.fav; srAfte
 ACT.srseason = a => { SRD.season = +a.dataset.n; srdPaint(); };
 ACT.srex = a => { const k = a.dataset.s + ':' + a.dataset.e; if (SRD.ex.has(k)) SRD.ex.delete(k); else SRD.ex.add(k); srdPaint(); };
 ACT.srep = a => { const sr = SRD.sr; if (!sr) return; const s = +a.dataset.s, e = +a.dataset.e, on = !srHas(sr, s, e); srDo(sr, () => srSet(sr, s, e, on)); };
-ACT.srupto = a => { const sr = SRD.sr; if (!sr) return; const s = +a.dataset.s, e = +a.dataset.e; srDo(sr, () => srUpTo(sr, s, e), 'Marked everything up to ' + srEpCode(s, e)); };
-ACT.srsall = a => { const sr = SRD.sr; if (!sr) return; const n = +a.dataset.n, s = srSeasons(sr).find(x => x.n === n); if (!s) return; const a0 = srAiredIn(sr, s), seen = (sr.w[n] || []).filter(e => e <= s.c).length, on = seen < a0; srDo(sr, () => srSeasonAll(sr, n, on), on ? 'Marked season ' + n + ' watched' : 'Season ' + n + ' unmarked'); };
+ACT.srupto = a => { const sr = SRD.sr; if (!sr) return; const s = +a.dataset.s, e = +a.dataset.e; srdBulk('Mark everything up to ' + srEpCode(s, e), 'Marked everything up to ' + srEpCode(s, e), () => srUpTo(sr, s, e)); };
+ACT.srsall = a => { const sr = SRD.sr; if (!sr) return; const n = +a.dataset.n, s = srSeasons(sr).find(x => x.n === n); if (!s) return; const a0 = srAiredIn(sr, s), seen = (sr.w[n] || []).filter(e => e <= s.c).length, on = seen < a0; if (!on) { srDo(sr, () => srSeasonAll(sr, n, false), 'Season ' + n + ' unmarked'); return; } srdBulk('Mark season ' + n + ' watched', 'Marked season ' + n + ' watched', () => srSeasonAll(sr, n, true)); };
 function srMarkNext(sr) { const nx = srNext(sr); if (!nx) return; srWarm(sr, nx.s); const info = srEpInfo(sr, nx.s, nx.e); srDo(sr, () => srSet(sr, nx.s, nx.e, true), 'Marked ' + srEpCode(nx.s, nx.e) + (info && info.name ? ' · ' + info.name : '')); }
 ACT.srnext = a => { const sr = srBy(a.dataset.id); if (sr) srMarkNext(sr); };
 ACT.srdnext = () => { if (SRD.sr) srMarkNext(SRD.sr); };
 ACT.srmk = a => { const sr = srBy(a.dataset.id); if (!sr) return; const s = +a.dataset.s, e = +a.dataset.e; srDo(sr, () => srSet(sr, s, e, true), 'Marked ' + srEpCode(s, e)); };
 ACT.srdel = async () => { const sr = SRD.sr; if (!sr || !await askConfirm('Remove "' + sr.name + '" and your progress on it?', { yes: 'Remove', danger: true })) return; S.series = S.series.filter(x => x !== sr); S.slog = S.slog.filter(l => l.sid !== sr.id); srdClose(); srAfter(); toast('Removed ' + sr.name); };
 ACT.srrefresh = async a => { const sr = SRD.sr; if (!sr) return; a.disabled = true; a.textContent = 'Refreshing'; SR.sn.forEach((v, k) => { if (k.startsWith(sr.tv + ':')) SR.sn.delete(k); }); const ok = await srSync(sr); toast(ok ? 'Updated from TMDB' : 'Could not reach TMDB'); if (S.series.includes(sr)) srAfter(); else srdPaint(); };
+ACT.srask = a => { const w = a.dataset.w; if (w === 'cancel') { SRD.ask = null; srdPaint(); return; } srdAskGo(w === 'early' ? '' : today()); };
+CTL.sraskd = v => { if (/^\d{4}-\d{2}-\d{2}$/.test(v) && v <= today()) srdAskGo(v); };
+ACT.srwhen = a => { const w = a.dataset.w; SRD.when = w === 'auto' ? null : w === 'early' ? '' : today(); srdPaint(); };
+CTL.srwdate = v => { if (/^\d{4}-\d{2}-\d{2}$/.test(v) && v <= today()) { SRD.when = v; srdPaint(); } };
 CTL.srnote = v => { if (SRD.sr && S.series.includes(SRD.sr)) { SRD.sr.note = v; save(); } };
 ACT.sraddto = a => { const b = SR.pre.get(+a.dataset.tv); if (b) srAdd(b, a.dataset.st); };
 document.addEventListener('click', e => {
@@ -7893,6 +7956,8 @@ function srStatsHTML() {
   return h;
 }
 ACT.srperson = a => { srdClose(); openPerson(a.dataset.id, 'acted'); };
+/* every page module is defined now: draw the page that boot() could not, e.g. a reload straight onto #/series */
+try { if (PAGES[route] && !($('#view') || {}).children.length) refresh(); } catch (err) { console.error(err); }
 </script>
 </body>
 </html>
