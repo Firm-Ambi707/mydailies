@@ -1784,6 +1784,27 @@ html.rm .sr-hero,html.rm .srd,html.rm #srd{animation:none}html.rm .sr-skel,html.
 .sr-xc{margin:8px 0 0;font-size:13px;color:var(--ink2);line-height:1.6}.sr-xc small{color:var(--ink3)}
 @media(max-width:700px){.xr{grid-template-columns:1fr;gap:2px}.xv{width:170px}#xlb{grid-template-columns:44px minmax(0,1fr) 44px;padding:54px 4px 12px}#xlb button{width:38px;height:38px;font-size:26px}.xf{padding:12px}.xf-r{grid-template-columns:1fr 1fr}}
 @media(max-width:700px){.tools .seg{max-width:100%;overflow-x:auto;scrollbar-width:none}.tools .seg::-webkit-scrollbar{display:none}.tools .seg button{flex:none}}
+.sr-top{display:flex;align-items:center;gap:12px;margin:0 0 14px}
+.sr-ct{display:flex;gap:2px;padding:4px;border-radius:999px;background:var(--bg2);border:1px solid var(--line);overflow-x:auto;scrollbar-width:none;min-width:0}.sr-ct::-webkit-scrollbar{display:none}
+.sr-ct button{flex:none;height:34px;padding:0 17px;border:0;border-radius:999px;background:transparent;color:var(--ink2);font:600 13.5px/1 var(--f-u);cursor:pointer;transition:background .18s,color .18s}
+.sr-ct button:hover{color:var(--ink)}.sr-ct button.on{background:var(--ink);color:var(--bg)}
+.sr-fbtn{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:999px;border:1px solid var(--line2);background:transparent;color:var(--ink);font:600 13.5px/1 var(--f-u);cursor:pointer}
+.sr-fbtn:hover,.sr-fbtn.on{border-color:var(--ink)}.sr-fbtn b{display:grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:11.5px}
+.sr-gen{display:flex;gap:8px;overflow-x:auto;padding:2px 0 14px;margin:0 0 6px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 44px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 44px),transparent)}.sr-gen::-webkit-scrollbar{display:none}
+.sr-gen button{flex:none;height:32px;padding:0 15px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink2);font:500 13px/1 var(--f-u);cursor:pointer;white-space:nowrap}
+.sr-gen button:hover{border-color:var(--ink3);color:var(--ink)}.sr-gen button.on{background:var(--bg3);border-color:var(--ink);color:var(--ink)}
+.sr-fp{margin:2px 0 18px;padding:18px;border-radius:18px;background:var(--bg2);border:1px solid var(--line);display:grid;gap:16px}
+.sr-fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
+.fld{display:grid;gap:7px;min-width:0}.fld>span{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.fld select,.xf-f .sel{appearance:none;-webkit-appearance:none;width:100%;height:44px;padding:0 40px 0 14px;border-radius:12px;border:1px solid var(--line2);background:var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%23999' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 15px center;color:var(--ink);font:500 14px/1 var(--f-u);cursor:pointer;text-overflow:ellipsis}
+.fld select:hover,.xf-f .sel:hover{border-color:var(--ink3)}.fld select:focus-visible,.xf-f .sel:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.sr-afs{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 16px}.sr-fp .sr-afs{margin:0}
+.sr-af{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 8px 0 12px;border-radius:999px;border:1px solid var(--ink3);background:transparent;color:var(--ink);font:500 13px/1 var(--f-u);cursor:pointer}
+.sr-af em{font-style:normal;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}.sr-af i{font-style:normal;display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--bg3);font-size:14px}
+.sr-af:hover i{background:var(--ink);color:var(--bg)}
+.xf{background:var(--bg2);border-radius:18px;border-color:var(--line)}.xf-f .inp{height:44px;border-radius:12px;background:var(--bg);border:1px solid var(--line2)}
+@media(max-width:700px){.sr-top{flex-wrap:wrap}.sr-ct{flex:1 1 100%}.sr-fbtn{margin-left:0;flex:1 1 auto;justify-content:center}.sr-fp{padding:14px}.sr-fg{grid-template-columns:1fr 1fr}}
+.xl-s img{width:auto;height:auto;max-width:100%;max-height:calc(100vh - 130px);object-fit:contain}.xgal button.xp{height:132px}.xgal.xpp button{height:92px}
 </style></head>
 <body>
 <a class="skip" href="#view">Skip to content</a>
@@ -2883,11 +2904,11 @@ function personViewHTML(v) {
   const hide = v.obs !== false, all = c[tab] || [], rows = all.filter(x => !hide || !isObscure(x)), rel = rows.filter(x => !(x.date && x.date > today())), isTV = tab === 'tv';
   const seenN = isTV ? rel.filter(x => srByTv(x.id)).length : rel.filter(x => { const f = byId(x.id); return f && f.seen; }).length;
   const born = [c.birthday ? 'Born ' + fmtDate(c.birthday, 'long') : '', c.died ? 'Died ' + fmtDate(c.died, 'long') : '', c.place].filter(Boolean).join(', ');
-  const pics = (c.pics || []); XC.gals = XC.gals || {}; XC.gals.person = pics.map(x => ({ src: xFull(x), cap: c.name }));
+  const pics = (c.pics || []); XC.gals = XC.gals || {}; XC.gals.person = pics.slice(0, 5).map(x => ({ src: xFull(x, 1), cap: c.name }));
   let h = '<div class="pe"><div class="pe-head">' + photo + '<div class="pe-i"><h2>' + E(c.name) + '</h2><p class="note">' + E(deptName(c.dept)) + (born ? '. ' + E(born) : '') + '</p>' +
     (c.aka && c.aka.length ? '<p class="note">Also known as ' + E(c.aka.join(', ')) + '</p>' : '') +
     (c.bio ? '<p class="prose pe-bio' + (v.bio ? ' open' : '') + '">' + E(c.bio) + '</p>' + (c.bio.length > 260 ? '<button type="button" class="lnk" data-act="bio">' + (v.bio ? 'Show less' : 'Read more') + '</button>' : '') : '') + '</div></div>' +
-    (pics.length ? '<div class="xgal xpo xpp">' + pics.map((x, i) => '<button type="button" data-act="xgal" data-g="person" data-i="' + i + '" aria-label="Open photo ' + (i + 1) + '"><img src="' + IMGB + 'w185' + x + '" alt="" loading="lazy"></button>').join('') + '</div>' : '') +
+    (pics.length ? '<div class="xgal xpo xpp">' + pics.slice(0, 5).map((x, i) => '<button type="button" data-act="xgal" data-g="person" data-i="' + i + '" aria-label="Open photo ' + (i + 1) + '"><img src="' + IMGB + 'w185' + x + '" alt="" loading="lazy"></button>').join('') + '</div>' : '') +
     '<div class="pe-tools"><div class="ptabs" role="group" aria-label="Credits">' + tabs.map(t => '<button type="button" data-act="ptab" data-v="' + t[0] + '" class="' + (tab === t[0] ? 'on' : '') + '">' + t[1] + ' <small>' + c[t[0]].length + '</small></button>').join('') + '</div>' +
     '<label class="chk"><input type="checkbox" data-act="pobs"' + (hide ? ' checked' : '') + '> Hide obscure credits</label><span class="sp"></span><button type="button" class="btn sm" data-act="addall">' + (isTV ? 'Add all to watchlist' : 'Add unseen to wishlist') + '</button></div>';
   h += '<div class="prog"><div class="prog-bar"><i style="width:' + (rel.length ? Math.round(seenN / rel.length * 100) : 0) + '%"></i></div><p>' + (isTV ? 'You have <b>' + seenN + '</b> of <b>' + rel.length + '</b> of ' + E(c.name) + '’s series in your library.' : 'You have seen <b>' + seenN + '</b> of <b>' + rel.length + '</b> films ' + E(c.name) + ' ' + (P_VERB[tab] || 'worked on') + '.') + '</p></div>';
@@ -7779,8 +7800,11 @@ function srDisPaint() {
     (c.end && c.items.length ? '<div class="sr-end">You have reached the end of this chart.</div>' : '') + (c.state === 'ok' && !c.items.length ? '<div class="empty"><h3>Nothing found</h3><p>Try another genre.</p></div>' : '');
 }
 function srDisHTML() {
-  return (SR.blocked ? srNote() : '') + '<div class="sr-bar"><div class="sr-chips" role="group" aria-label="Chart">' + srDts().map(c => '<button type="button" data-act="srdt" data-t="' + c[0] + '" class="' + (SR.dt === c[0] ? 'on' : '') + '">' + c[1] + '</button>').join('') + '</div>' +
-    '<select data-ctl="srdg" aria-label="Genre"><option value="">All genres</option>' + Object.entries(SR_GEN).sort((a, b) => a[1].localeCompare(b[1])).map(([id, n]) => '<option value="' + id + '"' + (String(SR.dg) === id ? ' selected' : '') + '>' + E(n) + '</option>').join('') + '</select></div>' + srDfHTML() + '<div id="srDis"></div><div id="srSent" style="height:2px"></div>';
+  const n = srDfCount(), ic = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>';
+  return (SR.blocked ? srNote() : '') + '<div class="sr-top"><div class="sr-ct" role="group" aria-label="Chart">' + srDts().map(c => '<button type="button" data-act="srdt" data-t="' + c[0] + '" class="' + (SR.dt === c[0] ? 'on' : '') + '">' + c[1] + '</button>').join('') + '</div>' +
+    '<button type="button" class="sr-fbtn' + (SR.dfo || n ? ' on' : '') + '" data-act="srdfo" aria-expanded="' + !!SR.dfo + '">' + ic + 'Filters' + (n ? '<b>' + n + '</b>' : '') + '</button></div>' +
+    '<div class="sr-gen" role="group" aria-label="Genre"><button type="button" data-act="srgen" data-g="" class="' + (!SR.dg ? 'on' : '') + '">All genres</button>' + Object.entries(SR_GEN).sort((a, b) => a[1].localeCompare(b[1])).map(([id, nm]) => '<button type="button" data-act="srgen" data-g="' + id + '" class="' + (String(SR.dg) === id ? 'on' : '') + '">' + E(nm) + '</button>').join('') + '</div>' +
+    srDfHTML() + '<div id="srDis"></div><div id="srSent" style="height:2px"></div>';
 }
 /* page */
 const SR_TABS = [['home', 'Home'], ['lib', 'Library'], ['sch', 'Schedule'], ['dis', 'Discover'], ['stats', 'Stats']];
@@ -8120,10 +8144,10 @@ function xKeywordsHTML(d, kind) {
   const k = d && (d.keywords && (d.keywords.keywords || d.keywords.results)) || []; return xSec('Themes and keywords', xChipsHTML(k.slice(0, 24), kind || 'keyword') + (xAvail('discover') ? '<p class="note" style="margin-top:8px">Tap one to find more films with it.</p>' : ''));
 }
 function xGalleryHTML(d, key) {
-  const im = d && d.images; if (!im) return ''; const bd = (im.backdrops || []).slice(0, 14), po = (im.posters || []).slice(0, 10); if (!bd.length && !po.length) return '';
-  const gal = bd.map(x => ({ src: xFull(x.file_path, 1), cap: 'Still' })).concat(po.map(x => ({ src: xFull(x.file_path), cap: 'Poster' }))); XC.gals[key || 'film'] = gal;
-  return xSec('Pictures', (bd.length ? '<div class="xgal">' + bd.map((x, i) => '<button type="button" data-act="xgal" data-g="' + (key || 'film') + '" data-i="' + i + '" aria-label="Open still ' + (i + 1) + '"><img src="' + IMGB + 'w300' + x.file_path + '" alt="" loading="lazy"></button>').join('') + '</div>' : '') +
-    (po.length ? '<div class="xgal xpo">' + po.map((x, i) => '<button type="button" data-act="xgal" data-g="' + (key || 'film') + '" data-i="' + (bd.length + i) + '" aria-label="Open poster ' + (i + 1) + '"><img src="' + IMGB + 'w185' + x.file_path + '" alt="" loading="lazy"></button>').join('') + '</div>' : ''));
+  const im = d && d.images; if (!im) return ''; const k = key || 'film', bd = (im.backdrops || []).slice(0, 5), po = (im.posters || []).slice(0, Math.max(0, 5 - bd.length));
+  const all = bd.map(x => ({ src: xFull(x.file_path, 1), th: IMGB + 'w300' + x.file_path, cap: 'Still', po: 0 })).concat(po.map(x => ({ src: xFull(x.file_path, 1), th: IMGB + 'w185' + x.file_path, cap: 'Poster', po: 1 }))); if (!all.length) return '';
+  XC.gals[k] = all;
+  return xSec('Pictures', '<div class="xgal">' + all.map((x, i) => '<button type="button" class="' + (x.po ? 'xp' : '') + '" data-act="xgal" data-g="' + k + '" data-i="' + i + '" aria-label="View ' + x.cap.toLowerCase() + ' ' + (i + 1) + ' in full"><img src="' + x.th + '" alt="" loading="lazy"></button>').join('') + '</div>');
 }
 function xReviewsHTML(d) {
   const r = (d && d.reviews && d.reviews.results || []).filter(x => x.content && x.content.length > 40).sort((a, b) => b.content.length - a.content.length).slice(0, 4); if (!r.length) return '';
@@ -8245,12 +8269,21 @@ function srDfParams(q) {
   if (f.st !== '') q.with_status = f.st; if (f.lang) q.with_original_language = f.lang; if (f.minr) { q['vote_average.gte'] = f.minr; q['vote_count.gte'] = Math.max(+q['vote_count.gte'] || 0, 100); }
   if (f.kw) q.with_keywords = f.kw.id; if (f.co) q.with_companies = f.co.id; return q;
 }
-function srDfHTML() {
-  const f = SR.df, sel = (k, label, opts) => '<select data-ctl="srdf" data-k="' + k + '" aria-label="' + label + '"><option value="">' + label + '</option>' + opts.map(o => '<option value="' + o[0] + '"' + (String(f[k]) === String(o[0]) && f[k] !== '' ? ' selected' : '') + '>' + E(o[1]) + '</option>').join('') + '</select>';
-  const chip = (k, o) => o ? '<button type="button" class="chip on" data-act="srdfx" data-k="' + k + '" aria-label="Remove ' + E(o.name) + '">' + E(o.name) + ' &times;</button>' : '';
-  return '<div class="sr-bar sr-df">' + sel('net', 'Any network', SR_NET) + sel('svc', 'Any service', X_SVC) + sel('st', 'Any status', SR_STAT) + sel('lang', 'Any language', X_LANG) + sel('minr', 'Any rating', [[6, '6+'], [7, '7+'], [8, '8+']]) + chip('kw', f.kw) + chip('co', f.co) +
-    (srDfActive() ? '<button type="button" class="btn sm ghost" data-act="srdfclear">Clear filters</button>' : '') + '</div>';
+const srDfCount = () => ['net', 'svc', 'st', 'lang', 'minr', 'kw', 'co'].filter(k => SR.df[k]).length + (SR.df.st === '0' ? 1 : 0) * 0;
+function srDfLabels() {
+  const f = SR.df, o = [], find = (arr, v) => (arr.find(x => String(x[0]) === String(v)) || [0, v])[1];
+  if (f.net) o.push(['net', 'Network', find(SR_NET, f.net)]); if (f.svc) o.push(['svc', 'Service', find(X_SVC, f.svc)]); if (f.st !== '' && f.st != null) o.push(['st', 'Status', find(SR_STAT, f.st)]);
+  if (f.lang) o.push(['lang', 'Language', find(X_LANG, f.lang)]); if (f.minr) o.push(['minr', 'Score', f.minr + '+']); if (f.kw) o.push(['kw', 'Theme', f.kw.name]); if (f.co) o.push(['co', 'Studio', f.co.name]); return o;
 }
+function srDfHTML() {
+  const f = SR.df, fld = (k, label, opts, any) => '<label class="fld"><span>' + label + '</span><select data-ctl="srdf" data-k="' + k + '" aria-label="' + label + '"><option value="">' + any + '</option>' + opts.map(o => '<option value="' + o[0] + '"' + (String(f[k]) === String(o[0]) && f[k] !== '' && f[k] != null ? ' selected' : '') + '>' + E(o[1]) + '</option>').join('') + '</select></label>';
+  const act = srDfLabels(), chips = act.map(a => '<button type="button" class="sr-af" data-act="srdfx" data-k="' + a[0] + '" aria-label="Remove ' + E(a[1] + ' ' + a[2]) + '"><em>' + a[1] + '</em>' + E(a[2]) + '<i aria-hidden="true">&times;</i></button>').join('');
+  if (!SR.dfo) return act.length ? '<div class="sr-afs">' + chips + '<button type="button" class="lnk" data-act="srdfclear">Clear all</button></div>' : '';
+  return '<div class="sr-fp"><div class="sr-fg">' + fld('net', 'Network', SR_NET, 'Any network') + fld('svc', 'Streaming service', X_SVC, 'Any service') + fld('st', 'Status', SR_STAT, 'Any status') + fld('lang', 'Language', X_LANG, 'Any language') + fld('minr', 'Minimum score', [[6, '6 and up'], [7, '7 and up'], [8, '8 and up']], 'Any score') + '</div>' +
+    (act.length ? '<div class="sr-afs">' + chips + '<button type="button" class="lnk" data-act="srdfclear">Clear all</button></div>' : '<p class="note">Mix as many as you like. Themes and studios appear here when you tap them on a series.</p>') + '</div>';
+}
+ACT.srdfo = () => { SR.dfo = !SR.dfo; refresh(); };
+ACT.srgen = a => { const g = $('.sr-gen'), l = g ? g.scrollLeft : 0; SR.dg = a.dataset.g; refresh(); requestAnimationFrame(() => { const n = $('.sr-gen'); if (n) { n.scrollLeft = l; const on = $('.on', n); if (on) on.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } }); };
 CTL.srdf = (v, el) => { const k = el && el.dataset.k; if (!k) return; SR.df[k] = v; refresh(); };
 ACT.srdfx = a => { SR.df[a.dataset.k] = null; refresh(); };
 ACT.srdfclear = () => { SR.df = srDF0(); refresh(); };
