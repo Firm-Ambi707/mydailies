@@ -7478,7 +7478,7 @@ const srBy = id => S.series.find(s => String(s.id) === String(id));
 const srByTv = tv => S.series.find(s => s.tv && +s.tv === +tv);
 function srNew(o) {
   return Object.assign({ id: 't' + (o && o.tv || uid()), tv: 0, name: 'Untitled', year: 0, first: '', tm: '', poster: '', backdrop: '', overview: '', tagline: '', genres: [], net: '', rt: 0, vote: 0, lang: '', by: '',
-    seasons: [], nxt: null, lastEp: null, sync: 0, cast: [], cx: 0, st: 'plan', fav: false, rating: 0, note: '', w: {}, lw: '', lwt: 0, added: Date.now(), manual: false }, o);
+    seasons: [], nxt: null, lastEp: null, sync: 0, cast: [], cx: 0, st: 'plan', fav: false, rating: 0, note: '', w: {}, wd: {}, lw: '', lwt: 0, added: Date.now(), manual: false }, o);
 }
 function normSeries(x) {
   if (!x || x.id == null || !x.name) return null;
@@ -7486,7 +7486,7 @@ function normSeries(x) {
   const w = {}; if (x.w && typeof x.w === 'object') for (const k of Object.keys(x.w)) { const arr = [...new Set(a(x.w[k]).map(n).filter(v => v > 0 && v < 5000))].sort((p, q) => p - q); if (arr.length && n(k) > 0) w[n(k)] = arr; }
   return srNew({ id: s(x.id), tv: n(x.tv), name: s(x.name), year: n(x.year), first: s(x.first), tm: s(x.tm), poster: s(x.poster), backdrop: s(x.backdrop), overview: s(x.overview), tagline: s(x.tagline), genres: a(x.genres).map(s), net: s(x.net), rt: n(x.rt), vote: n(x.vote), lang: s(x.lang), by: s(x.by),
     seasons: a(x.seasons).map(q => ({ n: n(q.n), c: n(q.c), air: /^\d{4}-\d{2}-\d{2}$/.test(s(q.air)) ? s(q.air) : '' })).filter(q => q.n > 0 && q.c > 0), nxt: ep(x.nxt), lastEp: ep(x.lastEp), sync: n(x.sync), cx: x.cx ? 1 : 0, cast: a(x.cast).slice(0, 14).map(c => ({ id: n(c.id), name: s(c.name), profile: s(c.profile), character: s(c.character), ep: n(c.ep) })).filter(c => c.name),
-    st: ['plan', 'watch', 'drop'].includes(x.st) ? x.st : 'plan', fav: !!x.fav, rating: clamp(Math.round(n(x.rating) * 2) / 2, 0, 5), note: s(x.note), w, lw: s(x.lw), lwt: n(x.lwt), added: n(x.added) || Date.now(), manual: !!x.manual });
+    wd: (() => { const o = {}; if (x.wd && typeof x.wd === 'object') for (const k of Object.keys(x.wd)) { const v = x.wd[k]; if (n(k) > 0 && (v === '' || /^\d{4}-\d{2}-\d{2}$/.test(s(v)))) o[n(k)] = v === '' ? '' : s(v); } return o; })(), st: ['plan', 'watch', 'drop'].includes(x.st) ? x.st : 'plan', fav: !!x.fav, rating: clamp(Math.round(n(x.rating) * 2) / 2, 0, 5), note: s(x.note), w, lw: s(x.lw), lwt: n(x.lwt), added: n(x.added) || Date.now(), manual: !!x.manual });
 }
 const srSeasons = sr => sr.seasons.filter(s => s.n >= 1 && s.c > 0).sort((a, b) => a.n - b.n);
 function srAiredIn(sr, s) {
@@ -7516,7 +7516,7 @@ const srEpCode = (s, e) => 'S' + s + ' · E' + e;
 function srEnsure(sr) { if (!S.series.includes(sr)) { S.series.push(sr); sr.added = Date.now(); } return sr; }
 /* a tick is dated today unless you say otherwise; catching up on several episodes at once stays undated so old viewing never lands on today */
 function srLog(sr, s, e, n) {
-  const ex = SRD.open && SRD.sr === sr && SRD.wm ? SRD.wm[s] : undefined, w = ex !== undefined ? ex : SRD.once !== undefined ? SRD.once : null, date = w == null ? (n > 1 ? '' : today()) : w;
+  const ex = sr.wd ? sr.wd[s] : undefined, w = ex !== undefined ? ex : SRD.once !== undefined ? SRD.once : null, date = w == null ? (n > 1 ? '' : today()) : w;
   S.slog.push({ sid: sr.id, s, e, n, date, ts: Date.now() }); if (S.slog.length > 6000) S.slog.splice(0, S.slog.length - 6000);
   if (date && date > (sr.lw || '')) sr.lw = date; sr.lwt = Date.now();
 }
@@ -7536,9 +7536,9 @@ function srUpTo(sr, sn, en) {
   if (add) sr.st = 'watch';
 }
 function srDo(sr, fn, msg) {
-  const snap = { w: JSON.parse(JSON.stringify(sr.w)), st: sr.st, lw: sr.lw, lwt: sr.lwt, len: S.slog.length, inlib: S.series.includes(sr) };
+  const snap = { w: JSON.parse(JSON.stringify(sr.w)), wd: JSON.parse(JSON.stringify(sr.wd || {})), st: sr.st, lw: sr.lw, lwt: sr.lwt, len: S.slog.length, inlib: S.series.includes(sr) };
   fn(); const added = S.slog.slice(snap.len); srAfter();
-  if (msg) toast(msg, { label: 'Undo', fn: () => { sr.w = snap.w; sr.st = snap.st; sr.lw = snap.lw; sr.lwt = snap.lwt; S.slog = S.slog.filter(l => !added.includes(l)); if (!snap.inlib) S.series = S.series.filter(x => x !== sr); srAfter(); } });
+  if (msg) toast(msg, { label: 'Undo', fn: () => { sr.w = snap.w; sr.wd = snap.wd; sr.st = snap.st; sr.lw = snap.lw; sr.lwt = snap.lwt; S.slog = S.slog.filter(l => !added.includes(l)); if (!snap.inlib) S.series = S.series.filter(x => x !== sr); srAfter(); } });
 }
 function srAfter() { bump(); save(); if (route === 'series') refresh(); else if (typeof renderRail === 'function') renderRail(); if (typeof srdPaint === 'function') srdPaint(); }
 /* TMDB */
@@ -7872,7 +7872,7 @@ CTL.srgen = v => { S.ui.srg = v; save(); srLibGrid(); };
 CTL.srsort = v => { S.ui.srs = v; save(); srLibGrid(); };
 CTL.srdg = v => { SR.dg = v; refresh(); };
 /* ===== Series: detail sheet, add dialog, actions ===== */
-const SRD = { open: false, sr: null, season: 1, ex: new Set(), prev: null, wm: {}, once: undefined, ask: null };
+const SRD = { open: false, sr: null, season: 1, ex: new Set(), prev: null, once: undefined, ask: null };
 const srHas = (sr, s, e) => (sr.w[s] || []).includes(e);
 function srDefaultSeason(sr) { const n = srNext(sr), ss = srSeasons(sr); return n ? n.s : (ss.length ? ss[ss.length - 1].n : 1); }
 function srdEl() {
@@ -7881,7 +7881,7 @@ function srdEl() {
   el.addEventListener('click', e => { if (e.target === el) srdClose(); }); document.body.appendChild(el); return el;
 }
 function srdOpen(sr) {
-  SRD.sr = sr; SRD.open = true; SRD.wm = {}; SRD.ask = null; SRD.once = undefined; SRD.season = srDefaultSeason(sr); SRD.ex.clear(); SRD.prev = document.activeElement;
+  SRD.sr = sr; SRD.open = true; SRD.ask = null; SRD.once = undefined; SRD.season = srDefaultSeason(sr); SRD.ex.clear(); SRD.prev = document.activeElement;
   const el = srdEl(); el.hidden = false; srdPaint(true); syncLock();
   const x = $('.srd-x', el); if (x) x.focus(); srXLoad(sr);
   if (sr.tv && !sr.manual && (srNeedsSync(sr) || !sr.seasons.length)) srSync(sr).then(ok => { if (!SRD.open || SRD.sr !== sr) return; if (ok) { SRD.season = srDefaultSeason(sr); if (S.series.includes(sr)) srAfter(); else srdPaint(); } });
@@ -7912,15 +7912,16 @@ function srdAskHTML() {
     '<button type="button" data-act="srask" data-w="cancel" class="x">Cancel</button></div></div>';
 }
 function srdBulk(title, msg, fn, seasons) {
-  if ((seasons || [SRD.season]).every(n => SRD.wm[n] !== undefined)) { srDo(SRD.sr, fn, msg); return; }
-  SRD.ask = { title, msg, fn }; srdPaint(); const el = $('.srd-ask'); if (el) el.scrollIntoView({ block: 'nearest' });
+  if ((seasons || [SRD.season]).every(n => (SRD.sr.wd || {})[n] !== undefined)) { srDo(SRD.sr, fn, msg); return; }
+  SRD.ask = { title, msg, fn, seasons: seasons || [SRD.season] }; srdPaint(); const el = $('.srd-ask'); if (el) el.scrollIntoView({ block: 'nearest' });
 }
 function srdAskGo(w) {
   const q = SRD.ask, sr = SRD.sr; SRD.ask = null; if (!q || !sr) { srdPaint(); return; }
-  SRD.once = w; try { srDo(sr, q.fn, q.msg); } finally { SRD.once = undefined; } srdPaint();
+  if (!sr.wd) sr.wd = {}; (q.seasons || [SRD.season]).forEach(n => { if (sr.wd[n] === undefined) sr.wd[n] = w; });
+  srDo(sr, q.fn, q.msg); srdPaint();
 }
 function srdWhenHTML() {
-  const w = SRD.wm[SRD.season] === undefined ? null : SRD.wm[SRD.season], mode = w == null ? 'auto' : w === '' ? 'early' : w === today() ? 'today' : 'date';
+  const w0 = (SRD.sr.wd || {})[SRD.season], w = w0 === undefined ? null : w0, mode = w == null ? 'auto' : w === '' ? 'early' : w === today() ? 'today' : 'date';
   return '<div class="srd-wh"><span>Season ' + SRD.season + ' watched</span><div class="sr-chips" role="group" aria-label="When did you watch">' +
     [['auto', 'Auto'], ['today', 'Today'], ['early', 'Long ago']].map(c => '<button type="button" data-act="srwhen" data-w="' + c[0] + '" class="' + (mode === c[0] ? 'on' : '') + '">' + c[1] + '</button>').join('') +
     '<label class="srd-wd' + (mode === 'date' ? ' on' : '') + '"><input type="date" max="' + today() + '" value="' + (mode === 'date' ? E(w) : '') + '" data-ctl="srwdate" aria-label="Pick the date you watched"></label></div>' +
@@ -7983,8 +7984,19 @@ ACT.srdel = async () => { const sr = SRD.sr; if (!sr || !await askConfirm('Remov
 ACT.srrefresh = async a => { const sr = SRD.sr; if (!sr) return; a.disabled = true; a.textContent = 'Refreshing'; SR.sn.forEach((v, k) => { if (k.startsWith(sr.tv + ':')) SR.sn.delete(k); }); const ok = await srSync(sr); toast(ok ? 'Updated from TMDB' : 'Could not reach TMDB'); if (S.series.includes(sr)) srAfter(); else srdPaint(); };
 ACT.srask = a => { const w = a.dataset.w; if (w === 'cancel') { SRD.ask = null; srdPaint(); return; } srdAskGo(w === 'early' ? '' : today()); };
 CTL.sraskd = v => { if (/^\d{4}-\d{2}-\d{2}$/.test(v) && v <= today()) srdAskGo(v); };
-ACT.srwhen = a => { const w = a.dataset.w, n = SRD.season; if (w === 'auto') delete SRD.wm[n]; else SRD.wm[n] = w === 'early' ? '' : today(); srdPaint(); };
-CTL.srwdate = v => { if (/^\d{4}-\d{2}-\d{2}$/.test(v) && v <= today()) { SRD.wm[SRD.season] = v; srdPaint(); } };
+/* a season's watch date is stored on the series and applied to everything already ticked in that season */
+function srSetWd(sr, n, v) {
+  if (!sr.wd) sr.wd = {};
+  if (v === undefined) delete sr.wd[n];
+  else {
+    sr.wd[n] = v; S.slog.forEach(l => { if (l.sid === sr.id && l.s === n) l.date = v; });
+    sr.lw = ''; for (const l of S.slog) if (l.sid === sr.id && l.date > sr.lw) sr.lw = l.date; for (const k of Object.keys(sr.wd)) if (sr.wd[k] > sr.lw) sr.lw = sr.wd[k];
+  }
+  if (S.series.includes(sr)) srAfter(); else srdPaint();
+  if (v !== undefined) { const c = (sr.w[n] || []).length; if (c) toast('Season ' + n + ': ' + (v === '' ? 'long ago' : fmtDate(v)) + ' · ' + plural(c, 'episode')); }
+}
+ACT.srwhen = a => { const w = a.dataset.w; if (SRD.sr) srSetWd(SRD.sr, SRD.season, w === 'auto' ? undefined : w === 'early' ? '' : today()); };
+CTL.srwdate = v => { if (/^\d{4}-\d{2}-\d{2}$/.test(v) && v <= today()) { if (SRD.sr) srSetWd(SRD.sr, SRD.season, v); } };
 CTL.srnote = v => { if (SRD.sr && S.series.includes(SRD.sr)) { SRD.sr.note = v; save(); } };
 ACT.sraddto = a => { const b = SR.pre.get(+a.dataset.tv); if (b) srAdd(b, a.dataset.st); };
 document.addEventListener('click', e => {
@@ -8050,6 +8062,7 @@ function srAct() {
     const rt = sr.rt || 45, dm = new Map(); let seen = 0, dated = 0;
     for (const s of srSeasons(sr)) {
       const W = (sr.w[s.n] || []).filter(e => e <= s.c).length; if (!W) continue; seen += W;
+      const xd = sr.wd ? sr.wd[s.n] : undefined; if (xd !== undefined) { if (xd) { dm.set(xd, (dm.get(xd) || 0) + W); dated += W; } continue; }
       let left = W; const ev = (by.get(sr.id + '|' + s.n) || []).slice().sort((p, q) => q.ts - p.ts);
       for (const l of ev) { if (left <= 0) break; const n = Math.min(l.n || 1, left); left -= n; if (l.date) { dm.set(l.date, (dm.get(l.date) || 0) + n); dated += n; } }
     }
