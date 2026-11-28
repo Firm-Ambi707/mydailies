@@ -1834,6 +1834,38 @@ body[data-route=series] .main::before{display:block;position:fixed;inset:0;z-ind
 .scl-ag .tx{border:0;background:none;color:var(--ink);text-align:left;padding:0;cursor:pointer;font:inherit;min-width:0}.scl-ag .tx b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scl-ag .tx small{display:block;color:var(--ink3);font-size:12.5px;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .scl-ag .tg{font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border-radius:99px;border:1px solid var(--line2);color:var(--ink2)}.scl-ag .tg.film{color:#f0a35c;border-color:color-mix(in srgb,#f0a35c 50%,transparent)}
 @media (max-width:760px){.scl-calh h2{font-size:20px}.scl-cg,.scl-cw{gap:3px}.scl-cd{min-height:58px;padding:6px 4px;align-items:center;border-radius:9px}.scl-cd .pp{display:none}.scl-cd .dots{display:flex;justify-content:center}.scl-ag{grid-template-columns:44px 38px 1fr;}.scl-ag .th{width:38px}.scl-ag .tg{display:none}}
+body[data-route=badges]{--artL:var(--art-spiral);--artR:var(--art-mono);--artO:.18}
+.bde{display:block;flex:none;filter:drop-shadow(0 4px 8px rgba(0,0,0,.35))}.bde.lock{filter:none}
+.bdstrip{display:flex;align-items:center;gap:16px;margin:0 0 20px;padding:12px 18px 12px 14px;border:1px solid var(--line);border-radius:16px;background:var(--bg);color:var(--ink);text-decoration:none}.bdstrip:hover{border-color:var(--line2)}
+.bdstrip .em{display:flex;gap:2px}.bdstrip .tx{flex:1;min-width:0}.bdstrip .tx b{display:block;font:700 20px/1.1 var(--f-d)}.bdstrip .tx small{color:var(--ink3);font-size:12.5px}.bdstrip .go{color:var(--ink2);font-size:13px;white-space:nowrap}
+.bdh{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;padding:26px 28px;margin:0 0 22px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(135deg,color-mix(in srgb,#f0c35c 9%,var(--bg)),var(--bg) 60%)}
+.bdh small{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}.bdh h2{font:800 clamp(38px,5vw,56px)/.95 var(--f-d);margin:6px 0 14px}
+.bdh-bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden}.bdh-bar u{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#f0b27a,#f2bd36,#8fd4ec);text-decoration:none}
+.bdh p{margin:10px 0 0;color:var(--ink2);font-size:13.5px}
+.bdh-n{display:flex;gap:28px;margin-top:20px}.bdh-n b{display:block;font:700 28px/1 var(--f-d)}.bdh-n span{font-size:12px;color:var(--ink3)}
+.bdh-p{display:flex;gap:12px;margin-top:10px}.bdh-p .slot{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 6px 12px;border:1px solid var(--line);border-radius:16px;background:var(--bg);color:var(--ink);cursor:pointer;font:inherit}.bdh-p .slot b{font-size:12px;font-weight:600;text-align:center;line-height:1.2}
+.bdh-p .slot.empty{border-style:dashed;color:var(--ink3);cursor:default;justify-content:center;min-height:128px}.bdh-p .slot.empty i{font:300 30px/1 var(--f-d);font-style:normal}
+.bdf{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 6px;align-items:center}
+.bds{margin:26px 0 0}.bds h3{font:700 24px/1 var(--f-d);margin:0 0 14px}
+.bdg{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.bdc{display:flex;gap:14px;align-items:flex-start;text-align:left;padding:14px;border:1px solid var(--line);border-radius:16px;background:var(--bg);color:var(--ink);cursor:pointer;font:inherit;transition:transform .15s,border-color .15s}
+.bdc:hover{border-color:var(--line2);transform:translateY(-2px)}.bdc.off .tx b{color:var(--ink2)}.bdc.off{opacity:.78}.bdc.max{border-color:color-mix(in srgb,#a98bff 55%,var(--line))}
+.bdc .art{position:relative;flex:none}.bdc .pin{position:absolute;right:-4px;top:-4px;font-style:normal;font-size:12px;color:#f0c35c}
+.bdc .tx{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px}.bdc .tx b{font-weight:600;font-size:15px}.bdc .tx small{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}.bdc .tx em{font-style:normal;color:var(--ink2);font-size:13px;line-height:1.35}
+.bdc .bar{height:5px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:6px}.bdc .bar u{display:block;height:100%;background:var(--ink);opacity:.8;border-radius:99px;text-decoration:none}.bdc .cnt{font-size:11.5px;color:var(--ink3)}
+.bdc .pips{display:flex;gap:4px;margin-top:2px}.bdc .pips i{width:14px;height:4px;border-radius:2px;background:var(--line)}.bdc .pips i.t1{background:#c07a43}.bdc .pips i.t2{background:#c3cad4}.bdc .pips i.t3{background:#f2bd36}.bdc .pips i.t4{background:#8fd4ec}.bdc .pips i.t5{background:linear-gradient(90deg,#ffb3de,#38d4ff)}
+.bdnone{color:var(--ink3);margin:30px 0}
+.bdd{min-width:min(420px,84vw)}.bdd .top{display:flex;gap:20px;align-items:center;margin:0 0 18px}.bdd .top small{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}.bdd h2{font:800 32px/1 var(--f-d);margin:4px 0 8px}.bdd p{margin:0;color:var(--ink2);font-size:14px}
+.tiers{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}.tiers li{display:flex;gap:12px;align-items:center;padding:8px 10px;border-radius:12px;border:1px solid var(--line)}.tiers li.on{background:color-mix(in srgb,#f0c35c 7%,transparent)}
+.tiers li span{flex:1;min-width:0}.tiers li b{display:block;font-weight:600;font-size:14px}.tiers li small{color:var(--ink3);font-size:12px}.tiers li em{font-style:normal;font-size:12px;color:var(--ink2);white-space:nowrap}
+.bdnow{margin:14px 0 0!important;font-size:13px!important}.bdd .acts{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+#bdPop{position:fixed;top:72px;left:50%;transform:translateX(-50%);z-index:90;display:flex;flex-direction:column;gap:10px;align-items:center;pointer-events:none;width:min(420px,calc(100vw - 24px))}
+.bdp{pointer-events:auto;display:flex;gap:14px;align-items:center;width:100%;padding:12px 18px 12px 12px;border:1px solid color-mix(in srgb,#f0c35c 45%,var(--line));border-radius:18px;background:var(--bg);color:var(--ink);text-align:left;font:inherit;cursor:pointer;box-shadow:0 14px 40px rgba(0,0,0,.45);animation:bdIn .5s cubic-bezier(.2,1.2,.3,1) both}.bdp.out{animation:bdOut .3s ease forwards}
+.bdp span{display:flex;flex-direction:column;min-width:0}.bdp small{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#f0c35c}.bdp b{font:700 19px/1.15 var(--f-d)}.bdp em{font-style:normal;font-size:12.5px;color:var(--ink2)}
+.bdp svg{animation:bdPop .7s .15s cubic-bezier(.2,1.6,.3,1) both}
+@keyframes bdIn{from{opacity:0;transform:translateY(-18px) scale(.94)}}@keyframes bdOut{to{opacity:0;transform:translateY(-12px) scale(.96)}}@keyframes bdPop{0%{transform:scale(.3) rotate(-25deg)}100%{transform:none}}
+@media (prefers-reduced-motion:reduce){.bdp,.bdp svg{animation:none}}
+@media (max-width:760px){.bdh{grid-template-columns:1fr;padding:20px 18px;gap:20px}.bdh-n{gap:20px}.bdg{grid-template-columns:1fr}.bdstrip .go{display:none}#bdPop{top:64px}.bdf .seg{overflow-x:auto;max-width:100%}.bdd{min-width:0}}
 </style></head>
 <body>
 <a class="skip" href="#view">Skip to content</a>
@@ -1957,7 +1989,7 @@ const plural = (n, a, b) => n + ' ' + (n === 1 ? a : (b || a + 's'));
 let S = null, saveT = 0, ver = 0;
 function blank() {
   return {
-    v: 1, films: [], entries: [], lists: [], progs: [], series: [], slog: [], cache: { people: {} },
+    v: 1, films: [], entries: [], lists: [], progs: [], series: [], slog: [], badges: null, cache: { people: {} },
     set: { theme: 'dark', region: 'US', key: '', tint: true, seeded: false },
     ui: { view: 'spines', group: 'none', sort: 'added', filter: 'all', list: '', genre: '', decade: '', director: '', year: new Date().getFullYear(), moref: false, ppage: 1,
       tn: { mins: 150, mood: [], mode: 'single', src: 'wish', start: '20:30', seed: 0 }, srtab: 'home', srf: 'all', srs: 'active', srg: '', pp: 'directors', bannerOff: false }
@@ -1973,6 +2005,7 @@ function load() {
       S.ui = Object.assign(b.ui, o.ui || {});
       S.ui.tn = Object.assign(b.ui.tn, (o.ui || {}).tn || {});
       if (!S.cache || !S.cache.people) S.cache = { people: {} };
+      if (!S.badges || typeof S.badges !== 'object' || Array.isArray(S.badges)) S.badges = null;
       ['films', 'entries', 'lists', 'progs', 'series', 'slog'].forEach(k => { if (!Array.isArray(S[k])) S[k] = []; });
       S.series = S.series.map(normSeries).filter(Boolean); S.slog = S.slog.filter(l => l && l.sid);
       return true;
@@ -1981,7 +2014,7 @@ function load() {
   S = blank(); return false;
 }
 function saveNow() { clearTimeout(saveT); try { localStorage.setItem(LSK, JSON.stringify(S)); } catch (e) { /* quota or private mode */ } }
-function save() { clearTimeout(saveT); saveT = setTimeout(saveNow, 250); }
+function save() { clearTimeout(saveT); saveT = setTimeout(saveNow, 250); try { bdSoon(); } catch (e) { /* badges not ready yet */ } }
 addEventListener('pagehide', saveNow);
 const bump = () => { ver++; };
 
@@ -2162,7 +2195,7 @@ const guessOf = f => f.seen && f.rating > 0 ? f.rating : (predict(f) || {}).scor
 /* ===== Dailies: data, mutations, UI primitives ===== */
 const ACT = {};
 const PAGES = {};
-const ROUTES = ['shelf', 'series', 'tonight', 'explore', 'diary', 'people', 'insights', 'downloads'];
+const ROUTES = ['shelf', 'series', 'tonight', 'explore', 'diary', 'people', 'insights', 'badges', 'downloads'];
 let route = 'shelf';
 
 const SEEDS = [
@@ -2311,7 +2344,7 @@ function refresh(opt = {}) {
 function commit(opt) { bump(); save(); refresh(opt); }
 const touch = f => { if (f && f.sample) f.sample = false; };
 function renderRail() {
-  $$('[data-r]').forEach(a => { const on = a.dataset.r === route; a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  $$('[data-r]').forEach(a => { const on = a.dataset.r === route || (route === 'badges' && a.dataset.r === 'insights'); a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
   const n = $('#nShelf'); if (n) n.textContent = S.films.length || '';
   const d = $('#nDiary'); if (d) d.textContent = S.entries.length || '';
   renderLogo();
@@ -3855,7 +3888,7 @@ ACT.testkey = async () => {
   catch (e) { S.set.key = old; m.textContent = errMsg(e); }
 };
 function exportData() {
-  const o = { app: 'dailies', v: 1, at: new Date().toISOString(), films: S.films, entries: S.entries, lists: S.lists, progs: S.progs, series: S.series, slog: S.slog, ui: S.ui, set: { theme: S.set.theme, region: S.set.region, tint: S.set.tint, rm: S.set.rm, dq: S.set.dq, clock: S.set.clock, keys: S.set.keys, autoLog: S.set.autoLog, bk: S.set.bk, svc: S.set.svc } };
+  const o = { app: 'dailies', v: 1, at: new Date().toISOString(), films: S.films, entries: S.entries, lists: S.lists, progs: S.progs, series: S.series, slog: S.slog, badges: S.badges || {}, ui: S.ui, set: { bdPins: S.set.bdPins, theme: S.set.theme, region: S.set.region, tint: S.set.tint, rm: S.set.rm, dq: S.set.dq, clock: S.set.clock, keys: S.set.keys, autoLog: S.set.autoLog, bk: S.set.bk, svc: S.set.svc } };
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(o, null, 1)], { type: 'application/json' })); a.download = 'dailies-' + today() + '.json';
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 3000); S.set.lastBackup = Date.now(); S.set.nudgeAt = Date.now() + 21 * 864e5; save(); toast('Library exported');
 }
@@ -8132,6 +8165,7 @@ ACT.srmsave = () => {
 };
 
 function srImport(o, mode) {
+  bdImport(o); if (o && o.set && Array.isArray(o.set.bdPins) && !(S.set.bdPins || []).length) S.set.bdPins = o.set.bdPins.filter(x => typeof x === 'string').slice(0, 3);
   const inc = (Array.isArray(o.series) ? o.series : []).map(normSeries).filter(Boolean);
   if (mode === 'replace') { S.series = inc; S.slog = (Array.isArray(o.slog) ? o.slog : []).filter(l => l && l.sid).slice(-6000); return; }
   const have = new Map(S.series.map(s => [String(s.id), s]));
@@ -8525,6 +8559,266 @@ function xEntity(kind, id, name) {
   window.scrollTo(0, 0);
 }
 ACT.xent = a => xEntity(a.dataset.kind, a.dataset.id, a.dataset.n || '');
+
+/* ===== Badges: tiered achievements, earned for good and shown on their own page ===== */
+const BD_TIER = ['Bronze', 'Silver', 'Gold', 'Platinum', 'Legend'], BD_PTS = [1, 2, 4, 8, 16], BD_SP = 4;
+const BD_CAT = [['films', 'Films'], ['series', 'Series'], ['habits', 'Habits'], ['taste', 'Taste'], ['special', 'Special']];
+const BD_RANKS = [[0, 'Newcomer'], [6, 'Regular'], [20, 'Film Buff'], [50, 'Cinephile'], [100, 'Auteur'], [180, 'Maestro'], [300, 'Legend']];
+const BD_ICON = {
+  film: '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 4v16M16 4v16M4 9h4M4 15h4M16 9h4M16 15h4"/>',
+  reel: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="7.4" r="1.3"/><circle cx="16.1" cy="14.4" r="1.3"/><circle cx="7.9" cy="14.4" r="1.3"/>',
+  clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/>',
+  tv: '<rect x="3.5" y="7" width="17" height="12" rx="2"/><path d="M8 3.5 12 7l4-3.5"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  layers: '<path d="M12 4 3.5 9 12 14l8.5-5z"/><path d="M3.5 13.5 12 18.5l8.5-5"/>',
+  play: '<path d="M8 5.5v13l11-6.5z"/>',
+  star: '<path d="m12 3.8 2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"/>',
+  pen: '<path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"/><path d="M14.5 6.5l3 3"/>',
+  book: '<path d="M5 5.5A2 2 0 0 1 7 3.5h12v15H7a2 2 0 0 0-2 2z"/><path d="M5 5.5v15"/>',
+  flame: '<path d="M12 3c1 3.5 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 .2 1.4 1 2 2 2-.5-3 0-5 1-8z"/>',
+  cal: '<rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 10h16"/>',
+  sun: '<circle cx="12" cy="12" r="3.6"/><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6 6l1.5 1.5M16.5 16.5 18 18M18 6l-1.5 1.5M7.5 16.5 6 18"/>',
+  bolt: '<path d="M13 3 5.5 13.5H11L10 21l7.5-10.5H12z"/>',
+  ticket: '<path d="M4 8.5V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v1.5a2 2 0 0 0 0 4V14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1.5a2 2 0 0 0 0-4z"/><path d="M14 6.5v8" stroke-dasharray="1.4 2"/>',
+  repeat: '<path d="M17 4l3 3-3 3"/><path d="M4 11V9a2 2 0 0 1 2-2h14"/><path d="M7 20l-3-3 3-3"/><path d="M20 13v2a2 2 0 0 1-2 2H4"/>',
+  list: '<path d="M8 6.5h12M8 12h12M8 17.5h12"/><circle cx="4.5" cy="6.5" r=".9"/><circle cx="4.5" cy="12" r=".9"/><circle cx="4.5" cy="17.5" r=".9"/>',
+  grid: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
+  globe: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c3 3 3 14 0 17M12 3.5c-3 3-3 14 0 17"/>',
+  hourglass: '<path d="M7 4h10M7 20h10"/><path d="M8 4v3.5L12 12l-4 4.5V20M16 4v3.5L12 12l4 4.5V20"/>',
+  speech: '<path d="M4.5 5.5h15v10h-7l-4 3.5v-3.5h-4z"/>',
+  mega: '<path d="M4 10v4l9 4V6z"/><path d="M13 9.5a3 3 0 0 1 0 5M7 15.5l1.2 4"/>',
+  person: '<circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.7-4 3.5-6 7-6s6.3 2 7 6"/>',
+  crown: '<path d="M4 17.5 3.5 8l5 4L12 6l3.5 6 5-4-.5 9.5z"/><path d="M4.5 20h15"/>',
+  tag: '<path d="M3.8 12.2 12 4h7.5v7.5L11.3 19.7a1.5 1.5 0 0 1-2.1 0l-5.4-5.4a1.5 1.5 0 0 1 0-2.1z"/><circle cx="15.5" cy="8.5" r="1.2"/>',
+  heart: '<path d="M12 19.5s-7-4.3-7-9.7A3.9 3.9 0 0 1 12 7.6a3.9 3.9 0 0 1 7 2.2c0 5.4-7 9.7-7 9.7z"/>',
+  mark: '<path d="M7 4h10v16l-5-3.5L7 20z"/>',
+  moon: '<path d="M19.5 14.5A7.5 7.5 0 1 1 9.5 4.5a6 6 0 0 0 10 10z"/>',
+  spark: '<path d="M12 3.5l1.8 5.2 5.2 1.8-5.2 1.8L12 17.5l-1.8-5.2L5 10.5l5.2-1.8z"/>',
+  eye: '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/>',
+  up: '<path d="M12 15V5M8 9l4-4 4 4"/><path d="M5 15v3.5h14V15"/>',
+  trophy: '<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v1.5A3 3 0 0 0 7 10.5M17 6h3v1.5a3 3 0 0 1-3 3M12 14v4M8.5 20h7"/>'
+};
+/* families: five tiers each. m = metric, th = thresholds, nm = tier names, d = goal text ({n} is the threshold) */
+const BD_FAM = [
+  { id: 'cine', cat: 'films', ic: 'film', m: 'films', th: [5, 25, 100, 250, 500], nm: ['Opening Credits', 'Regular', 'Cinephile', 'Film Buff', 'Legend of the Reel'], d: 'Watch {n} films', u: 'films' },
+  { id: 'hours', cat: 'films', ic: 'clock', m: 'hours', th: [10, 50, 150, 400, 1000], nm: ['Settling In', 'Long Night', 'Time Bender', 'Marathoner', 'Timeless'], d: 'Spend {n} hours watching films and series', u: 'hours' },
+  { id: 'classic', cat: 'films', ic: 'crown', m: 'classics', th: [1, 5, 15, 40, 100], nm: ['Silver Screen', 'Black and White', 'Golden Age', 'Vintage Soul', 'Keeper of the Archive'], d: 'Watch {n} films made before 1970', u: 'classics' },
+  { id: 'auteur', cat: 'films', ic: 'mega', m: 'maxDir', th: [2, 3, 5, 8, 12], nm: ['Second Look', 'Signature Style', 'Auteur Devotee', 'Complete Works', 'Shadow Director'], d: 'Watch {n} films by one director', u: 'by one director' },
+  { id: 'fan', cat: 'films', ic: 'person', m: 'maxActor', th: [3, 5, 8, 12, 20], nm: ['Familiar Face', 'Fan Club', 'Super Fan', 'Leading Fan', 'Muse'], d: 'Watch {n} films with one actor', u: 'with one actor' },
+  { id: 'double', cat: 'films', ic: 'ticket', m: 'filmsDay', th: [2, 3, 4, 5, 7], nm: ['Double Feature', 'Triple Bill', 'Movie Day', 'Film Festival', 'Cinema Marathon'], d: 'Watch {n} films in one day', u: 'in one day' },
+  { id: 'rewatch', cat: 'films', ic: 'repeat', m: 'rewatch', th: [1, 5, 15, 40, 100], nm: ['Encore', 'Comfort Watch', 'Deja Vu', 'On Loop', 'Eternal Return'], d: 'Rewatch {n} films', u: 'rewatches' },
+  { id: 'eps', cat: 'series', ic: 'tv', m: 'eps', th: [25, 100, 400, 1200, 4000], nm: ['Season Starter', 'Episode Hunter', 'Binge Pilot', 'Series Addict', 'Boxset Legend'], d: 'Watch {n} episodes', u: 'episodes' },
+  { id: 'fin', cat: 'series', ic: 'check', m: 'finished', th: [1, 3, 10, 25, 60], nm: ['Series Finale', 'Closer', 'Completionist', 'Credits Roll', 'Full Archive'], d: 'Finish {n} series', u: 'series' },
+  { id: 'seasons', cat: 'series', ic: 'layers', m: 'seasons', th: [1, 5, 15, 40, 100], nm: ['Season One', 'Season Pass', 'Binge Month', 'Streaming Habit', 'Season Master'], d: 'Complete {n} seasons', u: 'seasons' },
+  { id: 'pilots', cat: 'series', ic: 'play', m: 'started', th: [3, 10, 25, 50, 100], nm: ['Pilot Watcher', 'Channel Surfer', 'Pilot Hunter', 'Fresh Start', 'Series Sommelier'], d: 'Start {n} different series', u: 'series started' },
+  { id: 'binge', cat: 'series', ic: 'bolt', m: 'maxEpDay', th: [4, 8, 12, 20, 30], nm: ['Just One More', 'Binge', 'Weekend Binge', 'Binge Lord', 'Sleep Is Optional'], d: 'Watch {n} episodes in one day', u: 'in one day' },
+  { id: 'streak', cat: 'habits', ic: 'flame', m: 'streak', th: [3, 7, 14, 30, 100], nm: ['Hat Trick', 'Week Streak', 'Fortnight', 'Month of Movies', 'Centurion'], d: 'Watch something {n} days in a row', u: 'days in a row' },
+  { id: 'age', cat: 'habits', ic: 'hourglass', m: 'age', th: [30, 180, 365, 730, 1460], nm: ['New Here', 'Half a Year', 'Anniversary', 'Two Years In', 'Long Haul'], d: 'Keep your journal going for {n} days', u: 'days' },
+  { id: 'busy', cat: 'habits', ic: 'sun', m: 'maxYear', th: [12, 52, 100, 200, 365], nm: ['Monthly Habit', 'Weekly Ritual', 'Century Year', 'Double Century', 'Every Day'], d: 'Log {n} watches in one year', u: 'in one year' },
+  { id: 'diary', cat: 'habits', ic: 'book', m: 'notes', th: [1, 10, 50, 150, 400], nm: ['First Note', 'Margins', 'Diarist', 'Memoirist', 'Chronicler'], d: 'Write {n} notes on your watches', u: 'notes' },
+  { id: 'critic', cat: 'habits', ic: 'star', m: 'rated', th: [5, 25, 100, 250, 600], nm: ['First Opinion', 'Critic', 'Rating Machine', 'Tastemaker', 'Grand Judge'], d: 'Rate {n} films or series', u: 'ratings' },
+  { id: 'words', cat: 'habits', ic: 'pen', m: 'reviews', th: [1, 5, 20, 50, 120], nm: ['Pen Ready', 'Reviewer', 'Columnist', 'Essayist', 'Film Writer'], d: 'Write {n} reviews', u: 'reviews' },
+  { id: 'lists', cat: 'habits', ic: 'list', m: 'lists', th: [1, 3, 6, 12, 25], nm: ['First Shelf', 'Curator', 'Shelf Stacker', 'Librarian', 'Archivist'], d: 'Fill {n} shelves', u: 'shelves' },
+  { id: 'tags', cat: 'habits', ic: 'tag', m: 'tags', th: [3, 10, 25, 50, 100], nm: ['Labeller', 'Organiser', 'Tag Wrangler', 'Taxonomist', 'Index Master'], d: 'Use {n} different tags', u: 'tags' },
+  { id: 'genres', cat: 'taste', ic: 'grid', m: 'genres', th: [5, 8, 12, 16, 19], nm: ['Dabbler', 'Explorer', 'Genre Hopper', 'Omnivore', 'Every Genre'], d: 'Watch films from {n} genres', u: 'genres' },
+  { id: 'world', cat: 'taste', ic: 'globe', m: 'countries', th: [3, 8, 15, 25, 40], nm: ['Passport', 'Frequent Flyer', 'Globetrotter', 'World Citizen', 'Around the World'], d: 'Watch films from {n} countries', u: 'countries' },
+  { id: 'decades', cat: 'taste', ic: 'cal', m: 'decades', th: [3, 5, 7, 9, 11], nm: ['Time Tourist', 'Decade Hopper', 'Time Traveller', 'Century Crosser', 'History Buff'], d: 'Watch films from {n} decades', u: 'decades' },
+  { id: 'lang', cat: 'taste', ic: 'speech', m: 'langs', th: [2, 4, 7, 12, 20], nm: ['Bilingual', 'Subtitle Reader', 'Polyglot', 'Babel', 'Linguist'], d: 'Watch films in {n} languages', u: 'languages' },
+  { id: 'fives', cat: 'taste', ic: 'trophy', m: 'fives', th: [1, 5, 15, 40, 100], nm: ['Perfect Score', 'Five-Star Fan', 'Masterpiece Hunter', 'Hard to Impress', 'Gold Standard'], d: 'Give {n} five-star ratings', u: 'five-stars' },
+  { id: 'favs', cat: 'taste', ic: 'heart', m: 'favs', th: [3, 10, 25, 60, 120], nm: ['Favourites', 'Heart Collector', 'Cherished', 'Hall of Fame', 'Treasure Chest'], d: 'Mark {n} favourites', u: 'favourites' },
+  { id: 'dream', cat: 'taste', ic: 'mark', m: 'dream', th: [10, 25, 60, 120, 250], nm: ['Wish Upon', 'Watchlist Keeper', 'Dreamer', 'Backlog Boss', 'Infinite Queue'], d: 'Keep {n} titles on your watchlist', u: 'on the watchlist' }
+];
+const BD_ONE = [
+  { id: 'first', ic: 'spark', nm: 'First Frame', d: 'Log your first watch', m: 'first' },
+  { id: 'owl', ic: 'moon', nm: 'Night Owl', d: 'Log a watch between midnight and 5 AM', m: 'owl' },
+  { id: 'two', ic: 'tv', nm: 'Two Worlds', d: 'Watch both a film and a series', m: 'two' },
+  { id: 'epic', ic: 'reel', nm: 'Epic Sitting', d: 'Watch a film that runs 3 hours or more', m: 'epic' },
+  { id: 'subs', ic: 'speech', nm: 'Subtitles On', d: 'Watch a film that is not in English', m: 'subs' },
+  { id: 'ny', ic: 'sun', nm: 'New Year, New Film', d: 'Watch something on 1 January', m: 'ny' },
+  { id: 'months', ic: 'cal', nm: 'Every Month', d: 'Watch something in all 12 months of one year', m: 'months' },
+  { id: 'longrun', ic: 'layers', nm: 'Long Runner', d: 'Finish a series with 100 or more episodes', m: 'longrun' },
+  { id: 'backup', ic: 'up', nm: 'Safe and Sound', d: 'Export a backup of your journal', m: 'backup' },
+  { id: 'complete', ic: 'list', nm: 'Shelf Complete', d: 'Watch every film on a shelf of 5 or more', m: 'complete' },
+  { id: 'contra', ic: 'eye', nm: 'Contrarian', d: 'Rate a film 4.5 stars or more that the crowd scored under 5.5', m: 'contra' }
+];
+const BD_TOTAL = BD_FAM.length * 5 + BD_ONE.length;
+let bdBusy = 0, bdT = 0;
+function bdMetrics() {
+  const films = S.films.filter(f => f.seen && !f.sample), fm = new Set(films.map(f => String(f.id)));
+  const ents = S.entries.filter(e => !e.sample && fm.has(String(e.fid))), cnt = new Map();
+  ents.forEach(e => { const k = String(e.fid); cnt.set(k, (cnt.get(k) || 0) + 1); });
+  const A = typeof srAct === 'function' && S.series.length ? srAct() : { days: new Map(), seenAll: 0 }, m = {};
+  m.films = films.length; m.eps = A.seenAll;
+  let fmin = 0; films.forEach(f => { fmin += (f.runtime || 0) * Math.max(1, cnt.get(String(f.id)) || 0); });
+  let smin = 0, started = 0, finished = 0, seasons = 0, longrun = 0;
+  S.series.forEach(sr => {
+    const k = srStats(sr); if (k.seen) { started++; smin += k.seen * (sr.rt || 45); }
+    k.ss.forEach(s => { if (s.c > 0 && srAiredIn(sr, s) >= s.c && (sr.w[s.n] || []).filter(e => e <= s.c).length >= s.c) seasons++; });
+    if (srPhase(sr) === 'done') { finished++; if (k.total >= 100) longrun = 1; }
+  });
+  m.hours = Math.floor((fmin + smin) / 60); m.started = started; m.finished = finished; m.seasons = seasons; m.longrun = longrun;
+  m.classics = films.filter(f => f.year > 0 && f.year < 1970).length;
+  const dir = new Map(), act = new Map();
+  films.forEach(f => { new Set((f.directors || []).map(d => String(d.id || d.name || d))).forEach(k => dir.set(k, (dir.get(k) || 0) + 1)); new Set((f.cast || []).map(c => String(c.id || c.name || c))).forEach(k => act.set(k, (act.get(k) || 0) + 1)); });
+  m.maxDir = Math.max(0, ...dir.values()); m.maxActor = Math.max(0, ...act.values());
+  const pd = new Map(); ents.forEach(e => { if (e.date) pd.set(e.date, (pd.get(e.date) || 0) + 1); }); m.filmsDay = Math.max(0, ...pd.values());
+  m.rewatch = ents.filter(e => e.rewatch).length; m.maxEpDay = Math.max(0, ...[...A.days.values()].map(v => v.n));
+  const days = new Set([...pd.keys(), ...A.days.keys()].filter(Boolean)), sorted = [...days].sort(); let best = 0, run = 0, prev = '';
+  for (const d of sorted) { run = prev && addDays(prev, 1) === d ? run + 1 : 1; best = Math.max(best, run); prev = d; } m.streak = best;
+  m.age = sorted.length ? Math.max(0, Math.round((Date.parse(today() + 'T12:00:00Z') - Date.parse(sorted[0] + 'T12:00:00Z')) / 864e5)) : 0;
+  const py = new Map(); pd.forEach((n, d) => py.set(d.slice(0, 4), (py.get(d.slice(0, 4)) || 0) + n)); A.days.forEach((v, d) => py.set(d.slice(0, 4), (py.get(d.slice(0, 4)) || 0) + v.n)); m.maxYear = Math.max(0, ...py.values());
+  m.notes = ents.filter(e => (e.note || '').trim()).length;
+  const rs = S.films.filter(f => f.seen && !f.sample && f.rating > 0).map(f => f.rating).concat(S.series.filter(x => x.rating > 0).map(x => x.rating));
+  m.rated = rs.length; m.fives = rs.filter(r => r >= 5).length;
+  m.reviews = films.filter(f => (f.review || '').trim().length >= 10).length + S.series.filter(x => (x.note || '').trim().length >= 10).length;
+  m.lists = S.lists.filter(l => S.films.some(f => !f.sample && (f.lists || []).includes(l.id))).length;
+  m.tags = new Set(S.films.filter(f => !f.sample).flatMap(f => (f.tags || []).map(t => String(t).toLowerCase()))).size;
+  m.genres = new Set(films.flatMap(f => (f.genres || []).map(g => String(g.name || g)))).size;
+  m.countries = new Set(films.flatMap(f => (f.countries || []).map(c => String(c.name || c.iso || c)))).size;
+  m.decades = new Set(films.filter(f => f.year > 0).map(f => Math.floor(f.year / 10))).size;
+  m.langs = new Set(films.map(f => f.lang).filter(Boolean)).size;
+  m.favs = S.films.filter(f => f.fav && !f.sample).length + S.series.filter(x => x.fav).length;
+  m.dream = S.films.filter(f => f.wish && !f.seen && !f.sample).length + S.series.filter(x => x.st === 'plan').length;
+  m.first = m.films + m.eps > 0 ? 1 : 0;
+  m.owl = ents.some(e => e.ts && new Date(e.ts).getHours() < 5) ? 1 : 0;
+  m.two = m.films > 0 && m.eps > 0 ? 1 : 0; m.epic = films.some(f => f.runtime >= 180) ? 1 : 0;
+  m.subs = films.some(f => f.lang && f.lang !== 'en') ? 1 : 0; m.ny = sorted.some(d => d.slice(5) === '01-01') ? 1 : 0;
+  const ym = new Map(); sorted.forEach(d => { const y = d.slice(0, 4); if (!ym.has(y)) ym.set(y, new Set()); ym.get(y).add(d.slice(5, 7)); }); m.months = [...ym.values()].some(s => s.size === 12) ? 1 : 0;
+  m.backup = S.set.lastBackup ? 1 : 0;
+  m.complete = S.lists.some(l => { const mem = S.films.filter(f => !f.sample && (f.lists || []).includes(l.id)); return mem.length >= 5 && mem.every(f => f.seen); }) ? 1 : 0;
+  m.contra = films.some(f => f.rating >= 4.5 && f.vote > 0 && f.vote < 5.5 && f.votes >= 100) ? 1 : 0;
+  return m;
+}
+const bdKey = (id, t) => id + ':' + t;
+function bdState(m) {
+  m = m || bdMetrics(); const B = S.badges || {};
+  const fam = BD_FAM.map(f => { const n = m[f.m] || 0; let tier = 0; f.th.forEach((x, i) => { if (n >= x) tier = i + 1; }); const have = f.th.map((_, i) => B[bdKey(f.id, i)] !== undefined); const held = have.filter(Boolean).length; return { f, n, tier: Math.max(tier, held ? have.lastIndexOf(true) + 1 : 0), have }; });
+  const one = BD_ONE.map(o => ({ o, on: !!m[o.m] || B[bdKey(o.id, 0)] !== undefined }));
+  return { fam, one };
+}
+function bdScan() {
+  bdBusy = 1;
+  try {
+    if (!S || !S.films) return; const first = !S.badges; if (first) S.badges = {};
+    const B = S.badges, m = bdMetrics(), now = first ? 0 : Date.now(), fresh = [];
+    BD_FAM.forEach(f => { let top = -1; f.th.forEach((x, i) => { if ((m[f.m] || 0) >= x && B[bdKey(f.id, i)] === undefined) { B[bdKey(f.id, i)] = now; top = i; } }); if (top >= 0) fresh.push({ n: f.nm[top], tier: top + 1, ic: f.ic, d: bdD(f, f.th[top]) }); });
+    BD_ONE.forEach(o => { if (m[o.m] && B[bdKey(o.id, 0)] === undefined) { B[bdKey(o.id, 0)] = now; fresh.push({ n: o.nm, tier: 0, ic: o.ic, d: o.d }); } });
+    if (first || fresh.length) { save(); if (route === 'badges' && PAGES.badges) PAGES.badges.render(); }
+    if (first && fresh.length) toast('You already earned ' + plural(fresh.length, 'badge') + ' from your history', { label: 'See them', fn: () => go('badges'), ms: 7000 });
+    else if (fresh.length) bdPop(fresh);
+  } catch (e) { console.error('badges', e); } finally { bdBusy = 0; }
+}
+function bdSoon() { if (bdBusy) return; clearTimeout(bdT); bdT = setTimeout(bdScan, 900); }
+/* ---- emblem art ---- */
+function bdDefs() {
+  if (document.getElementById('bdDefs')) return;
+  const g = (id, a, b, c) => '<linearGradient id="' + id + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="' + a + '"/>' + (c ? '<stop offset=".55" stop-color="' + b + '"/><stop offset="1" stop-color="' + c + '"/>' : '<stop offset="1" stop-color="' + b + '"/>') + '</linearGradient>';
+  document.body.insertAdjacentHTML('beforeend', '<svg id="bdDefs" width="0" height="0" style="position:absolute" aria-hidden="true"><defs>' + g('bdg1', '#f0b27a', '#9c5a2a', '#6e3a16') + g('bdg2', '#ffffff', '#c3cad4', '#7e8896') + g('bdg3', '#fff0a8', '#f2bd36', '#b9780c') + g('bdg4', '#e8fbff', '#8fd4ec', '#4c95b8') + g('bdg5', '#ffb3de', '#a98bff', '#38d4ff') + g('bdgs', '#a6f2d6', '#37b3a3', '#1d7479') + '</defs></svg>');
+}
+function bdPoly(n, a, b, rot) { let p = ''; for (let i = 0; i < n * 2; i++) { const t = i * Math.PI / n - Math.PI / 2 + (rot || 0), r = i % 2 ? b : a; p += (32 + Math.cos(t) * r).toFixed(1) + ',' + (32 + Math.sin(t) * r).toFixed(1) + ' '; } return '<polygon points="' + p.trim() + '"/>'; }
+function bdShape(t) {
+  if (t === 1) return '<circle cx="32" cy="32" r="28"/>';
+  if (t === 2) return '<path d="M32 4 55 12v19c0 14-10 23-23 29C19 54 9 45 9 31V12z"/>';
+  if (t === 3) return bdPoly(6, 29, 29);
+  if (t === 4) return bdPoly(8, 30, 25);
+  if (t === 5) return bdPoly(12, 31, 26.5) + '<circle cx="32" cy="32" r="22.5" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1"/>';
+  return bdPoly(10, 30, 25, .31);
+}
+function bdEmblem(ic, tier, lock, size) {
+  bdDefs(); const g = tier === 0 ? 'bdgs' : 'bdg' + tier, body = BD_ICON[ic] || BD_ICON.film;
+  if (lock) return '<svg class="bde lock" viewBox="0 0 64 64" width="' + size + '" height="' + size + '" aria-hidden="true"><g fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.2)" stroke-width="1.4" stroke-dasharray="3 3" stroke-linejoin="round">' + bdShape(tier || 1) + '</g><g transform="translate(20 20)" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + body + '</g></svg>';
+  return '<svg class="bde" viewBox="0 0 64 64" width="' + size + '" height="' + size + '" aria-hidden="true"><g fill="url(#' + g + ')" stroke="rgba(0,0,0,.4)" stroke-width="1.3" stroke-linejoin="round">' + bdShape(tier) + '</g><circle cx="32" cy="32" r="18.5" fill="rgba(0,0,0,.17)" stroke="rgba(255,255,255,.4)" stroke-width="1"/><ellipse cx="25" cy="16.5" rx="13" ry="5" fill="rgba(255,255,255,.28)" transform="rotate(-24 25 16.5)"/><g transform="translate(20 20)" fill="none" stroke="#1b1407" stroke-opacity=".9" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' + body + '</g></svg>';
+}
+/* ---- unlock pop-ups ---- */
+function bdPop(list) {
+  let box = document.getElementById('bdPop'); if (!box) { box = document.createElement('div'); box.id = 'bdPop'; box.setAttribute('role', 'status'); box.setAttribute('aria-live', 'polite'); document.body.appendChild(box); }
+  list.slice(0, 3).forEach((b, i) => setTimeout(() => {
+    const el = document.createElement('button'); el.type = 'button'; el.className = 'bdp';
+    el.innerHTML = bdEmblem(b.ic, b.tier, false, 52) + '<span><small>Badge unlocked' + (b.tier ? ' · ' + BD_TIER[b.tier - 1] : '') + '</small><b>' + E(b.n) + '</b><em>' + E(b.d) + '</em></span>';
+    const kill = () => { el.classList.add('out'); setTimeout(() => el.remove(), 320); };
+    el.onclick = () => { kill(); go('badges'); }; box.appendChild(el); setTimeout(kill, 6500);
+    while (box.children.length > 3) box.firstChild.remove();
+  }, i * 700));
+  if (list.length > 3) setTimeout(() => toast('And ' + (list.length - 3) + ' more badges', { label: 'See them', fn: () => go('badges') }), 3 * 700);
+}
+/* ---- page ---- */
+const BDS = { f: 'all', c: 'all' };
+function bdPoints(B) { let p = 0; BD_FAM.forEach(f => f.th.forEach((_, i) => { if (B[bdKey(f.id, i)] !== undefined) p += BD_PTS[i]; })); BD_ONE.forEach(o => { if (B[bdKey(o.id, 0)] !== undefined) p += BD_SP; }); return p; }
+function bdRank(p) { let i = 0; BD_RANKS.forEach((r, k) => { if (p >= r[0]) i = k; }); const nx = BD_RANKS[i + 1]; return { name: BD_RANKS[i][1], i, from: BD_RANKS[i][0], next: nx ? nx[0] : 0, nextName: nx ? nx[1] : '' }; }
+function bdEarnedCount(B) { return Object.keys(B).filter(k => { const [id, t] = k.split(':'); return BD_FAM.some(f => f.id === id && +t < 5) || BD_ONE.some(o => o.id === id); }).length; }
+const BD_SING = { seasons: 'season', shelves: 'shelf', films: 'film', episodes: 'episode', series: 'series', genres: 'genre', countries: 'country', decades: 'decade', languages: 'language', reviews: 'review', tags: 'tag', notes: 'note', days: 'day', hours: 'hour', titles: 'title', ratings: 'rating', favourites: 'favourite', watches: 'watch' };
+function bdD(f, n) { let t = f.d.replace('{n}', n); if (n === 1) t = t.replace(/\b1 ([a-z]+)/, (m, w) => '1 ' + (BD_SING[w] || w)); return t; }
+function bdFmt(f, n) { return f.m === 'hours' ? n + ' h' : String(n); }
+function bdCard(st) {
+  const f = st.f, B = S.badges || {}, done = st.tier >= 5, nxt = done ? null : f.th[st.tier], pc = done ? 100 : Math.min(100, Math.round((Math.min(st.n, nxt) / nxt) * 100));
+  const earned = st.tier > 0, shown = earned ? st.tier : 1, nm = f.nm[(earned ? st.tier : 1) - 1];
+  const pins = (S.set.bdPins || []).includes(f.id);
+  return '<button type="button" class="bdc' + (earned ? ' on' : ' off') + (done ? ' max' : '') + '" data-act="bdopen" data-id="' + f.id + '" aria-label="' + E(nm + ', ' + (earned ? BD_TIER[st.tier - 1] : 'locked') + '. ' + bdD(f, f.th[Math.max(0, Math.min(4, st.tier))])) + '">' +
+    '<span class="art">' + bdEmblem(f.ic, shown, !earned, 64) + (pins ? '<i class="pin" title="Pinned">★</i>' : '') + '</span>' +
+    '<span class="tx"><b>' + E(nm) + '</b><small>' + (earned ? BD_TIER[st.tier - 1] + (done ? ' · maxed out' : '') : 'Locked') + '</small>' +
+    '<em>' + E(done ? bdD(f, f.th[4]) : (earned ? 'Next: ' : '') + bdD(f, nxt)) + '</em>' +
+    '<span class="bar"><u style="width:' + pc + '%"></u></span><span class="cnt">' + (done ? 'Complete' : bdFmt(f, Math.min(st.n, nxt)) + ' / ' + bdFmt(f, nxt)) + '</span>' +
+    '<span class="pips" aria-hidden="true">' + f.th.map((_, i) => '<i class="' + (i < st.tier ? 'on t' + (i + 1) : '') + '"></i>').join('') + '</span></span></button>';
+}
+function bdOneCard(x) {
+  const o = x.o, B = S.badges || {}, ts = B[bdKey(o.id, 0)];
+  return '<button type="button" class="bdc one ' + (x.on ? 'on' : 'off') + '" data-act="bdopen" data-id="' + o.id + '" aria-label="' + E(o.nm + (x.on ? ', earned' : ', locked') + '. ' + o.d) + '"><span class="art">' + bdEmblem(o.ic, 0, !x.on, 64) + '</span><span class="tx"><b>' + E(o.nm) + '</b><small>' + (x.on ? 'Special badge' + (ts ? ' · ' + fmtDate(new Date(ts).toISOString().slice(0, 10)) : '') : 'Locked') + '</small><em>' + E(o.d) + '</em></span></button>';
+}
+function bdStripHTML() {
+  const st = bdState(), B = S.badges || {}, pts = bdPoints(B), r = bdRank(pts), pins = (S.set.bdPins || []).map(id => st.fam.find(x => x.f.id === id)).filter(x => x && x.tier > 0);
+  return '<a class="bdstrip" href="#/badges"><span class="em">' + (pins.length ? pins.map(x => bdEmblem(x.f.ic, x.tier, false, 34)).join('') : bdEmblem('trophy', 3, false, 34)) + '</span><span class="tx"><b>' + E(r.name) + '</b><small>' + bdEarnedCount(B) + ' of ' + BD_TOTAL + ' badges · ' + pts + ' points</small></span><span class="go">Badges ›</span></a>';
+}
+PAGES.badges = {
+  render() {
+    const st = bdState(), B = S.badges || {}, pts = bdPoints(B), r = bdRank(pts), got = bdEarnedCount(B);
+    const pins = (S.set.bdPins || []).map(id => { const f = st.fam.find(x => x.f.id === id); if (f && f.tier > 0) return { ic: f.f.ic, tier: f.tier, n: f.f.nm[f.tier - 1], id }; const o = st.one.find(x => x.o.id === id); return o && o.on ? { ic: o.o.ic, tier: 0, n: o.o.nm, id } : null; }).filter(Boolean);
+    const pctR = r.next ? Math.round((pts - r.from) / (r.next - r.from) * 100) : 100;
+    let h = '<div class="pagehead"><h1>Badges</h1><span class="sub">Earned by watching, rating, logging and exploring. They stay yours once earned.</span></div>';
+    h += '<section class="bdh"><div class="bdh-l"><small>Your rank</small><h2>' + E(r.name) + '</h2><div class="bdh-bar"><u style="width:' + pctR + '%"></u></div><p>' + pts + ' points' + (r.next ? ' · ' + (r.next - pts) + ' to ' + E(r.nextName) : ' · top rank reached') + '</p>' +
+      '<div class="bdh-n"><div><b>' + got + '</b><span>earned</span></div><div><b>' + (BD_TOTAL - got) + '</b><span>to go</span></div><div><b>' + Math.round(got / BD_TOTAL * 100) + '%</b><span>complete</span></div></div></div>' +
+      '<div class="bdh-r"><small>Showcase</small><div class="bdh-p">' + [0, 1, 2].map(i => pins[i] ? '<button type="button" class="slot" data-act="bdopen" data-id="' + pins[i].id + '" aria-label="' + E(pins[i].n) + '">' + bdEmblem(pins[i].ic, pins[i].tier, false, 72) + '<b>' + E(pins[i].n) + '</b></button>' : '<div class="slot empty"><i>+</i><b>Pin a badge</b></div>').join('') + '</div></div></section>';
+    const fl = [['all', 'All'], ['earned', 'Earned'], ['going', 'In progress'], ['locked', 'Locked']], ct = [['all', 'Everything']].concat(BD_CAT);
+    h += '<div class="bdf"><div class="seg" role="group" aria-label="Show">' + fl.map(([v, l]) => '<button type="button" data-act="bdf" data-k="f" data-v="' + v + '" class="' + (BDS.f === v ? 'on' : '') + '" aria-pressed="' + (BDS.f === v) + '">' + l + '</button>').join('') + '</div><div class="seg" role="group" aria-label="Category">' + ct.map(([v, l]) => '<button type="button" data-act="bdf" data-k="c" data-v="' + v + '" class="' + (BDS.c === v ? 'on' : '') + '" aria-pressed="' + (BDS.c === v) + '">' + l + '</button>').join('') + '</div></div>';
+    const keepF = s => BDS.f === 'all' || (BDS.f === 'earned' && s.tier > 0) || (BDS.f === 'going' && s.tier > 0 && s.tier < 5) || (BDS.f === 'locked' && s.tier === 0);
+    const keepO = x => BDS.f === 'all' || (BDS.f === 'earned' && x.on) || (BDS.f === 'locked' && !x.on);
+    let shown = 0;
+    BD_CAT.forEach(([cid, cl]) => {
+      if (BDS.c !== 'all' && BDS.c !== cid) return;
+      const cards = cid === 'special' ? st.one.filter(keepO).map(bdOneCard) : st.fam.filter(x => x.f.cat === cid && keepF(x)).map(bdCard);
+      if (!cards.length) return; shown += cards.length;
+      h += '<section class="bds"><h3>' + cl + '</h3><div class="bdg">' + cards.join('') + '</div></section>';
+    });
+    if (!shown) h += '<p class="bdnone">Nothing matches this filter yet.</p>';
+    $('#view').innerHTML = h;
+  }
+};
+function bdOpen(id) {
+  const st = bdState(), B = S.badges || {}, f = st.fam.find(x => x.f.id === id), one = st.one.find(x => x.o.id === id), pins = S.set.bdPins || [];
+  let h;
+  if (f) {
+    const fam = f.f; h = '<div class="bdd"><div class="top">' + bdEmblem(fam.ic, Math.max(1, f.tier), f.tier === 0, 112) + '<div><small>' + (f.tier ? BD_TIER[f.tier - 1] : 'Locked') + '</small><h2>' + E(fam.nm[Math.max(1, f.tier) - 1]) + '</h2><p>' + E(bdD(fam, fam.th[Math.min(4, f.tier)])) + '</p></div></div><ol class="tiers">' +
+      fam.th.map((t, i) => { const ts = B[bdKey(fam.id, i)], on = ts !== undefined; return '<li class="' + (on ? 'on' : '') + '">' + bdEmblem(fam.ic, i + 1, !on, 40) + '<span><b>' + E(fam.nm[i]) + '</b><small>' + BD_TIER[i] + ' · ' + E(bdD(fam, t)) + '</small></span><em>' + (on ? (ts ? fmtDate(new Date(ts).toISOString().slice(0, 10)) : 'Earned') : bdFmt(fam, Math.min(f.n, t)) + ' / ' + bdFmt(fam, t)) + '</em></li>'; }).join('') + '</ol>' +
+      '<p class="bdnow">You are at <b>' + bdFmt(fam, f.n) + '</b> ' + E(fam.u) + '.</p>';
+  } else if (one) {
+    const o = one.o, ts = B[bdKey(o.id, 0)]; h = '<div class="bdd"><div class="top">' + bdEmblem(o.ic, 0, !one.on, 112) + '<div><small>Special badge</small><h2>' + E(o.nm) + '</h2><p>' + E(o.d) + '</p></div></div><p class="bdnow">' + (one.on ? (ts ? 'Earned on ' + E(fmtDate(new Date(ts).toISOString().slice(0, 10))) + '.' : 'Earned from your history.') : 'Not earned yet.') + '</p>';
+  } else return;
+  const can = (f && f.tier > 0) || (one && one.on), pinned = pins.includes(id);
+  h += '<div class="acts">' + (can ? '<button type="button" class="btn" data-act="bdpin" data-id="' + id + '">' + (pinned ? 'Unpin from showcase' : 'Pin to showcase') + '</button>' : '') + '<button type="button" class="btn pri" data-act="dlgx">Close</button></div></div>';
+  openDlg(h, { label: 'Badge details' });
+}
+ACT.bdopen = a => bdOpen(a.dataset.id);
+ACT.bdf = a => { BDS[a.dataset.k] = a.dataset.v; PAGES.badges.render(); };
+ACT.bdpin = a => {
+  const id = a.dataset.id, p = (S.set.bdPins || []).slice(), i = p.indexOf(id);
+  if (i >= 0) p.splice(i, 1); else { if (p.length >= 3) { toast('Your showcase holds three badges. Unpin one first.'); return; } p.push(id); }
+  S.set.bdPins = p; save(); closeDlg(); if (route === 'badges') PAGES.badges.render(); else refresh();
+};
+function bdImport(o) {
+  if (!o || typeof o.badges !== 'object' || !o.badges) return; if (!S.badges) S.badges = {};
+  for (const k of Object.keys(o.badges)) { const v = +o.badges[k]; if (Number.isFinite(v) && (S.badges[k] === undefined || (v && v < S.badges[k]))) S.badges[k] = v; }
+}
+{ const ir = PAGES.insights.render; PAGES.insights.render = function () { ir.call(this); const ph = $('#view .pagehead'); if (ph) ph.insertAdjacentHTML('afterend', bdStripHTML()); }; }
+setTimeout(() => { try { bdScan(); } catch (e) { console.error(e); } }, 2500);
 
 /* every page module is defined now: draw the page that boot() could not, e.g. a reload straight onto #/series */
 try { if (PAGES[route] && !($('#view') || {}).children.length) refresh(); } catch (err) { console.error(err); }
