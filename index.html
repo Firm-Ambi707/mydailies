@@ -1816,6 +1816,24 @@ body[data-route=series] .main::before{display:block;position:fixed;inset:0;z-ind
 .sr-sn{margin:-8px 0 20px;font-size:12.5px;color:var(--ink3)}
 .sr-act.tiny{gap:3px}.sr-act.tiny small{font-size:9.5px;white-space:nowrap;overflow:visible}
 @media (max-width:760px){.sr-sper .sr-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px}.sr-sper .sr-chips::-webkit-scrollbar{display:none}.sr-sper .sr-chips button{flex:none}}
+.scl{margin:0 0 34px}
+.scl-calh{display:flex;align-items:center;gap:10px;margin:0 0 14px}.scl-calh h2{font:700 26px/1 var(--f-d);margin:0 6px;min-width:0}.scl-calh .sp{flex:1}.scl-calh .btn.sm{min-width:38px}
+.scl-cw,.scl-cg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}.scl-cw{margin:0 0 6px}.scl-cw span{font:600 11px/1 var(--f-u);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);text-align:center}
+.scl-cd{min-height:96px;padding:8px;border:1px solid var(--line);border-radius:12px;background:var(--bg);display:flex;flex-direction:column;gap:6px;text-align:left;color:var(--ink);cursor:pointer;font:inherit;position:relative}
+.scl-cd.off{background:transparent;border-color:transparent;cursor:default}.scl-cd b{font:700 15px/1 var(--f-d)}.scl-cd.pst b{color:var(--ink3)}
+.scl-cd.t{border-color:#f0c35c;background:color-mix(in srgb,#f0c35c 8%,var(--bg))}.scl-cd.slc{outline:2px solid var(--ink);outline-offset:1px}.scl-cd.has:hover{border-color:var(--line2)}
+.scl-cd .pp{display:flex;flex-wrap:wrap;gap:4px;align-items:flex-end}.scl-cd .pp i{width:26px;aspect-ratio:2/3;border-radius:4px;overflow:hidden;position:relative;background:linear-gradient(160deg,var(--a,#555),var(--b,#222))}.scl-cd .pp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.scl-cd .pp em{font-style:normal;font-size:11px;color:var(--ink3);align-self:center}
+.scl-cd .dots{display:none;gap:3px;flex-wrap:wrap}
+.scl-cl{display:flex;gap:18px;flex-wrap:wrap;margin:12px 0 0;font-size:12px;color:var(--ink3)}.scl-cl span{display:inline-flex;align-items:center;gap:7px}
+.scl u{display:inline-block;width:8px;height:8px;border-radius:50%;background:#7bd3c0;text-decoration:none}.scl u.film{background:#f0a35c}
+.scl-agh{display:flex;align-items:baseline;gap:14px;margin:26px 0 12px}.scl-agh h3{font:700 20px/1.1 var(--f-d);margin:0}.scl-agh small{color:var(--ink3)}
+.scl-aglist{display:flex;flex-direction:column;gap:8px}
+.scl-ag{display:grid;grid-template-columns:52px 44px 1fr auto;gap:12px;align-items:center;padding:8px 12px 8px 8px;border:1px solid var(--line);border-radius:14px;background:var(--bg)}.scl-ag.done{opacity:.6}
+.scl-ag .dd{display:flex;flex-direction:column;align-items:center;font:600 10px/1 var(--f-u);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}.scl-ag .dd b{font:700 20px/1.1 var(--f-d);color:var(--ink);letter-spacing:0}
+.scl-ag .th{width:44px;aspect-ratio:2/3;border:0;padding:0;border-radius:6px;overflow:hidden;position:relative;background:linear-gradient(160deg,var(--a,#555),var(--b,#222));cursor:pointer}.scl-ag .th img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scl-ag .tx{border:0;background:none;color:var(--ink);text-align:left;padding:0;cursor:pointer;font:inherit;min-width:0}.scl-ag .tx b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scl-ag .tx small{display:block;color:var(--ink3);font-size:12.5px;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.scl-ag .tg{font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border-radius:99px;border:1px solid var(--line2);color:var(--ink2)}.scl-ag .tg.film{color:#f0a35c;border-color:color-mix(in srgb,#f0a35c 50%,transparent)}
+@media (max-width:760px){.scl-calh h2{font-size:20px}.scl-cg,.scl-cw{gap:3px}.scl-cd{min-height:58px;padding:6px 4px;align-items:center;border-radius:9px}.scl-cd .pp{display:none}.scl-cd .dots{display:flex;justify-content:center}.scl-ag{grid-template-columns:44px 38px 1fr;}.scl-ag .th{width:38px}.scl-ag .tg{display:none}}
 </style></head>
 <body>
 <a class="skip" href="#view">Skip to content</a>
@@ -2162,7 +2180,7 @@ const SEEDS = [
 function newFilm(o) {
   return Object.assign({ id: 'm' + uid(), title: 'Untitled', year: 0, runtime: 0, genres: [], directors: [], writers: [], cast: [], overview: '', tagline: '',
     poster: '', backdrop: '', vote: 0, votes: 0, wish: false, seen: false, fav: false, rating: 0, review: '', spoiler: false, tags: [], lists: [], countries: [], cty: 0, cx: 0,
-    added: Date.now(), pal: null, palReal: false, hydrated: false, sample: false, guess: 0, lang: '', kw: [], kd: 0 }, o);
+    added: Date.now(), pal: null, palReal: false, hydrated: false, sample: false, guess: 0, lang: '', kw: [], kd: 0, rd: '', rdc: 0 }, o);
 }
 function seedLib() {
   const t = today(), now = Date.now();
@@ -2176,7 +2194,7 @@ function seedLib() {
   S.set.seeded = true; bump(); saveNow();
 }
 function fromTM(b) {
-  return { id: b.id, title: b.title || b.name || '', year: +(b.release_date || '').slice(0, 4) || b.year || 0, poster: b.poster_path || b.poster || '',
+  return { id: b.id, title: b.title || b.name || '', year: +(b.release_date || '').slice(0, 4) || b.year || 0, rd: rdOK(b.release_date) ? b.release_date : rdOK(b.rd) ? b.rd : '', poster: b.poster_path || b.poster || '',
     backdrop: b.backdrop_path || b.backdrop || '', overview: b.overview || '', vote: b.vote_average ?? b.vote ?? 0, votes: b.vote_count ?? b.votes ?? 0 };
 }
 const XCV = 2;
@@ -2194,6 +2212,7 @@ function applyTMDB(f, d) {
   const cast = ((d.credits && d.credits.cast) || []).slice(0, 14).map(c => ({ id: c.id, name: c.name, profile: c.profile_path || '', character: c.character || '' }));
   if (d.title) f.title = d.title;
   const y = +(d.release_date || '').slice(0, 4); if (y) f.year = y;
+  if (rdOK(d.release_date)) f.rd = d.release_date; f.rdc = 1;
   if (d.runtime) f.runtime = d.runtime;
   if (d.genres && d.genres.length) f.genres = d.genres.map(g => g.name);
   if (dirs.length) f.directors = dirs;
@@ -2226,12 +2245,12 @@ function reId(f, nid) {
   }
   f.id = nid; return '';
 }
-const needHy = f => !f.manual && !f.nf && (!f.hydrated || (typeof f.id === 'number' && f.cv !== XCV));
+const needHy = f => !f.manual && !f.nf && (!f.hydrated || (typeof f.id === 'number' && (f.cv !== XCV || (!f.rdc && !rdOK(f.rd) && f.year >= relY()))));
 async function hydrateOne(f) {
-  if (f.hydrated && typeof f.id === 'number' && f.cv !== XCV) {
-    try { const d0 = await tmdb('/movie/' + f.id, { append_to_response: 'credits' }); applyCrewX(f, (d0.credits && d0.credits.crew) || []); }
+  if (f.hydrated && typeof f.id === 'number' && (f.cv !== XCV || !f.rdc)) {
+    try { const d0 = await tmdb('/movie/' + f.id, { append_to_response: 'credits' }); applyCrewX(f, (d0.credits && d0.credits.crew) || []); if (rdOK(d0.release_date)) f.rd = d0.release_date; }
     catch (e) { if (e.code === 'NO_KEY' || e.status === 401 || e instanceof TypeError) throw e; }
-    f.cv = XCV; return;
+    f.cv = XCV; f.rdc = 1; return;
   }
   let d = null; const want = norm(f.title);
   if (typeof f.id === 'number') {
@@ -2256,7 +2275,7 @@ const nextHy = () => S.films.find(f => needHy(f) && !hyBusy.has(f.id));
 async function hydrate() {
   if (hy.run) return;
   const n0 = S.films.filter(needHy).length;
-  if (!n0) { ensurePals(); return; }
+  if (!n0) { ensurePals(); setTimeout(relAudit, 1500); return; }
   hy = { run: 1, done: 0, total: n0, err: null }; pill();
   const worker = async () => {
     for (let f; !hy.err && (f = nextHy());) {
@@ -2267,7 +2286,7 @@ async function hydrate() {
     }
   };
   await Promise.all([worker(), worker(), worker()]);
-  hy.run = 0; pill(); bump(); save(); refresh(); ensurePals();
+  hy.run = 0; pill(); bump(); save(); refresh(); ensurePals(); relAudit();
 }
 function pill() {
   const el = $('#pill'); if (!el) return;
@@ -2298,12 +2317,36 @@ function renderRail() {
   renderLogo();
 }
 function patch(id, o, opt) { const f = byId(id); if (!f) return null; touch(f); Object.assign(f, o); commit(opt); return f; }
+/* ---- not-released guard: a film that is not out yet cannot be logged, marked seen or rated ---- */
+function relY() { return +today().slice(0, 4); }
+function rdOK(v) { return /^\d{4}-\d{2}-\d{2}$/.test(v || ''); }
+function unrel(f) { return !!(f && !f.sample && (rdOK(f.rd) ? f.rd > today() : f.year > relY())); }
+function relWhen(f) { return rdOK(f.rd) ? fmtDate(f.rd, 'long') : String(f.year); }
+async function relFill(f) {
+  if (!f || f.rdc || rdOK(f.rd) || typeof f.id !== 'number' || f.year < relY()) return;
+  try { const d = await tmdb('/movie/' + f.id); f.rd = rdOK(d.release_date) ? d.release_date : ''; f.rdc = 1; } catch (e) { /* offline: fall back to the year */ }
+}
+function relWish(f) { const g = byId(f.id); if (g) { touch(g); g.wish = true; g.seen = false; commit(); toast('On your watchlist'); } else addFilm(fromTM(f), { wish: true }); }
+function relNote(f) { toast('“' + f.title + '” is not out yet (' + relWhen(f) + '). You can log it once it is released.', { label: f.wish ? '' : 'Add to watchlist', fn: () => relWish(f) }); }
+async function canWatch(f) { if (!f) return false; await relFill(f); if (!unrel(f)) return true; relNote(f); return false; }
+function relAudit() {
+  if (relAudit.on || !S.films) return;
+  const skip = S.set.relSkip || [], bad = S.films.filter(f => unrel(f) && (f.seen || entriesOf(f.id).length) && !skip.includes(String(f.id)));
+  if (!bad.length) return; relAudit.on = 1;
+  const names = bad.slice(0, 4).map(f => '“' + f.title + '”').join(', ') + (bad.length > 4 ? ' and ' + (bad.length - 4) + ' more' : '');
+  askConfirm(names + (bad.length > 1 ? ' are' : ' is') + ' not released yet but marked as seen. Move ' + (bad.length > 1 ? 'them' : 'it') + ' back to your watchlist? This removes the logged watches and rating.', { yes: 'Move to watchlist' }).then(ok => {
+    if (ok) { const ids = new Set(bad.map(f => String(f.id))); S.entries = S.entries.filter(e => !ids.has(String(e.fid))); bad.forEach(f => { touch(f); f.seen = false; f.wish = true; f.rating = 0; }); commit(); toast(plural(bad.length, 'film') + ' moved to your watchlist'); }
+    else { S.set.relSkip = skip.concat(bad.map(f => String(f.id))); save(); }
+  });
+}
 function markSeen(f, { entry = !(S.set && S.set.autoLog === false), date = today(), note = '' } = {}) {
+  if (unrel(f)) { f.wish = true; return; }
   f.seen = true; f.wish = false;
   if (entry) S.entries.push({ id: uid(), fid: f.id, date, note, rewatch: false, ts: Date.now() });
 }
 function setRating(id, r) {
   const f = byId(id); if (!f) return;
+  if (unrel(f)) { relNote(f); return; }
   touch(f); r = clamp(Math.round(r * 2) / 2, 0, 5); f.rating = f.rating === r ? 0 : r;
   if (f.rating > 0 && !f.seen) { markSeen(f, { entry: false }); toast('Rated, so marked as seen'); }
   commit();
@@ -2312,6 +2355,7 @@ async function toggle(id, key) {
   const f = byId(id); if (!f) return; touch(f);
   if (key === 'seen') {
     if (!f.seen) {
+      if (!(await canWatch(f))) return;
       markSeen(f); commit();
       const en = entriesOf(f.id)[0];
       toast('Logged as seen today', { label: 'Change date', fn: () => openLog(f.id, en && en.id) });
@@ -2325,7 +2369,7 @@ async function toggle(id, key) {
   f[key] = !f[key]; commit();
 }
 function logWatch(fid, o = {}) {
-  const f = byId(fid); if (!f) return null; touch(f);
+  const f = byId(fid); if (!f || unrel(f)) return null; touch(f);
   const had = f.seen || entriesOf(fid).length > 0;
   const e = { id: uid(), fid: f.id, date: o.date || today(), note: o.note || '', rewatch: o.rewatch ?? had, ts: Date.now() };
   S.entries.push(e); f.seen = true; f.wish = false;
@@ -2346,7 +2390,7 @@ function addFilm(b, { wish = false, seen = false, quiet = false, noCommit = fals
     if (ex && ex.d) applyTMDB(f, ex.d); else hydrate();
   }
   if (wish) f.wish = true;
-  if (seen && !f.seen) markSeen(f);
+  if (seen && !f.seen) { if (unrel(f)) toast('“' + f.title + '” is not out yet, so it went to your watchlist'); markSeen(f); }
   if (!noCommit) commit();
   if (!quiet) toast(isNew ? '"' + f.title + '" added to your shelf' : '"' + f.title + '" updated');
   ensurePals();
@@ -3514,9 +3558,10 @@ function openLog(fid, eid) {
   };
   wire();
   const del = $('#lgDel', b); if (del) del.onclick = () => { closeDlg(); delEntry(ed.id); };
-  $('#lgF', b).onsubmit = e => {
+  $('#lgF', b).onsubmit = async e => {
     e.preventDefault(); if (!sel) { toast('Pick a film first'); const q = $('#lgQ', b); if (q) q.focus(); return; }
     const date = $('#lgD', b).value || today(), note = $('#lgN', b).value.trim(), re = $('#lgR', b).checked;
+    if (!ed && !(await canWatch(byId(sel.id) || sel.f))) return;
     if (!byId(sel.id) && sel.b) addFilm(sel.b, { quiet: true, noCommit: true });
     const f = byId(sel.id); if (!f) return;
     if (ed) { touch(f); f.rating = st.rating; editEntry(ed.id, { date, note, rewatch: re }); closeDlg(); toast('Watch updated'); }
@@ -3824,7 +3869,7 @@ function normFilm(x) {
     cast: a(x.cast).slice(0, 14).map(c => ({ id: n(c.id), name: s(c.name), profile: s(c.profile), character: s(c.character) })),
     overview: s(x.overview), tagline: s(x.tagline), poster: s(x.poster), backdrop: s(x.backdrop), vote: n(x.vote), votes: n(x.votes),
     wish: !!x.wish, seen: !!x.seen, fav: !!x.fav, rating: clamp(Math.round(n(x.rating) * 2) / 2, 0, 5), review: s(x.review), spoiler: !!x.spoiler, tags: a(x.tags).map(s), lists: a(x.lists).map(s), countries: a(x.countries).map(s).filter(c => /^[A-Z]{2}$/.test(c)), cty: x.cty ? 1 : 0, cx: x.cx ? 1 : 0,
-    added: n(x.added) || Date.now(), pal: pl && HEXC.test(pl.a) ? { a: pl.a, b: HEXC.test(pl.b) ? pl.b : pl.a, k: pl.k === '#ffffff' ? '#ffffff' : '#141414' } : null,
+    rd: rdOK(s(x.rd)) ? s(x.rd) : '', rdc: x.rdc ? 1 : 0, added: n(x.added) || Date.now(), pal: pl && HEXC.test(pl.a) ? { a: pl.a, b: HEXC.test(pl.b) ? pl.b : pl.a, k: pl.k === '#ffffff' ? '#ffffff' : '#141414' } : null,
     palReal: !!x.palReal && !!(pl && HEXC.test(pl.a)), hydrated: !!x.hydrated, sample: !!x.sample, manual: !!x.manual, nf: !!x.nf, lang: /^[a-z]{2,3}$/.test(s(x.lang)) ? s(x.lang) : '', kw: a(x.kw).map(s).filter(Boolean).slice(0, 16), kd: x.kd ? 1 : 0 });
 }
 /* ---------- import: keep what you have, never duplicate ---------- */
@@ -7597,8 +7642,10 @@ function srTaste() {
 }
 function srRecSeed() { return S.series.filter(s => s.tv && (s.rating >= 4 || (s.fav && s.seen !== false)) && srPhase(s) !== 'plan').sort((a, b) => b.rating - a.rating || b.lwt - a.lwt)[0] || null; }
 /* add flows */
+function srUnaired(sr) { if (sr.first && sr.first > today()) return true; if (sr.manual || !sr.seasons.length) return false; const k = srStats(sr); return !k.aired && !k.seen; }
 function srAdd(b, st) {
   SR.pre.set(b.id, b); let sr = srByTv(b.id);
+  if (st === 'watch' && b.first_air_date && b.first_air_date > today()) { st = 'plan'; toast((b.name || 'This series') + ' has not aired yet, so it went to your watchlist'); }
   if (sr) { if (st === 'watch' && (sr.st === 'plan' || sr.st === 'drop')) sr.st = 'watch'; srAfter(); toast(sr.name + ' is in your library'); return sr; }
   sr = srFromBrief(b); sr.st = st; S.series.push(sr); srAfter(); toast('Added ' + sr.name + (st === 'watch' ? ' to Watching' : ' to your watchlist'));
   srSync(sr).then(() => srAfter()); return sr;
@@ -7759,12 +7806,59 @@ function srLibHTML() {
     '<select data-ctl="srsort" aria-label="Sort">' + SR_SORTS.map(s => '<option value="' + s[0] + '"' + ((S.ui.srs || 'active') === s[0] ? ' selected' : '') + '>' + s[1] + '</option>').join('') + '</select></div><div id="srGrid">' + srLibGridHTML() + '</div>';
 }
 /* tabs: schedule */
+/* ---- air-date calendar ---- */
+SR.cal = { m: '', sel: '' };
+function srCalEv() {
+  const m = new Map(), seen = new Set();
+  const add = (d, o) => { if (!/^\d{4}-\d{2}-\d{2}$/.test(d || '')) return; const k = d + '|' + o.key; if (seen.has(k)) return; seen.add(k); if (!m.has(d)) m.set(d, []); m.get(d).push(o); };
+  for (const sr of S.series) {
+    if (sr.st === 'drop') continue; const cov = new Set(), ep = (se, e, name, d) => add(d, { k: 'tv', key: sr.id + ':' + se + ':' + e, sr, t: sr.name, sub: srEpCode(se, e) + (name ? ' · ' + name : ''), done: srHas(sr, se, e), poster: sr.poster });
+    for (const se of srSeasons(sr)) { const c = sr.tv && SR.sn.get(sr.tv + ':' + se.n); if (c && c.d) c.d.forEach(x => { cov.add(se.n + ':' + x.e); ep(se.n, x.e, x.name, x.air); }); }
+    [sr.nxt, sr.lastEp].forEach(x => { if (x && x.date) { cov.add(x.s + ':' + x.e); ep(x.s, x.e, x.name, x.date); } });
+    for (const se of srSeasons(sr)) if (se.air && !cov.has(se.n + ':1')) add(se.air, { k: 'tv', key: sr.id + ':' + se.n + ':1', sr, t: sr.name, sub: 'Season ' + se.n + ' premiere', done: srHas(sr, se.n, 1), poster: sr.poster });
+  }
+  for (const f of S.films) if (f.wish && !f.seen && /^\d{4}-\d{2}-\d{2}$/.test(f.rd || '')) add(f.rd, { k: 'film', key: 'f' + f.id, f, t: f.title, sub: 'Film release', done: false, poster: f.poster });
+  return m;
+}
+function srCalHTML() {
+  const t = today(), c = SR.cal; if (!/^\d{4}-\d{2}$/.test(c.m)) c.m = t.slice(0, 7);
+  const [Y, M] = c.m.split('-').map(Number), first = new Date(Y, M - 1, 1), dim = new Date(Y, M, 0).getDate(), lead = (first.getDay() + 6) % 7;
+  const ev = srCalEv(), pad2 = n => String(n).padStart(2, '0'), key = d => c.m + '-' + pad2(d);
+  const th = o => o.poster ? (o.k === 'film' ? '<img src="' + E(img('thumb', o.poster)) + '" alt="" loading="lazy" decoding="async">' : srImgTag(o.poster, 'thumb')) : '';
+  let cells = '';
+  for (let i = 0; i < lead; i++) cells += '<div class="scl-cd off" aria-hidden="true"></div>';
+  for (let d = 1; d <= dim; d++) {
+    const k = key(d), it = ev.get(k) || [], cls = 'scl-cd' + (k === t ? ' t' : '') + (c.sel === k ? ' slc' : '') + (it.length ? ' has' : '') + (k < t ? ' pst' : '');
+    cells += '<button type="button" class="' + cls + '" data-act="srcald" data-d="' + k + '" aria-label="' + E(new Date(k + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' }) + ', ' + (it.length ? plural(it.length, 'release') : 'nothing')) + '"><b>' + d + '</b>' +
+      (it.length ? '<span class="pp">' + it.slice(0, 3).map(o => '<i style="' + (o.sr ? srPS(o.sr) : '') + '">' + th(o) + '</i>').join('') + (it.length > 3 ? '<em>+' + (it.length - 3) + '</em>' : '') + '</span><span class="dots">' + it.slice(0, 4).map(o => '<u class="' + o.k + '"></u>').join('') + '</span>' : '') + '</button>';
+  }
+  const tail = (7 - (lead + dim) % 7) % 7; for (let i = 0; i < tail; i++) cells += '<div class="scl-cd off" aria-hidden="true"></div>';
+  const mn = first.toLocaleDateString(undefined, { month: 'long', year: 'numeric' }), inM = [...ev].filter(([d]) => d.slice(0, 7) === c.m).sort((a, b) => a[0].localeCompare(b[0]));
+  const list = c.sel ? [[c.sel, ev.get(c.sel) || []]] : inM, total = inM.reduce((n, [, a]) => n + a.length, 0);
+  const row = (d, o) => '<div class="scl-ag' + (o.done ? ' done' : '') + '" style="' + (o.sr ? srPS(o.sr) : '') + '"><span class="dd">' + new Date(d + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'short' }) + '<b>' + +d.slice(8) + '</b></span><button type="button" class="th" ' + (o.k === 'film' ? 'data-act="film" data-id="' + E(String(o.f.id)) : 'data-act="sropen" data-id="' + E(o.sr.id)) + '" aria-label="Open ' + E(o.t) + '">' + th(o) + '</button><button type="button" class="tx" ' + (o.k === 'film' ? 'data-act="film" data-id="' + E(String(o.f.id)) : 'data-act="sropen" data-id="' + E(o.sr.id)) + '"><b>' + E(o.t) + '</b><small>' + E(o.sub) + '</small></button><span class="tg ' + o.k + '">' + (o.k === 'film' ? 'Film' : d > t ? 'Upcoming' : o.done ? 'Watched' : 'Aired') + '</span></div>';
+  let h = '<div class="scl-calh"><button type="button" class="btn sm" data-act="srcalm" data-d="-1" aria-label="Previous month">‹</button><h2>' + E(mn) + '</h2><button type="button" class="btn sm" data-act="srcalm" data-d="1" aria-label="Next month">›</button><span class="sp"></span><button type="button" class="btn sm" data-act="srcalm" data-d="0">Today</button></div>' +
+    '<div class="scl-cw" aria-hidden="true">' + ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(d => '<span>' + d + '</span>').join('') + '</div><div class="scl-cg" role="group" aria-label="' + E(mn) + '">' + cells + '</div>' +
+    '<div class="scl-cl"><span><u class="tv"></u>Series episode</span><span><u class="film"></u>Film on your watchlist</span></div>';
+  h += '<div class="scl-agh"><h3>' + (c.sel ? E(new Date(c.sel + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })) : 'All of ' + E(mn.split(' ')[0])) + '</h3>' + (c.sel ? '<button type="button" class="lnk" data-act="srcald" data-d="">Show the whole month</button>' : '<small>' + plural(total, 'release') + '</small>') + '</div>';
+  const rows = list.flatMap(([d, a]) => a.slice().sort((x, y) => x.t.localeCompare(y.t)).map(o => row(d, o))).join('');
+  h += rows ? '<div class="scl-aglist">' + rows + '</div>' : '<p class="sr-hint">' + (c.sel ? 'Nothing is scheduled for this day.' : 'Nothing scheduled this month. Dates appear for series you follow and films on your watchlist.') + '</p>';
+  return h;
+}
+function srCalPaint() { const el = $('#srCal'); if (el) el.innerHTML = srCalHTML(); }
+let srCalBusy = 0;
+function srCalWarm() {
+  if (srCalBusy) return; srCalBusy = 1; const jobs = [];
+  S.series.filter(x => x.tv && !x.manual && x.st !== 'drop').slice(0, 40).forEach(sr => { const ss = srSeasons(sr).slice(-2); ss.forEach(se => { if (!SR.sn.has(sr.tv + ':' + se.n)) jobs.push(srEps(sr, se.n).catch(() => {})); }); });
+  Promise.all(jobs).then(() => { srCalBusy = 0; if (jobs.length && (S.ui.srtab || 'home') === 'sch') srCalPaint(); }, () => { srCalBusy = 0; });
+}
+ACT.srcalm = a => { const d = +a.dataset.d, c = SR.cal, t = today(); if (!d) { c.m = t.slice(0, 7); c.sel = t; } else { const [y, m] = (c.m || t.slice(0, 7)).split('-').map(Number), n = new Date(y, m - 1 + d, 1); c.m = n.getFullYear() + '-' + String(n.getMonth() + 1).padStart(2, '0'); c.sel = ''; } srCalPaint(); };
+ACT.srcald = a => { SR.cal.sel = SR.cal.sel === a.dataset.d ? '' : a.dataset.d; srCalPaint(); };
 function srSchHTML() {
   const t = today(), lib = S.series.filter(s => s.st !== 'drop'), days = [...Array(7)].map((_, i) => addDays(t, i));
   const up = lib.filter(s => s.nxt && s.nxt.date && s.nxt.date >= t).sort((a, b) => a.nxt.date.localeCompare(b.nxt.date) || a.name.localeCompare(b.name));
-  if (!S.series.length) return '<div class="empty"><h3>Nothing to schedule</h3><p>Add a few series and this page shows when their next episodes land.</p><button class="btn pri" type="button" data-act="sradd">Add a series</button></div>';
+  if (!S.series.length && !S.films.some(f => f.wish && f.rd)) return '<div class="empty"><h3>Nothing to schedule</h3><p>Add a few series and this page shows when their next episodes land.</p><button class="btn pri" type="button" data-act="sradd">Add a series</button></div>';
   const mini = s => '<button type="button" class="sr-mp" style="' + srPS(s) + '" data-act="sropen" data-id="' + E(s.id) + '" title="' + E(s.name + ' · ' + srEpCode(s.nxt.s, s.nxt.e)) + '" aria-label="' + E(s.name) + '">' + srImgTag(s.poster, 'thumb') + '</button>';
-  let h = '<div class="sr-week">' + days.map(d => { const it = up.filter(s => s.nxt.date === d), dt = new Date(d + 'T12:00:00'); return '<div class="sr-day' + (d === t ? ' t' : '') + '"><h3>' + dt.toLocaleDateString(undefined, { weekday: 'short' }) + '<b>' + dt.getDate() + '</b></h3>' + (it.length ? '<div class="m">' + it.map(mini).join('') + '</div>' : '<em>Nothing airs</em>') + '</div>'; }).join('') + '</div>';
+  let h = '<div class="scl" id="srCal">' + srCalHTML() + '</div>';
   const wait = lib.filter(s => srPhase(s) === 'watch').map(s => ({ s, k: srStats(s), n: srNext(s) })).filter(x => x.n).sort((a, b) => b.s.lwt - a.s.lwt);
   const row = (s, dd, title, sub, right) => '<div class="sr-it" style="' + srPS(s) + '"><div class="dd">' + dd + '</div><button type="button" class="th" data-act="sropen" data-id="' + E(s.id) + '" aria-label="Open ' + E(s.name) + '">' + srImgTag(s.poster, 'thumb') + '</button><button type="button" class="tx" data-act="sropen" data-id="' + E(s.id) + '"><b>' + E(title) + '</b><small>' + E(sub) + '</small></button>' + right + '</div>';
   if (wait.length) h += '<section class="sr-sec"><h2>Waiting for you</h2><p>Episodes that have aired and you have not seen yet.</p><div class="sr-list">' + wait.map(({ s, k, n }) => row(s, 'New<b>' + (k.aired - k.seen) + '</b>', s.name, 'Next is ' + srEpCode(n.s, n.e), '<button type="button" class="btn" data-act="srnext" data-id="' + E(s.id) + '">' + SR_IC.chk.replace('<svg', '<svg width="15" height="15"') + 'Watched</button>')).join('') + '</div></section>';
@@ -7831,7 +7925,7 @@ PAGES.series = {
     $$('.sr-row', v).forEach(r => { const i = ids.indexOf(r.dataset.k); if (i >= 0 && rs[i]) $('.sr-rail', r).scrollLeft = rs[i]; });
     if (tab === 'dis') srDisPaint();
   },
-  after() { srObserve(); srAutoSync(); if ((S.ui.srtab || 'home') === 'dis') srDisLoad(); }
+  after() { srObserve(); srAutoSync(); if ((S.ui.srtab || 'home') === 'sch') srCalWarm(); if ((S.ui.srtab || 'home') === 'dis') srDisLoad(); }
 };
 ACT.srtab = a => { S.ui.srtab = a.dataset.t; save(); refresh(); window.scrollTo(0, 0); };
 ACT.srall = a => { S.ui.srf = a.dataset.f; S.ui.srtab = 'lib'; SR.q = ''; save(); refresh(); window.scrollTo(0, 0); };
@@ -7967,7 +8061,9 @@ ACT.sropen = a => {
 };
 ACT.srdx = () => srdClose();
 ACT.srdst = a => {
-  const sr = SRD.sr; if (!sr) return; const st = a.dataset.st, was = S.series.includes(sr); srEnsure(sr); sr.st = st;
+  const sr = SRD.sr; if (!sr) return; let st = a.dataset.st; const was = S.series.includes(sr);
+  if (st === 'watch' && srUnaired(sr)) { st = 'plan'; toast(sr.name + ' has not aired yet, so it went to your watchlist'); }
+  srEnsure(sr); sr.st = st;
   if (!was) toast('Added ' + sr.name + (st === 'watch' ? ' to Watching' : ' to your watchlist')); srAfter();
 };
 ACT.srfav = () => { const sr = SRD.sr; if (!sr) return; sr.fav = !sr.fav; srAfter(); };
